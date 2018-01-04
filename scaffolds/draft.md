@@ -1,5 +1,7 @@
 ---
-title: 
+title:
 categories:
+    -
 tags:
+    -
 ---
