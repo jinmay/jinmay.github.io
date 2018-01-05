@@ -1,5 +1,5 @@
 ---
-title: 파이썬 패키지 request
+title: requests
 tags:
   - package
   - python

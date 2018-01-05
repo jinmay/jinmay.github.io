@@ -1,10 +1,10 @@
 ---
-title: 파이썬 beautifulsoup4 기본
+title: beautifulsoup4
 tags:
   - beautifulsoup
   - package
 categories:
-  - python
+  - Python
 date: 2018-01-04 23:18:00
 ---
 
