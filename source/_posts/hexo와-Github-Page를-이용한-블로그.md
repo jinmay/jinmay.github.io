@@ -1,10 +1,12 @@
 ---
-categories:
-  - ETC
+title: hexo와 Github Page를 이용한 블로그
 tags:
   - hexo
-title: hexo와 Github Page를 이용한 블로그
+categories:
+  - ETC
+date: 2018-01-05 10:14:30
 ---
+
 
 지난 17년에는 블로그가 아닌 Github를 통해 간단하게 마크다운 파일로만 그날그날 공부해왔던 것들을 정리했었다.
 당시에도 지킬(Jekyll)을 이용하여 블로그를 할지 간단한게 할지 고민했었는데 올해부터는 hexo와 github page를 이용하여 공부하는 것들을 정리해보려고 한다.

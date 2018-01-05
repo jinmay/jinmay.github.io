@@ -1,5 +1,7 @@
 ---
 title: welcome xD
+categories:
+  - ETC
 tags:
   - 이사
   - 다짐
