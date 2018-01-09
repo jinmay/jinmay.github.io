@@ -3,8 +3,8 @@ title: hexo와 Github Page를 이용한 블로그
 tags:
   - hexo
 categories:
-  - etc
   - archive
+  - hexo
 date: 2018-01-05 10:14:30
 ---
 

@@ -4,8 +4,8 @@ tags:
   - beautifulsoup
   - package
 categories:
-  - python
   - archive
+  - python
 date: 2018-01-04 23:18:00
 ---
 

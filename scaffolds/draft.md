@@ -3,5 +3,4 @@ title:
 categories:
     - archive
 tags:
-    -
 ---

@@ -4,8 +4,8 @@ tags:
   - crontab
   - path
 categories:
-  - linux
   - archive
+  - linux
 date: 2018-01-07 15:03:21
 ---
 
