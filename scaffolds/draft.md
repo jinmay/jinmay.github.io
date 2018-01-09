@@ -1,7 +1,7 @@
 ---
 title:
 categories:
-    -
+    - archive
 tags:
     -
 ---

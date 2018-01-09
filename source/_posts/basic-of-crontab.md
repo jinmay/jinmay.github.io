@@ -5,6 +5,7 @@ tags:
   - path
 categories:
   - linux
+  - archive
 date: 2018-01-07 15:03:21
 ---
 

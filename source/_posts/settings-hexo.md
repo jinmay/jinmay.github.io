@@ -4,6 +4,7 @@ tags:
   - hexo
 categories:
   - etc
+  - archive
 date: 2018-01-05 10:14:30
 ---
 

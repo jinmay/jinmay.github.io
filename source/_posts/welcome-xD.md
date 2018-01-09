@@ -1,7 +1,8 @@
 ---
 title: welcome xD
 categories:
-  - ETC
+  - etc
+  - archive
 tags:
   - 이사
   - 다짐
