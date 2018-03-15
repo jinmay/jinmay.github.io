@@ -6,6 +6,7 @@ tags:
   - database
 categories:
   - archive
+  - python
 date: 2018-01-11 00:58:31
 ---
 
