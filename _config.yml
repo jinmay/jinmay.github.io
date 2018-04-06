@@ -3,13 +3,8 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-<<<<<<< HEAD
 title: daily programming
 subtitle: 
-=======
-title: Daily programming
-subtitle: 진메이의 프로그래밍
->>>>>>> 0e97b596d83ee14ce782bd43de52ef232ab6c5f0
 description:
 author: jinmay
 language: en
