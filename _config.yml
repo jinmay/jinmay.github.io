@@ -3,8 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
+<<<<<<< HEAD
 title: daily programming
 subtitle: 
+=======
+title: Daily programming
+subtitle: 진메이의 프로그래밍
+>>>>>>> 0e97b596d83ee14ce782bd43de52ef232ab6c5f0
 description:
 author: jinmay
 language: en
@@ -50,7 +55,11 @@ highlight:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
+<<<<<<< HEAD
   per_page: 3
+=======
+  per_page: 10
+>>>>>>> 0e97b596d83ee14ce782bd43de52ef232ab6c5f0
   order_by: -date
   
 # Category & Tag
@@ -73,7 +82,11 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
+<<<<<<< HEAD
 theme: melody
+=======
+theme: maupassant
+>>>>>>> 0e97b596d83ee14ce782bd43de52ef232ab6c5f0
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

@@ -4,6 +4,10 @@ tags:
   - package
   - pyowm
 categories:
+<<<<<<< HEAD
+=======
+  - archive
+>>>>>>> 0e97b596d83ee14ce782bd43de52ef232ab6c5f0
   - python
 date: 2018-01-09 11:21:25
 ---

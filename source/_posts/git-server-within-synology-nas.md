@@ -5,6 +5,10 @@ tags:
   - git server
   - synology
 categories:
+<<<<<<< HEAD
+=======
+  - archive
+>>>>>>> 0e97b596d83ee14ce782bd43de52ef232ab6c5f0
   - git
 date: 2018-03-13 17:22:30
 ---

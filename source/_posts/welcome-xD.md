@@ -1,6 +1,10 @@
 ---
 title: welcome xD
 categories:
+<<<<<<< HEAD
+=======
+  - archive
+>>>>>>> 0e97b596d83ee14ce782bd43de52ef232ab6c5f0
   - etc
 tags:
   - 이사
