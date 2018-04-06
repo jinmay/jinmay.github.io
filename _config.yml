@@ -73,11 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-<<<<<<< HEAD
 theme: melody
-=======
-theme: maupassant
->>>>>>> 0e97b596d83ee14ce782bd43de52ef232ab6c5f0
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
