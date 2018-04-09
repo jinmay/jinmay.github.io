@@ -6,9 +6,6 @@ categories:
   - python
 date: 2018-04-05 16:08:05
 ---
-
-# 파일 입출력
-
 기본형태 
 
 ~~~python

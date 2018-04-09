@@ -13,7 +13,7 @@ menu:
 
 # Favicon
 # ---------------
-favicon: /favicon.ico
+favicon: 
 
 # PWA
 # ---------------
@@ -77,7 +77,7 @@ stylesheets:
 scripts:
 - /js/utils.js
 - /js/fancybox.js
-- /js/sidebar.js
+# - /js/sidebar.js
 - /js/copy.js
 - /js/fireworks.js
 - /js/transition.js
