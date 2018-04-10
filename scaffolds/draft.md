@@ -1,6 +1,6 @@
 ---
 title:
 categories:
-    - archive
+    -
 tags:
 ---
