@@ -106,3 +106,9 @@ date: 2018-04-10 23:16:52
 4. 네트워크 인터페이스 계층
   * Ethernet(이더넷): 일반 금속 케이블이나 광 케이블을 통해 데이터를 전달
   * PPP : 사용자 인증 후에 원격지의 장비와 통신
+
+
+[참고]
+http://pigbrain.github.io/network/2017/03/08/OSI7_on_Network
+http://hahahoho5915.tistory.com/15
+http://tar-cvzf-studybackup-tar-gz.tistory.com/38
