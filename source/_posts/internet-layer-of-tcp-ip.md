@@ -1,10 +1,12 @@
 ---
-categories:
-  - network
-title: internet layer of tcp/ip
+title: TCP/IP 4계층 - 인터넷 계층
 tags:
   - network
+categories:
+  - network
+date: 2018-04-13 16:15:29
 ---
+
 # 인터넷 계층
 
 ## IP 주소
