@@ -227,6 +227,200 @@ mysql> select min(population), max(population), sum(population), avg(population)
 +-----------------+-----------------+-----------------+-----------------+
 1 row in set (0.01 sec)
 ~~~
+count처럼 행의 갯수를 세는 것과 sum / min 처럼 column의 집약도 가능하지만 **문자열 집약**도 할 수 있다.
+~~~shell
+mysql> select name from city where countrycode="KOR" and district="Chollabuk";
++----------+
+| name     |
++----------+
+| Chonju   |
+| Iksan    |
+| Kunsan   |
+| Chong-up |
+| Kimje    |
+| Namwon   |
++----------+
+6 rows in set (0.00 sec)
+~~~
+한 행으로 집약하려면 아래와 같이 한다.
+~~~shell
+mysql> select group_concat(name) from city where countrycode="KOR" and district="Chollabuk";
++-------------------------------------------+
+| group_concat(name)                        |
++-------------------------------------------+
+| Chonju,Iksan,Kunsan,Chong-up,Kimje,Namwon |
++-------------------------------------------+
+1 row in set (0.00 sec)
+~~~
+
+## group by
+그룹별로 나눌 수도 있다. - group by 이용
+~~~shell
+ysql> select district, count(*) from city where countrycode="KOR" group by district;
++---------------+----------+
+| district      | count(*) |
++---------------+----------+
+| Cheju         |        1 |
+| Chollabuk     |        6 |
+| Chollanam     |        5 |
+| Chungchongbuk |        3 |
+| Chungchongnam |        6 |
+| Inchon        |        1 |
+| Kang-won      |        4 |
+| Kwangju       |        1 |
+| Kyonggi       |       18 |
+| Kyongsangbuk  |       10 |
+| Kyongsangnam  |       11 |
+| Pusan         |        1 |
+| Seoul         |        1 |
+| Taegu         |        1 |
+| Taejon        |        1 |
++---------------+----------+
+15 rows in set (0.00 sec)
+~~~
+그룹지어서 결과를 보고자 할때 having 키워드를 이용해서 조건을 지정해 줄 수 있다
+~~~shell
+mysql> select district, count(*) from city where countrycode="KOR" group by district having count(*) = 1;
++----------+----------+
+| district | count(*) |
++----------+----------+
+| Cheju    |        1 |
+| Inchon   |        1 |
+| Kwangju  |        1 |
+| Pusan    |        1 |
+| Seoul    |        1 |
+| Taegu    |        1 |
+| Taejon   |        1 |
++----------+----------+
+7 rows in set (0.00 sec)
+~~~
+
+# 정리
+## 검색결과 정렬
+보통 SELECT 문을 실행하면 열과 행으로 구성된 2차원 표로 표시된다. 행의 순서를 정렬하기 위해 **ORDER BY**를 사용해서 할 수 있으며 기본 값은 오름차순이고 값을 **DESC**로 줌으로써 내림차순 정렬도 할 수 있다.
+~~~shell
+mysql> select * from city where countrycode="KOR" order by population desc;
++------+------------+-------------+---------------+------------+
+| ID   | Name       | CountryCode | District      | Population |
++------+------------+-------------+---------------+------------+
+| 2331 | Seoul      | KOR         | Seoul         |    9981619 |
+| 2332 | Pusan      | KOR         | Pusan         |    3804522 |
+| 2333 | Inchon     | KOR         | Inchon        |    2559424 |
+| 2334 | Taegu      | KOR         | Taegu         |    2548568 |
+| 2335 | Taejon     | KOR         | Taejon        |    1425835 |
+| 2336 | Kwangju    | KOR         | Kwangju       |    1368341 |
+| 2337 | Ulsan      | KOR         | Kyongsangnam  |    1084891 |
+| 2338 | Songnam    | KOR         | Kyonggi       |     869094 |
+| 2339 | Puchon     | KOR         | Kyonggi       |     779412 |
+| 2340 | Suwon      | KOR         | Kyonggi       |     755550 |
+| 2341 | Anyang     | KOR         | Kyonggi       |     591106 |
+| 2342 | Chonju     | KOR         | Chollabuk     |     563153 |
+~~~
+
+## 정렬할 때에 주의할 점
+order by로 정렬을 수행할 때 행의 순서를 확실히 같게 하려면 행의 정렬키의 값들이 각각 고유해야 한다. 다시 말하면, 정렬키가 같은 값의 행이 복수 개 존재한다면 그 행들의 순서는 일정하지 않을 수 있다는 것이다. 
+~~~shell
+mysql> select * from city where countrycode="KOR" order by district;
++------+------------+-------------+---------------+------------+
+| ID   | Name       | CountryCode | District      | Population |
++------+------------+-------------+---------------+------------+
+| 2358 | Cheju      | KOR         | Cheju         |     258511 |
+| 2398 | Namwon     | KOR         | Chollabuk     |     103544 |
+| 2380 | Chong-up   | KOR         | Chollabuk     |     139111 |
+| 2342 | Chonju     | KOR         | Chollabuk     |     563153 |
+| 2397 | Naju       | KOR         | Chollanam     |     107831 |
+| 2370 | Yosu       | KOR         | Chollanam     |     183596 |
+| 2390 | Kwang-yang | KOR         | Chollanam     |     122052 |
+| 2361 | Mokpo      | KOR         | Chollanam     |     247452 |
+| 2360 | Sunchon    | KOR         | Chollanam     |     249263 |
+~~~
+위의 결과를 보면 district를 정렬키로 정렬했는데 전라남도는 5개의 행이 있는데 그 다섯 개 행 내의 순서는 일정하지 않게 된다.
+일정한 순서로 정렬하기 위해서 name도 정렬키로 추가해주는 것이 좋다.
+~~~shell
+mysql> select * from city where countrycode="KOR" order by district, name;
+~~~
+
+## 테이블 요약
+SQL에서 데이터에 대해 어떠한 ㅗ짝이나 계산을 수행하려면 **함수**를 사용한다. 함수는 크게 두 가지가 있는데
+1. 복수 행(or 행의 값)에 대해 집계
+2. 단일 행의 값에 대해 조작이나 계산
+을 수행하는 역할을 한다.
+
+예를 들면 위에서 한번 살펴본 **count 함수**이다. 이런 집계용 함수를 **집약함수(집계함수)**라고 부른다. 
+* COUNT : 테이블의 행 수를 계산
+* SUM : 테이블의 수치 데이터를 합계
+* AVG : 테이블의 수치 데이터 평균을 구함
+* MAX : 테이블의 임의열 데이터 중 최대값을 구함
+* MIN : 테이블의 임의열 데이터 중 최소값을 구함
+
+기본적으로 집계함수는 NULL을 제외하고 계산한다. 하지만 **COUNT함수는 예외인데 NULL을 포함한 조건으로 주어진 모든 행을 집계한다.**
+
+## 문자열 집약
+문자열을 집약하는 함수로는 **GROUP_CONCAT**가 있다. 표준 SQL에는 없지만 MySQL에서 제공해주는 함수이다. SUM과 같은 함수는 수치에 대해서 집계를 해주지만 GROUP_CONCAT 함수는 문자열에 대한 집계를 문자열의 결합으로 수행한다. 
+
+## 중복제거
+**DISTINCT** 키워드를 통해 중복을 제거할 수 있다. 또한 집약함수로도 이용할 수 있다.
+~~~shell
+mysql> select group_concat(district) from city where countrycode="KOR";
+| Seoul,Pusan,Inchon,Taegu,Taejon,Kwangju,Kyongsangnam,Kyonggi,Kyonggi,Kyonggi,Kyonggi,Chollabuk,Chungchongbuk,Kyonggi,Kyonggi,Kyongsangbuk,Kyongsangnam,Kyongsangnam,Kyonggi,Chungchongnam,Kyongsangnam,Chollabuk,Kyonggi,Kyongsangbuk,Kyonggi,Kyongsangbuk,Chollabuk,Cheju,Kyongsangnam,Chollanam,Chollanam,Kyonggi,Kang-won,Kyonggi,Kang-won,Kyonggi,Kang-won,Chungchongbuk,Kyongsangbuk,Chollanam,Kyongsangbuk,Kyonggi,Kyongsangnam,Kyonggi,Chungchongnam,Kyongsangnam,Kyongsangbuk,Chungchongnam,Kyonggi,Chollabuk,Chungchongbuk,Chungchongnam,Kyonggi,Kyongsangnam,Chungchongnam,Kyongsangbuk,Kyongsangnam,Kyongsangbuk,Chungchongnam,Chollanam,Kyongsangnam,Kyonggi,Chollabuk,Kyongsangbuk,Kyongsangnam,Kyonggi,Chollanam,Chollabuk,Kang-won,Kyongsangbuk |
+~~~
+위 와 같이 단순히 행정구역을 group_concat하게 되면 값이 여러번 나오게된다. 이때에 distinct를 추가하게 되면 중복이 없어지고 각 행정구역은 1회만 나오게 된다.
+~~~shell
+mysql> select group_concat(distinct district) from city where countrycode="KOR";
++------------------------------------------------------------------------------------------------------------------------------------------+
+| group_concat(distinct district)                                                                                                          |
++------------------------------------------------------------------------------------------------------------------------------------------+
+| Seoul,Pusan,Inchon,Taegu,Taejon,Kwangju,Kyongsangnam,Kyonggi,Chollabuk,Chungchongbuk,Kyongsangbuk,Chungchongnam,Cheju,Chollanam,Kang-won |
++------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+~~~
+
+## 그룹핑(group_by)
+지금까지 한 집약함수와는 다르게 대상이 되는 데이터를 몇 개의 그룹으로 나누어서 집약하는 것도 가능하다. **GROUP_BY**를 이용하여 그룹을 나눌 때는 키가 되는 열을 지정해 주어야 한다. 
+~~~shell
+mysql> select count(*) from city where countrycode="KOR";
++----------+
+| count(*) |
++----------+
+|       70 |
++----------+
+1 row in set (0.00 sec)
+
+
+mysql> select district, count(*) from city where countrycode="KOR" group by district;
++---------------+----------+
+| district      | count(*) |
++---------------+----------+
+| Cheju         |        1 |
+| Chollabuk     |        6 |
+| Chollanam     |        5 |
+| Chungchongbuk |        3 |
+| Chungchongnam |        6 |
+| Inchon        |        1 |
+| Kang-won      |        4 |
+| Kwangju       |        1 |
+| Kyonggi       |       18 |
+| Kyongsangbuk  |       10 |
+| Kyongsangnam  |       11 |
+| Pusan         |        1 |
+| Seoul         |        1 |
+| Taegu         |        1 |
+| Taejon        |        1 |
++---------------+----------+
+15 rows in set (0.00 sec)
+~~~
+
+그룹으로 나눈 후에 집약하기 위해서 조건을 추가해 줄 수 있다. 이전에 조건을 추가하기 위해서 where 구문을 사용한 적이 있는데 **count 같은 집약 함수를 작성할 수 있는 경우는 SELECT와 ORDER BY 그리고 HAVING 밖에 없다.** 따라서 집약한 결과에 조건을 지정하기 위해서는 **HAVING** 구문을 사용해야만 한다. 
+~~~shell
+mysql> select district, count(*) from city where countrycode="KOR" group by district having count(*) = 6;
++---------------+----------+
+| district      | count(*) |
++---------------+----------+
+| Chollabuk     |        6 |
+| Chungchongnam |        6 |
++---------------+----------+
+2 rows in set (0.00 sec)
+~~~
 
 
 
