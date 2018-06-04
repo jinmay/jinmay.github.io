@@ -30,6 +30,12 @@ docker search <iamge_name>
 ~~~
 docker hub에 있는 이미지들을 검색한다.
 
+### 컨테이너 생성
+~~~shell
+docker create -it --name <container_name> <image_name>
+~~~
+컨테이너를 생성하는 방법에는 생성과 동시에 실행하는 docker 명령어와 **컨테이너를 생성만 하는 docker create 명령어가 있다.** 단지 컨테이너를 만들기만 할뿐 실행을 하지는 않기 때문에 demon으로 돌리는 -d 옵션은 존재하지 않는다.
+
 ### 컨테이너 출력
 ~~~shell
 docker ps
@@ -43,6 +49,16 @@ docker run
 docker run -dit --name <alias_name>
 ~~~
 도커 이미지를 실행한다. 첫 번째줄과 같이 실행을 하게 되면 실행과 동시에 프로세스가 죽게되며 **docker ps -a**명령어를 통해 확인할 수 있다. 옵션을 하나씩 살펴보면 **d**는 데몬으로 실행함을 의미하며 **i**는 인터렉티브 모드로 실행함을 **t**는 tty를 실행할 것임을 의미힌다. 또한 뒤의 **--name**는 alias 처럼 별칭을 주는 역할을 한다. 
+
+-d 옵션을 주면 백그라운드에서 데몬이 돌기 때문에 docker run -dit로 실행하게 되면 bash를 실행해도 바로 shell이 뜨지 않는다. **run**과 **create** 명령어의 차이를 알아보자.
+
+1. create
+docker pull(이미지가 없을때) > docker create
+docker create 명령어는 도커 이미지를 pull한 뒤에 컨테이너를 생성만 할뿐 start / attach 를 실행하지 않는다. 보통 컨테이너를 생성함과 동시에 시작하기 때문에 run 명령어를 더 자주 사용한다.
+
+2. run
+docker pull(이미지가 없을때) > docker create > docker start > docker attach -it
+docker run 명령어는 컨테이너를 생성과 동시에 실행하고 attach 하기 때문에(-it 옵션) 컨테이너 내부로 들어간다.
 
 
 ### 컨테이너 접속
