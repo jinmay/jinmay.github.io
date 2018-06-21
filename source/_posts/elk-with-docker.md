@@ -100,3 +100,27 @@ elasticsearch.url: "http://localhost:9200"
 ~~~shell
 /usr/share/kibana/bin/kibana
 ~~~
+
+
+## 로그스태시 설치
+마지막으로 로그스태시도 설치해보자!!
+~~~shell
+wget https://artifacts.elastic.co/downloads/logstash/logstash-6.3.0.deb # 엘라스틱 다운로드 페이지에서 링크 주소 복사
+dpkg -i logstash-6.3.0.deb
+~~~
+설치 완료!! 그 다음에 설정을 해주어야 한다. 로그스태시 실행 파일이 **/usr/share/logstash/bin**에 있기때문에 해당경로로 들어간 후 설정파일과 함께 실행해주어야한다.
+
+~~~shell
+# vi logstash-simple.conf
+input {
+  stdin { }
+}
+output {
+  stdout { }
+}
+~~~
+
+위 와 같이 간단하게 테스트를 위해 설정파일을 만들고 로그스태시를 실행한다
+~~~shell 
+./logstash -f logstash-simple.conf
+~~~
