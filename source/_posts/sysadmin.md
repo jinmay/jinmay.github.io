@@ -46,7 +46,7 @@ paster sysadmin add admin_test -c /etc/ckan/default/production.ini
 ckan이 잘 돌아가는 지 테스트 데이터 생성을 통해 알아볼 수 있다. 커맨드는 create-test-data 이다.
 
 ~~~shell
-paster create_test_data -c /etc/ckan/default/production.ini
+paster create-test-data -c /etc/ckan/default/production.ini
 ~~~
 
 
