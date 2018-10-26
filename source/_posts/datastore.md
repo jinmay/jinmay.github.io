@@ -104,7 +104,7 @@ sudo ckan datastore set-permissions
 
 3. 셋업 테스트
 
-지금까지 잘 따라왔다면 셋업을 마무리됐을 것이다. 테스트하기 위해서 ckan을 재시작하고 아래의 명령어를 수행한다. (DataStore의 모든 리소스를 리스팅한다.) ckan 서버가 켜져있지 않다면 (paster command --config=/etc/ckan/default/production.ini) 을 통해 켜주고 해야 테스트가 제대로 실행된다.
+지금까지 잘 따라왔다면 셋업을 마무리됐을 것이다. 테스트하기 위해서 ckan을 재시작하고 아래의 명령어를 수행한다. (DataStore의 모든 리소스를 리스팅한다.) ckan 서버가 켜져있지 않다면 (paster serve --config=/etc/ckan/default/production.ini) 을 통해 켜주고 해야 테스트가 제대로 실행된다.
 
 ~~~shell
 curl -X GET "http://127.0.0.1:5000/api/3/action/datastore_search?resource_id=_table_metadata"
