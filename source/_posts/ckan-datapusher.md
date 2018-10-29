@@ -1,5 +1,5 @@
 ---
-title: install datapusher on ckan
+title: DataPusher 설치하기
 tags:
   - ckan
   - datapusher

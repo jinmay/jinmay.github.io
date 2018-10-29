@@ -1,5 +1,5 @@
 ---
-title: enable ckan-harvest
+title: ckanext-harvest 설치하기
 tags:
   - ckan
   - harvest
