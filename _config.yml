@@ -73,10 +73,15 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: melody
+theme: Tranquilpeak
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy: 
   type: git
   repo: https://github.com/jinmay/jinmay.github.io
+
+node_sass:
+  outputStyle: nested
+  precision: 5
+  sourceComments: false
