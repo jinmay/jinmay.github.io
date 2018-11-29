@@ -1,5 +1,6 @@
 ---
 title: categories
-date: 2018-04-06 16:36:40
-type: "categories"
+date: 2018-11-29 14:41:22
+layout: "categories"
+comments: false
 ---

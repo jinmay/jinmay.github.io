@@ -36,22 +36,22 @@ sidebar:
             icon: fa fa-home
         categories:
             title: global.categories
-            url: /all-categories
+            url: /categories
             icon: fa fa-bookmark
         tags:
             title: global.tags
-            url: /all-tags
+            url: /tags
             icon: fa fa-tags
         archives:
             title: global.archives
-            url: /all-archives
+            url: /archives
             icon: fa fa-archive
-        search:
-            title: global.search
-            url: /#search
-            icon: fa fa-search
-            # `open-algolia-search` classes are used to open algolia search modal
-            class: open-algolia-search
+        # search:
+        #     title: global.search
+        #     url: /#search
+        #     icon: fa fa-search
+        #     # `open-algolia-search` classes are used to open algolia search modal
+        #     class: open-algolia-search
         about:
             title: global.about
             url: /#about
@@ -59,37 +59,37 @@ sidebar:
     author_links:
         github:
             title: global.github
-            url: https://github.com/
+            url: https://github.com/JinMay
             icon: fab fa-github
-        stack_overflow:
-            title: global.stack_overflow
-            url: http://stackoverflow.com/users
-            icon: fab fa-stack-overflow
-        twitter:
-            title: global.twitter
-            url: https://twitter.com/
-            icon: fab fa-twitter
-        facebook:
-            title: global.facebook
-            url: https://facebook.com/
-            icon: fab fa-facebook
-        google_plus:
-            title: global.google_plus
-            url: https://plus.google.com/
-            icon: fab fa-google-plus
-        linked_in:
-            title: global.linkedin
-            url: https://www.linkedin.com/profile/
-            icon: fab fa-linkedin
-        mail:
-            title: global.mail
-            url: mailto
-            icon: fa fa-envelope
-    rss:
-        rss:
-            title: global.rss
-            url: /atom.xml
-            icon: fa fa-rss
+    #     stack_overflow:
+    #         title: global.stack_overflow
+    #         url: http://stackoverflow.com/users
+    #         icon: fab fa-stack-overflow
+    #     twitter:
+    #         title: global.twitter
+    #         url: https://twitter.com/
+    #         icon: fab fa-twitter
+    #     facebook:
+    #         title: global.facebook
+    #         url: https://facebook.com/
+    #         icon: fab fa-facebook
+    #     google_plus:
+    #         title: global.google_plus
+    #         url: https://plus.google.com/
+    #         icon: fab fa-google-plus
+    #     linked_in:
+    #         title: global.linkedin
+    #         url: https://www.linkedin.com/profile/
+    #         icon: fab fa-linkedin
+    #     mail:
+    #         title: global.mail
+    #         url: mailto
+    #         icon: fa fa-envelope
+    # rss:
+    #     rss:
+    #         title: global.rss
+    #         url: /atom.xml
+    #         icon: fa fa-rss
 
 
 # --------------------
@@ -118,7 +118,7 @@ header:
 # Your biography and your job is editable in each languages files in `languages` folder
 author:
     email:
-    location:
+    location: South Korea
     # Your profile picture located in folder `source/_images/` (development)
     # or in `source/assets/images/` (production)
     # or you can use an external url
@@ -240,15 +240,15 @@ fb_app_id:
 #     share_on_foo_bar: "Share on Foo Bar"
 # ```
 sharing_options:
-    facebook:
-        icon: "fab fa-facebook"
-        url: "https://www.facebook.com/sharer/sharer.php?u={{post.permalink}}"
-    twitter:
-        icon: "fab fa-twitter"
-        url: "https://twitter.com/intent/tweet?text={{post.permalink}}"
-    google_plus:
-        icon: "fab fa-google-plus"
-        url: "https://plus.google.com/share?url={{post.permalink}}"
+    # facebook:
+    #     icon: "fab fa-facebook"
+    #     url: "https://www.facebook.com/sharer/sharer.php?u={{post.permalink}}"
+    # twitter:
+    #     icon: "fab fa-twitter"
+    #     url: "https://twitter.com/intent/tweet?text={{post.permalink}}"
+    # google_plus:
+    #     icon: "fab fa-google-plus"
+    #     url: "https://plus.google.com/share?url={{post.permalink}}"
     # Asian social networks
 #    weibo:
 #        title: "Weibo"
