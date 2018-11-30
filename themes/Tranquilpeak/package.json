@@ -31,7 +31,7 @@
   "devDependencies": {
     "eslint": "4.18.2",
     "eslint-config-google": "0.9.1",
-    "grunt": "1.0.2",
+    "grunt": "^1.0.3",
     "grunt-cli": "1.2.0",
     "grunt-contrib-clean": "1.1.0",
     "grunt-contrib-concat": "1.0.1",
@@ -51,6 +51,7 @@
   "dependencies": {
     "@fancyapps/fancybox": "3.2.5",
     "@fortawesome/fontawesome-free": "5.1.0",
+    "bower": "^1.8.4",
     "hexo-util": "0.6.3",
     "jquery": "3.3.1",
     "jsdom": "11.6.2",

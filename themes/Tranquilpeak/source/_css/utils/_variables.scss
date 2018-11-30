@@ -6,6 +6,10 @@ $open-sans:            'Open Sans';
 $open-sans-sans-serif: 'Open Sans', sans-serif;
 $merriweather-serif:   'Merriweather', serif;
 $monospace:             Menlo, Consolas, monospace;
+$noto-sans-kr:          'Noto Sans KR', sans-serif;
+$nanum-gothic-coding:   'Nanum Gothic Coding', monospace;
+$nanum-gothic:          'Nanum Gothic', sans-serif;
+$hanna:                 'Hanna', sans-serif;
 
 $font-family-base: $open-sans-sans-serif;
 
@@ -13,12 +17,12 @@ $font-families: (
    // base
    'headings':          $open-sans-sans-serif,
    // components
-   'code':              $monospace,
-   'caption':           $merriweather-serif,
+   'code':              $nanum-gothic-coding,
+   'caption':           $nanum-gothic,
    'image-gallery':     $open-sans,
-   'post-header-cover': $merriweather-serif,
+   'post-header-cover': $nanum-gothic,
    'post-meta':         $open-sans-sans-serif,
-   'post-content':      $merriweather-serif,
+   'post-content':      $nanum-gothic,
    'post-excerpt-link': $open-sans-sans-serif,
    'highlight':         $monospace,
    // layout
