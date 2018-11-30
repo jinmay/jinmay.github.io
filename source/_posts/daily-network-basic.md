@@ -1,11 +1,13 @@
 ---
+title: 네트워크 기초 지식1
+tags:
+  - network
 categories:
   - network
   - daily network
-title: daily network basic
-tags:
-  - network
+date: 2018-11-30 15:40:57
 ---
+
 > Computer Science 공부하기 첫 번째 - Network 
 >
 > 올해 초에 도서관에서 책을 빌려 약 한 달동안 네트워크를 간단하게나마 공부를 해 보았다. 네트워크가 어떻게 돌아가는지 모르고 웹 개발을 해오고 있었는데 알게 모르게 도움이 많이 됐던 것 같았다. 그래서 이번엔 조금 더 천천히 그리고 진지하게 공부해 보려고 한다. 
