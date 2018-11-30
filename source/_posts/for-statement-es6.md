@@ -4,7 +4,6 @@ tags:
   - javascript
   - es6
 categories:
-  - es6
   - javascript
 date: 2018-08-23 17:12:33
 ---
