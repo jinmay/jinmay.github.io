@@ -3,6 +3,7 @@ title: ubuntu 16.04에서 add-apt-repository 설치하기
 tags:
   - ubuntu
 categories:
+  - linux
   - ubuntu
 date: 2018-06-19 00:46:28
 ---
