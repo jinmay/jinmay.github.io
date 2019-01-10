@@ -44,4 +44,3 @@ $('.inner').wrapAll("<div class='new' />")
   </div>
 </div>
 ~~~
-
