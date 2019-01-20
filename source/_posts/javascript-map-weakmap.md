@@ -1,12 +1,14 @@
 ---
-categories:
-  - javascript
-  - es6
-title: javascript-map-weakmap
+title: Map과 WeakMap
 tags:
   - javascript
   - es6
+categories:
+  - javascript
+  - es6
+date: 2019-01-20 22:49:04
 ---
+
 # Map과 WeakMap
 
 맵은 Key와 Value를 연결한다는 점에서 객체와 유사하다. 하지만 객체를 사용할때 발생하는 문제점들이 있는데 아래와 같다.
