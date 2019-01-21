@@ -1,12 +1,14 @@
 ---
-categories:
-  - javascript
-  - es6
-title: javascript-arrow-function
+title: 화살표 함수
 tags:
   - javascript
   - es6
+categories:
+  - javascript
+  - es6
+date: 2019-01-21 09:52:12
 ---
+
 # 화살표 표기법 함수
 
 es6에서 새로 등장한 arrow function이다. function이라는 단어와 중괄호 갯수를 줄이려고 했으며 보이는 것 뿐만아니라 this context와 같은 내부적인 중요한 차이도 있다.
