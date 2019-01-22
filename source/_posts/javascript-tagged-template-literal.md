@@ -1,12 +1,14 @@
 ---
-categories:
-  - javascript
-  - es6
-title: javascript-tagged-template-literal
+title: 템플릿 태그 리터럴
 tags:
   - javascript
   - es6
+categories:
+  - javascript
+  - es6
+date: 2019-01-22 15:12:08
 ---
+
 # tagged template literals
 
 자바스크립트에서 HTML을 조합해 사용하는 경우가 있다. json으로 받은 데이터들을 사용하는 경우이며 underscore와 같은 패키지를 사용하곤 한다. 
