@@ -41,9 +41,10 @@ man find
 
 # 결과
 FIND(1) BSD General Commands Manual FIND(1)
-​~~~
-​~~~
-​~~~
+...
+...
+...
+...
 ~~~
 
 와 같은 식으로 나오는 것을 확인할 수 있었다. **기존의 맥북에서 사용하는 find 명령어는 GNU가 아닌 BSD로 부터 온것임을 알 수 있다.** 
