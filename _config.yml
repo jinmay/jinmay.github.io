@@ -13,7 +13,7 @@ timezone: Asia/Seoul
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 # url은 나중에 도메인 연결할 때 사용하자
-url: http://yoursite.com/
+url: https://jinmay.github.io/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -85,3 +85,24 @@ node_sass:
   outputStyle: nested
   precision: 5
   sourceComments: false
+
+## For SEO
+# sitemap auto generator
+sitemap:
+  path: sitemap.xml
+
+# robots.txt
+robotstxt:
+  User-agent: "*"
+  Allow: /
+  Sitemap: https://jinmay.github.io/sitemap.xml
+
+# nofollow
+nofollow:
+  enable: true
+
+# rss feed
+feed:
+    type: atom
+    path: atom.xml
+    limit: 20
