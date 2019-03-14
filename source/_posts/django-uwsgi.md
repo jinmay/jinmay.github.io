@@ -140,3 +140,14 @@ uwsgi -i /etc/uwsgi/sites/myproject.ini
 ~~~
 
 8001번 포트로 접속해서 제대로 동작하는 지 확인하자!!
+
+<hr>
+<참고>
+https://wikidocs.net/6611
+https://wayhome25.github.io/django/2018/03/04/django-deploy-04-uwsgi/
+https://cjh5414.github.io/how-to-deploy-django-uwsgi-nginx-in-ubuntu/
+https://github.com/Tirrilee/TechTalk/wiki/Django-%EB%B0%B0%ED%8F%AC-(ubuntu16-uwsgi-nginx)
+http://recordingbetter.com/django/2017/06/29/Django-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%A5%BC-AWS%EC%97%90-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0-(%EC%A0%84%EC%B2%B4)
+https://wangin9.tistory.com/entry/centos7djangonginxuwsgi
+https://rainsound-k.github.io/deploy/2018/05/02/instance-setting-and-django-deploy-part2.html
+https://jaha01.tistory.com/12
