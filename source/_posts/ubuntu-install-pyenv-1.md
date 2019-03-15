@@ -1,5 +1,5 @@
 ---
-title: ubuntu-install-pyenv
+title: ubuntu에서 pyenv 설치하기
 tags:
   - ubuntu
   - pyenv
