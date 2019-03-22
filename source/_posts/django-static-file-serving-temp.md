@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 	# ... url 경로 	
-] + static(settings.STATIC_URL, document_root=STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 ~~~
 
 
