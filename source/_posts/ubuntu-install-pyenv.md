@@ -19,7 +19,7 @@ date: 2018-12-27 14:47:22
 git을 통해서 설치할 수 있다. 
 
 ~~~shell
-curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+curl https://pyenv.run | bash
 ~~~
 
 ### 환경변수 설정
