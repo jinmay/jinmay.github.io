@@ -1,13 +1,15 @@
 ---
-categories:
-  - django
-title: django-uwsgi-service-registration
+title: ubuntu 16.04 LTS에 uwsgi 서비스 등록하기
 tags:
   - django
   - uwsgi
   - ubuntu
   - service
+categories:
+  - django
+date: 2019-05-03 00:40:31
 ---
+
 # ubuntu 16.04 LTS에 uwsgi 서비스 등록하기
 
 nginx + uwsgi + django를 배포하다보면 uwsgi를 수동으로 구동하곤한다. 단지 배포과정을 공부하는 입장에서는 이 정도면 충분하다고 생각했다. 하지만 문제점이 있었는데 서버를 재부팅하면 nginx는 저절로 구동되지만 uwsgi는 그렇지 않았다. 그리 복잡하지 않았기에 수동으로 돌려주고 터미널을 끄는 식으로 하곤했지만 현재 운영하고 있는 서비스의 안정성을 위해서 systemd에 등록하는 방법으로 변경했던 과정을 정리한다.
