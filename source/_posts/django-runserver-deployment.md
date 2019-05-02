@@ -1,11 +1,13 @@
 ---
-categories:
-  - django
-title: django-runserver-deployment
+title: AWS EC2 ubuntu 16.04에 Django runserver 배포하기
 tags:
   - django
   - 장고 배포
+categories:
+  - django
+date: 2019-05-02 16:23:54
 ---
+
 # AWS EC2 ubuntu 16.04에 Django runserver 배포하기
 
 runserver는 장고의 개발서버이다. 로컬환경에서 개발의 편의성을 위해서 기본적으로 제공해주는 서버이며 실제로 외부로 배포하는 경우는 없다. 하지만 EC2에 적응할 겸, 그리고 최종적으로 nginx + uwsgi + django 를 배포하는 과정으로 가는 과정 중 하나라고 생각하고 정리하려고 한다.
