@@ -16,7 +16,7 @@ date: 2019-08-01 17:52:51
 
 어드민에서 모델 인스턴스를 저장할때 save_model 메소드를 오버라이딩해서 로직을 수정할 수 있다.
 
-> > ModelAdmin.save_model(request, obj, form, change)
+> ModelAdmin.save_model(request, obj, form, change)
 
 네 개의 인자를 받는다.
 
