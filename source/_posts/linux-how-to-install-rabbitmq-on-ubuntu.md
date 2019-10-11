@@ -19,6 +19,8 @@ tags:
 
 ### Install Erlang from an Apt Repostory on Bintray
 
+> 참고: Erlang 설치하기 - [여기](https://jinmay.github.io/2019/10/11/linux-how-to-install-erlang-on-ubuntu/)
+
 아마 Erlang을 설치했다면 **/etc/apt/sources.list.d/bintray.rabbitmq.list** 파일을 만들고 RabbitMQ 팀에서 관리하는 apt repo를 추가했을 것이다. 마찬가지로 같은 파일에 RabbitMQ를 위한 저장소를 추가해야 한다.
 
 ~~~shell
