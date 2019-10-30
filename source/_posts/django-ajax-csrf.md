@@ -38,7 +38,7 @@ def my_view(request):
 2. js를 통해 csrf token 생성 및 주입
 
 장고 공식홈페이지를 보면 자바스크립트로 ajax post 요청시에 csrf token을 만들고 삽입하는 코드가 나와있다. ~~그래서 그냥 쓰면된다~~
-~~~python
+~~~javascript
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -54,6 +54,8 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+var csrftoken = getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
