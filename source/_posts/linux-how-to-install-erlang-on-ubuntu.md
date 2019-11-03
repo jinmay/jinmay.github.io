@@ -71,9 +71,9 @@ sudo vi /etc/apt/sources.list.d/bintray.rabbitmq.list
 
 # bintray.rabbitmq.list 파일 안에 추가
 # 사용중인 리눅스 배포판과 설치하려는 Erlang 버전을 뒤에 적는다
-# deb https://dl.bintray.com/rabbitmq/debian $distribution $component
-deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang-22.x
-deb https://dl.bintray.com/rabbitmq/debian xenial main
+# deb https://dl.bintray.com/rabbitmq-erlang/debian $distribution $component
+# deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang-22.x
+deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang # 최신의 안정화 버전을 설치한다
 ~~~
 
 참고로 \$distribution과 \$component는 자신의 환경에 맞게 설정하면 된다. 
@@ -89,8 +89,15 @@ deb https://dl.bintray.com/rabbitmq/debian xenial main
 sudo apt update -y
 ~~~
 
-rabbitmq-server와 의존성 패키지 설치
+Erlang을 설치한다
 ~~~shell
+sudo apt-get install -y erlang-base \
+                        erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \
+                        erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \
+                        erlang-runtime-tools erlang-snmp erlang-ssl \
+                        erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl
+
+# rabbitmq-server와 의존성 패키지 설치
 sudo apt-get install rabbitmq-server -y --fix-missing
 ~~~
 
