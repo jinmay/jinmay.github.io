@@ -45,28 +45,28 @@ RabbitMQ 팀이 제공하는 apt repo를 사용하는 방법은 크게 아래의
 
 현재의 apt repo를 업데이트 한다.
 
-~~~sh
+```sh
 sudo apt-get update -y
-~~~
+```
 
 설치에 필요한 소프트웨어를 설치한다.
 
-~~~sh
+```sh
 sudo apt-get install curl gnupg -y
-~~~
+```
 
 RabbitMQ Signing Key를 설치한다
-~~~sh
+```sh
 curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
-~~~
+```
 
 apt HTTPS transport를 설치한다
-~~~sh
+```sh
 sudo apt-get install apt-transport-https
-~~~
+```
 
 Bintray repositories를 추가한다
-~~~sh
+```sh
 sudo vi /etc/apt/sources.list.d/bintray.rabbitmq.list
 
 # bintray.rabbitmq.list 파일 안에 추가
@@ -74,7 +74,7 @@ sudo vi /etc/apt/sources.list.d/bintray.rabbitmq.list
 # deb https://dl.bintray.com/rabbitmq-erlang/debian $distribution $component
 # deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang-22.x
 deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang # 최신의 안정화 버전을 설치한다
-~~~
+```
 
 참고로 \$distribution과 \$component는 자신의 환경에 맞게 설정하면 된다. 
 
@@ -85,12 +85,12 @@ deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang # 최신의 안�
 * stretch for Debian Stretch
 
 추가된 apt repo를 반영하기 위해 apt update
-~~~sh
+```sh
 sudo apt update -y
-~~~
+```
 
 Erlang을 설치한다
-~~~sh
+```sh
 sudo apt-get install -y erlang-base \
                         erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \
                         erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \
@@ -99,7 +99,7 @@ sudo apt-get install -y erlang-base \
 
 # rabbitmq-server와 의존성 패키지 설치
 sudo apt-get install rabbitmq-server -y --fix-missing
-~~~
+```
 
 에러없이 여기까지 왔다면 설치는 무사히 끝난다. 
 

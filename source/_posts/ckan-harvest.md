@@ -30,40 +30,40 @@ date: 2018-10-29 10:09:01
 
 각자 사용하고 싶은 걸 사용해도 무방하지만, redis가 더 안정적이고 믿을 만 하다고 하기 때문에 CKAN org는 **redis**를 추천한다.
 
-~~~sh
+```sh
 sudo apt-get update
 sudo apt-get install redis-server
-~~~
+```
 
 그리고 CKAN의 production.ini 설정파일에 아래의 설정을 추가해준다.
 
-~~~ini
+```ini
 ckan.harvest.mq.type = redis
-~~~
+```
 
 혹시 모르니 RabbitMQ도 정리해보자.
 
-~~~sh
+```sh
 sudo apt-get update
 sudo apt-get install rabbitmq-server
 
 ## in production.ini
 ckan.harvest.mq.type = amqp
-~~~
+```
 
 2. 가상환경 활성화
 
-~~~sh
+```sh
 . /usr/lib/ckan/default/bin/activate
-~~~
+```
 
 3. ckanext-harvest 패키지 다운로드
 
 activate한 가상환경에 harvest를 위한 파이썬 패키지를 설치한다.
 
-~~~sh
+```sh
 pip install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest
-~~~
+```
 
 여기서 맨할 헤메곤 했는데, 그 이유는 pip의 권한 때문이었던 것 같다. 보통은 **python -m pip install <package_name>**을 하게 되면 무리없이 설치하곤 했는데 가끔씩 permission erorr를 내뱉는 경우가 있다. 
 
@@ -73,36 +73,36 @@ sudo를 사용하거나 python -m pip를 사용했는데도 permission error로 
 
 위에서 다운받은 패키지의 폴더에 들어가 설치한다.
 
-~~~sh
+```sh
 cd /usr/lib/ckan/default/src/ckanext-harvest
 pip install -r pip-requirements.txt
-~~~
+```
 
 5. 플러그인 추가
 
 CKAN 설정파일에서 플러그인 harvest와 ckan_harvester를 추가한다.
 
-~~~ini
+```ini
 ckan.plugins = ... harvest ckan_harvester
-~~~
+```
 
 6. 필수 설정
 
 가상환경을 activate 한 채로, 필수적인 테이블을 생성하기 위해 다음과 같은 명령어를 실행한다.
 
-~~~sh
+```sh
 paster --plugin=ckanext-harvest harvestet initdb --config=/etc/ckan/default/production.ini
-~~~
+```
 
 7. 재시작
 
-~~~sh
+```sh
 sudo service apache2 restart
-~~~
+```
 
 8. 접속
 
-~~~text
+```text
 http://ckan_url/harvest
-~~~
+```
 

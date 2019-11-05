@@ -22,14 +22,14 @@ date: 2018-01-04 23:18:00
    * 예를 들면 BeautifulSoup4 / lxml
 
 
-~~~python
+```python
 # 간단한 bs4 example
 from bs4 import BeautifulSoup
 soup = BeautifulSoup('http://www.naver.com', 'html.parser') # url과 parser종류 설정
 
 for li in soup.select('li'):
   print(li)
-~~~
+```
 
 ### HTML Parser로는 대표적으로 두 가지를 사용한다
 

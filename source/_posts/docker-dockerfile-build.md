@@ -16,84 +16,84 @@ tags:
 
 ### From 
 
-~~~Dockerfile
+```Dockerfile
 FROM 이미지:태그
 FROM python:3
-~~~
+```
 
 베이스 이미지를 지정한다. 반드시 베이스 이미지를 지정해야하고 태그는 필수적이지 않다. 하지만 본인이 사용할 버전을 명시적으로 적어두는 걸 추천한다.
 
-~~~Dockerfile
+```Dockerfile
 RUN apt-get update && apt-get -y install libpq-dev
-~~~
+```
 
 명령어를 실행한다. 내부적으로 /bin/sh -c 뒤에 명령어를 실행한다. 
 
-~~~Dockerfile
+```Dockerfile
 RUN ["/bin/bash", "-c", "echo hello"]
-~~~
+```
 
 만약 sh쉘이 아닌 다른 쉘을 사용하고 싶다면 직접 변경해주어야 한다.
 
 ### CMD
 
-~~~Dockerfile
+```Dockerfile
 CMD ["python", "manage.py", "runserver", "0:8000"]
 
 # 형태
 CMD ["executable","param1","param2"]
 CMD ["param1","param2"]
 CMD command param1 param2
-~~~
+```
 
 도커 컨테이너가 실행되었을 때 실행할 명령어이다. 주의해야 할 점으로 이미지를 빌드할때 실행하는 것이 아니라 **빌드된 이미지로 부터 생성된 컨테이너가 실행될때 마지막으로 실행한다는 것**이다. 그리고 **만약에 한 개 이상의 CMD 명령어가 있다면 가장 마지막의 CMD가 실행된다.**
 
 ### EXPOSE
 
-~~~Dockerfile
+```Dockerfile
 EXPOSE 8000
 EXPOSE 80 443
-~~~
+```
 
 도커 컨테이너가 사용할 포트를 지정한다. 여러개를 사용할 수 있으며 띄어쓰기로 나누어 표현하면 된다.
 
 ### ENV
 
-~~~Dockerfile
+```Dockerfile
 ENV <key> <value>
 ENV <key>=<value>
-~~~
+```
 
 컨테이너 내부에서 사용할 환경변수를 지정한다. 주의할 점으로는 컨테이너를 생성할때 -e 옵션을 지정해 준다면 기존값을 오버라이딩 할 수 있다는 것이다. 
 
 ### ADD
 
-~~~Dockerfile
+```Dockerfile
 ADD ./requirements.txt /app/
 ADD . /app
 ADD ./manage.py /app/
 
 ADD <src> <container_src>
-~~~
+```
 
 파일 또는 폴더를 컨테이너 안으로 추가한다. **로컬의 src를 컨테이너의 src로 복사한다고 생각하면 될 것 같다.** 파일 또는 폴더만 가능한 것이 아니라 URL도 입력 가능하다.
 
 ### COPY
 
-~~~Dockerfile
+```Dockerfile
 COPY <src>... <container_src>
 COPY . /app
-~~~
+```
 
 ADD와 매우 비슷하다. 만약 명시한 container_src 폴더가 없다면 자동으로 생성한다.
 
 ### WORKDIR
 
-~~~Dockerfile
+```Dockerfile
 WORKDIR /app
 
 WORKDIR /path/to/workdir
-~~~
+```
 
 명령어들이 실행될 디렉터리를 지정한다. 각 명령어가 실행될 디렉터리가 초기화 되기 때문에 사용한다. 즉, RUN / CMD / ADD와 같은 Dockerfile 명령어들은 매 실행때마다 실행 위치가 초기화되며, 계속해서 같은 디렉터리에서 작업하기 위해 WORKDIR을 사용한다고 보면 된다.
 
@@ -101,9 +101,9 @@ WORKDIR /path/to/workdir
 
 ### VOLUME
 
-~~~Dockerfile
+```Dockerfile
 VOLUME ["/data"]
-~~~
+```
 
 다른 컨테이너 또는 호스트로부터 마운트 포인트를 만든다.
 
@@ -116,13 +116,13 @@ VOLUME ["/data"]
 
 Dockerfile을 만들었다면 실제로 이미지를 만들기 위해 빌드하는 과정이 필요하다.
 
-~~~sh
+```sh
 docker build [OPTIONS] PATH | URL | -
 docker build 옵션 경로
 
 docker build . -t my-image
 docker build . -f compose/django/Dockerfile-dev -t my-image-dev
-~~~
+```
 
 -t : 이미지 이름 지정
 -f : (현재 폴더의 Dockerfile을 사용하지 않는다면) Dockerfile의 경로를 지정

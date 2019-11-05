@@ -19,7 +19,7 @@ es6에서 새로 등장한 arrow function이다. function이라는 단어와 중
 * 매개변수가 하나라면 괄호 생략 가능
 * 함수 body가 식(expression) 하나라면 중괄호와  return 생략 가능
 
-~~~javascript
+```javascript
 const f1 = function() {
     return 'hello';
 }
@@ -39,13 +39,13 @@ const f3 = function(a, b){
     return a + b;
 }
 const f3 = (a, b) => a + b;
-~~~
+```
 
 ##### arrow function의 this
 
 화살표 함수가 나오기 이전의 this에 대해서 먼저 살펴보자. 
 
-~~~javascript
+```javascript
 const obj = {
     register() {
         setTimeout(function(){
@@ -59,11 +59,11 @@ const obj = {
 };
 
 obj.register(); // TypeError: this.pprint is not a function
-~~~
+```
 
 에러가 발생했다. **그 이유는 this가 obj에 걸린 것이 아닌 window에 묶여있기 때문이다(this === window의 콘솔 결과를 보면 알 수 있다). 이 때 bind(this)를 사용하거나 화살표 함수를 통해서 obj에 lexical하게 this를 묶을 수 있다.**
 
-~~~javascript
+```javascript
 // .bind()
 const obj = {
     register() {
@@ -91,5 +91,5 @@ const obj = {
 }
 
 obj.register(); // print @-hello world-@
-~~~
+```
 

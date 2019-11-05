@@ -12,25 +12,25 @@ date: 2018-04-09 16:06:35
 
 사용법은 아래와 같다. 
 
-~~~css
+```css
 display: flex;
-~~~
+```
 
 **첫째로 flexbox 레이아웃을 구성할 때는 부모 컨테이너에 flex를 주어야 한다.**
 
-~~~css
+```css
 .container {
     display: flex;
 }
-~~~
+```
 
-~~~html
+```html
 <div class="container">
     <div class="box"></div>
     <div class="box"></div>
     <div class="box"></div>
 </div>
-~~~
+```
 
 display: flex 로 인해서 div.container 는 flex container가 되었으며 컨테이너 안의 div.box 들은 flex 항목이 된 것이다.(.container는 플렉스 서식 환경을 만들게 되고 .box는 플렉스 항목이 된다.)
 
@@ -126,7 +126,7 @@ flex-grow / flex-shrink / flex-basis의 축약속성이다. 기본값은 0 1 aut
 
 # 정리
 1. flex container에만 적용 가능한 속성
-~~~css
+```css
 .flex_container {
   display: flex;                  /* flex container 선언 */
   flex-direction: row;            /* 정렬 방향*/
@@ -135,10 +135,10 @@ flex-grow / flex-shrink / flex-basis의 축약속성이다. 기본값은 0 1 aut
   align-items: stretch;           /* 교차 축 정렬 */
   align-content: stretch;         /* 여려줄 교차축 정렬 */
 }
-~~~
+```
 
 2. flex items에만 적용 가능한 속성
-~~~css
+```css
 .flex-items {
   flex-grow: 0;               /* 팽창 지수 */
   flex-shrink: 1;             /* 수축 지수 */
@@ -146,7 +146,7 @@ flex-grow / flex-shrink / flex-basis의 축약속성이다. 기본값은 0 1 aut
   align-self: auto;           /* 독립적 교차축 정렬 */
   order: 0;                   /* 배치 순서 */
 }
-~~~
+```
 
 
 [참고]

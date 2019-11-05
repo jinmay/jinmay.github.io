@@ -50,7 +50,7 @@ sudo rabbitmq-plugins enable rabbitmq_management
 
 RabbitMQ의 기본 명령어는 모두 **rabbitmqctl 로 시작**하며, 현재 어떠한 유저가 있는지 그리고 새로운 유저를 생성해보고 관리자 권한을 할당해보자.
 
-~~~sh
+```sh
 # 유저 리스트 출력
 sudo systemctl list_users
 

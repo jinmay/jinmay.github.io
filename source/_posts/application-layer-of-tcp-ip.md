@@ -29,10 +29,10 @@ HTTP는 **무상태성**이다. 통신할때 정보를 한 번씩 주고받고 �
 ### URL
 Uniform Resource Locator의 약자이다. 
 
-~~~sh
+```sh
 http://www.sample.co.kr/sample/index.html
 스키마://호스트.도메인/디렉터리/파일
-~~~
+```
 
 ### HTTP 응답과 상태 코드
 HTTP response 데이터의 첫 번째 행에는 상태 코드가 들어가며, 요청에 대한 응답 상태를 표시하기 위함이다. 응답 내용은 메세지 바디에 들어가게된다. 상태코드는 1xx ~ 5xx 번 대로 이루어져 있으며 간단하게 살펴보면

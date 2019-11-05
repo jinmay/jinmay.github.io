@@ -38,35 +38,35 @@ A라는 서비스를 만들기 위해서 Djagno 1.11 버전을 사용하고 / B�
 
 virtualenv는 이미 사용중이며, pip를 통해서 virtualenvwrapper를 설치해보자.
 
-~~~shel
+```shel
 pip install virtualenvwrapper
-~~~
+```
 
 그리고, 홈 디렉토리로 이동하여 가상환경들이 저장될 폴더를 만든다.
 
-~~~sh
+```sh
 cd ~
 mkdir .virtualenvs
-~~~
+```
 
 홈 디렉토리의 쉘 설정에서 아래의 코드를 복사하여 넣어준다. (각자 사용중인 쉘 환경에 맞게 설정해 준다.)
 
-~~~sh
+```sh
 # in ~/.zshrc
 # in ~/.bashrc
 
 export WORKON_HOME=~/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON="$(which python3)"
 source /usr/local/bin/virtualenvwrapper.sh
-~~~
+```
 
 저장하고 쉘을 재시작해주면 virtualenvwrapper를 사용할 수 있게된다.
 
 만약 /usr/local/bin/virtualenvwrapper.sh 파일이 존재하지 않으면 아래 명령어로 파일을 찾아서 **source 부분을 대체해준다.**
 
-~~~sh
+```sh
 find /usr -name virtualenvwrapper.sh
-~~~
+```
 
 
 
@@ -78,35 +78,35 @@ find /usr -name virtualenvwrapper.sh
 
 * 가상환경 만들기
 
-~~~sh
+```sh
 mkvirtualenv <virtualenv_name> # 이름
-~~~
+```
 
 mkvirtualenv 명령어를 통해 가상환경을 새로 만들어 주면, 홈 디렉토리의 .virtualenvs 폴더에 저장된다.
 
 * 가상환경 삭제
 
-~~~sh
+```sh
 rmvirtualenv <virtualenv_name>
-~~~
+```
 
 가상환경을 삭제한다. 삭제하는 방법으로 위의 코드처럼 **명령어를 이용하는 방식**과 **직접 폴더를 지우는 방식**이 있다.
 
 * 가상환경 목록 출력
 
-~~~sh
+```sh
 workon
-~~~
+```
 
 아무런 인자 없이 **workon**을 입력하면 현재까지 생성한 가상환경의 목록을 알 수 있다.
 
 * 가상환경 진입 / 빠져나오기
 
-~~~sh
+```sh
 # 진입
 workon <virtualenv_name>
 
 # 빠져나오기
 deactivate
-~~~
+```
 

@@ -18,35 +18,35 @@ date: 2018-12-27 14:47:22
 
 git을 통해서 설치할 수 있다. 
 
-~~~sh
+```sh
 curl https://pyenv.run | bash
-~~~
+```
 
 ### 환경변수 설정
 
 shell에서 pyenv 명령어를 바로 사용할 수 있게 환경변수를 세팅해주는 것이 편하다. 각자 사용하는 shell에 따라서 설정해주어야 한다.
 
-~~~sh
+```sh
 # bash shell
 vi ~/.bashrc
 
 # z shell
 vi ~/.zshrc
-~~~
+```
 
-~~~sh
+```sh
 export PATH="~/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-~~~
+```
 
 여기까지 문제 없이 했다면 pyenv 명령어를 사용할 수 있다. 하지만 pyenv를 통해 python을 설치하려면 몇가지 패키지 들이 필요한데 우분투를 사용한다고 가정하고 shell에서 다음의 명령어를 수행해준다.
 
-~~~sh
+```sh
 sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
 xz-utils tk-dev
-~~~
+```
 
 지금까지 우분투에 pyenv를 설치하는 과정을 알아보았다. 설치과정만큼 사용하는 법도 어렵지 않으며 같이 정리해 보기로 한다.
 
@@ -60,37 +60,37 @@ xz-utils tk-dev
 
 거의 모든 버전을 지원하고 있다. pure python 뿐만 아니라 miniconda / anaconda 와 같은 파이썬도 지원함을 알 수 있다.
 
-~~~sh
+```sh
 pyenv install -list
-~~~
+```
 
 ### 파이썬 설치
 
 install 뒤에 버전을 입력해서 원하는 버전의 파이썬을 설치할 수 있다.
 
-~~~sh
+```sh
 pyenv install <python_version>
-~~~
+```
 
 ### 설치된 목록 확인
 
 현재 시스템에 어떤 파이썬들이 설치되어있는지 확인할 수 있다. system으로 라벨링 되어있는 건 현재 시스템이 default로 사용하고 있는 파이썬을 의미한다.
 
-~~~sh
+```sh
 pyenv versions
-~~~
+```
 
 ### 파이썬 버전 선택
 
 시스템에 설치된 파이썬 중에서 하나를 선택하여 사용하려고 할때 두 가지의 방법이 있다. **하나는 global하게 전역적으로 사용하며 다른 하나는 local로서 지정된 폴더에서만 사용하는 방법이다. **
 
-~~~sh
+```sh
 # system global
 pyenv global <python_version>
 
 # locally
 pyenv local <python_version>
-~~~
+```
 
 
 

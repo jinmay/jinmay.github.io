@@ -27,32 +27,32 @@ tags:
 
 방법은 꽤 단순하다. 사용하는 쉘의 설정파일에 등록해주면 된다.
 
-~~~sh
+```sh
 # vi ~/.zshrc
 export DJANGO_SECRET_KEY='비밀 키 입력'
-~~~
+```
 
 터미널 재실행 또는 source를 통해 쉘 설정파일을 반영한다. 그리고 제대로 환경 변수가 등록 되었는지 확인하기 위해 출력해보자.
 
-~~~sh
+```sh
 source ~/.zshrc
 
 # 값 출력해보기
 echo $DJANGO_SECRET_KEY
-~~~
+```
 
 echo의 결과로 비밀 키가 출력된다면 환경 변수로 저장이 잘 된것이다. 이렇게 저장한 환경 변수를 장고의 settings.py의 SECRET_KEY의 값으로 지정해주면 된다. os 모듈을 임포트하고 environ 함수를 통해 접근할 수 있다.
 
-~~~python
+```python
 # vi 장고의 settings.py
 import os
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-~~~
+```
 
 또는 예외 처리를 할 수 있도록 함수로 만들어서 적용하는 방법도 좋다.
 
-~~~python
+```python
 # vi settings.py
 import os
 from django.core.exceptions import ImproperlyConfigured
@@ -65,7 +65,7 @@ def get_env_variable(key):
       raise ImproperlyConfigured(error_msg)
 
 SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
-~~~
+```
 
 runserver에 문제가 없다면 성공한 것이다. 
 
@@ -77,18 +77,18 @@ json / xml / yaml과 같은 파일에 외부에 노출되어서는 안되는 값
 
 이름이 secrets인 json 파일을 만들어서 key: value 방식으로 장고에서 사용할 세팅 값들을 저장하면 된다.
 
-~~~sh
+```sh
 # vi secrets.json
 
 {
   "DJANGO_SECRET_KEY": "비밀 키 값 입력",
   "EMAIL_HOST_PASSWORD": "비밀번호"
 }
-~~~
+```
 
 첫 번째 방법과 마찬가지로 함수를 하나 만들어서 참조할 수 있도록 해보자.
 
-~~~python
+```python
 import os
 import json
 from django.core.exceptions import ImproperlyConfigured
@@ -107,7 +107,7 @@ def get_env_variable(key):
         raise ImproperlyConfigured(error_msg)
 
 SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
-~~~
+```
 
 **물론 git과 같은 버전관리시스템이 추적하면 안되기 때문에 secrets.json 파일은 .gitignore에 등록해야 한다!!**
 

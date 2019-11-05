@@ -21,26 +21,26 @@ date: 2018-10-26 18:06:25
 
 1. 업로드된 파일이 저장될 디렉토리를 생성해준다.
 
-~~~ini
+```ini
 sudo mkdir -p /var/lib/ckan/default
-~~~
+```
 
 **production.ini**의 **[app:main]** 항목에 **ckan.storage_path**를 보면 이미 /var/lib/ckan이 기본값으로 있는 것을 알 수 있다.
 
 2. 설정파일에 경로를 변경해준다.[app:main]
 
-~~~ini
+```ini
 ckan.storage_path = /var/lib/ckan/default
-~~~
+```
 
 위에서 만들어준 경로를 저장할 폴더로 정해준다.
 
 3. 권한 설정
 
-~~~sh
+```sh
 sudo chown www-data /var/lib/ckan/default
 sudo chmod u+rwx /var/lib/ckan/default
-~~~
+```
 
 ~~매우 중요한 부분이다. 처음 할땐 실수하지 않았는데, CKAN을 여러번 설치해봤다고 기억에 의존해서 넘어갔다가 permission deny를 보고 이게 뭔가 싶어서 세 시간을 날린적이 있었다.~~
 
@@ -48,7 +48,7 @@ sudo chmod u+rwx /var/lib/ckan/default
 
 4. 재시작
 
-~~~sh
+```sh
 sudo service apache2 reload
-~~~
+```
 

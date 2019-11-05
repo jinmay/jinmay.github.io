@@ -28,7 +28,7 @@ brew uninstall --force postgresql
 
 ##### psql 관련 파일 삭제
 
-~~~sh
+```sh
 rm -rf /usr/local/var/postgres
 ```
 
@@ -38,13 +38,13 @@ _만약 brew uninstall 후 관련 파일 삭제를 하지 않고 다시 brew ins
 
 ##### psql 설치
 
-~~~sh
+```sh
 brew install postgres
 ```
 
 ##### 서버 실행
 
-~~~sh
+```sh
 pg_ctl -D /usr/local/var/postgres start
 ````
 

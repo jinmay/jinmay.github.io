@@ -29,9 +29,9 @@ CKAN의 리소스들이 DataStore에 저장되면, 이러한 것들을 할 수 �
 
 1. 플러그인 활성화
 
-~~~sh
+```sh
 ckan.plugins = datastore
-~~~
+```
 
 datastore를 ckan의 설정에 적어준다.
 
@@ -41,9 +41,9 @@ datastore를 ckan의 설정에 적어준다.
 
 DataStore는 데이터 저장을 위해 또 다른 PostgreSQL 데이터베이스를 필요로한다. 
 
-~~~sh
+```sh
 sudo -u postgres psql -l
-~~~
+```
 
 현재 존재하고 있는 데이터베이스를 위의 명령어를 통해 살펴볼 수 있다. 아마도 ckan 기본을 위한 ckan_default가 있을것이다. 설치때와 마찬가지로 인코딩이 utf8로 제대로 되어있는지 주의한다.
 
@@ -53,15 +53,15 @@ DataStore를 위한 psql의 새로운 유저와 데이터베이스를 생성해�
 
 datastore_default라는 이름을 가진 유저를 생성한다. 이 유저는 DataStore database에 대해서 read-only access만을 할 수 있는 권한을 가진다.
 
-~~~sh
+```sh
 sudo -u postgres createuser -S -D -R -P -l datastore_default
-~~~
+```
 
 datastore_default라는 이름을 가진 새로운 데이터베이스를 생성한다. 이 데이터베이스는 ckan_default에 소유여야 한다.
 
-~~~sh
+```sh
 sudo -u postgres createdb -O ckan_default datastore_default -E utf-8
-~~~
+```
 
 
 
@@ -69,10 +69,10 @@ sudo -u postgres createdb -O ckan_default datastore_default -E utf-8
 
 production.ini을 수정해야 한다. **ckan.datastore.write_url과 ckan.datastore.read_url의 주석을 해제한다**(uncomment). 그리고 자신의 환경에 맞게 수정한다. ex) 비밀번호와 접속ip 설정
 
-~~~sh
+```sh
 ckan.datastore.write_url = postgresql://ckan_default:pass@localhost/datastore_default
 ckan.datastore.read_url = postgresql://datastore_default:pass@localhost/datastore_default
-~~~
+```
 
 
 
@@ -82,23 +82,23 @@ ckan.datastore.read_url = postgresql://datastore_default:pass@localhost/datastor
 
 만약 psql에 접속할 수 있으면 아래와 같은 명령어를 수행한다.
 
-~~~sh
+```sh
 sudo -u postgres psql
 sudo ckan datastore set-permissions | sudo -u postgres psql --set ON_ERROR_STOP=1
-~~~
+```
 
 psql이 로컬에 설치되진 않았지만 ssh를 통해 접속할 수 있다면 아래와 같이 한다.
 
-~~~sh
+```sh
 sudo ckan datastore set-permissions |
 ssh dbserver sudo -u postgres psql --set ON_ERROR_STOP=1
-~~~
+```
 
 psql를 할 수 없으면, 이렇게 하자
 
-~~~sh
+```sh
 sudo ckan datastore set-permissions
-~~~
+```
 
 
 
@@ -106,29 +106,29 @@ sudo ckan datastore set-permissions
 
 지금까지 잘 따라왔다면 셋업을 마무리됐을 것이다. 테스트하기 위해서 ckan을 재시작하고 아래의 명령어를 수행한다. (DataStore의 모든 리소스를 리스팅한다.) ckan 서버가 켜져있지 않다면 (paster serve --config=/etc/ckan/default/production.ini) 을 통해 켜주고 해야 테스트가 제대로 실행된다.
 
-~~~sh
+```sh
 curl -X GET "http://127.0.0.1:5000/api/3/action/datastore_search?resource_id=_table_metadata"
-~~~
+```
 
 위의 명령어는 에러없이 JSON 형태의 페이지를 출력할 것이다.
 
 쓰기 작업도 테스트하기 위해 새로운 DataStore 리소스를 생성해보자. 자신의 API KEY와 PACKAGE-ID를 적어주어 테스트해본다.
 
-~~~sh
+```sh
 curl -X POST http://127.0.0.1:5000/api/3/action/datastore_create -H "Authorization: {YOUR-API-KEY}" -d '{"resource": {"package_id": "{PACKAGE-ID}"}, "fields": [ {"id": "a"}, {"id": "b"} ], "records": [ { "a": 1, "b": "xyz"}, {"a": 2, "b": "zzz"} ]}'
-~~~
+```
 
 검색 작업은 다음과 같다. 마찬가지로 resource_id를 적어준다. : 
 
-~~~sh
+```sh
 http://127.0.0.1:5000/api/3/action/datastore_search?resource_id={RESOURCE_ID}
-~~~
+```
 
 삭제 작업도 해보자 : 
 
-~~~sh
+```sh
 curl -X POST http://127.0.0.1:5000/api/3/action/datastore_delete -H "Authorization: {YOUR-API-KEY}" -d '{"resource_id": "{RESOURCE-ID}"}'
-~~~
+```
 
 
 

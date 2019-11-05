@@ -18,14 +18,14 @@ uwsgi를 이용하여 배포연습을 하던중 static 파일이 제대로 동�
 
 프로젝트의 urls.py에 아래와 같이 추가해주면 된다.
 
-~~~django
+```django
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
 	# ... url 경로 	
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-~~~
+```
 
 
 

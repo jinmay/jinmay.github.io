@@ -18,9 +18,9 @@ date: 2018-01-09 11:21:25
 
 ### 설치
 1. pip를 이용한다
-~~~bash
+```bash
 pip install pyowm
-~~~
+```
   매우 편리하다. 쉽다.
 
 
@@ -32,40 +32,40 @@ pip install pyowm
 *서비스에 가입하고 api key를 받았더라도 바로 사용할 수 없다. 공식 안내에 따르면 free tier 계정과 startup tier 계정은 받은 api key를 활성화하는 데에 10분이 소요된다고 하니 발급받고 10분 뒤에 사용하도록 한다.*
 
 설치한 패키지를 임포트 하는것으로 시작하면 된다.
-~~~bash
+```bash
 # 아래 어느것으로 해도 무방하다
 # import pyowm
 from pyowm import OWM 
-~~~
+```
 
 임포트 한 뒤 OWM 객체를 생성해야 한다.
-~~~bash
+```bash
 owm = OWM(API_KEY)
-~~~
+```
 어떠한 종류의 api를 구독하는지 명시하지 않았다면 free tier로 간주한다. 유료api를 구독하고 있다면 아래와 같이 하자.
-~~~bash
+```bash
 owm = OWM(API_KEY, subscription_type='pro') # pro tier를 구독하는 예시
-~~~
+```
 
 사용하려는 owm api 버전도 지정할 수 있다. 만약 명시하지 않으면 가장 최신버전의 api를 사용한다.
-~~~bash
+```bash
 owm = OWM(API_KEY, version='2.5') # owm api version == 2.5
-~~~
+```
 
 지금까지 했다면 최소한의 준비는 됐다. 도시이름을 통해 해당도시의 날씨상황을 가져와보자. 현재 날씨를 받아오기 위해 검색하는 것은 매우 간단하다. 날씨를 알고싶은 지역의 이름을 OWM 객체에 전달해주면 된다. "지명"으로 해도 좋고 "도시ID"와 "위도/경도"로도 검색 할 수 있다.
-~~~bash
+```bash
 observation = owm.weather_at_place('Seoul,KR')
-~~~
+```
 입력한 지역과 매칭되는 날씨 정보를 포함한 **observation 객체**가 리턴된다. observation 객체는 두 가지 또다른 객체를 포함하고 있다. **날씨와 관련된 데이터를 포함한 Weather 객체와 지역에 대한 데이터를 가진 Location 객체 이다.** 
 
 아래와 같이 하면 Weather 객체를 가져올 수 있다.
-~~~bash
+```bash
 seoul_weather = observation.get_weather()
 print(seoul_weather)   # <Weather - reference time=2013-12-18 09:20, status=Clouds> 를 출력한다.
-~~~
+```
  
 더 디테일한 날씨정보를 가져오기 위해 아래 예시코드를 참고하자 : 
-~~~bash
+```bash
 seoul_weather.get_wind()                  # {'speed': 4.6, 'deg': 330}
 seoul_weather.get_humidity()              # 87
 seoul_weather.get_rain()                  # Get rain volume
@@ -82,21 +82,21 @@ seoul_weather.get_detailed_status()       # ex) 'Broken clouds'
 seoul_weather.get_weather_code()          # owm에서 사용하는 상태코드 - ex) 803
 seoul_weather.get_sunrise_time()          # 일출시각 ex) 1377862896L
 seoul_weather.get_sunset_time('iso')      # 일몰시각(iso시간) ex) '2013-08-30 20:07:57+00'
-~~~
+```
 
 위에서 이미 얘기했듯이 observation 객체는 Location 객체도 가지고 있다. 아래는 Location 객체를 가져오는 코드이다.
-~~~bash
+```bash
 location_seoul = observation.get_location()
 print(location_seoul)
-~~~
+```
 
 Location 객체도 다양한 속성이 있다.
-~~~bash
+```bash
 location_seoul.get_name()    # 'Seoul'
 location_seoul.get_lon()     # 경도
 location_seoul.get_lat()     # 위도
 location_seoul.get_ID()      # 도시ID
-~~~
+```
 
 
 ~~실시간 날씨현황뿐만 아니라 예보기능도 있지만 아직 사용해보지 않은 관계로 추후에 정리해보자!!~~

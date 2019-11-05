@@ -28,7 +28,7 @@ iterator 객체는 반드시 \_\_next\_\_ 메소드를 구현해야 한다. 파�
 > 단순히 iterable 하기만 해도 된다면 \_\_iter\_\_만 있어도 된다
 
 #### 클래스에 \_\_iter\_\_가 구현되어 있다면 iterable 객체이다.
-~~~python
+```python
 import collections
 
 class A:
@@ -37,7 +37,7 @@ class A:
 
 a = A()
 isinstance(a, collections.abc.Iterable) # True
-~~~
+```
 
 #### \_\_iter\_\_ 메소드는 iterator 객체를 반환해야만 한다!!
 

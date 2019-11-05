@@ -11,7 +11,7 @@ date: 2018-06-07 09:31:44
 Dockerfile은 도커 이미지를 생성할때 실행할 일련의 명령어들을 적어놓은 파일이다. 쉽게 말하자면 Docker 이미지 설정 파일이다. 여러가지 명령을 토대로 기본 이미지에서 개발환경을 셋팅한 이미지를 생성하는 데에 큰 도움을 받을 수 있을 것 같다. 
 
 보통 이렇게들 많이 사용하는 거 같다.
-~~~sh
+```sh
 FROM  ubuntu
 
 RUN apt-get update -y && apt-get install -y \
@@ -20,7 +20,7 @@ RUN apt-get update -y && apt-get install -y \
     git
 
 CMD ["/bin/bash"]
-~~~
+```
 간략하게 설명하자면 **어떠한 기본 이미지로부터 생성할 것인지를 FROM을 통해 적어준다. 그리고 어떠한 명령어를 실행할 지 RUN에 명시한다.**
 
 그렇다면 자주 사용되는 Dockerfile의 커맨드에 대해서 알아보자.
@@ -54,7 +54,7 @@ RUN / CMD / ENTRYPOINT / ADD / COPY 설정에서 사용할 디렉터리를 의�
 
 
 ## Dockerfile을 통한 이미지 생성
-~~~sh
+```sh
 docker build -t [new_image_name] [Dockerfile_path]
 docker build -t test-dockerfile-image . # 해당 경로에 자동으로 Dockerfile을 찾아준다
-~~~
+```

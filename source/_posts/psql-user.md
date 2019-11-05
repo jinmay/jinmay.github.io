@@ -17,44 +17,44 @@ psql에서 사용자 관리에 대한 명령어에 관해서 알아보자.
 
 ### 사용자 생성
 
-~~~postgresql
+```postgresql
 CREATE USER <생성할 유저 이름> password '<패스워드>';
-~~~
+```
 
 
 
 ### 사용자 역할(role) 또는 비밀번호 변경
 
-~~~psql
+```psql
 ALTER USER <유저 이름> with password '<패스워드>';
 ALTER USER <유저 이름> with superuser;
 ALTER USER <유저 이름> with createrole;
-~~~
+```
 
 
 
 ### 사용자 권한 주기
 
-~~~psql
+```psql
 GRANT all privilege on database <데이터베이스명> to <사용자명>;
-~~~
+```
 
 
 
 ### 현재 사용자 조회
 
-~~~psql
+```psql
 SELECT current_user;
-~~~
+```
 
 
 
 ### 모든 사용자 조회
 
-~~~psql
+```psql
 \du
 \du+ # description까지 출력
-~~~
+```
 
 
 

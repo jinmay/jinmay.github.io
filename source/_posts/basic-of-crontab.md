@@ -25,7 +25,7 @@ date: 2018-01-07 15:03:21
 
 ### 사용법
 기본 형태와 예시를 살펴보자.
-~~~bash
+```bash
 # crontab -e
 
 # ┌───────────── min (0 - 59) 
@@ -36,43 +36,43 @@ date: 2018-01-07 15:03:21
 # │ │ │ │ │
 # │ │ │ │ │
 # * * * * *  command to execute
-~~~
+```
 
 예시
-~~~bash
+```bash
 # 매일 20시 (오후 8시)에 export_dump.sh라는 쉘 프로그램을 실행
 0 20 * * * /home/oracle/scripts/export_dump.sh
 
 # 매주 일요일 0시 1분에 for_crawling.sh 쉘 프로그램을 실행
 0 1 * * 0 /home/test_user/scripts/for_crawling.sh
-~~~
+```
 
 ### 관련명령어
 * 예약작업 생성 및 수정
-~~~bash
+```bash
 crontab -e
-~~~
+```
 
 * 예약된 작업 삭제
-~~~bash
+```bash
 crontab -r
-~~~
+```
 
 * crontab 작업 리스트 출력
-~~~bash
+```bash
 crontab -l
-~~~
+```
 
 * 시스템 사용자의 crontab 편집
-~~~bash
+```bash
 crontab -u <user_name>
-~~~
+```
   root 사용자는 개인 사용자의 crontab을 수정하거나 삭제할 수 있다.
 
 * 크론탭 재시작
-~~~bash
+```bash
 service crond restart
-~~~
+```
   크론탭을 생성하거나 수정했다면 혹시모르니 꼭 재시작을 해주자!!
 
 
@@ -97,25 +97,25 @@ crontab의 규칙에 맞게 설정을 했음에도 불구하고 동작하는 않
 crontab의 home 디렉토리(:12)경로를 설정한다. 기본적으로는 crontab의 실행유저의 홈디렉토리로 /etc/passwd에 설정된 경로를 따른다. 
 
 #### 예시
-~~~bash
+```bash
 # crontab -e
 
 SHELL=/usr/bin/zsh
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 * * * * * sample.sh
-~~~
+```
 매분마다 sample.sh을 실행하며 프로그램이 작동할 쉘과 경로를 지정해주었다.
 
 ### 2. 권한문제
 크론탭을 설정하는 방법에는 **crontab -e** 명령어를 통한 작성과 **직접 /etc/crontab**을 편집하는 두 가지 방법이 있다. 두 번째 방법처럼 vi /etc/crontab을 통해 직접 수정을 했을 경우 root 권한 명령을 실행하려면 root권한을 명시해 주어야 한다. 
-~~~bash
+```bash
 # crontab -e
 * * * * * example.sh
 
 # vi /etc/crontab
 * * * * * root example.sh
-~~~
+```
   두 번째 처럼 root 권한을 명시해야 한다!!
 
 ### 3. 절대경로 / 상대경로
@@ -133,36 +133,36 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 * path 설정
 파이썬 가상환경을 사용하고 있다면, 패키지들과 어떤 파이썬으로 실행되는지 path로 설정해줄 필요가 있다고 한다. 그래서 구동되는 파이썬의 path를 보기위해 다음과 같이 했다.
-~~~bash
+```bash
 python3 # 파이썬 실행
 
 >>> import sys # sys모듈 임포트
 >>> sys.path # path 출력(리스트 형태)
-~~~
+```
   sys.path를 실행해서 출력된 path값들을 crontab의 PATH에 추가해 주었다.
 
 * 가상환경 경로 입력
 스크립트를 실행하는 명령을 입력하기 전에 파이썬 가상환경을 활성화하는 명령을 입력해 보았다.
-~~~bash
+```bash
 # crontab -e
 
 * * * * * source /path/to/virtualenv/bin/activate && python3 /path/to/file/example.py
-~~~
+```
   위와 같이 했더니 가상환경을 정상적으로 활성화하고 파이썬 스크립트를 실행했다.
 
 * 파이썬 경로 입력
 파이썬 인터프리터에게 어떤 파이썬을 사용할 지 알려주는 것이다.
-~~~python
+```python
 #!/home/my/virtualenv/bin/python
-~~~
+```
   스크립트 맨위에 주석을 달아준다.
 
 * SHELL 경로 지정
 주로 zsh을 설치하여 사용하고 있기 때문에 경로를 바꿔보았다
-~~~bash
+```bash
 # crontab -e
 SHELL=/usr/bin/zsh
-~~~
+```
   이렇게 했더니 웬걸... python을 찾을 수 없다고 한다. 그래서 sys.path을 통해 파이썬 경로를 알아내어 PATH설정도 해주었는데 그래도 작동하지 않았다..
 
 * 한글주석 삭제
@@ -172,11 +172,11 @@ SHELL=/usr/bin/zsh
 
 #### 추가 팁?
 ~~귀차니즘으로 인해 아직 해보지는 않았지만~~ 실행할 명령어를 크론탭에서 바로 작성하는 것이 아니라 따로 .sh을 만들고 크론에서 그 .sh을 실행하는 방법이다. 왜 이렇게하면 잘 작동하는 가에 대한 이유를 찾아보려고 했으나 아직까진 발견하지 못했다.
-~~~bash
+```bash
 # vi example.sh
 python /path/to/test.py
 
 # crontab -e
 * * * * * /path/example.sh
-~~~
+```
   바로 파이썬 스크립트를 입력하지 말고 한번 .sh로 감싼다음에 그 .sh 스크립트를 실행한다는 것이다. 꼭 한번 시도해보자.

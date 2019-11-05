@@ -30,25 +30,25 @@ harvester interface를 구현하여 harvest 작업을 실행할 수 있다. harv
 
 두 번째 단계에서 fetch될 모든 리소스 identifier들을 컴파일 하는 과정이다.
 
-~~~sh
+```sh
 paster --plugin=ckanext-harvest harvester gather_consumer --config=/etc/ckan/default/production.ini
-~~~
+```
 
 * fetch
 
 리모트 서버로부터 실제 객체 자료를 가져오거나 데이터 베이스에 저장하는 작업이다.
 
-~~~sh
+```sh
 paster --plugin=ckanext-harvest harvester fetch_consumer --config=/etc/ckan/default/production.ini
-~~~
+```
 
 * import
 
 두 번째 단계에서 fetched된 리소스들에 대해서 필요한 모든 작업을 수행한다.
 
-~~~sh
+```sh
 paster --plugin=ckanext-harvest harvester run --config=/etc/ckan/default/production.ini
-~~~
+```
 
 gather - fetch - import 세 단계는 서로 다른 터미널을 켜놓고 하는 것을 추천한다.  
 

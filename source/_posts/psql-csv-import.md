@@ -17,11 +17,11 @@ date: 2018-11-15 11:41:43
 
 일단, local 환경이던 remote 환경이던 신경쓰지 않고 기본적인 file import  명령어를 보자.
 
-~~~sql
+```sql
 COPY <table_name>
 FROM <file_path>
 WITH DELIMITER ',' csv HEADER
-~~~
+```
 
 위와 같은 방법으로 사용했다.
 
@@ -51,14 +51,14 @@ COPY 명령어를 pgAdmin4와 psql 콘솔에서 실행해 보았지만 여러 �
 
 문제는 다음과 같이 해결했다.
 
-~~~sh
+```sh
 # in shell console
 # 파일이 저장되어 있는 로컬환경
 psql -U <username> 
 	-d <db_name>
 	-h <remote_addr>
 	-c "\copy <table_name> FROM <file_path> WITH DELIMITER ',' csv HEADER;"
-~~~
+```
 
 -c 옵션을 통해서 psql 콘솔 접속 시, 입력된 명령어를 실행하게 했다. 또한 로컬에서 원격으로 접속하는 것이기 때문에 -h 옵션으로 psql이 설치된 서버의 주소를 적어주었다.
 
