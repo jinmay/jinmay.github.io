@@ -39,7 +39,7 @@ sudo rabbitmq-plugins list
 
 #### management 플러그인 활성화
 
-````sh
+```sh
 # sudo rabbitmq-plugins enable <플러그인 이름>
 sudo rabbitmq-plugins enable rabbitmq_management
 ```
@@ -64,4 +64,3 @@ sudo systemctl set_user_tags admin administrator
 ```
 
 생성한 어드민 유저로 로그인을 하고 관리 콘솔을 살펴 볼 수 있다!
-````
