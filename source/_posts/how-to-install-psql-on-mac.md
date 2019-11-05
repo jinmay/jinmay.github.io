@@ -22,7 +22,7 @@ date: 2019-02-16 19:33:19
 
 ##### 기존 psql 삭제
 
-````sh
+```sh
 brew uninstall --force postgresql
 ```
 
@@ -46,7 +46,7 @@ brew install postgres
 
 ```sh
 pg_ctl -D /usr/local/var/postgres start
-````
+```
 
 ##### DB 생성
 
