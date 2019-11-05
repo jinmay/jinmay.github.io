@@ -44,13 +44,13 @@ brew install postgres
 
 ##### 서버 실행
 
-~~~shell
+~~~sh
 pg_ctl -D /usr/local/var/postgres start
 ~~~
 
 ##### DB 생성
 
-~~~shell
+~~~sh
 initdb /usr/local/var/postgres
 ~~~
 
@@ -65,13 +65,13 @@ with an argument other than "/usr/local/var/postgres"._
 
 ##### old db 삭제
 
-~~~shell
+~~~sh
 rm -r /usr/local/var/postgres
 ~~~
 
 ##### 다시 DB 생성 시도
 
-~~~shell
+~~~sh
 initdb /usr/local/var/postgres
 # 또는
 initdb /usr/local/var/postgres -E utf8
@@ -79,13 +79,13 @@ initdb /usr/local/var/postgres -E utf8
 
 ##### 테스트 DB  생성
 
-~~~shell
+~~~sh
 createdb test
 ~~~
 
 ##### psql 콘솔 접속 및 확인
 
-~~~shell
+~~~sh
 psql test
 ~~~
 

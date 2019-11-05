@@ -31,7 +31,7 @@ pem키를 통해서 ubuntu 계정으로 로그인하기 때문에 새로운 계�
 
 AWS의 경우 root 계정의 비밀번호가 설정되어 있지 않기 때문에 비밀번호 지정 후 이어나가야 한다.
 
-~~~shell
+~~~sh
 sudo passwd root
 ~~~
 
@@ -39,7 +39,7 @@ sudo passwd root
 
 root의 패스워드를 지정했다면 root로 계전 전환 후 새로운 계정을 만든다.
 
-~~~shell
+~~~sh
 adduser <newUser_id>
 ~~~
 
@@ -47,7 +47,7 @@ adduser <newUser_id>
 
 ubuntu 계정으로 로그인 할 때 처럼 pem를 이용하기 위해서 이전을 시켜준다.
 
-~~~shell
+~~~sh
 # 새로운 계정의 홈 폴더 아래에 .ssh 폴더 생성
 mkdir /home/<newUser_id>/.ssh
 
@@ -60,7 +60,7 @@ chown -R <newUser_id>:<newUser_id> /home/<newUser_id>/.ssh
 
 ##### 재시작
 
-~~~shell
+~~~sh
 service sshd restart
 ~~~
 
@@ -72,7 +72,7 @@ service sshd restart
 
 sudoers 파일이란 sudo 명령어에 대한 설정을 하는 파일이며 sudo 명령어를 사용할 수 있는 계정을 지정할 수 있다. 파일의 위치는 /etc 폴더 아래에 있다(/etc/sudoers)
 
-~~~shell
+~~~sh
 # vi /etc/sudoers
 
 # User privilege specification
@@ -86,7 +86,7 @@ root 아래에 새로운 계정명과 권한을 추가해 주면 된다
 
 계정과 홈 디렉토리를 삭제하기 위해 **-r 옵션**을 부여한다.
 
-~~~shell
+~~~sh
 deluser -r ubuntu
 ~~~
 

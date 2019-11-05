@@ -42,7 +42,7 @@ b - 이진 타입
 
 **write()**
 
-~~~shell
+~~~sh
 f = open('test.txt', 'w')
 f.write('first sentence')
 f.close() # 꼭 닫아주어야 한다

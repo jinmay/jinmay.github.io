@@ -45,19 +45,19 @@ CKAN을 설치할때에 필요한 소프트웨어이다. 각 소프트웨어들�
 
 1. 터미널을 열고, 먼저 apt를 업데이트 해준다
 
-~~~shell
+~~~sh
 sudo apt-get update
 ~~~
 
 2. 그리고 필요한 패키지들을 설치한다(git은 CKAN 확장프로그램을 위해 설치)
 
-~~~shell
+~~~sh
 sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server git-core
 ~~~
 
 두 번째 과정을 진행하다보면 높은 확률로 한번에 설치가 안된다. 아파치가 돌아가고 있기때문에 정지시키고 재설치하자.
 
-~~~shell
+~~~sh
 sudo service apache2 stop # 아파치 정지
 sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server git-core
 ~~~
@@ -66,7 +66,7 @@ sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server gi
 
 패키지를 다운로드 받는다. 현재 사용하고 있는 우분투의 버전을 확인하여 다운받고 인스톨까지 진행한다
 
-~~~shell
+~~~sh
 # for 16.04
 wget http://packaging.ckan.org/python-ckan_2.8-xenial_amd64.deb
 sudo dpkg -i python-ckan_2.8-xenial_amd64.deb
@@ -82,27 +82,27 @@ sudo dpkg -i python-ckan_2.8-trusty_amd64.deb
 
 psql를 설치한다. **sqlalchemy.url** (/etc/ckan/default/production.ini)을 상황에 맞게 수정한다면 psql과 ckan은 서로 다른 서버에 위치해도 괜찮다.
 
-~~~shell
+~~~sh
 sudo apt-get install -y postgresql
 sudo -u postgres psql -l # 설치 확인
 ~~~
 
 db의 인코딩이 utf8인지 확인하는 것도 좋다. ckan 설치를 계속하기 이전에 인코딩을 확인하고 넘어가자.
 
-~~~shell
+~~~sh
 psql my_database -c 'SHOW SERVER_ENCODING' # from command line
 SHOW SERVER_ENCODING # within psql
 ~~~
 
 psql에 사용중인 계정이 없다면 새로 생성해주자. ckan_default라는 이름의 계정을 생성하며 적당한 pw를 입력하자
 
-~~~shell
+~~~sh
 sudo -u postgres createuser -S -D -R -P ckan_default
 ~~~
 
 계정을 생성해 주었으면 데이터베이스도 만들자
 
-~~~shell
+~~~sh
 sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
 ~~~
 
@@ -112,7 +112,7 @@ sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
 
 psql과 마찬가지로 /etc/ckan/default/production.ini의 solr_url를 상황에 맞게 수정한다면 ckan과 다른 서버에 설치해도 무방하다. solr을 설치하기 위해 아래의 명령어를 입력하자.
 
-~~~shell
+~~~sh
 sudo apt-get install -y solr-jetty
 ~~~
 
@@ -120,7 +120,7 @@ sudo apt-get install -y solr-jetty
 
 Jetty의 설정파일의 일부분을 수정해주어야 한다. 파일은 /etc/default/jetty8에 위치해있다.
 
-~~~shell
+~~~sh
 NO_START=0            # (line 4)
 JETTY_HOST=127.0.0.1  # (line 16)
 JETTY_PORT=8983       # (line 20)
@@ -132,7 +132,7 @@ host의 경우 주의깊게 설정해주어야 한다. standalone으로 테스�
 
 jetty의 설정을 변경했다면 서버를 재시작 / 시작 하자.
 
-~~~shell
+~~~sh
 sudo service jetty8 restart # for 16.04
 sudo service jetty restart # for 14.04
 ~~~
@@ -145,14 +145,14 @@ http://host_ip/solr/ 를 접속해보면 Solr의 welcome page를 볼 수 있다.
 
 기본 schema.xml 파일을 ckan schema 파일로 심볼릭 링크를 걸어준다.
 
-~~~shell
+~~~sh
 sudo mv /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.bak
 sudo ln -s /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
 ~~~
 
 그리고 Solr을 다시 시작한다.
 
-~~~shell
+~~~sh
 sudo service jetty8 restart # for 16.04
 sudo service jetty restart # for 14.04
 ~~~
@@ -165,7 +165,7 @@ sudo service jetty restart # for 14.04
 
 아래의 코드는 예시이다. site_id에는 유니크한 값이 들어가야한다. 또한 site_url에도 실제 url을 적어준다.
 
-~~~shell
+~~~sh
 # For example
 ckan.site_id = default
 ckan.site_url = http://demo.ckan.org
@@ -173,7 +173,7 @@ ckan.site_url = http://demo.ckan.org
 
 2. ckan db 시동
 
-~~~shell
+~~~sh
 sudo ckan db init
 ~~~
 

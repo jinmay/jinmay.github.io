@@ -14,14 +14,14 @@ date: 2018-08-26 17:09:30
 
 1. brew 업데이트 및 nvm 설치
 언제나 그렇듯이 homebrew를 사용하기 전에 앞서서 업데이트를 해주고 nvm을 설치한다.
-~~~shell
+~~~sh
 brew update
 brew install nvm
 ~~~
 
 2. 설치과정
 nvm을 설치하면 이것저것 뭘 하라는 안내가 나오는데 디렉토리 생성과 쉘 설정을 추가하라는 내용이다. nvm을 위한 working directory가 없으면 생성하고 bashrc나 zshrc와 같은 현재 사용중인 쉘의 설정파일에 내용을 추가하는 것이다.
-~~~shell
+~~~sh
 # 디렉토리 생성
 mkdir ~/.nvm
 
@@ -32,7 +32,7 @@ export NVM_DIR="$HOME/.nvm"
 
 3. 마무리
 터미널을 종료하고 다시 실행하거나 쉘을 재시작해주고 nvm이 제대로 설치 되었는지 확인해 본다.
-~~~shell
+~~~sh
 # shell 재시작
 source ~/.zshrc
 
@@ -43,7 +43,7 @@ nvm
 지금까지 잘 따라왔다면 여러 노드환경을 사용하기 위한 준비는 끝났다. nvm의 기본 사용법에 대해서 알아보자.
 
 ## nvm
-~~~shell
+~~~sh
 # 설치된 노드버전 출력
 nvm list
 

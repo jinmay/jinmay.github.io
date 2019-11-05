@@ -44,14 +44,14 @@ pip install virtualenvwrapper
 
 그리고, 홈 디렉토리로 이동하여 가상환경들이 저장될 폴더를 만든다.
 
-~~~shell
+~~~sh
 cd ~
 mkdir .virtualenvs
 ~~~
 
 홈 디렉토리의 쉘 설정에서 아래의 코드를 복사하여 넣어준다. (각자 사용중인 쉘 환경에 맞게 설정해 준다.)
 
-~~~shell
+~~~sh
 # in ~/.zshrc
 # in ~/.bashrc
 
@@ -64,7 +64,7 @@ source /usr/local/bin/virtualenvwrapper.sh
 
 만약 /usr/local/bin/virtualenvwrapper.sh 파일이 존재하지 않으면 아래 명령어로 파일을 찾아서 **source 부분을 대체해준다.**
 
-~~~shell
+~~~sh
 find /usr -name virtualenvwrapper.sh
 ~~~
 
@@ -78,7 +78,7 @@ find /usr -name virtualenvwrapper.sh
 
 * 가상환경 만들기
 
-~~~shell
+~~~sh
 mkvirtualenv <virtualenv_name> # 이름
 ~~~
 
@@ -86,7 +86,7 @@ mkvirtualenv 명령어를 통해 가상환경을 새로 만들어 주면, 홈 �
 
 * 가상환경 삭제
 
-~~~shell
+~~~sh
 rmvirtualenv <virtualenv_name>
 ~~~
 
@@ -94,7 +94,7 @@ rmvirtualenv <virtualenv_name>
 
 * 가상환경 목록 출력
 
-~~~shell
+~~~sh
 workon
 ~~~
 
@@ -102,7 +102,7 @@ workon
 
 * 가상환경 진입 / 빠져나오기
 
-~~~shell
+~~~sh
 # 진입
 workon <virtualenv_name>
 

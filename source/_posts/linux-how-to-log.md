@@ -25,7 +25,7 @@ date: 2019-03-27 17:54:46
 
 시스템에 찍히는 모든 로그를 볼 수 있다. 그렇기 때문에 여러가지 서비스들의 로그들이 혼합돼서 출력된다.
 
-~~~shell
+~~~sh
 journalctl
 ~~~
 
@@ -33,7 +33,7 @@ journalctl
 
 #### 오늘의 로그 확인
 
-~~~shell
+~~~sh
 journalctl --since=today
 ~~~
 
@@ -41,7 +41,7 @@ journalctl --since=today
 
 #### 특정 서비스의 로그 확인
 
-~~~shell
+~~~sh
 journalctl -u <service_name>
 ~~~
 

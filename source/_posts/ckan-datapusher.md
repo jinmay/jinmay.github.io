@@ -21,7 +21,7 @@ CKAN에 DataPusher를 설치하자. DataPusher란 CKAN에 자동으로 CSV / Exc
 
 설치과정은 아래와 같다.
 
-~~~shell
+~~~sh
 # DataPusher의 requirements 준비
 sudo apt-get install python-dev python-virtualenv build-essential libxslt1-dev libxml2-dev git libffi-dev
 
@@ -63,7 +63,7 @@ sudo a2ensite datapusher
 
 DataPusher를 설치하고 돌려보는 것 까지 진행했다. 이제 CKAN의 설정파일로 가서 플러그인을 추가해 준다.
 
-~~~shell
+~~~sh
 ckan.plugins = ... datapusher
 ckan.datapusher.url = 'real_url' # EIP와 localhost를 적어도 일단 둘다 가능함..!
 ~~~

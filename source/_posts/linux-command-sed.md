@@ -16,7 +16,7 @@ date: 2019-01-29 15:30:23
 
 ##### 예시
 
-~~~shell
+~~~sh
 sed -i "s/DEVORG_CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
 ~~~
 
@@ -34,7 +34,7 @@ sed 명령어는 ed 명령어와 grep 명령어**(필터링 기능)**의 일부 
 
 sed 명령어를 이용하여 파일 내용의 문자를 수정해보자.
 
-~~~shell
+~~~sh
 # test.txt
 abcde
 fgh
@@ -45,7 +45,7 @@ fgh
 
 abcde 문자열을 숫자로 바꾸어보자.
 
-~~~shell
+~~~sh
 sed 's/abcde/12321/' test.txt
 
 # 출력
@@ -56,7 +56,7 @@ fgh
 
 파일을 확인해보면 내용은 변하지 않은채 쉘에 출력만 해줄뿐이다. 어떻게 해야지 실제로 파일 내용을 수정할 수 있는 걸까? **-i 옵션**을 사용해야지 출력이 아닌 실제 파일에 수정사항을 반영할 수 있다.
 
-~~~shell
+~~~sh
 sed -i 's/abcde/12321/' test.txt
 ~~~
 
@@ -64,7 +64,7 @@ ubuntu나 centos같은 리눅스에서 사용한다면 별다른 출력과 에�
 
 간단하게 말하자면 각 리눅스 배포판에서 사용하고 있는 소프트웨어의 차이로 인해서 발생하는 문제이다. macOS의 경우 man을 통해서 명령어를 살펴보면 맨 윗줄에서 아래와 같은 결과를 볼 수 있다.
 
-~~~shell
+~~~sh
 # sed 매뉴얼 출력
 man sed
 
@@ -74,7 +74,7 @@ SED(1)                    BSD General Commands Manual                   SED(1)
 
 BSD 계열의 소프트웨어라는 의미이다. 하지만 ubuntu나 centos에서 똑같이 테스트하게 되면 다른 결과를 볼 수 있다.
 
-~~~shell
+~~~sh
 # sed 매뉴얼 출력
 man sed
 
@@ -92,7 +92,7 @@ General help using GNU software: <https://www.gnu.org/gethelp/>.
 
 macOS에서 GNU sed를 사용하려면 아래와 같은 작업을 해주면 된다.
 
-~~~shell
+~~~sh
 # mac에서 GNU's sed 설치
 # --with-default-names 옵션은 기존의 sed이름으로 gnu-sed를 사용하겠다는 의미
 brew install gnu-sed --with-default-names

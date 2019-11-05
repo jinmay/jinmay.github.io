@@ -45,28 +45,28 @@ RabbitMQ 팀이 제공하는 apt repo를 사용하는 방법은 크게 아래의
 
 현재의 apt repo를 업데이트 한다.
 
-~~~shell
+~~~sh
 sudo apt-get update -y
 ~~~
 
 설치에 필요한 소프트웨어를 설치한다.
 
-~~~shell
+~~~sh
 sudo apt-get install curl gnupg -y
 ~~~
 
 RabbitMQ Signing Key를 설치한다
-~~~shell
+~~~sh
 curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
 ~~~
 
 apt HTTPS transport를 설치한다
-~~~shell
+~~~sh
 sudo apt-get install apt-transport-https
 ~~~
 
 Bintray repositories를 추가한다
-~~~shell
+~~~sh
 sudo vi /etc/apt/sources.list.d/bintray.rabbitmq.list
 
 # bintray.rabbitmq.list 파일 안에 추가
@@ -85,12 +85,12 @@ deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang # 최신의 안�
 * stretch for Debian Stretch
 
 추가된 apt repo를 반영하기 위해 apt update
-~~~shell
+~~~sh
 sudo apt update -y
 ~~~
 
 Erlang을 설치한다
-~~~shell
+~~~sh
 sudo apt-get install -y erlang-base \
                         erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \
                         erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \

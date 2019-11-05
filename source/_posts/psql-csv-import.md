@@ -51,7 +51,7 @@ COPY 명령어를 pgAdmin4와 psql 콘솔에서 실행해 보았지만 여러 �
 
 문제는 다음과 같이 해결했다.
 
-~~~shell
+~~~sh
 # in shell console
 # 파일이 저장되어 있는 로컬환경
 psql -U <username> 

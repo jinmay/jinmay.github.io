@@ -31,7 +31,7 @@ yum에 대한 설정은 **/etc/yum.conf**에서 하고 있으며, **/etc/yum.rep
 
 기본적인 형태는 아래와 같다
 
-~~~shell
+~~~sh
 # 옵션 - 명령어 - 패키지명 순으로 적는다.
 yum <option> <command> <package_name>
 ~~~
@@ -40,20 +40,20 @@ yum <option> <command> <package_name>
 
 패키지를 설치하려면 다음과 같이하자.
 
-~~~shell
+~~~sh
 # nginx 설치
 yum install nginx
 ~~~
 
 보통 패키지를 설치할때 필요한 용량과 계속해서 진행할 지 물어보는 과정이 있는데 **-y 옵션을 주게되면 끊김 없이 진행할 수 있다.**
 
-~~~shell
+~~~sh
 yum -y install nginx
 ~~~
 
 ##### 업데이트
 
-~~~shell
+~~~sh
 yum update nginx
 ~~~
 
@@ -61,7 +61,7 @@ yum update nginx
 
 의존성관리를 개별적으로 해줄 필요없이 삭제할 수 있다.
 
-~~~shell
+~~~sh
 # nginx 삭제
 yum remove nginx
 ~~~
@@ -70,7 +70,7 @@ yum remove nginx
 
 시스템에 설치된 패키지와 설치가능한 패키지의 목록을 출력한다.
 
-~~~shell
+~~~sh
 yum list
 ~~~
 
@@ -78,7 +78,7 @@ yum list
 
 현재 시스템에 설치되어있는 패키지 리스트를 출력한다. 
 
-~~~shell
+~~~sh
 yum list installed
 ~~~
 
@@ -86,7 +86,7 @@ yum list installed
 
 시스템에 설치 가능한 패키지를 출력한다. 보통  grep과 같이 사용하곤 한다.
 
-~~~shell
+~~~sh
 yum list available | grep <name>
 ~~~
 
@@ -94,13 +94,13 @@ yum list available | grep <name>
 
 현재 시스템에 설치된 패키지들 중에서 업데이트가 필요한 패키지를 출력한다.
 
-~~~shell
+~~~sh
 yum list updated
 ~~~
 
 ##### 패키지 정보 확인
 
-~~~shell
+~~~sh
 yum info <package_name>
 ~~~
 

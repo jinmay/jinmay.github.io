@@ -17,7 +17,7 @@ aws의 우분투를 사용하던 중 git log의 한글이 깨져서 보이는 �
 
 #### 현재 시스템 확인
 
-~~~shell
+~~~sh
 locale
 ~~~
 
@@ -25,13 +25,13 @@ locale
 
 #### 한글 패키지 설치
 
-~~~shell
+~~~sh
 sudo apt-get install language-pack-ko
 ~~~
 
 #### 시스템 파일 수정
 
-~~~shell
+~~~sh
 # vi /etc/default/locale
 
 LANG=ko_KR.UTF-8
@@ -59,7 +59,7 @@ LC_MESSAGES=POSIX
 
 #### 확인
 
-~~~shell
+~~~sh
 locale
 ~~~
 

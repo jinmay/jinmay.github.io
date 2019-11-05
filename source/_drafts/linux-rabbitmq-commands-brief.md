@@ -10,13 +10,13 @@ RabbitMQ를 apt를 통해 설치하면 커맨드 라인 툴인 rabbitmqctl이 �
 
 #### 시작 / 재시작 / 중지
 
-~~~shell
+~~~sh
 sudo rabbitmqctl start / restart / stop
 ~~~
 
 #### 상태 보기
 
-~~~shell
+~~~sh
 sudo rabbitmqctl status
 ~~~
 
@@ -26,7 +26,7 @@ sudo rabbitmqctl status
 
 #### 유저 목록
 
-~~~shell
+~~~sh
 sudo rabbitmqctl list_users
 ~~~
 
@@ -34,7 +34,7 @@ sudo rabbitmqctl list_users
 
 #### 유저 생성 / 삭제
 
-~~~shell
+~~~sh
 # 생성
 sudo rabbitmqctl add_user <유저명> <비밀번호>
 
@@ -44,7 +44,7 @@ sudo rabbitmqctl delete_user <유저명>
 
 #### 유저에 태그 할당
 
-~~~shell
+~~~sh
 sudo rabbitmqctl set_user_tags <유저명> <태그>
 
 # management 플러그인 - 어드민 계정 만들기

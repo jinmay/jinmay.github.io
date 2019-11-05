@@ -39,14 +39,14 @@ WantedBy=multi-user.target
 ~~~
 uwsgi의 systemd 공식문서를 참고했다. uwsgi를 미리 만들어준 ini파일과 실행하는 부분에 집중하자. 쉘에서 uwsgi를 실행하기 위해 입력하는 명령어와 다른 점은 uwsgi의 경로를 절대경로로 적어준 것이다. 그냥 uwsgi로만 적게되면 absolute path가 아니라는 에러가 발생하게 되는데 이게 주된 이유인지는 확실하지 않다. **어찌됐든 uwsgi가 설치된 절대경로를 통해 실행해야 한다는 것에 유의하자.**
 
-~~~shell
+~~~sh
 # uwsgi가 설치된 절대경로와 옵션으로 입력할 ini 파일의 절대경로에 주의하며 적자.
 ExecStart=/root/uwsgi/uwsgi --ini /etc/uwsgi/sites/myproject.ini
 ~~~
 
 서비스 파일 작성을 마쳤다면 이 파일을 가지고 등록과정을 거치면 된다. 여러가지 방법이 있는 것 같은데 간단하게 등록할 수 있는 방법을 먼저 익혀보았다.
 
-~~~shell
+~~~sh
 sudo systemctl start uwsgi.service # uwsgi.serivce 실행
 sudo systemctl enable uwsgi # 심볼릭 링크 생성
 ~~~

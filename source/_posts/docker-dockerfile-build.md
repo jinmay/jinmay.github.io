@@ -116,7 +116,7 @@ VOLUME ["/data"]
 
 Dockerfile을 만들었다면 실제로 이미지를 만들기 위해 빌드하는 과정이 필요하다.
 
-~~~shell
+~~~sh
 docker build [OPTIONS] PATH | URL | -
 docker build 옵션 경로
 

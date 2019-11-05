@@ -17,7 +17,7 @@ date: 2019-03-17 00:16:29
 
 AWS EC2 인스턴스를 열게되면 보통 패키지 업데이트를 먼저 해준다.
 
-~~~shell
+~~~sh
 sudo apt update
 ~~~
 
@@ -25,7 +25,7 @@ sudo apt update
 
 ##### zsh 설치
 
-~~~shell
+~~~sh
 sudo apt install zsh
 ~~~
 
@@ -35,7 +35,7 @@ sudo apt install zsh
 
 지금까지 쉘을 변경하기 위해서 chsh 명령어를 사용해왔는데 어쩔땐 되고 어쩔땐 안되는 알 수 없는 일들이 많았다. 어떻게든 되게 만들었지만 이렇게 한다면 큰 문제없이 로그인 쉘을 변경할 수 있을 것이다.
 
-~~~shell
+~~~sh
 # sudo vi /etc/passwd
 # 로그인 계정의 log-in shell을 zsh의 경로로 변경해준다
 # which zsh
@@ -48,7 +48,7 @@ sudo apt install zsh
 
 zsh와 찰떡궁합인 oh-my-zsh도 같이 적용하자.
 
-~~~shell
+~~~sh
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ~~~
 

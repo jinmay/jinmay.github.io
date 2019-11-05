@@ -19,7 +19,7 @@ title: django-celery-conf-systemd
 
 파일의 위치는 크게 상관 없다. 나의 경우 uwsgi의 설정파일 처럼 관리하기 위해서 /etc/celery/의 경로에 생성하고 사용하는 중이다.
 
-~~~shell
+~~~sh
 # vi /etc/celery/sites/proj.conf
 
 # 노드, 워커 개수 (보통 한 개로 시작한다)

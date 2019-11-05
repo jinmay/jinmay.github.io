@@ -29,13 +29,13 @@ date: 2018-10-04 10:41:44
 
 어드민 유저를 생성하기 위해 아래와 같은 명령어를 입력한다.
 
-~~~shell
+~~~sh
 paster sysadmin add admin_test email=admin_test@example.com name=admin_test -c /etc/ckan/default/production.ini
 ~~~
 
 email과 name을 입력할 수 있는데 알아서 적어준다. 참고로 나중에 user page에서 수정할 수 있다. 계정을 생성할때 비밀번호를 적어야 하는데 총 두번 입력하면 된다. 만약 이미 사용중인 계정에 어드민 권한을 부여하고 싶다면 아래와 같이 한다 : 
 
-~~~shell
+~~~sh
 paster sysadmin add admin_test -c /etc/ckan/default/production.ini
 ~~~
 
@@ -45,7 +45,7 @@ paster sysadmin add admin_test -c /etc/ckan/default/production.ini
 
 ckan이 잘 돌아가는 지 테스트 데이터 생성을 통해 알아볼 수 있다. 커맨드는 create-test-data 이다.
 
-~~~shell
+~~~sh
 paster create-test-data -c /etc/ckan/default/production.ini
 ~~~
 

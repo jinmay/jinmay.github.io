@@ -29,7 +29,7 @@ HTTP는 **무상태성**이다. 통신할때 정보를 한 번씩 주고받고 �
 ### URL
 Uniform Resource Locator의 약자이다. 
 
-~~~shell
+~~~sh
 http://www.sample.co.kr/sample/index.html
 스키마://호스트.도메인/디렉터리/파일
 ~~~

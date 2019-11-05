@@ -19,19 +19,19 @@ tags:
 #### 설치하기
 
 일단 맥북의 homebrew를 업데이트 한다.
-~~~shell
+~~~sh
 brew update
 ~~~
 
 그리고 바로 rabbitmq를 설치해주면 된다. RabbitMQ는 Erlang이라는 언어로 작성되어 있는 오픈소스 소프웨어인데 인스톨하는 과정에서 Erlang 설치와 의존성 패키지들을 설치할 것이다. (보통의 brew와는 다르게 설치 시간이 좀 걸린다)
 
-~~~shell
+~~~sh
 brew install rabbitmq
 ~~~
 
 rabbitmq와 관련한 CLI tools을 사용하기 위해서 환경변수를 설정해주어야 하는데, 바로 이 부분이 과거와 비교했을때 바뀐 부분일 것이다. **rabbitmq 서버 스크립트와 관련 커맨드라인 툴은 /usr/local/Cellar/rabbitmq 디렉토리의 sbin 폴더에 설치가 되는데 /usr/local/opt/rabbitmq/sbin 의 경로를 통해 사용할 수 있다고 한다.** 이 경로가 PATH에 잡혀있지 않기 때문에 따로 명시해주어야 한다.
 
-~~~shell
+~~~sh
 export PATH=$PATH:/usr/local/opt/rabbitmq/sbin
 ~~~
 

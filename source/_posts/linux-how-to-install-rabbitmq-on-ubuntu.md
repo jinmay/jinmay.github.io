@@ -23,7 +23,7 @@ tags:
 
 아마 Erlang을 설치했다면 **/etc/apt/sources.list.d/bintray.rabbitmq.list** 파일을 만들고 RabbitMQ 팀에서 관리하는 apt repo를 추가했을 것이다. 마찬가지로 같은 파일에 RabbitMQ를 위한 저장소를 추가해야 한다.
 
-~~~shell
+~~~sh
 # vi in /etc/apt/sources.list.d/bintray.rabbitmq.list
 # echo "deb https://dl.bintray.com/rabbitmq/debian {distribution} main" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
 # {distribution}에 각자의 환경에 맞는 우분투 버전명을 적어준다
@@ -33,7 +33,7 @@ echo "deb https://dl.bintray.com/rabbitmq/debian xenial main" | sudo tee /etc/ap
 
 **추가된 저장소를 반영시키기 위해 apt 업데이트를 진행한 후 RabbitMQ를 설치하면 된다.**
 
-~~~shell
+~~~sh
 sudo apt-get update -y
 sudo apt-get install -y rabbitmq-server
 ~~~

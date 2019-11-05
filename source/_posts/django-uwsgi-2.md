@@ -20,7 +20,7 @@ uWSGI는 일종의 어플리케이션 컨테이너(Application Container)로써 
 
 최종적으로 Django가 돌아가는 환경을 그려보면 아래와 같을 것이다.
 
-~~~shell
+~~~sh
 Client <-> Nginx <-> uWSGI <-> Django
 ~~~
 
@@ -32,7 +32,7 @@ uWSGI와 WSGI에 대해서 알아봤으니 Django와 uWSGI를 연동하는 방�
 
 uwsgi를 설치해야 한다. 파이썬 패키지 관리자로 설치 할 수 있다.
 
-~~~shell
+~~~sh
 pip install uwsgi
 ~~~
 
@@ -42,7 +42,7 @@ uwsgi를 입력했을때 실행되었다가 바로 종료된다면 제대로 설
 
 Django 프로젝트를 생성하고 설정을 한다.
 
-~~~shell
+~~~sh
 django-admin startproject myproject
 
 # vi myproject/settings.py
@@ -51,7 +51,7 @@ ALLOWED_HOSTS=["*"]
 
 Django 서버를 돌렸을때 접근가능한 호스트를 적어준다. 해당하는 IP를 명시적으로 적어도 되고 위와 같이 모든 주소를 받겠다는 표시를 해도 된다. runserver를 통해 제대로 동작하는지 확인한다.
 
-~~~shell
+~~~sh
 python manage.py runserver
 ~~~
 
@@ -61,7 +61,7 @@ python manage.py runserver
 
 uWSGI를 실행하여 Django와 연동해보자.
 
-~~~shell
+~~~sh
 uwsgi --http :8001 --chdir /home/ubuntu/myproject --module myproject.wsgi
 ~~~
 
@@ -69,7 +69,7 @@ uwsgi --http :8001 --chdir /home/ubuntu/myproject --module myproject.wsgi
 
 하지만 가상환경을 사용 중이라면 추가적인 옵션이 필요하다. 
 
-~~~shell
+~~~sh
 uwsgi --http :8001 --virtualenv /home/ubuntu/.pyenv/versions/3.7.3/envs/myvenv --chdir /home/ubuntu/myproject --module myproject.wsgi
 ~~~
 
@@ -81,7 +81,7 @@ uwsgi --http :8001 --virtualenv /home/ubuntu/.pyenv/versions/3.7.3/envs/myvenv -
 
 확장자는 ini이다. 하나의 머신에 여러 프로젝트를 사용할 수 있으므로 uWSGI를 위한 디렉토리를 만들고 설정파일을 모아서 관리하도록 한다.
 
-~~~shell
+~~~sh
 mkdir -p /etc/uwsgi/sites
 touch /etc/uwsgi/sites/myproject.ini
 ~~~
@@ -103,7 +103,7 @@ CLI 상에서 나열했던 옵션을 설정파일에 정의했다. 그리고 uws
 
 #### uWSGI 구동
 
-~~~shell
+~~~sh
 uwsgi -i /etc/uwsgi/sites/myproject.ini
 ~~~
 

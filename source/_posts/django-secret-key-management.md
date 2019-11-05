@@ -27,14 +27,14 @@ tags:
 
 방법은 꽤 단순하다. 사용하는 쉘의 설정파일에 등록해주면 된다.
 
-~~~shell
+~~~sh
 # vi ~/.zshrc
 export DJANGO_SECRET_KEY='비밀 키 입력'
 ~~~
 
 터미널 재실행 또는 source를 통해 쉘 설정파일을 반영한다. 그리고 제대로 환경 변수가 등록 되었는지 확인하기 위해 출력해보자.
 
-~~~shell
+~~~sh
 source ~/.zshrc
 
 # 값 출력해보기
@@ -77,7 +77,7 @@ json / xml / yaml과 같은 파일에 외부에 노출되어서는 안되는 값
 
 이름이 secrets인 json 파일을 만들어서 key: value 방식으로 장고에서 사용할 세팅 값들을 저장하면 된다.
 
-~~~shell
+~~~sh
 # vi secrets.json
 
 {

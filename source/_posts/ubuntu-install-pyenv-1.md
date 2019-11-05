@@ -19,7 +19,7 @@ AWS를 통해서 ubuntu 16.04를 설치했는데 python3.4 버전이 깔려있�
 
 ubuntu를 포함한 여려가지 리눅스 배포판에서 패키지 설치를 위해 거치는 build 과정에 발생하는 문제를 방지하고자 필요한 패키지들을 설치하자.
 
-~~~shell
+~~~sh
 sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
 xz-utils tk-dev
@@ -31,13 +31,13 @@ xz-utils tk-dev
 
 pyenv를 설치하기 위해 git clone을 해준다.
 
-~~~shell
+~~~sh
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 ~~~
 
 그리고 쉘 설정파일에 적어주어야 하는 것이 있다. 각자 사용하고 있는 쉘의 종류에 따라 zshrc 또는 bashrc에 입력해주면 된다.
 
-~~~shell
+~~~sh
 # vi ~/.zshrc
 export PYENV_ROOT="$HOME/.pyenv
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -46,7 +46,7 @@ eval "$(pyenv init -)"
 
 변경된 zshrc를 반영하기 위해 source를 한다.
 
-~~~shell
+~~~sh
 source ~/.zshrc
 ~~~
 
@@ -56,7 +56,7 @@ source ~/.zshrc
 
 본격적으로 파이썬 설치를 해보자. pyenv를 이용하여 설치할 수 있는 파이썬의 리스트는 아래와 같이 확인할 수 있다.
 
-~~~shell
+~~~sh
 # 설치 가능한 버전 리스트 출력
 pyenv install --list
 
@@ -78,20 +78,20 @@ pyenv를 이용하여 여러 버전의 파이썬을 사용할 수 있게되었�
 
 pyenv-virtualenv를 설치하기 위해서 다음의 순서로 작업을 진행한다.
 
-~~~shell
+~~~sh
 git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 ~~~
 
 bashrc 또는 zshrc에 추가하고 source까지한다.
 
-~~~shell
+~~~sh
 eval "$(pyenv virtualenv-init -)"
 source ~/.zshrc
 ~~~
 
 pyevn-virtualenv로 가상환경을 새로 만들기 위해서 아래와 같이 입력해준다.
 
-~~~shell
+~~~sh
 # pyenv virtualenv <python_version> <virtualenv_name>
 pyenv virtualenv 3.7.2 test-venv
 ~~~
@@ -104,7 +104,7 @@ pyenv virtualenv 3.7.2 test-venv
 
 autoenv를 이용하게 되면 프로젝트 폴더로 진입했을때 가상환경을 수동으로 activate할 필요 없이 자동으로 해준다. 방법은 아래와 같다. 일단 프로젝트에 사용할 가상환경이 만들어져 있어야 한다.
 
-~~~shell
+~~~sh
 # cd myproject
 pyenv local test-venv
 ~~~

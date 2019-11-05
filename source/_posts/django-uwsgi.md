@@ -46,7 +46,7 @@ def application(env, start_response):
 
 위와 같이 test.py 파일을 생성한다. 그리고 uwsgi를 실행하기 위해 아래와 같이 쉘에 입력하자.
 
-~~~shell
+~~~sh
 uwsgi --http :8001 --wsgi-file test.py
 ~~~
 
@@ -58,7 +58,7 @@ uwsgi --http :8001 --wsgi-file test.py
 
 와 같은 의미로 해석되어 작업을 수행한다. 현재 작업을 위해 연결되어 있는 컴포넌트들을 정리하면 아래와 같다. 
 
-~~~shell
+~~~sh
 web client <-> uwsgi <-> Django
 ~~~
 
@@ -68,14 +68,14 @@ web client <-> uwsgi <-> Django
 
 python 파일 말고 django 웹 서버와 연결하려면 기본적으로 제공해주는 wsgi.py를 이용하면 된다. 이 때에 옵션은 --wsgi-file이 아닌 --module을 주면 된다.
 
-~~~shell
+~~~sh
 # uwsgi --http :<포트번호> --module <프로젝트명>.wsgi
 uwsgi --http :8001 --module myproject.wsgi
 ~~~
 
 웹 브라우저로 8001번 포트에 접속해서 제대로 동작하는 지 살펴보자. 제대로 동작하고 있다면 아래와 같은 순서로 통신을 하고 있는 것이다.
 
-~~~shell
+~~~sh
 web clien <-> uwsgi <-> django
 ~~~
 
@@ -85,7 +85,7 @@ web clien <-> uwsgi <-> django
 
 ##### uwsgi의 유용한 옵션들
 
-~~~shell
+~~~sh
 uwsgi --http :8001 --home /home/test_user/virtualenv/test --chdir /home/test_user/myproject --module myproject.wsgi
 ~~~
 
@@ -107,13 +107,13 @@ uwsgi --http :8001 --home /home/test_user/virtualenv/test --chdir /home/test_use
 
 하나의 서버에 여러 프로젝트를 실행할 수 있으므로 uwsgi를 위한 디렉토리를 생성한다.
 
-~~~shell
+~~~sh
 mkdir -p /etc/uwsgi/sites
 ~~~
 
 그리고 프로젝트 이름과 동일하게 설정파일을 추가하자.
 
-~~~shell
+~~~sh
 # cd /etc/uwsgi/sites
 # vi myproject.ini
 [uwsgi]
@@ -135,7 +135,7 @@ processes = 1
 
 정상적으로 저장이 되었다면 /etc/uwsgi/sites 폴더 아래에 myproject.ini 파일이 생성되었을 것이다. 이 설정파일로 uwsgi를 실행하자.
 
-~~~shell
+~~~sh
 uwsgi -i /etc/uwsgi/sites/myproject.ini
 ~~~
 

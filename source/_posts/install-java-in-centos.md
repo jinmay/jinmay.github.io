@@ -21,14 +21,14 @@ wget --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-
 위 의 명령은 자바10을 설치한다. 만약 다른 버전의 자바를 설치하고 싶다면 오라클 자바 다운로드 페이지에서 원하는 버전의 파일의 경로를 획득한 뒤 주소만 바꿔서 사용하자.
 
 설치 디렉토리는 자유지만 그냥 이렇게했다.
-~~~shell
+~~~sh
 mkdir /usr/local/java
 mv jdk-8u112-linux-x64.tar.gz /usr/local/java
 tar xvzf jdk-8u112-linux-x64.tar.gz
 ~~~
 
 명령어를 등록한다.
-~~~shell
+~~~sh
 alternatives --install /usr/bin/java java /usr/local/java/jdk-10.0.1/bin/java 1
 alternatives --install /usr/bin/java javac /usr/local/java/jdk-10.0.1/bin/javac 1
 alternatives --install /usr/bin/java javaws /usr/local/java/jdk-10.0.1/bin/javaws 1
@@ -40,7 +40,7 @@ alternatives --set javaws /usr/local/java/jdk-10.0.1/bin/javaws
 자바10을 다운로드 받았기 때문에 위와 같이 설정해주었다.
 
 다음으로 환경변수를 설정해주어야한다.
-~~~shell
+~~~sh
 # in ~/.zshrc
 
 export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
@@ -48,7 +48,7 @@ export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
 마찬가지로 각자 해당하는 쉘의 conf을 수정해야한다. (나의 경우 zsh을 사용중이기 때문에 .zshrc를 수정했다)
 
 마지막으로 자바 설치가 제대로 됐는지 확인한다.
-~~~shell
+~~~sh
 java -version
 # java version "10.0.1" 2018-04-17
 # Java(TM) SE Runtime Environment 18.3 (build 10.0.1+10)

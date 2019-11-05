@@ -22,7 +22,7 @@ find 명령으로 검색한 결과는 하나의 라인으로 된 파일명을 �
 
 #### 형식
 
-~~~shell
+~~~sh
 find [검색할 디렉터리 경로] [옵션]
 
 # example
@@ -36,7 +36,7 @@ BSD와 GNU 이러한 것들에 대해서 많이 들어보기는 했지만 자세
 
 macOS의 find 명령어가 GNU 소프트웨어인지 확인하기 위해서 **매뉴얼을 보기위한 man 명령어를 사용했다.** 그 결과는 
 
-~~~shell
+~~~sh
 man find
 
 # 결과
@@ -53,14 +53,14 @@ FIND(1) BSD General Commands Manual FIND(1)
 
 GNU의 find 를 사용하기 위해서는 따로 설치를 해줘야하며 macOS의 homebrew를 통해 할 수 있다.
 
-~~~shell
+~~~sh
 brew update
 brew install findutils
 ~~~
 
 설치완료 후 **gfind** 명령어를 통해 GNU의 find를 사용할 수 있을 것이다!
 
-~~~shell
+~~~sh
 gfind / -name "*.txt" -printf "%f\n"
 ~~~
 

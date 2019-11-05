@@ -37,7 +37,7 @@ ckan.storage_path = /var/lib/ckan/default
 
 3. 권한 설정
 
-~~~shell
+~~~sh
 sudo chown www-data /var/lib/ckan/default
 sudo chmod u+rwx /var/lib/ckan/default
 ~~~
@@ -48,7 +48,7 @@ sudo chmod u+rwx /var/lib/ckan/default
 
 4. 재시작
 
-~~~shell
+~~~sh
 sudo service apache2 reload
 ~~~
 
