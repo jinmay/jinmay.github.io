@@ -11,7 +11,7 @@ date: 2019-06-21 09:27:12
 
 보통 git add 명령어를 통해 커밋의 대상이 될 파일들을 staging area로 올리는 작업을 하곤 한다. 추가 되지 말아야 할 파일들까지도 add 했을때 다시 되돌리는 방법이다.
 
-```shell
+````sh
 git reset -- <file> # 파일
 git reset -- <folder>/ # 폴더
 ```
@@ -22,3 +22,4 @@ git reset -- <folder>/ # 폴더
 [참고]
 
 <https://stackoverflow.com/questions/4475457/add-all-files-to-a-commit-except-a-single-file>
+````

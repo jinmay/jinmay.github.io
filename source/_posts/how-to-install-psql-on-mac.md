@@ -22,23 +22,23 @@ date: 2019-02-16 19:33:19
 
 ##### 기존 psql 삭제
 
-```shell
+````sh
 brew uninstall --force postgresql
 ```
 
 ##### psql 관련 파일 삭제
 
-```shell
+~~~sh
 rm -rf /usr/local/var/postgres
 ```
 
-이전에 brew를 통해서 psql을 설치했다면 위와 같은 경로에 관련 파일들이 위치해있을 것이다. 기존에 있던 psql에 대한 관련 파일이므로 같이 삭제하도록하자. 
+이전에 brew를 통해서 psql을 설치했다면 위와 같은 경로에 관련 파일들이 위치해있을 것이다. 기존에 있던 psql에 대한 관련 파일이므로 같이 삭제하도록하자.
 
-_만약 brew uninstall 후 관련 파일 삭제를 하지 않고 다시 brew install을 하게 된다면 기존에 있던 파일들로 인해서 제대로 동작하지 않을 수도 있다._ 
+_만약 brew uninstall 후 관련 파일 삭제를 하지 않고 다시 brew install을 하게 된다면 기존에 있던 파일들로 인해서 제대로 동작하지 않을 수도 있다._
 
 ##### psql 설치
 
-```shell
+~~~sh
 brew install postgres
 ```
 
@@ -46,15 +46,15 @@ brew install postgres
 
 ~~~sh
 pg_ctl -D /usr/local/var/postgres start
-~~~
+````
 
 ##### DB 생성
 
-~~~sh
+```sh
 initdb /usr/local/var/postgres
-~~~
+```
 
-때에 따라서 DB를 생성하는 과정에 아래와 같은 에러가 발생할 수 있다. 
+때에 따라서 DB를 생성하는 과정에 아래와 같은 에러가 발생할 수 있다.
 
 _initdb: directory "/usr/local/var/postgres" exists but is not empty
 If you want to create a new database system, either remove or empty
@@ -65,29 +65,29 @@ with an argument other than "/usr/local/var/postgres"._
 
 ##### old db 삭제
 
-~~~sh
+```sh
 rm -r /usr/local/var/postgres
-~~~
+```
 
 ##### 다시 DB 생성 시도
 
-~~~sh
+```sh
 initdb /usr/local/var/postgres
 # 또는
 initdb /usr/local/var/postgres -E utf8
-~~~
+```
 
-##### 테스트 DB  생성
+##### 테스트 DB 생성
 
-~~~sh
+```sh
 createdb test
-~~~
+```
 
 ##### psql 콘솔 접속 및 확인
 
-~~~sh
+```sh
 psql test
-~~~
+```
 
 <hr>
 

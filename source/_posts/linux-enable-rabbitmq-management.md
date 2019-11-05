@@ -14,7 +14,7 @@ RabbitMQ에서 사용할 수 있는 플러그인 중에서 브라우저를 통�
 
 #### 플러그인 목록 확인
 
-```shell
+```sh
 sudo rabbitmq-plugins list
 
 # [  ] rabbitmq_peer_discovery_k8s       3.8.1
@@ -39,7 +39,7 @@ sudo rabbitmq-plugins list
 
 #### management 플러그인 활성화
 
-```shell
+````sh
 # sudo rabbitmq-plugins enable <플러그인 이름>
 sudo rabbitmq-plugins enable rabbitmq_management
 ```
@@ -50,7 +50,7 @@ sudo rabbitmq-plugins enable rabbitmq_management
 
 RabbitMQ의 기본 명령어는 모두 **rabbitmqctl 로 시작**하며, 현재 어떠한 유저가 있는지 그리고 새로운 유저를 생성해보고 관리자 권한을 할당해보자.
 
-```shell
+~~~sh
 # 유저 리스트 출력
 sudo systemctl list_users
 
@@ -64,3 +64,4 @@ sudo systemctl set_user_tags admin administrator
 ```
 
 생성한 어드민 유저로 로그인을 하고 관리 콘솔을 살펴 볼 수 있다!
+````
