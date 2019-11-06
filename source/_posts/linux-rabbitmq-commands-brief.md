@@ -1,10 +1,10 @@
 ---
+title: RabbitMQ의 간단한 명령어 정리
 categories:
   - linux
-title: linux-rabbitmq-commands-brief
+date: 2019-11-06 16:46:28
+tags:
 ---
-
-# RabbitMQ의 간단한 명령어 정리
 
 RabbitMQ를 apt를 통해 설치하면 커맨드 라인 툴인 rabbitmqctl이 같이 설치된다. 이 툴을 통해 RabbitMQ를 관리할 수 있다.
 
@@ -53,8 +53,8 @@ sudo rabbitmqctl set_user_tags admin administrator
 
 해당 유저의 태그를 설정한다. 15672 기본 포트를 사용하는 rabbitmq-management 플러그인에 접속 가능한 계정을 만들려면 administrator 태그를 주어야 한다.
 
-
 ---
+
 [참고]
 <https://teragoon.wordpress.com/2012/01/13/rabbitmqctl-%EC%82%AC%EC%9A%A9%EB%B2%95/>
 <https://www.rabbitmq.com/rabbitmqctl.8.html>
