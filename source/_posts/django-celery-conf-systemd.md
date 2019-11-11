@@ -1,10 +1,9 @@
 ---
+title: Celery 데몬으로 관리하기
 categories:
   - django
-title: django-celery-conf-systemd
+date: 2019-11-11 22:03:44
 ---
-
-# Celery 데몬으로 관리하기
 
 지금까지는 로컬에서 테스트 하기 위해 **celery -A \<proj\> worker -l info** 를 통해서 실행했다. 수동으로 프로세스를 관리하지 않고 데몬으로 하기 위한 필요한 작업들을 정리하자.
 
