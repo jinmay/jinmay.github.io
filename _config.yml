@@ -4,7 +4,7 @@
 
 # Site
 title: daily library
-subtitle: 
+subtitle:
 description:
 author: jinmay
 language: en
@@ -43,19 +43,19 @@ highlight:
   line_number: true
   auto_detect: true
   tab_replace:
-  
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
-  path: ''
+  path: ""
   per_page: 3
   order_by: -date
-  
+
 # Category & Tag
 default_category: uncategorized
-category_map: 
+category_map:
 tag_map:
 
 # Date / Time format
@@ -73,11 +73,11 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: tranquilpeak
+theme: icarus
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
-deploy: 
+deploy:
   type: git
   repo: https://github.com/jinmay/jinmay.github.io
 
@@ -103,6 +103,6 @@ nofollow:
 
 # rss feed
 feed:
-    type: atom
-    path: atom.xml
-    limit: 20
+  type: atom
+  path: atom.xml
+  limit: 20
