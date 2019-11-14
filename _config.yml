@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: daily library
+title: Daily Programming
 subtitle:
 description:
 author: jinmay
@@ -54,7 +54,7 @@ index_generator:
   order_by: -date
 
 # Category & Tag
-default_category: uncategorized
+default_category: default
 category_map:
 tag_map:
 
