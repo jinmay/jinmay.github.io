@@ -52,15 +52,15 @@ RabbitMQ의 기본 명령어는 모두 **rabbitmqctl 로 시작**하며, 현재 
 
 ```sh
 # 유저 리스트 출력
-sudo systemctl list_users
+sudo rabbitmqctl list_users
 
 # 유저 생성
 # 아이디/비밀번호 : admin/admin
-sudo systemctl add_user admin admin
+sudo rabbitmqctl add_user admin admin
 
 # 관리자 권한 할당
 # set_user_tags <유저명> administrator
-sudo systemctl set_user_tags admin administrator
+sudo rabbitmqctl set_user_tags admin administrator
 ```
 
 생성한 어드민 유저로 로그인을 하고 관리 콘솔을 살펴 볼 수 있다!
