@@ -1,11 +1,10 @@
 ---
-title: python-private-variable
+title: [파이썬]private 변수(private 네임 맹글링)
 categories:
   - python
+date: 2019-11-24 17:35:38
 tags:
 ---
-
-# [파이썬]private 변수(private 네임 맹글링)
 
 파이썬은 자바와 다르게 접근제어자가 없다. 사실 클래스 정의 외부에서 접근할 수 있도록 만드는 방법이 있긴한데 접근제어자처럼 완벽하게 통제할 수는 없다.
 
