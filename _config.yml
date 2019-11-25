@@ -111,3 +111,5 @@ feed:
 auto_dir_categorize:
   enable: true
   force: true
+
+filename_case: 1
