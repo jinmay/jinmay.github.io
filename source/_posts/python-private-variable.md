@@ -1,5 +1,5 @@
 ---
-title: [파이썬]private 변수(private 네임 맹글링)
+title: '[파이썬]private 변수(private 네임 맹글링)'
 categories:
   - python
 date: 2019-11-24 17:35:38

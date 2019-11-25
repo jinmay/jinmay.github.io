@@ -1,5 +1,5 @@
 ---
-title: [파이썬]클래스의 getter 메소드와 setter 메소드(+ private 속성)
+title: '[파이썬]클래스의 getter 메소드와 setter 메소드(+ private 속성)'
 categories:
   - python
 date: 2019-11-23 21:28:40
