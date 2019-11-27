@@ -80,6 +80,7 @@ class NumberMachine(RandomMachine):
     return self.pick()
 
 ins = NumberMachine(range(1, 101))
+ins()
 ```
 
 NumberMachine 클래스를 정의했고 추상클래스에서 강제한 메소드를 구현했다. 만약 load와 pick 메소드 중에서 하나라도 구현이 되어 있지 않는다면 TypeError가 발생한다. 그리고 객체를 호출가능하게 만들기 위해 \_\_call\_\_ 특별 메소드도 구현했다.

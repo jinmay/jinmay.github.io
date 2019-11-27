@@ -90,6 +90,8 @@ node_sass:
 # sitemap auto generator
 sitemap:
   path: sitemap.xml
+  tag: false
+  category: false
 
 # robots.txt
 robotstxt:
@@ -103,8 +105,8 @@ nofollow:
 
 # rss feed
 feed:
-  type: atom
-  path: atom.xml
+  type: rss2
+  path: rss2.xml
   limit: 20
 
 # folder category
