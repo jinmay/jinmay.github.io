@@ -91,7 +91,7 @@ node_sass:
 sitemap:
   path: sitemap.xml
   tag: false
-  category: false
+  category: true
 
 # robots.txt
 robotstxt:
