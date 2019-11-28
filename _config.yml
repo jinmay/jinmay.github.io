@@ -29,7 +29,7 @@ i18n_dir: :lang
 skip_render:
 
 # Writing
-filename_case: 0 # 파일명을 소문자(1) 또는 대문자(2)로 변경
+filename_case: 1 # 파일명을 소문자(1) 또는 대문자(2)로 변경, 기본값 0
 new_post_name: :title.md # File name of new posts
 default_layout: draft # layout 기본설정 -> hexo new [layout] 생략 시 draft 모드가 기본값이다
 titlecase: false # Transform title into titlecase
