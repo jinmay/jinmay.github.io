@@ -5,7 +5,7 @@ tags:
   - elasticsearch
   - elk
 categories:
-  - java
+  - linux
 date: 2018-06-22 17:44:27
 ---
 

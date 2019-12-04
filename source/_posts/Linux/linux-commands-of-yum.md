@@ -6,7 +6,6 @@ tags:
   - centos
 categories:
   - linux
-  - centos
 date: 2019-03-06 16:37:00
 ---
 

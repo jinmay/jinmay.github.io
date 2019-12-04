@@ -1,5 +1,5 @@
 ---
-title: django와 uwsgi 연동하기 
+title: django와 uwsgi 연동하기
 tags:
   - django
   - uwsgi

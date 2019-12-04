@@ -3,7 +3,6 @@ title: wrapAll 메소드
 tags:
   - jquery
 categories:
-  - javascript
   - jquery
 date: 2019-01-09 18:34:00
 ---

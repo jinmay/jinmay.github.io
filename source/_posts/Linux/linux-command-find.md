@@ -6,7 +6,6 @@ tags:
   - freebsd
 categories:
   - linux
-  - command
 date: 2019-01-25 17:36:51
 ---
 

@@ -7,7 +7,7 @@ tags:
   - autoenv
   - python
 categories:
-  - ubuntu
+  - linux
 date: 2019-03-16 00:04:44
 ---
 

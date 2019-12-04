@@ -5,7 +5,6 @@ tags:
   - es6
 categories:
   - javascript
-  - es6
 date: 2019-01-14 11:26:40
 ---
 

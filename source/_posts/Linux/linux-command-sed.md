@@ -6,7 +6,6 @@ tags:
   - command
 categories:
   - linux
-  - command
 date: 2019-01-29 15:30:23
 ---
 

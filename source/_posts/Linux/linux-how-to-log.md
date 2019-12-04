@@ -7,7 +7,6 @@ tags:
   - systemctl
 categories:
   - linux
-  - ubuntu
 date: 2019-03-27 17:54:46
 ---
 

@@ -4,7 +4,6 @@ tags:
   - network
 categories:
   - network
-  - daily network
 date: 2018-11-30 15:40:57
 ---
 

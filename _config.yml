@@ -90,8 +90,6 @@ node_sass:
 # sitemap auto generator
 sitemap:
   path: sitemap.xml
-  tag: false
-  category: true
 
 # robots.txt
 robotstxt:
@@ -110,6 +108,5 @@ feed:
   limit: 20
 
 # folder category
-auto_dir_categorize:
+auto_category:
   enable: true
-  force: true

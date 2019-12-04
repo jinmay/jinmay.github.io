@@ -6,7 +6,7 @@ tags:
   - elasticsearch
   - kibana
 categories:
-  - elasticsearch
+  - docker
 date: 2018-06-21 16:02:23
 ---
 

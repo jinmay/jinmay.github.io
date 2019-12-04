@@ -6,7 +6,6 @@ tags:
   - pyenv
 categories:
   - linux
-  - ubuntu
 date: 2018-12-27 14:47:22
 ---
 

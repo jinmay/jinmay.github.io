@@ -5,7 +5,7 @@ tags:
   - zsh
   - oh-my-zsh
 categories:
-  - ubuntu
+  - linux
 date: 2019-03-17 00:16:29
 ---
 

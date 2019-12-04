@@ -1,12 +1,11 @@
 ---
 categories:
   - linux
-  - ubuntu
-date: 2019-02-22 17:48:30
 title: 우분투 root 계정설정 가이드
 tags:
   - linux
   - ubuntu
+date: 2019-02-22 17:48:30
 ---
 
 # 우분투 root 계정설정 가이드

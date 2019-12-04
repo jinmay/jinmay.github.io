@@ -4,7 +4,6 @@ tags:
   - ubuntu
 categories:
   - linux
-  - ubuntu
 date: 2018-06-19 00:46:28
 ---
 

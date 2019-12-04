@@ -8,7 +8,6 @@ tags:
   - centos
 categories:
   - linux
-  - command
 date: 2019-03-21 20:44:59
 ---
 

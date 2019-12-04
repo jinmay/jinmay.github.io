@@ -6,7 +6,6 @@ tags:
   - error
 categories:
   - aws
-  - elastic beanstalk
 date: 2018-12-26 19:29:47
 ---
 
