@@ -110,3 +110,4 @@ feed:
 # folder category
 auto_category:
   enable: true
+  depth: 1
