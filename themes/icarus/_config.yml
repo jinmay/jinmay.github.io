@@ -18,7 +18,7 @@ customize:
     author_title:
     location: South Korea
     follow: https://github.com/Jinmay
-  highlight: vs-code-dark
+  highlight: github
   sidebar: left # sidebar position, options: left, right or leave it empty
   thumbnail: false # enable posts thumbnail, options: true, false
   favicon:

@@ -1,5 +1,7 @@
 ---
 title: '[파이썬]제너레이터와 코루틴'
+categories:
+  - python
 date: 2019-12-05 21:53:10
 tags:
 ---
@@ -21,18 +23,18 @@ asycio와 같이 동시성을 필요로하는 파이썬 패키지들에서 많�
 
 ~~~python
 def coroutine1():
-	print('coroutine start')
-	num = yield
-	print('coroutine end, value:', num)
+  print('coroutine start')
+  num = yield
+  print('coroutine end, value:', num)
 ~~~
 
 제너레이터에서 봐왔던 패턴이랑은 조금 다른 것을 알 수 있다. **num 변수는 외부로부터 들어오는 값**이고 아래의 print를 이용해 값을 출력했다. 만약 외부에 값을 생성하고 외부로부터 값을 받고 싶다면 아래와 같이 하면 된다.
 
 ~~~python
 def coroutine2():
-	print('coroutine start')
-	num = yield 'Coroutine!!!'
-	print('coroutine end, value:', num)
+  print('coroutine start')
+  num = yield 'Coroutine!!!'
+  print('coroutine end, value:', num)
 ~~~
 
 먼저 외부로 값을 생성하고, 다음 루틴을 기다린다. 즉, 'Coroutine!!!' 이라는 문자열을 외부로 먼저 생성한 뒤 값이 num으로 들어 오기를 기다린다는 것이다. 외부에서 코루틴으로 값을 보내고 싶다면 아래와 같이 한다.
@@ -71,8 +73,8 @@ inspect 모듈의 getgeneratorstate 함수를 통해 현재 어떠한 상태일 
 from inspect import getgeneratorstate
 
 def co3():
-	a = yield
-	b = yield
+  a = yield
+  b = yield
 
 test = co3()
 print(getgeneratorstate(test)) # GEN_CREATED
@@ -98,17 +100,17 @@ a.close() # GEN_CLOSED
 
 ~~~python
 def coroutine(func):
-	def inner(*args, **kwargs):
-		cr = func(*args, **kwargs)
-		next(cr)
-		return cr
-	return inner
+  def inner(*args, **kwargs):
+    cr = func(*args, **kwargs)
+    next(cr)
+    return cr
+  return inner
 
 @coroutine
 def test_co():
-	print('start')
-	num = yield 'Coroutine!!!'
-	print('end', num)
+  print('start')
+  num = yield 'Coroutine!!!'
+  print('end', num)
 
 a = test_co()
 a.send(123)
@@ -122,11 +124,11 @@ a.send(123)
 
 ~~~python
 def func_a():
-	for item in ['a', 'b', 'c']:
-		yield item
+  for item in ['a', 'b', 'c']:
+    yield item
 
 def func_b():
-	yield from func_a()
+  yield from func_a()
 
 aa = func_b()
 next(aa)
