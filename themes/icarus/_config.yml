@@ -23,7 +23,7 @@ customize:
   thumbnail: false # enable posts thumbnail, options: true, false
   favicon:
   social_links:
-    github: http://github.com/Jinmay
+    github: http://github.com/jinmay
     # linkedin: ""
     envelope: mailto:britzegs@gmail.com
     # rss: ""
