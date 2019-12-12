@@ -9,7 +9,7 @@ categories:
 date: 2018-12-26 19:29:47
 ---
 
-# eb-cli를 통해 deploy할 때 CreateServiceLinkedRole 에러 해결하기
+### eb-cli를 통해 deploy할 때 CreateServiceLinkedRole 에러 해결하기
 
 AWS의 웹 콘솔을 벗어나 EB-CLI 환경에서 배포하던 도중에 **CreateServiceLinkedRole** 이라는 에러가 발생했다. 과정중에 잘못된게 있나 싶어서 테스트 프로젝트를 가지고 두 세번정도 시험삼아 해보았지만 에러는 계속해서 발생했다. 구글에서 검색을 통해 해결책을 찾던 중 IAM에서 인라인으로 정책을 부여하는 방법을 찾았고 에러를 해결할 수 있었다. 
 
