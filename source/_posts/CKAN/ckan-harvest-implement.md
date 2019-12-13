@@ -1,5 +1,5 @@
 ---
-title: harvest 실행하기
+title: '[CKAN]harvest 실행하기'
 tags:
   - ckan
   - harvest
@@ -8,9 +8,6 @@ categories:
   - ckan
 date: 2018-11-01 12:08:29
 ---
-
-
-# harvest 실행하기
 
 ~~약 3일간 삽질끝에 어떻게 돌리는 지는 알게된것 같다.~~ 
 

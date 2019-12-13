@@ -1,5 +1,5 @@
 ---
-title: ckanext-harvest 설치하기
+title: '[CKAN]ckanext-harvest 설치하기'
 tags:
   - ckan
   - harvest
@@ -9,8 +9,6 @@ categories:
   - ckan
 date: 2018-10-29 10:09:01
 ---
-
-# ckan harvesting 기능 설정
 
 데이터 공유 플랫폼 CKAN에는 서로 다른 서버들간의 데이터를 주고 받을 수 있는 **harvest**라는 기능이 있다. 여러 익스텐션들이 존재하지만 CKAN에서 공식적으로 운영하고 있는 가장 기본이 되는 익스텐션을 설치하는 과정을 정리하려고 한다.
 

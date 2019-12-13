@@ -1,5 +1,5 @@
 ---
-title: CKAN의 데이터스토어 확장기능 설치하기 및 테스트
+title: '[CKAN]DataStore 확장기능 설치하기 및 테스트'
 tags:
   - ckan
   - extension
@@ -8,9 +8,6 @@ categories:
   - ckan
 date: 2018-10-04 09:53:19
 ---
-
-
-# CKAN DataStore
 
 오픈 데이터포털 CKAN에 **DataStore**라는 extension을 설치해보자.
 

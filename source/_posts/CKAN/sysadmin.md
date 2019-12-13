@@ -1,5 +1,5 @@
 ---
-title: 시스템 어드민 계정 생성 및 테스트
+title: '[CKAN]시스템 어드민 계정 생성 및 테스트'
 tags:
   - sysadmin
   - ckan
@@ -7,9 +7,6 @@ categories:
   - ckan
 date: 2018-10-04 10:41:44
 ---
-
-
-# 시스템 어드민
 
 #### ckan의 시스템 어드민은(sysadmin) 유저와 데이터셋을 관리하는 역할을 한다. 대부분의 기능은 web ui를 통해서 가능하지만 그렇지 않은 경우도 있다. ckan 페이지의 config file 수정과 같은 일은 cli를 통해서 서버에 접속해야만 사용할 수 있다.
 

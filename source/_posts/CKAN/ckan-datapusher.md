@@ -1,5 +1,5 @@
 ---
-title: DataPusher 설치하기
+title: '[CKAN]DataPusher 설치하기'
 tags:
   - ckan
   - datapusher
@@ -7,9 +7,6 @@ categories:
   - ckan
 date: 2018-10-26 19:23:42
 ---
-
-
-# DataPusher 설치
 
 CKAN에 DataPusher를 설치하자. DataPusher란 CKAN에 자동으로 CSV / Excel 파일 로딩을 추가하는 역할을 한다. DataPusher를  이용하기 전에 DataStore가 함께 설치된 CKAN이 필요하다.
 

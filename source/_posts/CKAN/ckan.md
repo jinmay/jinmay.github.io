@@ -1,5 +1,5 @@
 ---
-title: 우분투에 CKAN 설치하기
+title: '[CKAN]우분투에 CKAN 설치하기'
 tags:
   - ckan
   - python
@@ -8,8 +8,6 @@ categories:
   - ckan
 date: 2018-09-30 18:59:48
 ---
-
-# Installing CKAN
 
 ## CKAN이란?
 
