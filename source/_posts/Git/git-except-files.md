@@ -1,13 +1,11 @@
 ---
-title: git에서 add한 파일 되돌리기
+title: git에서 add한 파일 unstaged 상태로 되돌리기
 tags:
   - git
 categories:
   - git
 date: 2019-06-21 09:27:12
 ---
-
-# git add한 파일을 다시 unstaged 상태로 되돌리기
 
 보통 git add 명령어를 통해 커밋의 대상이 될 파일들을 staging area로 올리는 작업을 하곤 한다. 추가 되지 말아야 할 파일들까지도 add 했을때 다시 되돌리는 방법이다.
 
