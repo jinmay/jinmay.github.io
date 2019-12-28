@@ -44,7 +44,7 @@ future: true
 # per_page: Posts displayed per page. (0 = disable pagination)
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
-  path: ""
+  path: ''
   per_page: 3
   order_by: -date
 
@@ -88,7 +88,7 @@ sitemap:
 
 # robots.txt
 robotstxt:
-  User-agent: "*"
+  User-agent: '*'
   Allow: /
   Sitemap: https://jinmay.github.io/sitemap.xml
 
