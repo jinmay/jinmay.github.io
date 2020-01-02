@@ -1,6 +1,7 @@
 ---
 title: React Native를 위한 안드로이드 설정하기
-categories: []
+categories:
+  - react-native
 date: 2019-12-28 15:17:11
 ---
 
