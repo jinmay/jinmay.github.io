@@ -1,8 +1,5 @@
 ---
 title: 파이썬의 print() 함수
-tags:
-  - python
-  - print
 categories:
   - python
 date: 2019-07-01 16:15:43
@@ -23,7 +20,6 @@ print('a', 'b', 'c', 'd') # 'a b c d'
 # sep를 ''로 변경했을 경우
 print('a', 'b', 'c', 'd', sep='') # 'abcd'
 
-# sep='@'
 print('example', 'gmail.com', sep='@') # example@gmail.com
 ```
 
