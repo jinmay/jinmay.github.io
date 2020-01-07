@@ -1,7 +1,7 @@
 ---
 title: '[파이썬]for 반복문의 다앙한 사용법'
 categories:
-  - null
+  - python
 date: 2020-01-07 15:46:46
 tags:
 ---
