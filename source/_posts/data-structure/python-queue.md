@@ -1,5 +1,7 @@
 ---
 title: 파이썬으로 알아보는 자료구조 - queue
+categories:
+  - data-structure
 date: 2020-01-09 15:14:12
 tags:
 ---
