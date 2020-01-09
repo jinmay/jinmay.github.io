@@ -1,11 +1,8 @@
 ---
-title: python-queue
+title: 파이썬으로 알아보는 자료구조 - queue
 date: 2020-01-09 15:14:12
 tags:
 ---
-
-
-'파이썬으로 알아보는 자료구조 - queue'
 
 스택(Stack)과 더불어 가장 기초가 되는 자료구조이다.
 
