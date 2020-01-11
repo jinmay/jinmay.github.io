@@ -1,8 +1,8 @@
 ---
-title: python-linkedlist
+title: 파이썬으로 알아보는 자료구조 - linked list
+categories:
+  - data-structure
 ---
-
-파이썬으로 알아보는 자료구조 - linked list
 
 ## Linked List
 
@@ -11,7 +11,7 @@ title: python-linkedlist
 - 연결리스트는 떨어진 공간에서도 사용할 수 있다
 - 파이썬에서는 리스트가 연결리스트를 모두 지원
 
-![image](https://user-images.githubusercontent.com/13075035/72051986-9cff8300-3307-11ea-913e-f7fee276bf18.png)
+![image](https://user-images.githubusercontent.com/13075035/72051986-9cff8300-3307-11ea-913e-f7fee276bf18.png)  
 출처: https://medium.com/tanay-toshniwal/linked-list-introduction-662f7973dee5
 
 ## 예시
@@ -42,7 +42,7 @@ title: python-linkedlist
 
 ## 연습
 
-### 1. 클래스를 이용하여 간단히 구현
+### 1. 간단히 구현
 
 파이썬의 클래스를 활용. 각 노드를 객체로 관리한다.
 
@@ -77,7 +77,7 @@ for i in range(2, 6):
     add(i)
 ```
 
-**연결리스트이 모든 노드 출력**
+**연결리스트의 모든 노드 출력**
 
 ```python
 head = node1
@@ -94,4 +94,80 @@ pprint()
 # 3
 # 4
 # 5
+```
+
+### 2. 클래스 이용
+
+연결리스트에서는 리스트의 맨 앞을 가리키는 head가 매우 중요한 것 같다.
+
+```python
+class Node():
+    def __init__(self, data, addr=None):
+        self.data = data
+        self.next = addr
+
+class NodeMgmt():
+    def __init__(self, data):
+        self.head = Node(data)
+
+    def add(self, data):
+        node = self.head
+        while node.next:
+            node = node.next
+        node.next = Node(data)
+
+    def desc(self):
+        node = self.head
+        while node:
+            print(node.data)
+            node = node.next
+
+node1 = NodeMgmt(1)
+for i in range(2, 11):
+    node1.add(i)
+node1.desc()
+```
+
+### 3. 노드 삭제
+
+연결리스트의 노드를 삭제하는 종류에는 세 가지가 있다.
+
+- head 삭제
+- tail 삭제
+- 중간 노드 삭제
+
+```python
+# 인스턴스 메소드로 추가
+def delete(self, data):
+    # 1. head 삭제
+    if self.head.data == data:
+        temp = self.head
+        self.head = self.head.next
+        del temp
+    # 2. tail 삭제
+    # 3. 중간 노드 삭제
+    else:
+        node = self.head
+        while node.next:
+            if node.next.data == data:
+                temp = node.next
+                node.next = node.next.next
+                del temp
+            else:
+                node = node.next
+```
+
+### 4. 노드 찾기
+
+특정 값을 가지는 노드 찾기
+
+```python
+# 인스턴스 메소드로 추가
+def find(self, data):
+    node = self.head
+    while node:
+        if node.data == data:
+            return node.data
+        else:
+            node = node.next
 ```
