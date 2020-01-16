@@ -1,8 +1,6 @@
 ---
-title: selenium-click-does-not-work
+title: [selenium]셀레니움 사용시 특정 element의 클릭이 되지 않을때 대처법
 ---
-
-[selenium]셀레니움 사용시 특정 element의 클릭이 되지 않을때 대처법
 
 셀레니움을 통해 특정 element를 클릭하려고 할때 보통은 아래와 같은 방법을 사용하곤 한다.
 
@@ -18,6 +16,14 @@ click() 함수를 사용하게 되면 간단하게 해당 element를 클릭할 �
 from selenium.webdriver.common.keys import Keys
 
 driver.find_element_by_id("TOTAL").send_keys(Keys.ENTER)
+```
+
+하지만,,  
+위의 방법을 통해도 클릭이 되지 않을 수 있는데, 아래와 같은 방법을 시도해보자.
+
+```python
+element = driver.find_element_by_id("TOTAL")
+driver.execute_script("arguments[0].click();", element)
 ```
 
 ---
