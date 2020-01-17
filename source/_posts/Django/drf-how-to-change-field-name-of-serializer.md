@@ -1,5 +1,7 @@
 ---
-title: [DRF]serializers의 필드명 변경하기
+title: '[DRF]serializers의 필드명 변경하기'
+categories:
+  - django
 ---
 
 직렬화를 위해 시리얼라이져를 사용하게 되면 보통은 모델의 필드명과 같이 기본적으로 정해지는 이름을 사용한다. 필드명을 변경하고 싶다면 아래와 같이 작업하면 된다.
