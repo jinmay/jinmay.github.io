@@ -12,7 +12,9 @@ categories:
 
 ```python
 class TestSerializer(serializers.Serializer):
-    <변경할 필드명> = serializers.IntegerField(source="<원래의 필드명>")
+    x = serializers.IntegerField(source="<원래의 필드명>")
+
+
 ```
 
 source의 값으로 원래의 필드명을 명시해주고 변경하려는 이름으로 필드를 생성하면 된다!
@@ -21,11 +23,11 @@ ModelSerializer의 경우는 이렇게 하면 된다.
 
 ```python
 class TestSerializer(sesrializers.ModelSerializer):
-    <변경할 필드명> = serializers.IntegerField(source="<원래의 필드명>")
+    x = serializers.IntegerField(source="<원래의 필드명>")
 
     class Meta:
         model = TestModel
-        fields = ...
+        fields = ('x', ...)
 ```
 
 ---
