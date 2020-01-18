@@ -1,5 +1,7 @@
 ---
-title: [selenium]셀레니움 사용시 특정 element의 클릭이 되지 않을때 대처법
+title: '[selenium]셀레니움 사용시 특정 element의 클릭이 되지 않을때 대처법'
+categories:
+  - python
 ---
 
 셀레니움을 통해 특정 element를 클릭하려고 할때 보통은 아래와 같은 방법을 사용하곤 한다.

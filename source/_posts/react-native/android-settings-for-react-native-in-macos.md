@@ -80,3 +80,5 @@ npx react-native run-android # 안드로이드 오픈
 
 [참고]  
 https://facebook.github.io/react-native/docs/getting-started.html#android-development-environment
+https://findstar.pe.kr/2019/01/20/install-openjdk-by-homebrew/
+https://dev-yakuza.github.io/ko/react-native/install-on-mac/#jdk-%EC%84%A4%EC%B9%98
