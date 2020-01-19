@@ -1,8 +1,8 @@
 ---
-title: python-doblue-linkedlist
+title: 파이썬으로 알아보는 자료구조 - double linked list
+categories:
+  - data-structure
 ---
-
-파이썬으로 알아보는 자료구조 - double linked list
 
 ## Double Linked List
 
