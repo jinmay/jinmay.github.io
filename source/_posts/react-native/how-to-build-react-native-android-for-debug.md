@@ -34,7 +34,7 @@ react-native bundle --platform android --dev false --entry-file index.js --bundl
 
 APK 빌드가 완료되면 --assets-dest 옵션에서 명시한 경로에 app-debug.apk 파일이 생성된다.
 
-- 경로 : /android/app/src/main/res/
+- 경로 : /android/app/build/outputs/apk/debug/
 - 파일명 : app-debug.apk
 
 ---
