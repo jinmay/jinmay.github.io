@@ -1,8 +1,8 @@
 ---
-title: rn-how-to-use-websocke-in-react-native
+title: 리액트 네이티브에서 웹 소켓 사용하기
+categories:
+  - react-native
 ---
-
-'리액트 네이티브에서 웹 소켓 사용하기'
 
 리액트 네이티브에서 웹 소켓을 사용하기 위해서 node.js의 socket.io 또는 기본으로 제공하는 WebSocket을 이용해야한다.
 
