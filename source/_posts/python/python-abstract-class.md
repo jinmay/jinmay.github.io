@@ -1,11 +1,9 @@
 ---
-title: python-abstract-class
+title: '[파이썬]추상클래스'
 categories:
-  - null
+  - python
 tags:
 ---
-
-# '[파이썬]추상클래스'
 
 ## 추상클래스란?
 
