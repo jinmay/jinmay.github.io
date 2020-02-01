@@ -1,8 +1,8 @@
 ---
-title: github-action
+title: '[Github]깃허브 액션이란'
+categories:
+  - git
 ---
-
-'[Github]깃허브 액션이란'
 
 ![https://github.com/features/actions](https://user-images.githubusercontent.com/13075035/73540557-98943900-4473-11ea-8839-82d2bb798645.png)
 
