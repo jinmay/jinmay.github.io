@@ -1,8 +1,8 @@
 ---
-title: django-collectstatic-yes
+title: '[Django]쉘 스크립트에서 collectstatic 실행시 yes 입력하기'
+categories:
+  - django
 ---
-
-'[Django]쉘 스크립트에서 collectstatic 실행시 yes 입력하기'
 
 새로운 코드를 받아오고 반영하기 위한 일련의 과정들을 자동 배포를 위한 쉘 스크립트에서 관리하고 있다. 하지만 Django의 collectstatic 명령어는 사용자로부터 yes / no 입력을 받아야지 작업을 마무리 하는데 쉘 스크립트에서는 사용자가 입력을 할 수 없어 에러가 발생하는 경우가 종종 생긴다.
 
