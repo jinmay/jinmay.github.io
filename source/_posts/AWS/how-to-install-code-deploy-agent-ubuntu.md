@@ -1,8 +1,8 @@
 ---
-title: how-to-install-code-deploy-agent-ubuntu
+title: '[CodeDeploy]EC2 우분투 인스턴스에 CodeDeploy Agent 설치하기'
+categories:
+  - aws
 ---
-
-'[CodeDeploy]EC2 우분투 인스턴스에 CodeDeploy Agent 설치하기'
 
 배포할 서버에 접속하여 최초 한 번만 설치해주면 된다.
 
