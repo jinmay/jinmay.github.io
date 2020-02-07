@@ -1,7 +1,7 @@
 ---
 title: '[AWS]AWS CLI Tool을 설치하고 기본적인 설정하기'
 categories:
-  - git
+  - aws
 ---
 
 AWS CLI는 커맨드라인 인터페이스 툴로써 cli를 기반으로 AWS의 리소스를 관리할 수 있게 해준다. aws cli를 통해 여러 개의 aws 제품을 사용할 수 있고 스크립트를 통해 자동화할 수도 있다.
