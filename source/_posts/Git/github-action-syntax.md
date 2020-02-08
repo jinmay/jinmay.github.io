@@ -1,8 +1,8 @@
 ---
-title: github-action-syntax
+title: '[Github]깃허브의 CI툴인 Actions의 문법 간단 정리'
+categories:
+  - git
 ---
-
-'[Github]깃허브의 CI툴인 Actions의 문법 간단 정리'
 
 GitHub Actions의 Workflow syntax에 대해서 정리한다.
 
