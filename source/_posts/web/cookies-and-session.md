@@ -1,7 +1,7 @@
 ---
 title: '[Web]쿠키와 세션'
 categories:
-  - django
+  - web
 ---
 
 쿠키와 세션은 HTTP를 가지고 통신할때 발생할 수 있는 단점들을 보안할때 자주 사용되곤 한다.
