@@ -1,10 +1,8 @@
 ---
-title: basic-of-jwt
+title: '[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서'
 categories:
   - web
 ---
-
-'[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서'
 
 ![jwt.io](https://user-images.githubusercontent.com/13075035/74138722-7057c780-4c35-11ea-8186-736263e14289.png)
 
