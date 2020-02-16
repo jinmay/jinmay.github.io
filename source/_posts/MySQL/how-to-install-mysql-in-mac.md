@@ -1,8 +1,8 @@
 ---
-title: how-to-install-mysql-in-mac
+title: '[MySQL]맥북에서 mysql 설치하기'
+categories:
+  - mysql
 ---
-
-'[MySQL]맥북에서 mysql 설치하기'
 
 맥북에서 mysql을 설치하는 방법을 정리한다.
 
