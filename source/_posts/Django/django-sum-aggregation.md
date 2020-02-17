@@ -1,8 +1,8 @@
 ---
-title: django-sum-aggregation
+title: '[Django]Django ORM을 이용해 테이블의 컬럼의 합 구하기'
+categories:
+  - django
 ---
-
-'[Django]Django ORM을 이용해 테이블의 컬럼의 합 구하기'
 
 보통 ORM을 통해 작업을 하다보면 작업의 단위는 하나의 row(행, 튜플)일 것이다. Django에서 제공하는 Aggregation을 이용하면 CRUD 작업 이외의 것들도 수행할 수 있는데 그 중에서 필드의 합을 구하는 Sum에 대해서 정리해본다.
 
