@@ -1,8 +1,8 @@
 ---
-title: basic-of-dns
+title: '[DNS]DNS의 기초적인 작동방식'
+categories:
+  - web
 ---
-
-'[DNS]DNS의 기초적인 작동방식'
 
 DNS는 Domain Name System의 줄임말로써 도메인을 관리하는 시스템이다. DNS의 기본적인 작동방식에 대해서 정리한다.
 
