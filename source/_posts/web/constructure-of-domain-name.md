@@ -1,8 +1,8 @@
 ---
-title: constructure-of-domain-name
+title: '[DNS]도메인 이름의 구조'
+categories:
+  - web
 ---
-
-'[DNS]도메인 이름의 구조'
 
 ![](https://user-images.githubusercontent.com/13075035/75011772-c3e2d480-54c3-11ea-8e2d-3976d52e3a33.png)
 
