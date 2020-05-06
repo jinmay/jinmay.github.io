@@ -1,5 +1,5 @@
 ---
-title: small-tips-of-cli-command
+title: 유닉스 명령어 미세팁 정리
 categories:
   - linux
 ---
