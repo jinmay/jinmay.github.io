@@ -1,8 +1,8 @@
 ---
-title: python-hash-table
+title: 파이썬으로 알아보는 자료구조 - hash table
+categories:
+  - data-structure
 ---
-
-파이썬으로 알아보는 자료구조 - hash table
 
 ## Hash Table
 
