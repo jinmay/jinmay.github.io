@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>[파이썬]얕은 복사와 깊은 복사 | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="데이터를 복사하는 방법에는 크게 얕은 복사와 깊은 복사가 있다. 이 둘에 대해서 어떠한 차이점이 있는지 알아보고 흔히 할 수 있는 실수에 대해서 정리해보자. 기본 개념파이썬에서의 대입문파이썬에서 대입문은 객체를 복사하지 않고 대상과 객체 사이에 바인딩을 만든다.  얕은 복사새로운 객체를 생성한 후 원본에 접근할 수 있는 참조를 입력한다. 깊은 복사새로운 객">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[파이썬]얕은 복사와 깊은 복사">
+<meta property="og:url" content="https://jinmay.github.io/2019/11/21/python/python-copy-deepcopy/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="데이터를 복사하는 방법에는 크게 얕은 복사와 깊은 복사가 있다. 이 둘에 대해서 어떠한 차이점이 있는지 알아보고 흔히 할 수 있는 실수에 대해서 정리해보자. 기본 개념파이썬에서의 대입문파이썬에서 대입문은 객체를 복사하지 않고 대상과 객체 사이에 바인딩을 만든다.  얕은 복사새로운 객체를 생성한 후 원본에 접근할 수 있는 참조를 입력한다. 깊은 복사새로운 객">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-11-21T09:17:05.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:09:40.059Z">
+<meta property="article:author" content="jinmay">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2019/11/21/python/python-copy-deepcopy/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-python/python-copy-deepcopy" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            [파이썬]얕은 복사와 깊은 복사
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/21/python/python-copy-deepcopy/">
+            <time datetime="2019-11-21T09:17:05.000Z" itemprop="datePublished">2019-11-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>데이터를 복사하는 방법에는 크게 <strong>얕은 복사</strong>와 <strong>깊은 복사</strong>가 있다. 이 둘에 대해서 어떠한 차이점이 있는지 알아보고 흔히 할 수 있는 실수에 대해서 정리해보자.</p>
+<h2 id="기본-개념"><a href="#기본-개념" class="headerlink" title="기본 개념"></a>기본 개념</h2><h3 id="파이썬에서의-대입문"><a href="#파이썬에서의-대입문" class="headerlink" title="파이썬에서의 대입문"></a>파이썬에서의 대입문</h3><p>파이썬에서 대입문은 객체를 복사하지 않고 대상과 객체 사이에 바인딩을 만든다. </p>
+<h3 id="얕은-복사"><a href="#얕은-복사" class="headerlink" title="얕은 복사"></a>얕은 복사</h3><p>새로운 객체를 생성한 후 원본에 접근할 수 있는 참조를 입력한다.</p>
+<h3 id="깊은-복사"><a href="#깊은-복사" class="headerlink" title="깊은 복사"></a>깊은 복사</h3><p>새로운 객체를 생성한 후 원본의 복사본으로 데이터를 채워 넣는다.</p>
+<p>코드로 비교를 해 보면 더 차이점이 와닿을 것 같다.</p>
+<h3 id="대입문을-통한-복사"><a href="#대입문을-통한-복사" class="headerlink" title="대입문을 통한 복사"></a>대입문을 통한 복사</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">b = a</span><br><span class="line"></span><br><span class="line">id(a), id(b) <span class="comment"># id값이 같다</span></span><br><span class="line"></span><br><span class="line">b[<span class="number">0</span>] = <span class="string">'aaa'</span></span><br><span class="line">a <span class="comment"># ['aaa', 2, 3]</span></span><br><span class="line">b <span class="comment"># ['aaa', 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<p>이미 잘 알려져있는 예제이다. 위의 파이썬의 대입문에서 말했듯이 객체를 복사하지 않고 바인딩을 만들기 때문에 a와 b 변수는 같은 리스트 객체를 참조하고 있다. 따라서 둘 중 하나만 변경이 되더라도 모든 변수의 데이터에 영향을 주게 된다.</p>
+<p>위의 문제를 해결하기 위해서 보통은 아래와 같은 방법을 사용해 복사를 수행한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> copy <span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">b = a[:]</span><br><span class="line">c = list(a)</span><br><span class="line">d = copy(a)</span><br><span class="line"></span><br><span class="line">id(a), id(b), id(c),id(d)</span><br><span class="line"><span class="comment"># (4590448328, 4592590408, 4592444552, 4590818120)</span></span><br><span class="line"></span><br><span class="line">a[<span class="number">0</span>] = <span class="string">'aaa'</span></span><br><span class="line">a <span class="comment"># ['aaa', 2, 3]</span></span><br><span class="line">b <span class="comment"># [1, 2, 3]</span></span><br><span class="line">c <span class="comment"># [1, 2, 3]</span></span><br><span class="line">d <span class="comment"># [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>리스트 슬라이스 / list 함수 / copy 함수</strong>를 통해 복사하면 객체의 id값이 다르기 때문에 다른 데이터에는 영향을 주지 않게 된다. 그리고 <strong>이러한 복사 방식을 얕은 복사라고 부른다.</strong> 얼핏보면 문제없어 보이지만 리스트 안에 리스트가 있을 경우에는 예기치 못한 상황이 생긴다.</p>
+<h3 id="얕은-복사-copy-함수"><a href="#얕은-복사-copy-함수" class="headerlink" title="얕은 복사(copy 함수)"></a>얕은 복사(copy 함수)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]]</span><br><span class="line">b = copy(a) <span class="comment"># 얕은 복사 수행</span></span><br><span class="line"></span><br><span class="line">id(a), id(b)</span><br><span class="line"><span class="comment"># (4592590728, 4592373128)</span></span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>].append(<span class="string">'aa'</span>)</span><br><span class="line">a <span class="comment"># [1, [1, 2, 3, 'aa']]</span></span><br><span class="line">b <span class="comment"># [1, [1, 2, 3, 'aa']]</span></span><br></pre></td></tr></table></figure>
+
+<p>copy 모듈의 copy 함수를 통해 변수 b를 만들고 리스트안의 리스트를 수정했더니 a, b 두 변수의 값이 변경되었다. <strong>즉, copy 함수도 얕은 복사를 수행한다는 것이다.</strong> 원본의 값이 바뀌어도 복사된 객체에 영향을 주지 않으려면 깊은 복사(deepcopy)가 필요하다.</p>
+<h3 id="깊은-복사-deepcopy"><a href="#깊은-복사-deepcopy" class="headerlink" title="깊은 복사(deepcopy)"></a>깊은 복사(deepcopy)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> copy <span class="keyword">import</span> deepcopy</span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]]</span><br><span class="line">b = deepcopy(a)</span><br><span class="line"></span><br><span class="line">id(a), id(b)</span><br><span class="line"><span class="comment"># (4592642568, 4591296456)</span></span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>].append(<span class="string">'aa'</span>)</span><br><span class="line">a <span class="comment"># [1, [2, 3, 4, 'aa']]</span></span><br><span class="line">b <span class="comment"># [1, [2, 3, 4]]</span></span><br></pre></td></tr></table></figure>
+
+<p>이렇게 깊은 복사를 통해 복사를 하면 원본 데이터의 값이 변경되어도 복사본은 영향을 받지 않는다. </p>
+<h3 id="얕은-복사와-깊은-복사의-차이"><a href="#얕은-복사와-깊은-복사의-차이" class="headerlink" title="얕은 복사와 깊은 복사의 차이"></a>얕은 복사와 깊은 복사의 차이</h3><p>어떠한 차이점이 있는지 정리해보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 얕은 복사</span></span><br><span class="line">a = [<span class="number">1</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]]</span><br><span class="line">b = copy(a)</span><br><span class="line">c = deepcopy(a)</span><br><span class="line"></span><br><span class="line">id(a), id(b), id(c)</span><br><span class="line"><span class="comment"># (4592854280, 4591051528, 4594252744)</span></span><br><span class="line"><span class="comment"># 일단 모든 객체는 서로 다른 주소를 가진다</span></span><br><span class="line"></span><br><span class="line">id(a[<span class="number">1</span>]), id(b[<span class="number">1</span>]), id(c[<span class="number">1</span>])</span><br><span class="line"><span class="comment"># (4592595592, 4592595592, 4594187592)</span></span><br><span class="line"><span class="comment"># 얕은 복사한 b의 내부 리스트는 원본과 같은 주소를 가진다</span></span><br><span class="line"><span class="comment"># 그렇기 때문에 원본에 영향을 받는 것이다</span></span><br></pre></td></tr></table></figure>
+
+<p>얕은 복사과 깊은 복사 모두 객체를 복사하긴한다. 하지만 얕은 복사의 경우 저장된 데이터들까지 복사를 하진 않기때문에 서로가 영향을 주고 받으며, <strong>완전히 독립적인 객체로 만들기 위해서는 깊은 복사가 필요한 것이다.</strong></p>
+<p>마지막으로 정리를 해보면,  </p>
+<ul>
+<li>대입문을 통한 복사는 단순 복제(동일한 객체를 참조)</li>
+<li>얕은 복사는 껍데기만 복사, 내용은 동일한 객체를 참조</li>
+<li>깊은 복사는 껍데기를 복사하고 내용도 재귀적으로 복사</li>
+</ul>
+<hr>
+<p>[참고]<br><a href="https://docs.python.org/ko/3/library/copy.html" target="_blank" rel="external nofollow noopener noreferrer">https://docs.python.org/ko/3/library/copy.html</a><br><a href="https://kongdols-room.tistory.com/67" target="_blank" rel="external nofollow noopener noreferrer">https://kongdols-room.tistory.com/67</a>  </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/21/python/python-copy-deepcopy/" data-id="cka56ji6f008u98757d2z0bgx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/11/22/python/python-high-order-function/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    [파이썬]고차함수
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2019/11/19/python/python-closure-decorator/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">파이썬의 클로저</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

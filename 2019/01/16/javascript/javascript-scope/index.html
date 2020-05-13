@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>키워드 var / let / const와 스코프 | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="scopescope란 범위를 의미한다.  자바스크립트에서 변수를 선언할 때 사용하는 키워드에는  var let const  세 가지가 있다.  아래 두 개의 키워드 - let &#x2F; const - 는 es6로 넘어오면서 새로 생겼고, 기존에는 var를 사용하고 있었다. es5에서 변수를 선언하는 방법은 var 키워드를 사용하는 것 뿐이었는데 조심히 다루지 않으">
+<meta property="og:type" content="article">
+<meta property="og:title" content="키워드 var &#x2F; let &#x2F; const와 스코프">
+<meta property="og:url" content="https://jinmay.github.io/2019/01/16/javascript/javascript-scope/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="scopescope란 범위를 의미한다.  자바스크립트에서 변수를 선언할 때 사용하는 키워드에는  var let const  세 가지가 있다.  아래 두 개의 키워드 - let &#x2F; const - 는 es6로 넘어오면서 새로 생겼고, 기존에는 var를 사용하고 있었다. es5에서 변수를 선언하는 방법은 var 키워드를 사용하는 것 뿐이었는데 조심히 다루지 않으">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-01-16T02:33:33.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:59:30.103Z">
+<meta property="article:author" content="jinmay">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="es6">
+<meta property="article:tag" content="scope">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2019/01/16/javascript/javascript-scope/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-javascript/javascript-scope" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            키워드 var / let / const와 스코프
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/01/16/javascript/javascript-scope/">
+            <time datetime="2019-01-16T02:33:33.000Z" itemprop="datePublished">2019-01-16</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/javascript/">javascript</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/es6/" rel="tag">es6</a>, <a class="tag-link" href="/tags/javascript/" rel="tag">javascript</a>, <a class="tag-link" href="/tags/scope/" rel="tag">scope</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="scope"><a href="#scope" class="headerlink" title="scope"></a>scope</h1><p><strong>scope란 범위를 의미한다.</strong> </p>
+<p>자바스크립트에서 변수를 선언할 때 사용하는 키워드에는</p>
+<ul>
+<li><strong>var</strong></li>
+<li><strong>let</strong></li>
+<li><strong>const</strong></li>
+</ul>
+<p>세 가지가 있다. </p>
+<p>아래 두 개의 키워드 <strong>- let / const -</strong> 는 es6로 넘어오면서 새로 생겼고, <strong>기존에는 var</strong>를 사용하고 있었다. es5에서 변수를 선언하는 방법은 var 키워드를 사용하는 것 뿐이었는데 조심히 다루지 않으면 많은 문제를 발생시키고는 했다.</p>
+<h3 id="var-과-let"><a href="#var-과-let" class="headerlink" title="var 과 let"></a>var 과 let</h3><h5 id="함수-스코프"><a href="#함수-스코프" class="headerlink" title="함수 스코프"></a>함수 스코프</h5><p>es6 이전에는 블록 단위 스코프가 존재하지 않았기 때문에 발생하는 문제들이 있었다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'global'</span>; <span class="comment">// 전역변수</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> local = <span class="string">'local'</span>; <span class="comment">// 지역변수  </span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">    </span><br><span class="line">  <span class="comment">// 변수 i는 함수 test 스코프를 가지기 때문에 아래 코드로 호출가능</span></span><br><span class="line">  <span class="built_in">console</span>.log(i); </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>for문 밖에서 변수 i에 접근하지 못하게 하려면 let 키워드를 사용하여 변수를 선언해주어야 한다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i&gt;<span class="number">5</span>; i++) &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(i);  </span><br><span class="line">  &#125;</span><br><span class="line">	<span class="built_in">console</span>.log(i); <span class="comment">// 에러 발생</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">test();</span><br></pre></td></tr></table></figure>
+
+<p>즉, 블록 스코프를 사용하기 위해서는 let 키워드를 이용해야 한다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;<span class="number">5</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> ifvar = <span class="string">'ifvar'</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(ifvar);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(ifvar); <span class="comment">// 에러 발생 - if문의 ifvar에 접근할 수 없음</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">test();</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="블록-스코프"><a href="#블록-스코프" class="headerlink" title="블록 스코프"></a>블록 스코프</h5><p>es6부터 let을 도입하면서 블록 레벨 스코프를 사용할 수 있게 되었다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">123</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// 123</span></span><br><span class="line">&#123;</span><br><span class="line">    a = <span class="number">456</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// 456</span></span><br></pre></td></tr></table></figure>
+
+<p>변수 a는 블록 밖에서 키워드  var로 선언되었다. 이 때에 블록 내부의 코드로 인해서 a의 값이 변하게 되고 다시 출력해보면 변경된 값이 출력 되는 것을 알 수 있다. 블록 내부 스코프에는 변수 a는 없지만 스코프 체인에 의해 블록 밖을 검사하게 되고 따라서 전역변수 a의 값을 변경한 것이다.</p>
+<p>위 와 같은 현상을 방지하려면 let을 사용해 변수를 선언한다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">123</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// 123</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> a = <span class="number">456</span>;</span><br><span class="line">    <span class="keyword">let</span> b = <span class="number">12345</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// 123</span></span><br><span class="line"><span class="built_in">console</span>.log(b) <span class="comment">// error 발생</span></span><br></pre></td></tr></table></figure>
+
+<p>let 키워드로 선언된 변수를 블록 스코프를 가진다. 따라서 블록 밖에서 값을 출력 하더라도 블록 내부를 들여다 볼 수 없기 때문에 123이 출력되는 것이다. 또한 변수 b도 블록 스코프를 가지므로 외부에서 접근할 수 없기 때문에 에러를 발생시킨 것이다.</p>
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><p>const 키워드는 상수를 선언할때 사용한다. 기존의 자바스크립트에는 var를 통하여 상수 / 변수를 모두 선언했지만, es6에는 const라는 키워드가 추가되어 상수를 선언할때 이용할 수 있다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> foo = <span class="string">'foo'</span>;</span><br><span class="line">  foo = <span class="string">'modified foo'</span>; <span class="comment">// error 발생 - const로 선언된 foo 변수는 재할당될 수 없다.</span></span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">test();</span><br></pre></td></tr></table></figure>
+
+<p>그렇다면 상수와 변수 중에서 어느 것을 사용하는 게 좋은 것일까? 대부분의 사람들은 <strong>일반적인 상황에서는 const를 사용하고 값이 변해야만 할때만 let을 사용하길 추천하고 있다.</strong></p>
+<p>만약 const를 이용하여 배열을 선언했다면 이 배열에 값을 추가하고 삭제하는 작업도 불가능한 것일까?</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> list = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>];</span><br><span class="line">  list.push(<span class="string">'123'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(list);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(); <span class="comment">// ["a", "b", "c", "d", "123"]</span></span><br></pre></td></tr></table></figure>
+
+<p>const 키워드를 이용하여 변수를 선언하면 값이 바뀔 수 없다고 했는데 어떻게 문자열 123이 추가된 것일까? <strong>const의 역할에 대해서 정확하게 이해하자면 불변을 의미하는 것은 아니다.</strong> <strong>const는 값이 재할당 되지 못할 뿐 이미 할당된 배열이나 객체에 대해서 값이 변하는 작업을 못하게 하는 것은 아님을 의미한다.</strong> </p>
+<h5 id="immutable-array-만들기"><a href="#immutable-array-만들기" class="headerlink" title="immutable array 만들기"></a>immutable array 만들기</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> list1 = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>];</span><br><span class="line">list2 = [].concat(list, <span class="string">'haha'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(list1, list2)</span><br></pre></td></tr></table></figure>
+
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/01/16/javascript/javascript-scope/" data-id="cka56ji5a004p987552rc96gb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/01/17/javascript/javascript-array/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Array와 반복문
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2019/01/14/javascript/javascript-else-if/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">if ... else if ... 조건문의 작동 방식</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

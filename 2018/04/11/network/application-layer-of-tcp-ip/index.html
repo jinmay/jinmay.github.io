@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>TCP/IP 4계층 - 애플리케이션 계층 | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="애플리케이션 계층애플리케이션 계층의 프로토콜들은 웹이나 이메일, 파일 공유와 같이 사용자가 실제로 사용하면서 체감할 수 있는 서비스를 제공한다. 하지만 사용자가 직접 이용하지 않아서 체감할 수 없는 프로토콜들도 존재하는데 DNS, DHCP, SSL&#x2F;TLS, NTP, LDAP와 같은 것들이 있다. 이러한 프로토콜들은 OS나 다른 애플리케이션 계층의 프로토콜들">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP&#x2F;IP 4계층 - 애플리케이션 계층">
+<meta property="og:url" content="https://jinmay.github.io/2018/04/11/network/application-layer-of-tcp-ip/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="애플리케이션 계층애플리케이션 계층의 프로토콜들은 웹이나 이메일, 파일 공유와 같이 사용자가 실제로 사용하면서 체감할 수 있는 서비스를 제공한다. 하지만 사용자가 직접 이용하지 않아서 체감할 수 없는 프로토콜들도 존재하는데 DNS, DHCP, SSL&#x2F;TLS, NTP, LDAP와 같은 것들이 있다. 이러한 프로토콜들은 OS나 다른 애플리케이션 계층의 프로토콜들">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-11T06:38:43.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:09:40.056Z">
+<meta property="article:author" content="jinmay">
+<meta property="article:tag" content="network">
+<meta property="article:tag" content="tcp&#x2F;ip">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2018/04/11/network/application-layer-of-tcp-ip/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-network/application-layer-of-tcp-ip" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            TCP/IP 4계층 - 애플리케이션 계층
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/04/11/network/application-layer-of-tcp-ip/">
+            <time datetime="2018-04-11T06:38:43.000Z" itemprop="datePublished">2018-04-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>, <a class="tag-link" href="/tags/tcp-ip/" rel="tag">tcp/ip</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="애플리케이션-계층"><a href="#애플리케이션-계층" class="headerlink" title="애플리케이션 계층"></a>애플리케이션 계층</h1><p>애플리케이션 계층의 프로토콜들은 웹이나 이메일, 파일 공유와 같이 사용자가 실제로 사용하면서 체감할 수 있는 서비스를 제공한다. 하지만 사용자가 직접 이용하지 않아서 체감할 수 없는 프로토콜들도 존재하는데 DNS, DHCP, SSL/TLS, NTP, LDAP와 같은 것들이 있다. 이러한 프로토콜들은 OS나 다른 애플리케이션 계층의 프로토콜들이 간접적으로 사용하는데, 주로 인터넷이나 LAN의 원활한 사용을 위해 사용자에게 보이지 않는 이면에서 동작하고 있다. </p>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>HyperText Transfer Protocol의 약자이다. 말 그대로 요청에 대한 응답으로 HTML을 해준다. </p>
+<h3 id="HTTP-message"><a href="#HTTP-message" class="headerlink" title="HTTP message"></a>HTTP message</h3><p>HTTP 프로토콜을 통해 클라이언트와 서버는 데이터를 주고받게 되는데, 이 때에 주고받은 데이터를 HTTP 메세지라고 부르며 크게 <strong>request</strong>, <strong>response</strong>의 두 가지 형태로 구분된다. HTTP 메세지는 총 네 가지 영역으로 구분한다. </p>
+<ol>
+<li>start line - 요청 / 응답에 따라 두 가지로 나뉨<ul>
+<li>요청 : request line</li>
+<li>응답 : status line</li>
+</ul>
+</li>
+<li>header - 메세지 상세정보</li>
+<li>blank line</li>
+<li>message body</li>
+</ol>
+<h3 id="stateless-status"><a href="#stateless-status" class="headerlink" title="stateless status"></a>stateless status</h3><p>HTTP는 <strong>무상태성</strong>이다. 통신할때 정보를 한 번씩 주고받고 바로 끊기때문에 상태정보를 저장하지 않는다. 상태정보를 저장하지 않는다 함은 사용자나 클라이언트의 컨택스트를 서버쪽에 유지 하지 않는다는 의미로,쉽게 표현하면 HTTP Session과 같은 컨텍스트 저장소에 상태 정보를 저장하지 않는 형태를 의미한다. </p>
+<h3 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h3><p>Uniform Resource Locator의 약자이다. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://www.sample.co.kr/sample/index.html</span><br><span class="line">스키마://호스트.도메인/디렉터리/파일</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTTP-응답과-상태-코드"><a href="#HTTP-응답과-상태-코드" class="headerlink" title="HTTP 응답과 상태 코드"></a>HTTP 응답과 상태 코드</h3><p>HTTP response 데이터의 첫 번째 행에는 상태 코드가 들어가며, 요청에 대한 응답 상태를 표시하기 위함이다. 응답 내용은 메세지 바디에 들어가게된다. 상태코드는 1xx ~ 5xx 번 대로 이루어져 있으며 간단하게 살펴보면</p>
+<ul>
+<li>1xx : 조건부 응답</li>
+<li>2xx : 성공</li>
+<li>3xx : 리다이렉트</li>
+<li>4xx : 클라이언트 오류(요청 오류)</li>
+<li>5xx : 서버 오류<br>로 나누어 진다.</li>
+</ul>
+<h3 id="세션을-유지하기-위한-쿠키"><a href="#세션을-유지하기-위한-쿠키" class="headerlink" title="세션을 유지하기 위한 쿠키"></a>세션을 유지하기 위한 쿠키</h3><p>앞서 얘기한 것 처럼  HTTP는 stateless 프로토콜이기 때문에 요청과 응답하는 과정에서 상태 정보를 저장하지 않는다. 상태를 유지하기 위해서 <strong>Cookie(쿠키)</strong>를 사용한다.</p>
+<h4 id="쿠키-Cookie"><a href="#쿠키-Cookie" class="headerlink" title="쿠키(Cookie)"></a>쿠키(Cookie)</h4><p>웹 브라우저는 웹 서버로부터 응답받은 메세지에 <strong>Set-Cookie</strong>라는 물자열이 있는지 확인하고, 만약 있으면 쿠키 내용을 로컬 디스크에 쿠키형태로 저장한다. 기본적으로 쿠키는 클라이언트가 보관하고있기 때문에 보안에 취약한데, 각각의 브라우저들이 자체적으로 방어책을 구현하고 있다. 예를 들면, 쿠키가 생성된 웹 서버와 동일한 도메인을 사용하는 웹 사이트에만 쿠키를 전송시키거나, 유효기간이 지난 쿠키들을 폐기하기도 한다. 중요한 것은 유출되었을 때 보안 문제가 생길 만한 정보는 쿠키에 저장하지 않는 것이 제일 중요하다. 기본적으로 각종 정보는 서버에 저장하는 것이 원칙이고, 동일한 사용자인지 확인하기 위한 <strong>세션 ID</strong> 등의 식별 정보만 클라이언트에 쿠키로 저장하도록 제한해야 한다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/04/11/network/application-layer-of-tcp-ip/" data-id="cka56ji62007e987596ju94co" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/04/12/network/transport-layer-of-tcp-ip/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    TCP/IP 4계층 - 트랜스포트 계층
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/04/10/network/basic-of-network/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">네트워크 기초</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

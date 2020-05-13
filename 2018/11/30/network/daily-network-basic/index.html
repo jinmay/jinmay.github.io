@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>네트워크 기초 지식1 | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Computer Science 공부하기 첫 번째 - Network  올해 초에 도서관에서 책을 빌려 약 한 달동안 네트워크를 간단하게나마 공부를 해 보았다. 네트워크가 어떻게 돌아가는지 모르고 웹 개발을 해오고 있었는데 알게 모르게 도움이 많이 됐던 것 같았다. 그래서 이번엔 조금 더 천천히 그리고 진지하게 공부해 보려고 한다.  시작..!  네트워크네트">
+<meta property="og:type" content="article">
+<meta property="og:title" content="네트워크 기초 지식1">
+<meta property="og:url" content="https://jinmay.github.io/2018/11/30/network/daily-network-basic/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="Computer Science 공부하기 첫 번째 - Network  올해 초에 도서관에서 책을 빌려 약 한 달동안 네트워크를 간단하게나마 공부를 해 보았다. 네트워크가 어떻게 돌아가는지 모르고 웹 개발을 해오고 있었는데 알게 모르게 도움이 많이 됐던 것 같았다. 그래서 이번엔 조금 더 천천히 그리고 진지하게 공부해 보려고 한다.  시작..!  네트워크네트">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-11-30T06:40:57.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:09:40.056Z">
+<meta property="article:author" content="jinmay">
+<meta property="article:tag" content="network">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2018/11/30/network/daily-network-basic/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-network/daily-network-basic" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            네트워크 기초 지식1
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/11/30/network/daily-network-basic/">
+            <time datetime="2018-11-30T06:40:57.000Z" itemprop="datePublished">2018-11-30</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>Computer Science 공부하기 첫 번째 - Network </p>
+<p>올해 초에 도서관에서 책을 빌려 약 한 달동안 네트워크를 간단하게나마 공부를 해 보았다. 네트워크가 어떻게 돌아가는지 모르고 웹 개발을 해오고 있었는데 알게 모르게 도움이 많이 됐던 것 같았다. 그래서 이번엔 조금 더 천천히 그리고 진지하게 공부해 보려고 한다. </p>
+<p>시작..!</p>
+</blockquote>
+<h1 id="네트워크"><a href="#네트워크" class="headerlink" title="네트워크"></a>네트워크</h1><p>네트워크란 무엇일까? A와 B가 연결되어 있는 것이라고 생각한다. 조금 더 자세하게 말하자면 <strong>무언가와 무언가가 무언가에 의해 연결되어 있는 것</strong> 이라고 한다. </p>
+<p>여러가지 네트워크가 있겠지만, 그 중에서도 <strong>컴퓨터 네트워크</strong>에 대해서 정리해보려고 한다.</p>
+<hr>
+
+<h3 id="네트워크의-구성"><a href="#네트워크의-구성" class="headerlink" title="네트워크의 구성"></a>네트워크의 구성</h3><p>컴퓨터 네트워크는 <strong>노드(Node)</strong>와 <strong>링크(Link)</strong> 로 구성되어있다. 다시 표현하자면 노드와 노드가 링크로 연결되어 있다고 할 수 있다. 하지만 이러한 네트워크의 구성에는 어떤 움직임도 없는데, 이 네트워크가 하려는 것은 무엇일까? </p>
+<p><strong>노드(컴퓨터)와 노드(컴퓨터)를 링크(통신 매체)로 연결하여 데이터(정보)를 주고 받는 것이 컴퓨터 네트워크가 하는 일이고 컴퓨터나 사용자가 가진 리소스를 공유하기 위해 존재한다</strong> </p>
+<h3 id="프로토콜"><a href="#프로토콜" class="headerlink" title="프로토콜"></a>프로토콜</h3><p>데이터를 주고 받기 위해서 규칙을 정할 필요가 있다. 이러한 데이터 통신에 대한 규칙을 <strong>프로토콜(protocol)</strong>이라고 하며 데이터를 보내는 쪽하고 받는 쪽하고 같은 프로토콜을 사용해야한다. </p>
+<blockquote>
+<p>같은 규칙을 가지고 데이터를 주고 받아야 한다</p>
+</blockquote>
+<p>프로토콜에는 데이터를 다루는 법 뿐만 아니라 주고 받는 순서, 데이터 내용 등등 많은 것 들을 포함하고 있다. 지금은 같은 규칙을 가져야 한다는 것만 이해하고 넘어가도록 하자.</p>
+<h3 id="네트워크-전달방식"><a href="#네트워크-전달방식" class="headerlink" title="네트워크 전달방식"></a>네트워크 전달방식</h3><p>네트워크 전달 방식에는 <strong>패킷 교환 방식</strong>과 <strong>회선 교환 방식</strong>이 있다. 컴퓨터 네트워크에서는 데이터를 <strong>패킷(Packet)</strong>으로 분할한 후 주고 받는다. 이때에 패킷은 어디로 전달되야하는지 알 수 있도록 <strong>주소(address)</strong>정보를 가지고 있다.</p>
+<ol>
+<li><p>회선 교환 방식</p>
+<ul>
+<li>아날로그 방식의 유선전화 또는 3G 휴대전화가 사용했다</li>
+<li>통신하려는 양쪽 디바이스가 하나의 통신 경로를 점유하는 방식이다</li>
+<li>때문에 일대일 통신을 기본으로 한다</li>
+<li>통신 속도가 안정적이라는 장점이 있다</li>
+</ul>
+</li>
+<li><p>패킷 교환 방식</p>
+<ul>
+<li>주고받을 데이터는 작게 쪼갠 후 주고받는다</li>
+<li>다른 데이터 조각들과 섞여서 주고 받곤한다</li>
+<li>통신 경로를 공유하며 전달하기 때문에 여러 상대와 통신할때 효과적이다</li>
+<li>주고받는 패킷이 증가하면 전송 속도가 느려지는 단점이 있다</li>
+</ul>
+</li>
+</ol>
+<p>회선 교환 방식의 경우 동시 통화에 필요한 수 만큼 회선이 필요하기 때문에 교환기 사이의 회선의 수가 엄청 많아야한다. 이런 단점을 해소하기 위해 패킷 교환 방식이 등장하게 되었다. </p>
+<p>하나의 연결이 회선을 점유하는 방식이 아니기 때문에 패킷과 패킷사이에 여러 다른 패킷이 들어갈 수 있다. 즉 서로 다른 복수의 패킷이 하나의 회선을 통해 지나갈 수 있다는 것이다.(목적지를 명확히 해야하기 때문에 각 패킷에는 수신처를 명시해야 한다). 패킷 교환기의 역할은 회선 교환기와 비교했을 때 다음과 같은 특징을 가져야 한다.</p>
+<blockquote>
+<ol>
+<li>수신처가 연결되어 있는 회선을 골라서 패킷을 송신하는 역할</li>
+<li>사용하려고 한 회선이 사용중일 경우 일시적으로 저장했다가 회선이 비는 것을 기다리는 역할</li>
+</ol>
+</blockquote>
+<h3 id="네트워크의-구조"><a href="#네트워크의-구조" class="headerlink" title="네트워크의 구조"></a>네트워크의 구조</h3><p>컴퓨터 네트워크의 통신에 필요한 기기들을 정리해보자. </p>
+<ol>
+<li>컴퓨터(노드)</li>
+<li>통신 매체(링크)</li>
+<li>인터페이스(Interface)</li>
+<li><strong>라우터(패킷 교환기)</strong></li>
+</ol>
+<p>컴퓨터와 통신 매체의 사이에는 인터페이스 라는게 존재하지만 나중에 얘기하기로 하고 <strong>라우터</strong>에 대해서 정리해 보도록 하자. </p>
+<p>지금까지 얘기했던 패킷 교환기는 실제 네트워크에서 <strong>라우터(router)</strong>라는 이름으로 사용한다. 하지만 라우터 없이 통신이 가능한 구간이 존재하는 데 이러한 범위를 <strong>세그먼트(Segment)</strong>라고 한다. </p>
+<blockquote>
+<p>세그먼트(segment)</p>
+<p>케이블 분배기 또는 허브(Hub)로 연결되는 범위 -&gt; 패킷 교환없이 직접 데이터를 송수신 할 수 있다</p>
+</blockquote>
+<h3 id="네트워크의-범위"><a href="#네트워크의-범위" class="headerlink" title="네트워크의 범위"></a>네트워크의 범위</h3><p>네트워크를 규모 측면에서 나누면 <strong>LAN(Local Area Network)</strong> 와 <strong>WAN(Wide Area Network)</strong> 가 있다. </p>
+<p><strong>첫 번째</strong>, LAN은 좁은 범위의 네트워크를 의미한다. 좀 더 구체적으로 <strong>구내에 설치된 네트워크</strong> 라고 말할 수 있겠다. LAN은 기본적으로 사용하는 쪽에서 책임지고 케이블 설치랑 라우터 배치 등을 해서 네트워크를 만든다.</p>
+<blockquote>
+<p>LAN은 지역적으로 좁은 범위에서 본인이 책임지고 구축하는 네트워크</p>
+</blockquote>
+<p><strong>두 번째</strong>, WAN은 떨어져 있는 지역의 LAN끼리 통신사업자의 통신 케이블을 빌려서 연결한 네트워크라고 말할 수 있다. 통신사업자란 통신용 케이블을 소유하고 있는 회사인데 우리나라의 경우 KT / SKT / LG 라고 보면 된다. </p>
+<blockquote>
+<p>WAN은 통신사가 소유한 통신망에 데이터를 전송할 권리를 구입해서 구축하는 네트워크</p>
+</blockquote>
+<p>정리해보면, LAN은 자기가 만들고 WAN은 통신사업자에게 빌려서 만드는 네트워크이다. 그리고 대표적인 WAN은 <strong>인터넷</strong>이 있다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/11/30/network/daily-network-basic/" data-id="cka56ji63007j9875gc9j0ppy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/12/07/network/daily-network-basic2/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    네트워크 기초 지식2
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/11/15/postgresql/psql-csv-import/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">PostgreSQL에 CSV 파일 임포트하기</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

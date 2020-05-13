@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>[DNS]DNS의 기초적인 작동방식 | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="DNS는 Domain Name System의 줄임말로써 도메인을 관리하는 시스템이다. DNS의 기본적인 작동방식에 대해서 정리한다. 1. DNS 서버에 ip 등록서비스 제공자는 ip를 DNS 서버에 입력해달라고 요청한다. 즉, “도메인 example.com은 ip 93.184.216.34를 의미한다”라고 저장해달라고 요청한다. 그리고 DNS 서버는 해당 정">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[DNS]DNS의 기초적인 작동방식">
+<meta property="og:url" content="https://jinmay.github.io/2020/05/13/web/basic-of-dns/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="DNS는 Domain Name System의 줄임말로써 도메인을 관리하는 시스템이다. DNS의 기본적인 작동방식에 대해서 정리한다. 1. DNS 서버에 ip 등록서비스 제공자는 ip를 DNS 서버에 입력해달라고 요청한다. 즉, “도메인 example.com은 ip 93.184.216.34를 의미한다”라고 저장해달라고 요청한다. 그리고 DNS 서버는 해당 정">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/13075035/75007854-b9234200-54b9-11ea-83ec-721b621e5d03.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/13075035/75008872-8d558b80-54bc-11ea-8650-7c41f1941ffa.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/13075035/75009128-34d2be00-54bd-11ea-8953-7cf9480cbf42.png">
+<meta property="article:published_time" content="2020-05-13T09:09:40.061Z">
+<meta property="article:modified_time" content="2020-05-13T09:09:40.061Z">
+<meta property="article:author" content="jinmay">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/13075035/75007854-b9234200-54b9-11ea-83ec-721b621e5d03.png">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2020/05/13/web/basic-of-dns/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-web/basic-of-dns" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            [DNS]DNS의 기초적인 작동방식
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/web/basic-of-dns/">
+            <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>DNS는 Domain Name System의 줄임말로써 도메인을 관리하는 시스템이다. DNS의 기본적인 작동방식에 대해서 정리한다.</p>
+<h2 id="1-DNS-서버에-ip-등록"><a href="#1-DNS-서버에-ip-등록" class="headerlink" title="1. DNS 서버에 ip 등록"></a>1. DNS 서버에 ip 등록</h2><p><strong>서비스 제공자는 ip를 DNS 서버에 입력해달라고 요청한다.</strong> 즉, <strong>“도메인 example.com은 ip 93.184.216.34를 의미한다”라고 저장해달라고 요청</strong>한다. 그리고 DNS 서버는 해당 정보를 저장한다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75007854-b9234200-54b9-11ea-83ec-721b621e5d03.png" alt></p>
+<h2 id="2-DHCP를-통해-DNS-서버-주소-할당"><a href="#2-DHCP를-통해-DNS-서버-주소-할당" class="headerlink" title="2. DHCP를 통해 DNS 서버 주소 할당"></a>2. DHCP를 통해 DNS 서버 주소 할당</h2><p>DHCP를 통해 클라이언트는 ip 뿐만 아니라 DNS 서버의 주소 / 서브넷 마스크 / 기본 게이트워이 등의 네트워크 정보를 할당 받는다. <strong>DHCP는 컴퓨터가 네트워크에 연결되는 순간 바로 실행되어 네트워크의 정보를 할당 받게 되며, 따라서 어떤 DNS 서버를 사용해야 하는지도 알게 된다.</strong></p>
+<p><a href="http://www.ciokorea.com/tags/25731/DHCP/39337" target="_blank" rel="external nofollow noopener noreferrer">참고</a></p>
+<h2 id="3-DNS로-도메인에-해당하는-ip-요청"><a href="#3-DNS로-도메인에-해당하는-ip-요청" class="headerlink" title="3. DNS로 도메인에 해당하는 ip 요청"></a>3. DNS로 도메인에 해당하는 ip 요청</h2><p>DHCP를 통해 DNS 서버를 알고있기 때문에 접속할 도메인의 ip가 무엇인지 물어본다. 즉, DNS 서버는 example.com의 ip주소인 93.184.216.34를 클라이언트에게 알려준다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75008872-8d558b80-54bc-11ea-8650-7c41f1941ffa.png" alt></p>
+<p>example.com의 ip 주소를 알게된 클라이언트는 ip 주소를 통해 해당 서비스에 접속할 수 있다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75009128-34d2be00-54bd-11ea-8953-7cf9480cbf42.png" alt></p>
+<h2 id="DNS-이용의-장점"><a href="#DNS-이용의-장점" class="headerlink" title="DNS 이용의 장점"></a>DNS 이용의 장점</h2><ul>
+<li>hosts 파일을 관리하는 수고를 덜어준다.</li>
+<li>도메인의 ip 주소가 변경되어도 DNS 서버에서만 바꾸면된다.</li>
+</ul>
+<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><ul>
+<li><p>클라이언트가 네트워크에 연결되는 순간 DHCP가 작동하여 ip를 물어볼 DNS 서버를 알게된다.</p>
+</li>
+<li><p>네이버에 접속하는 순간 다음의 두 과정을 거친다.</p>
+<ol>
+<li>DNS 서버에게 naver.com의 ip 주소를 물어본다.</li>
+<li>DNS 서버로부터 naver.com의 ip 주소를 받고 해당 ip로 접속한다.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<p>[참고]<br><a href="https://www.youtube.com/watch?v=iM07I1X7qkg&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=6" target="_blank" rel="external nofollow noopener noreferrer">https://www.youtube.com/watch?v=iM07I1X7qkg&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=6</a><br><a href="https://jwprogramming.tistory.com/35" target="_blank" rel="external nofollow noopener noreferrer">https://jwprogramming.tistory.com/35</a><br><a href="http://www.ciokorea.com/tags/25731/DHCP/39337" target="_blank" rel="external nofollow noopener noreferrer">http://www.ciokorea.com/tags/25731/DHCP/39337</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/web/basic-of-dns/" data-id="cka56ji6u00a598758hg6az0p" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2020/05/13/web/constructure-of-domain-name/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    [DNS]도메인 이름의 구조
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">리액트 네이티브에서 스크린 사이즈 구하기</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

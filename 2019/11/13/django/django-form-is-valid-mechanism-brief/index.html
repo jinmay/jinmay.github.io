@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>[Form]의식의 흐름대로 정리하는 장고 Form | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="장고의 정말 큰 장점 중 하나는 Form이라고 생각한다. 물론 여러 좋은 점들이 있지만 장고 폼을 통해서 값을 변경 &#x2F; 검사를 하고 심지어 HTML 코드로도 랜더링 할 수 있기 때문인데, 장고에서 자주 사용되는 Form 패턴을 통해 어떻게 동작하는 지 정리해 보려고 한다. 아마 새로운 게시물을 작성하는 것과 같은 일에 장고 폼을 사용할 것이다. 123456">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Form]의식의 흐름대로 정리하는 장고 Form">
+<meta property="og:url" content="https://jinmay.github.io/2019/11/13/django/django-form-is-valid-mechanism-brief/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="장고의 정말 큰 장점 중 하나는 Form이라고 생각한다. 물론 여러 좋은 점들이 있지만 장고 폼을 통해서 값을 변경 &#x2F; 검사를 하고 심지어 HTML 코드로도 랜더링 할 수 있기 때문인데, 장고에서 자주 사용되는 Form 패턴을 통해 어떻게 동작하는 지 정리해 보려고 한다. 아마 새로운 게시물을 작성하는 것과 같은 일에 장고 폼을 사용할 것이다. 123456">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-11-13T03:53:29.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:59:30.102Z">
+<meta property="article:author" content="jinmay">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2019/11/13/django/django-form-is-valid-mechanism-brief/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-django/django-form-is-valid-mechanism-brief" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            [Form]의식의 흐름대로 정리하는 장고 Form
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/13/django/django-form-is-valid-mechanism-brief/">
+            <time datetime="2019-11-13T03:53:29.000Z" itemprop="datePublished">2019-11-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/django/">django</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>장고의 정말 큰 장점 중 하나는 <strong>Form</strong>이라고 생각한다. 물론 여러 좋은 점들이 있지만 장고 폼을 통해서 값을 변경 / 검사를 하고 심지어 HTML 코드로도 랜더링 할 수 있기 때문인데, 장고에서 자주 사용되는 Form 패턴을 통해 어떻게 동작하는 지 정리해 보려고 한다.</p>
+<p>아마 새로운 게시물을 작성하는 것과 같은 일에 장고 폼을 사용할 것이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">new_post</span><span class="params">(requst)</span>:</span></span><br><span class="line">  <span class="keyword">if</span> request.method == <span class="string">"POST"</span>:</span><br><span class="line">    form = PostForm(request.POST)</span><br><span class="line">    <span class="keyword">if</span> form.is_valid():</span><br><span class="line">      post = form.save()</span><br><span class="line">      <span class="keyword">return</span> redirect(post)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    form = PostForm()</span><br><span class="line">  <span class="keyword">return</span> render()</span><br></pre></td></tr></table></figure>
+
+<p>HTTP method에 따라 빈 폼과 데이터가 바인딩된 폼을 생성하는 함수이다. 너무 단순하고 당연하다고 생각했기 때문에 별다른 의문없이 사용해온 패턴이지만 <strong>이제는 is_valid 함수가 하는 행동이 무엇인지 고민해 볼 필요가 있단 생각에 찾아보았다.</strong></p>
+<h3 id="form-생성"><a href="#form-생성" class="headerlink" title="form 생성"></a>form 생성</h3><p>먼저 form 생성코드를 살펴보자. 보통 폼 클래스는 forms.Form 또는 forms.ModelForm 클래스를 상속받아 생성하기 마련이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostForm</span><span class="params">(forms.ModelForm)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostForm</span><span class="params">(forms.Form)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>위 폼 클래스들 간의 상속관계를 보면 다음과 같다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 폼</span></span><br><span class="line"><span class="comment"># BaseForm -&gt; Form</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseForm</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Form</span><span class="params">(BaseForm)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 모델폼</span></span><br><span class="line"><span class="comment"># BaseForm -&gt; BaseModelForm -&gt; ModelForm</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseModelForm</span><span class="params">(BaseForm)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ModelForm</span><span class="params">(BaseModelForm)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>둘 다 BaseForm으로부터 시작되는 클래스이며 주의깊게 보아야 할 코드들은 거진 다 BaseForm에 구현되어 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">form = PostForm(request.POST)</span><br></pre></td></tr></table></figure>
+
+<p>위 코드를 통해 POST 요청의 body에 들어있는 데이터들이 PostForm 클래스에 데이터로 들어가게 되는데 BaseForm 클래스의 <strong>init</strong> 함수 인자를 보고서야 왜 그렇게 되는지 이해할 수 있었다.</p>
+<h3 id="생성한-폼-클래스가-데이터를-만드는-법"><a href="#생성한-폼-클래스가-데이터를-만드는-법" class="headerlink" title="생성한 폼 클래스가 데이터를 만드는 법"></a>생성한 폼 클래스가 데이터를 만드는 법</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># django/forms/forms.py</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseForm</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, data=None, files=None, auto_id=<span class="string">'id_%s'</span>, prefix=None,</span></span></span><br><span class="line"><span class="function"><span class="params">                  initial=None, error_class=ErrorList, label_suffix=None,</span></span></span><br><span class="line"><span class="function"><span class="params">                  empty_permitted=False, field_order=None, use_required_attribute=None,</span></span></span><br><span class="line"><span class="function"><span class="params">                  renderer=None)</span>:</span></span><br><span class="line"></span><br><span class="line">    self.is_bound = data <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">or</span> files <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span></span><br><span class="line">    self.data = &#123;&#125; <span class="keyword">if</span> data <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">else</span> data</span><br><span class="line">    self._errors = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="meta">  @property</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">errors</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> self._errors <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">      self.full_clean()</span><br><span class="line">    <span class="keyword">return</span> self._errors</span><br></pre></td></tr></table></figure>
+
+<p>request.POST의 데이터는 <strong>init</strong> 함수의 첫 번째 위치 인자로 들어가게 되고 self.data라는 인스턴스 변수의 값이 된다. 그리고 is_valid 함수를 호출하여 유효성 검사 수행한다.</p>
+<h3 id="is-valid-함수-호출을-통한-유효성-검사"><a href="#is-valid-함수-호출을-통한-유효성-검사" class="headerlink" title="is_valid 함수 호출을 통한 유효성 검사"></a>is_valid 함수 호출을 통한 유효성 검사</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># django/forms/forms.py</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_valid</span><span class="params">(self)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> self.is_bound <span class="keyword">and</span> <span class="keyword">not</span> self.errors</span><br></pre></td></tr></table></figure>
+
+<p>데이터가 바인딩된 폼의 유효성 검사의 결과는 True / False인 부울값이다. is_bound(데이터가 바인드 되었는지) 그리고 errors(에러가 없는지)를 판단하게 되며 둘 중에 하나라도 False 값을 가진다면 유효성 검증을 통과하지 못하고 끝난다.</p>
+<p>request.POST를 통해 데이터가 들어갔다면 is_bound는 True가 되고, errors의 값을 판단하기 위해 프로퍼티를 조회하는데 self._errors의 값이 처음에는 None이기 때문에 full_clean 함수를 호출하는 로직으로 넘어가야 한다.</p>
+<h3 id="full-clean-함수-호출"><a href="#full-clean-함수-호출" class="headerlink" title="full_clean 함수 호출"></a>full_clean 함수 호출</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">full_clean</span><span class="params">(self)</span>:</span></span><br><span class="line">  self._errors = ErrorDict()</span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> self.is_bound:  <span class="comment"># Stop further processing.</span></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  self.cleaned_data = &#123;&#125;</span><br><span class="line">  <span class="comment"># If the form is permitted to be empty, and none of the form data has</span></span><br><span class="line">  <span class="comment"># changed from the initial data, short circuit any validation.</span></span><br><span class="line">  <span class="keyword">if</span> self.empty_permitted <span class="keyword">and</span> <span class="keyword">not</span> self.has_changed():</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">  self._clean_fields()</span><br><span class="line">  self._clean_form()</span><br><span class="line">  self._post_clean()</span><br></pre></td></tr></table></figure>
+
+<p><strong>크게 보면 cleaned_data를 빈 딕셔너리로 초기화하고 _clean_fields 함수와 _clean_form 함수 그리고 _post_clean 함수를 호출하는 것으로 나눌 수 있다.</strong> 우리가 뷰 함수에서 유효성 검증이 통과한 데이터를 cleaned_data[‘title’]과 같이 사용할 수 있었던 것은 여기서 cleaned_data를 만들어주었기 때문인 것도 알 수 있었다.</p>
+<p>각 함수를 살펴보자.</p>
+<h3 id="full-clean-함수의-clean-fields-함수"><a href="#full-clean-함수의-clean-fields-함수" class="headerlink" title="full_clean 함수의 _clean_fields 함수"></a>full_clean 함수의 _clean_fields 함수</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># django/forms/forms.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_clean_fields</span><span class="params">(self)</span>:</span></span><br><span class="line">  <span class="keyword">for</span> name, field <span class="keyword">in</span> self.fields.items():</span><br><span class="line">    <span class="keyword">if</span> field.disabled:</span><br><span class="line">      value = self.get_initial_for_field(field, name)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      value = field.widget.value_from_datadict(self.data, self.files, self.add_prefix(name))</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      <span class="keyword">if</span> isinstance(field, FileField):</span><br><span class="line">        initial = self.get_initial_for_field(field, name)</span><br><span class="line">        value = field.clean(value, initial)</span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">        value = field.clean(value) <span class="comment"># 필드 객체의 clean 함수 호출</span></span><br><span class="line">        self.cleaned_data[name] = value</span><br><span class="line">        <span class="keyword">if</span> hasattr(self, <span class="string">'clean_%s'</span> % name):</span><br><span class="line">          value = getattr(self, <span class="string">'clean_%s'</span> % name)()</span><br><span class="line">          self.cleaned_data[name] = value</span><br><span class="line">    <span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">      self.add_error(name, e)</span><br><span class="line"></span><br><span class="line"><span class="comment"># django/forms/fields.py</span></span><br><span class="line"><span class="comment"># 필드 객체가 가진 clean함수이다. form 객체의 clean 함수과 혼동하지말자.</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clean</span><span class="params">(self, value)</span>:</span></span><br><span class="line">	value = self.to_python(value)</span><br><span class="line">	self.validate(value)</span><br><span class="line">	self.run_validators(value)</span><br><span class="line">	<span class="keyword">return</span> value</span><br></pre></td></tr></table></figure>
+
+<p>self.fields로부터 폼의 필드 이름과 필드 객체를 반복하면서 작업을 수행한다. 폼 필드를 순회하면서 clean함수를 호출하며, 이 clean 함수는 각각의 필드가 가진 validator를 이용하여 값을 검증하고 반환한다. 필드의 clean 함수로부터 반환된 값은 필드 이름을 key로 하는 cleaned<em>data 딕셔너리에 저장된다. 이 때, 폼 클래스의 객체가 **clean<em>필드명\</em>\</em> 함수를 가지고 있으면 이 함수를 실행한 결과를 cleaned_data에 다시 한 번 저장한다.</p>
+<p>만약 폼 클래스에 title 필드와 함수가 아래와 같이 있다면,</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostForm</span><span class="params">(forms.Form)</span>:</span></span><br><span class="line">	title = forms.CharField()</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">clean_title</span><span class="params">(self)</span>:</span></span><br><span class="line">		title = self.cleaned_data.get(<span class="string">'title'</span>)</span><br><span class="line">		<span class="comment"># title 값 처리</span></span><br><span class="line">		<span class="keyword">return</span> title</span><br></pre></td></tr></table></figure>
+
+<p><strong>title 필드의 clean() -&gt; clean_title() 의 순서로 cleaned_data를 만드는 것이다.</strong></p>
+<p>물론 호출 과정에서 에러가 발생하게 된다면 개별 필드의 에러로 등록되어 is_valid 유효성 검증에 실패하게 된다.</p>
+<p>_clean_field 함수 호출과정이 마무리되면 이어서 _clean_form가 실행된다.</p>
+<h3 id="full-clean-함수의-clean-form-함수"><a href="#full-clean-함수의-clean-form-함수" class="headerlink" title="full_clean 함수의 _clean_form 함수"></a>full_clean 함수의 _clean_form 함수</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># django/forms/forms.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_clean_form</span><span class="params">(self)</span>:</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		cleaned_data = self.clean()</span><br><span class="line">	<span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">		self.add_error(<span class="literal">None</span>, e)</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		<span class="keyword">if</span> cleaned_data <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">			self.cleaned_data = cleaned_data</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clean</span><span class="params">(self)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> self.cleaned_data</span><br></pre></td></tr></table></figure>
+
+<p>폼 객체의 clean 함수를 실행하여 받아온 인스턴스 변수 cleaned_data를 _clean_form 함수의 cleaned_data 변수로 만든다. 에러가 있다면 non_field_error가 생기며, 에러가 없다면 인스턴스 변수 self.cleaned_data에 clean()된 값이 들어간다.</p>
+<p>만약 아래와 같은 코드가 있다면</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostForm</span><span class="params">(forms.Form)</span>:</span></span><br><span class="line">	title = forms.CharField()</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">clean_title</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">clean</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>title 필드의 clean() -&gt; clean_title() -&gt; 폼 객체의 clean()의 순서로 함수가 실행된다.</strong></p>
+<p>마지막으로 _post_clean 함수가 남아있다.</p>
+<h3 id="full-clean-함수의-post-clean-함수"><a href="#full-clean-함수의-post-clean-함수" class="headerlink" title="full_clean 함수의 _post_clean 함수"></a>full_clean 함수의 _post_clean 함수</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># django/forms/forms.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_post_clean</span><span class="params">(self)</span>:</span></span><br><span class="line">	<span class="string">"""</span></span><br><span class="line"><span class="string">	An internal hook for performing additional cleaning after form cleaning</span></span><br><span class="line"><span class="string">	is complete. Used for model validation in model forms.</span></span><br><span class="line"><span class="string">	"""</span></span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># django/forms/models.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_post_clean</span><span class="params">(self)</span>:</span></span><br><span class="line">	opts = self._meta</span><br><span class="line"></span><br><span class="line">	exclude = self._get_validation_exclusions()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> name, field <span class="keyword">in</span> self.fields.items():</span><br><span class="line">		<span class="keyword">if</span> isinstance(field, InlineForeignKeyField):</span><br><span class="line">			exclude.append(name)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		self.instance = construct_instance(self, self.instance, opts.fields, opts.exclude)</span><br><span class="line">	<span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">		self._update_errors(e)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		self.instance.full_clean(exclude=exclude, validate_unique=<span class="literal">False</span>)</span><br><span class="line">	<span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">		self._update_errors(e)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> self._validate_unique:</span><br><span class="line">		self.validate_unique()</span><br></pre></td></tr></table></figure>
+
+<p>보다시피 일반 폼에서는 _post_clean 함수의 역할은 없다. 주석이 의미하는 바 처럼 모델 폼에서 모델 유효성 검사를 위해 사용되는 함수라고 생각하면 된다.</p>
+<p>full_clean 함수의 모든 과정을 에러없이 마무리했다면 self._errors에는 값이 없기 때문에 부울 값이 False가 되고</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_valid</span><span class="params">(self)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> self.is_bound <span class="keyword">and</span> <span class="keyword">not</span> self.errors</span><br></pre></td></tr></table></figure>
+
+<p>결국 is_valid 함수는 True를 반환해서 form.is_valid를 통한 유효성 검증이 끝나게 되는 것이다.</p>
+<p>메타클래스 등 아직 더 살펴보아야 할 것이 있지만 이해한 만큼만 정리를 해 보았다. 추후에는 조금 더 나아가서 ModelForm까지도 정리해보자!!</p>
+<hr>
+<p>[참고]<br><a href="https://github.com/django/django/tree/2.2.3" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/django/django/tree/2.2.3</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/13/django/django-form-is-valid-mechanism-brief/" data-id="cka56ji4d001p9875aykbh5db" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/11/19/python/python-closure-decorator/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    파이썬의 클로저
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2019/11/11/django/django-celery-conf-systemd/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Celery 데몬으로 관리하기</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

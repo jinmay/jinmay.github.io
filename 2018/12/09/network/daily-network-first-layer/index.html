@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>신호의 전송과 충돌(1계층 - 물리계층) | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="1계층 - 물리계층OSI 참조 모델의 첫 번째 계층 - 물리계층에 대해서 알아보자. 전기 &#x2F; 기계적인 전송이전에 짧게 살펴본 것처럼, 물리 계층의 역할은 “전기 &#x2F; 기계적인 전송을 수행한다.” 였다. 즉, 1계층은 통신 매체(파이프)에 데이터(신호)를 보내는 것과 그 데이터가 지나는 것에 대한 순서와 규칙이라고 말할 수 있다.   케이블이 연결되어 있는 기">
+<meta property="og:type" content="article">
+<meta property="og:title" content="신호의 전송과 충돌(1계층 - 물리계층)">
+<meta property="og:url" content="https://jinmay.github.io/2018/12/09/network/daily-network-first-layer/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="1계층 - 물리계층OSI 참조 모델의 첫 번째 계층 - 물리계층에 대해서 알아보자. 전기 &#x2F; 기계적인 전송이전에 짧게 살펴본 것처럼, 물리 계층의 역할은 “전기 &#x2F; 기계적인 전송을 수행한다.” 였다. 즉, 1계층은 통신 매체(파이프)에 데이터(신호)를 보내는 것과 그 데이터가 지나는 것에 대한 순서와 규칙이라고 말할 수 있다.   케이블이 연결되어 있는 기">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-12-09T07:33:06.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:09:40.056Z">
+<meta property="article:author" content="jinmay">
+<meta property="article:tag" content="network">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2018/12/09/network/daily-network-first-layer/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-network/daily-network-first-layer" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            신호의 전송과 충돌(1계층 - 물리계층)
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/12/09/network/daily-network-first-layer/">
+            <time datetime="2018-12-09T07:33:06.000Z" itemprop="datePublished">2018-12-09</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="1계층-물리계층"><a href="#1계층-물리계층" class="headerlink" title="1계층 - 물리계층"></a>1계층 - 물리계층</h1><p>OSI 참조 모델의 첫 번째 계층 - 물리계층에 대해서 알아보자.</p>
+<h3 id="전기-기계적인-전송"><a href="#전기-기계적인-전송" class="headerlink" title="전기 / 기계적인 전송"></a>전기 / 기계적인 전송</h3><p>이전에 짧게 살펴본 것처럼, 물리 계층의 역할은 <strong>“전기 / 기계적인 전송을 수행한다.”</strong> 였다. 즉, <strong>1계층은 통신 매체(파이프)에 데이터(신호)를 보내는 것과 그 데이터가 지나는 것에 대한 순서와 규칙</strong>이라고 말할 수 있다. </p>
+<blockquote>
+<p>케이블이 연결되어 있는 기기에 신호를 전달하는 것이 1계층의 역할이다.</p>
+</blockquote>
+<p>그리고 그 데이터는 신호의 형태로 전송되게 된다. </p>
+<h3 id="통신-매체"><a href="#통신-매체" class="headerlink" title="통신 매체"></a>통신 매체</h3><p><strong>신호가 지나는 파이프 역할을 하는 것이 통신 매체이다.</strong> 이러한 파이프는 <strong>유선</strong>과 <strong>무선</strong>으로 나누어진다. 무선은 다루지 않기로 하고 유선의 경우를 생각해보자. 유선은 케이블을 이용해 신호를 주고받는 방식인데, 이 케이블에는 <strong>전기신호를 사용하는 동선</strong>과 <strong>광신호를 사용하는 광파이버(광섬유)</strong> 두 가지가 있다. </p>
+<p>동선은 흔히 <strong>UTP(Unshielded Twist Pair cable)</strong>라고 부르며 8개의 동선으로 이루어져 있다. UTP는 두 개가 한 쌍인 동선 네 쌍으로 이루어져 있고, 일반적으로 가장많이 사용되고 있는 통신매체이다.</p>
+<p>광섬유는 <strong>빛 신호를 전달하는 가는 유리 / 플라스틱 섬유의 일종</strong>이다. 신호의 안정과 통신속도에서는 뛰어난 성능을 보이지만, 굽히기가 어렵다는 단점 때문에 UTP에 비하면 보급률이 떨어진다. </p>
+<p>기기가 데이터를 송수신하는 과정에는 통신 매체 뿐만아니라 <strong>인터페이스</strong>도 필요하다. 인터페이스는 <strong>컴퓨터와 통신 매체(케이블) 사이에서 신호를 보내고 받는 역할</strong>을 수행한다. 컴퓨터가 보내고 싶은 데이터를 케이블에 맞는 신호로 변환해서 케이블로 보내고, 케이블에서 보내온 신호를 컴퓨터에서 사용할 수 있게 변환하는 기계가 <strong>인터페이스</strong>이고 보통 컴퓨터에서 사용하는 인터페이스로는 LAN용 케이블에 접속하기 위한 <strong>NIC(Network Interface Card)</strong>가 있다. </p>
+<h3 id="신호와-충돌"><a href="#신호와-충돌" class="headerlink" title="신호와 충돌"></a>신호와 충돌</h3><p>1계층에서 중요한 키워드는 <strong>통신매체와 신호</strong>라고 할 수 있다. 그리고 인터페이스를 통해 데이터를 신호로 바꾸는 것도 알아보았다. 통신매체(케이블) 속에서 왔다갔다하는 신호는 결국 데이터이며 이러한 데이터는 비트로 표현된다는 것도 공부했다. 지금부터 우리가 사용하는 컴퓨터가 데이터를 표현하기 위해서 사용하는 - 0과 1로 되어있는 - <strong>디지털 신호</strong>에 대해서 알아볼 것이다.</p>
+<blockquote>
+<p>신호의 종류에는 <strong>아날라그 신호</strong> / <strong>디지털 신호</strong>가 있다. </p>
+<p>아날로그 신호는 연속적인 신호이며 디지털 신호는 이산적인 신호이다. </p>
+</blockquote>
+<p>그리고 이 신호의 형태와 전송방법에 따라서 <strong>통신속도</strong>가 결정된다. 통신속도는 일반적으로 <strong>1초 동안 전송되는 비트 수</strong>로 계산되며 <strong>bps(bit per second)</strong>라는 단위를 사용한다. 언뜻 생각하면 한 개의 신호를 가능한 짧게, 그리고 되도록 많이 표현할 수 있다면 통신속도가 빨라질 것이라고 생각할 수 있다. 하지만 신호가 너무 짧아지면 수신측에서 식별하는 게 힘들어지기 때문에 전송속도에는 한계점이 존재한다.</p>
+<h3 id="신호에-발생하는-문제"><a href="#신호에-발생하는-문제" class="headerlink" title="신호에 발생하는 문제"></a>신호에 발생하는 문제</h3><p>통신 매체를 통해 신호를 주고받다보면 여러가지 문제가 발생할 수 있다. 그 중에서 일반적으로 발생하는 세 가지에 대해서 알아보자.</p>
+<ul>
+<li><p>감쇠<br>동선을 통해 전기신호를 보내면 저항이 발생하게 된다. 그래서 긴 케이블(동선)을 지나는 동안 신호가 약해지는데 그렇게 되면 신호의 진폭의 약해져서 수신측에서 데이터를 못 읽을 수도 있게된다. 이러한 문제점을 해결하기 위하여 <strong>약해진 신호를 다시 강하게 해주는 증폭기를 사용하곤 한다.</strong> </p>
+</li>
+<li><p>노이즈 / 간섭<br>전기신호가 어떠한 이유로 인해 형태가 무너져버리는 것이다. 수신측에서는 노이즈가 일어난 신호의 진폭을 정확하게 읽을 수 없게 된다.<br>노이즈가 발생하는 원인으로는 “근처에 큰 전원 또는 고온의 물체가 옆에 있다거나 / 근처에 신호를 보내는 또 다른 케이블이 있다거나” 하는 게 있다. 신호의 간섭을 방지하기위해 원인으로부터 멀리 두거나 케이블에 특수 가공을 하는 방법을 사용하곤한다. (하지만 광섬유를 통해 발생되는 빛 신호는 위와 같은 이유로 간섭이 발생하지 않는데 위의 노이즈는 전기적인 요인에 의해서 발생하는 것이기 때문이다.)</p>
+</li>
+<li><p>충돌<br>케이블 하나에 T자 분배기(허브)를 사용해서 여러 대의 기기를 연결하는 <strong>멀티엑세스 네트워크</strong> 환경에서 발생하곤한다. 신호가 보내지고 있는 도중에 다른 신호가 발생되면 충돌이 발생하며, 충돌을 해소하기 위해서 <strong>신호를 보내는 타이밍을 엇갈리게 하거나 신호가 지나는 길을 나누는 방법</strong>을 사용한다. 또한 <strong>충돌을 방지하는 방법은 2계층과 관련된 내용이기도 하다.</strong></p>
+</li>
+</ul>
+<h3 id="허브"><a href="#허브" class="headerlink" title="허브"></a>허브</h3><p>멀티엑세스 네트워크 환경을 의미하며 <strong>허브에 연결된 기기는 동일 케이블에 연결되어 있는 것하고 같은 환경이다.</strong> 허브의 케이블 삽입구를 포트라고 부르며 4개의 포트가 있는 허브는 총 4대의 기기를 연결할 수 있는 것이다. 허브의 첫 번재 기능은 <strong>신호의 증폭과 재생</strong>이다.  </p>
+<ul>
+<li><p>신호의 증폭 / 재생<br>감쇠된 신호를 허브를 통해 증폭 / 재생한다. 원래 신호를 증폭하기 위한 기계로 <strong>리피터(Repeater)</strong>가 있는데, 리피터는 허브처럼 여러개의 기기들을 연결할 수 없다는 단점이 있다. 그래서 허브에 신호를 증폭하는 기능을 추가해 사용하곤 한다. 추가로 신호를 증폭 / 재생하지 않는 허브도 있는데, 이런 허브는 <strong>패시브(passive) 허브</strong>라고 부르고, 증폭기능을 하는 허브를 <strong>액티브(active) 허브</strong>라고 부른다.</p>
+</li>
+<li><p>분배기<br>복수의 기기를 연결해서 네트워크를 구성해주는 역할을 한다. 허브에 연결되어 있는 기기끼리 신호를 주고받을 수 있게 된다. 8포트 허브는 총 8개의 기기들이 하나의 네트워크에 연결될 수 있다.</p>
+</li>
+</ul>
+<h3 id="충돌-도메인"><a href="#충돌-도메인" class="headerlink" title="충돌 도메인"></a>충돌 도메인</h3><p>허브를 중심으로 여러 대의 기기가 연결되는 네트워크에는 문제점이 존재한다. <strong>허브는 수신한 신호에 대해 어떠한 제어도 하지 않는다.</strong> 라는 점이다. <del>당연한 얘기 같다..</del> 허브는 신호 증폭 이외에는 별 다른 역할을 하지 않기 때문에 신호를 송수신함에 있어서는 어떠한 제어도 하지 않는 것이다. <strong>허브는 수신 포트 이외의 모든 포트에 수신한 신호를 송신하며 이러한 현상을 플러딩(flooding)이라고 한다.</strong></p>
+<p>들어온 하나의 신호가 모든 포트를 통해 나가는게 허브가 해주는 역할(플러딩)인데 만약 두 기기가 동시에 신호를 송신하면 어떻게 될것인가? 신호가 부딪쳐서 <strong>충돌</strong>이 발생하게 될 것이다.</p>
+<blockquote>
+<p>같은 허브에 연결되어 있다면 하나의 케이블에 연결되어 있는 것과 마찬가지이기 때문에 두 개 이상의 기기가 동시에 신호를 발생시키면 어딘가에서 신호가 부딪치는 <strong>충돌</strong>현상이 발생하는 것이다.</p>
+</blockquote>
+<p>이처럼 충돌이 발생할지도 모르는 범위를 <strong>충돌 도메인(Collision Domain)</strong>이라고 부른다. 충돌 도메인 내에 있는 기기가 신호를 송신하면 어딘가에서 충돌이 발생할 가능성이 생기는 것이다. 그래서 <strong>같은 허브로 연결되어 있는 기기들은 같은 충돌 도메인 내에 있게 되는 것이다.</strong></p>
+<p>충돌 도메인은 작아야만 하는 것이고, 범위를 줄이기 위해서 컴퓨터의 수를 줄여야 하는데 이는 현실적으로 불가능한 방법이다. 그래서 <strong>스위치</strong>라는 장비를 통해 위와 같은 문제를 해결하며 스위치의 역할은 2계층에서 알아보도록 하자.</p>
+<blockquote>
+<p>허브는 여러 대의 기기를 연결하고 신호를 증폭하고 재생하는 역할을 하며 플러딩을 일으킨다.</p>
+<p>허브로 인해서 충돌 도메인이 발생되며, 이러한 충돌 도메인은 작아야만 한다.</p>
+</blockquote>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/12/09/network/daily-network-first-layer/" data-id="cka56ji64007o9875el1d6jq2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/12/10/network/daily-network-second-layer/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    신호의 전송과 충돌(2계층 - 데이터링크계층)
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/12/07/network/daily-network-basic2/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">네트워크 기초 지식2</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Daily Programming">
+<meta property="og:url" content="https://jinmay.github.io/page/43/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="jinmay">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/page/43/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main">
+    <article id="post-python/python-with-postgresql" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/01/11/python/python-with-postgresql/">python과 PostgreSQL 연동하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/01/11/python/python-with-postgresql/">
+            <time datetime="2018-01-10T15:58:31.000Z" itemprop="datePublished">2018-01-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/database/" rel="tag">database</a>, <a class="tag-link" href="/tags/postgresql/" rel="tag">postgresql</a>, <a class="tag-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>PostgreSQL은 <strong>오픈소스 관계형데이터베이스(RDBMS)</strong>이다. 오픈소스 진영의 RDBMS 중에서 두 번째로 큰 사용자층을 가지고 있으며 가장 많이 사용되는 DB는 MySQL이다. 처음 접해본 DBMS가 postgresql이었기 때문에 현재고 가끔식 사용하는 중이다.</p>
+<p>이용중인 운영체제에 따라서 설치하는 방법이 조금씩 다르며, 같은 운영체제라고 해도 CLI와 GUI로 구분함에 따라 또 나뉘어진다.</p>
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><ul>
+<li>in OSX<br>먼저 맥에서 어떻게 설치해야 하는지 알아보자. 공식홈페이지에서 배포하고있는 gui 기반의 소프트웨어도 있지만, 터미널에서 사용하기 위해 Homebrew를 통해 설치를 진행해본다.<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew update <span class="comment"># 먼저 homebrew를 업데이트해준다</span></span><br><span class="line">brew install  postgresql <span class="comment"># psql 설치</span></span><br></pre></td></tr></table></figure>
+두 번재 명령을 통해서 psql을 설치할 수 있다. <del>설치는 매우 간단하다.</del></li>
+</ul>
+<p>psql을 처음 설치했다면 db를 만들기 위해 아래와 같이 입력한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">initdb /usr/<span class="built_in">local</span>/var/postgres -E utf8</span><br></pre></td></tr></table></figure>
+
+<p>데몬을 통해 db서버를 항상 띄워놓을 수도 있지만 다음 명령어로 수동으로 실행하고 종료할 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pg_ctl -D /usr/<span class="built_in">local</span>/var/postgres start <span class="comment"># 실행</span></span><br><span class="line">pg_ctl -D /usr/<span class="built_in">local</span>/var/postgres stop -s -m fast <span class="comment"># 종료</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="기본-명령어"><a href="#기본-명령어" class="headerlink" title="기본 명령어"></a>기본 명령어</h2><p>설치까지 완료하였고 python과 연동하기에 앞서서 가장 기초적인 명령어를 살펴보자.</p>
+<ul>
+<li><p>클라이언트 접속</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql &lt;db_name&gt;</span><br></pre></td></tr></table></figure>
+<p>클라이언트에 접속하기 위해서 psql이라는 명령어를 사용해야한다. 뒤에는 db명을 명시해야하며 비밀번호를 요구할 수도 있다.</p>
+</li>
+<li><p>데이터베이스 목록 확인</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\l</span><br></pre></td></tr></table></figure>
+<p>현재 데이터베이스의 목록을 출력하는 명령어는 \l(역슬래시 + 영소문자 L)이다. 아마도 기본적으로 <strong>postgres와 template0 그리고 template1</strong>이 있을것이다. 또한 프롬프트를 통해 현재 어떠한 데이터베이스에 접속해 있는지도 알 수 있다.</p>
+</li>
+<li><p>데이터베이스 변경</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\c &lt;db_name&gt;</span><br></pre></td></tr></table></figure>
+<p>사용중인 데이터베이스를 변경한다. 명령어는 \c(역슬래시 + 영소문자 C) 이다. 정상적으로 변경이 완료되었다면 프롬프트(쉘)의 이름이 변경된 것을 확인할 수 있다.</p>
+</li>
+<li><p>새로운 데이터베이스 생성</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> &lt;db_name&gt;;</span><br></pre></td></tr></table></figure>
+<p>새로운 데이터베이스를 생성하며 자동으로 로그인 중인 db를 변경해준다. 소문자로 적어도 작동은 하는 것 같고.. 문장 끝에 세미콜론을 잊으면 안된다.</p>
+</li>
+<li><p>스키마 목록 확인</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\dn</span><br></pre></td></tr></table></figure>
+<p>스키마 목록을 확인할 수 있다. 데이터베이스를 막 생성한 직후라면 기본적으로 public 밖에 없을 것이다.</p>
+</li>
+<li><p>테이블 목록</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\dt</span><br></pre></td></tr></table></figure>
+<p>현재 데이터베이스의 테이블 목록을 확인할 수 있다.</p>
+</li>
+<li><p>클라이언트 종료</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\q</span><br></pre></td></tr></table></figure>
+<p>psql 클라이언트를 종료한다.</p>
+</li>
+<li><p>테이블 정의</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> &lt;<span class="built_in">table_name</span>&gt; (</span><br><span class="line">  column1 datatype,</span><br><span class="line">  column2 datatype,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>이름이 table_name 이고 데이터 타입이 datatype인 컬럼을 두 개 가진 테이블을 생성한다.</p>
+</li>
+<li><p>테이블 삭제</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> &lt;<span class="built_in">table_name</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>해당 테이블을 삭제한다. 해당 커맨드는 테이블 자체를 삭제하는 것이며, 테이블의 데이터를 삭제하려고 한다면 DELETE 또는 TRUNCATE 명령을 사용해야 한다.</p>
+</li>
+<li><p>테이블의 데이터 삭제</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">from</span> &lt;<span class="built_in">table_name</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>해당 테이블의 모든 데이터를 삭제한다.</p>
+</li>
+</ul>
+<p>지금까지 맥북에서 설치하는 방법과 간단한 명령어를 알아보았다. </p>
+<h2 id="python과-연동"><a href="#python과-연동" class="headerlink" title="python과 연동"></a>python과 연동</h2><p>간단하게나마 psql에 대해서 접해보았으니 원래 주제인 python과 연동하는 방법을 알아보자. 패키지 의존성 문제를 피하기 위해 virtualenv와 같은 가상환경을 이용하도록 하자.</p>
+<p>실습을 위한 가상환경을 생성했으면 잊지말고 활성화를 하자. psql을 python에서 사용하려면 driver(adapter)를 이용해야만 한다. psql을 파이썬과 함께 사용할때 가장 많이 쓰이는 드라이버는 <strong>psycopg2</strong>이다. psycopg2란 파이썬을 위한 가장 알려진 psql db adapter 라고 공식문서에서 소개하고 있으며 주된 기능으로는 thread safety와 파이썬 db api 2.0을 완벽하게 수행하는 것이라고 한다.</p>
+<ul>
+<li><p>psycopg2 설치</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install psycopg2</span><br></pre></td></tr></table></figure>
+<p>매우 간단하다.</p>
+</li>
+<li><p>연동</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> psycopg2 <span class="comment"># driver 임포트</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># conn = psycopg2.connect("host=localhost dbname=test user=postgres password=pwtest port=5432")</span></span><br><span class="line">conn = psycopg2.connect(host=<span class="string">'localhost'</span>, dbname=<span class="string">'test'</span>, user=<span class="string">'postgres'</span>, password=<span class="string">'pwtest'</span>, port=<span class="string">'5432'</span>) <span class="comment"># db에 접속</span></span><br></pre></td></tr></table></figure>
+<p>먼저 설치한 psycopg2를 임포트한다. 그 다음으로 psql db에 접속할 차례인데 위의 예제코드처럼 두 가지 방법이 있다. 첫 번째는, 연결옵션들을 모두 하나의 따옴표(“”)안에 넣는 방법이고 두 번째 방법은 각각의 연결옵션마다 개별적으로 적어주는 방법이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cur = conn.cursor() <span class="comment"># 커서를 생성한다</span></span><br><span class="line">                    <span class="comment"># 특정한 처리를 할때 사용함</span></span><br></pre></td></tr></table></figure>
+<p>  커서를 생성했다. 커서란 select 되는 특정 집합에 대해서 각 행에 대해 특정한 처리를 할 때 사용한다고 한다.(결과로 도출된 데이터에서 특정 위치, 특정 row를 가리킬 때 사용된다)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 명령 실행 : 새 테이블 만들기</span></span><br><span class="line">cur.execute(<span class="string">"CREATE TABLE test_table (title varchar, content text);"</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># data 입력</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO test_table (title, content) VALUES (%s, %s)"</span>, (<span class="string">'hello'</span> ,<span class="string">'qwerttyfdas'</span>))</span><br></pre></td></tr></table></figure>
+<p>  생성한 커서를 가지고 명령을 수행하는 코드이다. execute()안에 psql 명령어를 입력하면 된다.</p>
+<p><strong>데이터를 집어넣는 명령을 수행할때 주의해야할 것들이 있다.</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># example 1</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO numbers VALUES (%d)"</span>, (42,)) <span class="comment"># WRONG</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO numbers VALUES (%s)"</span>, (42,)) <span class="comment"># correct</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># example 2</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO foo VALUES (%s)"</span>, <span class="string">"bar"</span>)    <span class="comment"># WRONG</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO foo VALUES (%s)"</span>, (<span class="string">"bar"</span>))  <span class="comment"># WRONG</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO foo VALUES (%s)"</span>, (<span class="string">"bar"</span>,)) <span class="comment"># correct</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO foo VALUES (%s)"</span>, [<span class="string">"bar"</span>])  <span class="comment"># correct</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># exampel 3</span></span><br><span class="line">SQL = <span class="string">"INSERT INTO authors (name) VALUES (%s);"</span> <span class="comment"># Note: no quotes</span></span><br><span class="line">data = (<span class="string">"O'Reilly"</span>, )</span><br><span class="line">cur.execute(SQL, data) <span class="comment"># Note: no % operator</span></span><br></pre></td></tr></table></figure>
+<p>  ex1 - 숫자형이라고 placeholder를 %d로 입력하지 않는다.<br>  ex2 - 튜플로 넘겨줄땐 항상 following comma가 필요하며 리스트로 넘겨주는 것 또한 가능하다.<br>  ex3 - 또한 .execute()안에 명령어를 직접 입력해주는 것 보다 수행할 sql문과 대입할 data을 따로 넘겨주는 것을 선호한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test 테이블의 모든 데이터를 가져오고 출력한다</span></span><br><span class="line">cur.execute(<span class="string">"SELECT * FROM test;"</span>)</span><br><span class="line"><span class="keyword">print</span> cur.fetchone()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 데이터를 변경했다면 반드시 .commit() 해주어야 한다</span></span><br><span class="line">conn.commit()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 커서를 닫고 연걸을 종료한다.</span></span><br><span class="line">cur.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+<p>  잊지말고 conn.commit()을 해주어야 삭제했던 변경했던 새로 데이터를 추가했던간에 실제 db에 반영이된다. <del>매번 commit을 하지 않아서 왜 db에 값이 저장되지 않을까? 하는 실수를 반복하고 있다.</del></p>
+</li>
+</ul>
+<hr>
+<p>[참고]<br><a href="https://gist.github.com/xpepper/8110743" target="_blank" rel="external nofollow noopener noreferrer">https://gist.github.com/xpepper/8110743</a><br><a href="http://blog.naver.com/PostView.nhn?blogId=alice_k106&amp;logNo=220847310053" target="_blank" rel="external nofollow noopener noreferrer">http://blog.naver.com/PostView.nhn?blogId=alice_k106&amp;logNo=220847310053</a><br><a href="http://www.sqler.com/400339" target="_blank" rel="external nofollow noopener noreferrer">http://www.sqler.com/400339</a><br><a href="http://blog.secretmuse.net/?p=24" target="_blank" rel="external nofollow noopener noreferrer">http://blog.secretmuse.net/?p=24</a><br><a href="http://freeprog.tistory.com/100" target="_blank" rel="external nofollow noopener noreferrer">http://freeprog.tistory.com/100</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/01/11/python/python-with-postgresql/" data-id="cka56ji6r009w987524132cpx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-python/python-package-pyowm" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/01/09/python/python-package-pyowm/">PyOWM를 이용하여 현재기온 받아오기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/01/09/python/python-package-pyowm/">
+            <time datetime="2018-01-09T02:21:25.000Z" itemprop="datePublished">2018-01-09</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/package/" rel="tag">package</a>, <a class="tag-link" href="/tags/pyowm/" rel="tag">pyowm</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>현재 간단하게 운영하고 있는 서비스에 현재기온을 알 수 있는 기능을 추가하고 싶어 api를 찾던 중 <strong>openweathermap</strong>를 발견했다. api doc을 읽으면서 그냥 사용해도 무방할 것 같았지만 왠지 래핑된 파이썬 패키지가 있을거 같아서 찾아보았더니 역시나.. 있었다. official doc은 물론 깃허브에 설명이 너무 잘 되어있어서 사용하는 데에는 크게 무리 없었지만 처음으로 오픈소스를 찾아본 기념으로 정리하려고 한다.</p>
+<h1 id="PyOWM"><a href="#PyOWM" class="headerlink" title="PyOWM"></a>PyOWM</h1><p>일단 OWM이 뭔지 알아야 할 것 같다. OWM이란? <strong>OpenWeatherMap</strong>은 현재날씨 뿐만아니라 예보 풍향, 기온 등을 알려주는 온라인 서비스이다. 총 다섯가지 티어로 나누어져있고 프리티어도 존재하기 때문에 무료로 사용할 수 있다. 공식 페이지를 통해 각 티어간의 차이를 알 수 있을 것이다. </p>
+<p>나의 경우에는 현재기온만을 필요로 했기때문에 프리티어면 충분했다. owm의 장점으로는 api doc이 설명이 자세하다는 것과 사용하는 것도 편리하다는 것이다. 하지만 더 나아가서 파이썬 사용자들을 위해 누군가가 더 편리하게 만들어서 PyOWM이라는 파이썬 패키지를 제공하고 있는 것이다. 파이썬2의 2.7과 3.2버전 이상을 지원하고 있으며 웹 프레임워크 Django1.10이상의 모델에도 사용할 수 있다.</p>
+<h3 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h3><ol>
+<li>pip를 이용한다<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyowm</span><br></pre></td></tr></table></figure>
+매우 편리하다. 쉽다.</li>
+</ol>
+<h2 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h2><p><strong>일단 owm이 제공하는 api를 이용하기 위해서는 공식 페이지로 들어가 api key를 받아야한다.</strong><br><del>물론 영어로 적혀있지만 간단하기 때문에 쉽게 할 수 있을 것이다.</del></p>
+<p><em>주의할 점</em><br><em>서비스에 가입하고 api key를 받았더라도 바로 사용할 수 없다. 공식 안내에 따르면 free tier 계정과 startup tier 계정은 받은 api key를 활성화하는 데에 10분이 소요된다고 하니 발급받고 10분 뒤에 사용하도록 한다.</em></p>
+<p>설치한 패키지를 임포트 하는것으로 시작하면 된다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 아래 어느것으로 해도 무방하다</span></span><br><span class="line"><span class="comment"># import pyowm</span></span><br><span class="line">from pyowm import OWM</span><br></pre></td></tr></table></figure>
+
+<p>임포트 한 뒤 OWM 객체를 생성해야 한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">owm = OWM(API_KEY)</span><br></pre></td></tr></table></figure>
+<p>어떠한 종류의 api를 구독하는지 명시하지 않았다면 free tier로 간주한다. 유료api를 구독하고 있다면 아래와 같이 하자.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">owm = OWM(API_KEY, subscription_type=<span class="string">'pro'</span>) <span class="comment"># pro tier를 구독하는 예시</span></span><br></pre></td></tr></table></figure>
+
+<p>사용하려는 owm api 버전도 지정할 수 있다. 만약 명시하지 않으면 가장 최신버전의 api를 사용한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">owm = OWM(API_KEY, version=<span class="string">'2.5'</span>) <span class="comment"># owm api version == 2.5</span></span><br></pre></td></tr></table></figure>
+
+<p>지금까지 했다면 최소한의 준비는 됐다. 도시이름을 통해 해당도시의 날씨상황을 가져와보자. 현재 날씨를 받아오기 위해 검색하는 것은 매우 간단하다. 날씨를 알고싶은 지역의 이름을 OWM 객체에 전달해주면 된다. “지명”으로 해도 좋고 “도시ID”와 “위도/경도”로도 검색 할 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">observation = owm.weather_at_place(<span class="string">'Seoul,KR'</span>)</span><br></pre></td></tr></table></figure>
+<p>입력한 지역과 매칭되는 날씨 정보를 포함한 <strong>observation 객체</strong>가 리턴된다. observation 객체는 두 가지 또다른 객체를 포함하고 있다. <strong>날씨와 관련된 데이터를 포함한 Weather 객체와 지역에 대한 데이터를 가진 Location 객체 이다.</strong> </p>
+<p>아래와 같이 하면 Weather 객체를 가져올 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seoul_weather = observation.get_weather()</span><br><span class="line"><span class="built_in">print</span>(seoul_weather)   <span class="comment"># &lt;Weather - reference time=2013-12-18 09:20, status=Clouds&gt; 를 출력한다.</span></span><br></pre></td></tr></table></figure>
+
+<p>더 디테일한 날씨정보를 가져오기 위해 아래 예시코드를 참고하자 : </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">seoul_weather.get_wind()                  <span class="comment"># &#123;'speed': 4.6, 'deg': 330&#125;</span></span><br><span class="line">seoul_weather.get_humidity()              <span class="comment"># 87</span></span><br><span class="line">seoul_weather.get_rain()                  <span class="comment"># Get rain volume</span></span><br><span class="line">seoul_weather.get_clouds()                <span class="comment"># Get cloud coverage </span></span><br><span class="line">seoul_weather.get_snow()                  <span class="comment"># Get snow volume</span></span><br><span class="line">seoul_weather.get_wind()                  <span class="comment"># Get wind degree and speed</span></span><br><span class="line">seoul_weather.get_pressure()              <span class="comment"># 기압</span></span><br><span class="line"></span><br><span class="line">seoul_weather.get_temperature()           <span class="comment"># 온도(캘빈온도)</span></span><br><span class="line">seoul_weather.get_temperature(<span class="string">'celsius'</span>)  <span class="comment"># &#123;'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0&#125;</span></span><br><span class="line"></span><br><span class="line">seoul_weather.get_status()                <span class="comment"># Get weather short status ex) 'Clouds'</span></span><br><span class="line">seoul_weather.get_detailed_status()       <span class="comment"># ex) 'Broken clouds'</span></span><br><span class="line">seoul_weather.get_weather_code()          <span class="comment"># owm에서 사용하는 상태코드 - ex) 803</span></span><br><span class="line">seoul_weather.get_sunrise_time()          <span class="comment"># 일출시각 ex) 1377862896L</span></span><br><span class="line">seoul_weather.get_sunset_time(<span class="string">'iso'</span>)      <span class="comment"># 일몰시각(iso시간) ex) '2013-08-30 20:07:57+00'</span></span><br></pre></td></tr></table></figure>
+
+<p>위에서 이미 얘기했듯이 observation 객체는 Location 객체도 가지고 있다. 아래는 Location 객체를 가져오는 코드이다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">location_seoul = observation.get_location()</span><br><span class="line"><span class="built_in">print</span>(location_seoul)</span><br></pre></td></tr></table></figure>
+
+<p>Location 객체도 다양한 속성이 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location_seoul.get_name()    <span class="comment"># 'Seoul'</span></span><br><span class="line">location_seoul.get_lon()     <span class="comment"># 경도</span></span><br><span class="line">location_seoul.get_lat()     <span class="comment"># 위도</span></span><br><span class="line">location_seoul.get_ID()      <span class="comment"># 도시ID</span></span><br></pre></td></tr></table></figure>
+
+
+<p><del>실시간 날씨현황뿐만 아니라 예보기능도 있지만 아직 사용해보지 않은 관계로 추후에 정리해보자!!</del></p>
+<hr>
+<p>[참고]<br><a href="https://github.com/csparpa/pyowm" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/csparpa/pyowm</a><br><a href="https://github.com/csparpa/pyowm/blob/master/pyowm/docs/usage-examples.md" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/csparpa/pyowm/blob/master/pyowm/docs/usage-examples.md</a><br><a href="https://openweathermap.org/current" target="_blank" rel="external nofollow noopener noreferrer">https://openweathermap.org/current</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/01/09/python/python-package-pyowm/" data-id="cka56ji6m009c98753rm3auul" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-linux/basic-of-crontab" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/01/07/linux/basic-of-crontab/">리눅스 크론탭 기본(Basic of crontab)</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/01/07/linux/basic-of-crontab/">
+            <time datetime="2018-01-07T06:03:21.000Z" itemprop="datePublished">2018-01-07</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/crontab/" rel="tag">crontab</a>, <a class="tag-link" href="/tags/path/" rel="tag">path</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="Crontab"><a href="#Crontab" class="headerlink" title="Crontab !?"></a>Crontab !?</h3><p>유닉스 계열의 시간기반 잡 스케줄러이다. 서버를 운영하다 보면 관리의 편의성을 위해 쉘 스크립트를 일정한 주기로 실행하는 등의 고정된 작업을 필요로할때가 있다. 주로 로그를 남기기 위해 사용하는 듯 싶고 나의 경우 운영하고 있는 서비스때문에 주기적으로 크롤링을 해야돼서 크론탭을 이용하고있다. </p>
+<p><strong>작업을 고정된 시간, 날짜, 간격에 주기적으로 실행할 수 있도록 스케줄링하기 위해 사용한다</strong><br>각각의 사용자들은 개인별로 자신들만의 crontab을 가질 수 있으며 관리자가 직접 작업들을 공통으로 지정하기도 한다.</p>
+<h3 id="파일-위치"><a href="#파일-위치" class="headerlink" title="파일 위치"></a>파일 위치</h3><h3 id="etc-crontab"><a href="#etc-crontab" class="headerlink" title="/etc/crontab"></a>/etc/crontab</h3><p>주로 시스템 관련 작업들을 등록할때 사용하는 경로이다.</p>
+<h3 id="var-spool-cron"><a href="#var-spool-cron" class="headerlink" title="/var/spool/cron"></a>/var/spool/cron</h3><p>시스템 개별사용자들이 등록해놓은 crontab이 위치해있는 경로이다. 일반적으로 root계정용 하나와 각 계정당 1개의 파일을 가진다. </p>
+<h3 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h3><p>기본 형태와 예시를 살펴보자.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ┌───────────── min (0 - 59) </span></span><br><span class="line"><span class="comment"># │ ┌────────────── hour (0 - 23)</span></span><br><span class="line"><span class="comment"># │ │ ┌─────────────── day of month (1 - 31)</span></span><br><span class="line"><span class="comment"># │ │ │ ┌──────────────── month (1 - 12)</span></span><br><span class="line"><span class="comment"># │ │ │ │ ┌───────────────── day of week (0 - 6) (0 to 6 are Sunday to Saturday, or use names; 7 is Sunday, the same as 0)</span></span><br><span class="line"><span class="comment"># │ │ │ │ │</span></span><br><span class="line"><span class="comment"># │ │ │ │ │</span></span><br><span class="line"><span class="comment"># * * * * *  command to execute</span></span><br></pre></td></tr></table></figure>
+
+<p>예시</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 매일 20시 (오후 8시)에 export_dump.sh라는 쉘 프로그램을 실행</span></span><br><span class="line">0 20 * * * /home/oracle/scripts/export_dump.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 매주 일요일 0시 1분에 for_crawling.sh 쉘 프로그램을 실행</span></span><br><span class="line">0 1 * * 0 /home/test_user/scripts/for_crawling.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="관련명령어"><a href="#관련명령어" class="headerlink" title="관련명령어"></a>관련명령어</h3><ul>
+<li><p>예약작업 생성 및 수정</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>예약된 작업 삭제</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -r</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>crontab 작업 리스트 출력</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -l</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>시스템 사용자의 crontab 편집</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -u &lt;user_name&gt;</span><br></pre></td></tr></table></figure>
+<p>root 사용자는 개인 사용자의 crontab을 수정하거나 삭제할 수 있다.</p>
+</li>
+<li><p>크론탭 재시작</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service crond restart</span><br></pre></td></tr></table></figure>
+<p>크론탭을 생성하거나 수정했다면 혹시모르니 꼭 재시작을 해주자!!</p>
+</li>
+</ul>
+<p>간단한 쉘 스크립트를 주기적으로 실행하기위해 이용했던 crontab은 큰 무리없이 지금까지 사용해왔다. 하지만 코드를 조금 변경하면서 파이썬 스크립트를 추가하면서 문제가 발생했고 해결과정을 정리하고자 한다.</p>
+<h3 id="crontab-사용시-주의점"><a href="#crontab-사용시-주의점" class="headerlink" title="crontab 사용시 주의점!!"></a>crontab 사용시 주의점!!</h3><p>crontab의 규칙에 맞게 설정을 했음에도 불구하고 동작하는 않은 경우가 발생했다. 인터넷을 찾아보니 두세가지 정도의 이유가 있었다.</p>
+<h3 id="1-환경변수"><a href="#1-환경변수" class="headerlink" title="1. 환경변수"></a>1. 환경변수</h3><p>크론탭은 네 가지 환경변수를 가지고 있다. =&gt; <strong>SHELL / PATH / MAILTO / HOME</strong></p>
+<ul>
+<li><p>SHELL<br>등록된 작업을 실행시킨 쉘을 지정한다<strong>(크론탭은 실행시에 별도로 쉘을 띄운다)</strong>. 지정하지 않을시 <strong>기본값으로 /bin/sh로 지정</strong>된다. </p>
+</li>
+<li><p>PATH<br>쉘을 별도로 띄워서 실행하는 특성때문에, 쉘에서 프로그램을 찾기위한 PATH도 별도로 지정해줄 필요가 있다. 로그인해서 쉘을 실행시키는 것이 아니기 때문에 PATH변수를 이용할 수 없기 때문이다.</p>
+</li>
+<li><p>MATILTO<br>(크게 중요하진 않은것 같다)크론이 수행한 결과를 메일로 보내준다. 기본값으로 <strong>작업을 실행한 주체</strong>에게 전송하게 되어있다.</p>
+</li>
+<li><p>HOME<br>crontab의 home 디렉토리(:12)경로를 설정한다. 기본적으로는 crontab의 실행유저의 홈디렉토리로 /etc/passwd에 설정된 경로를 따른다. </p>
+</li>
+</ul>
+<h4 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line"></span><br><span class="line">SHELL=/usr/bin/zsh</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line"></span><br><span class="line">* * * * * sample.sh</span><br></pre></td></tr></table></figure>
+<p>매분마다 sample.sh을 실행하며 프로그램이 작동할 쉘과 경로를 지정해주었다.</p>
+<h3 id="2-권한문제"><a href="#2-권한문제" class="headerlink" title="2. 권한문제"></a>2. 권한문제</h3><p>크론탭을 설정하는 방법에는 <strong>crontab -e</strong> 명령어를 통한 작성과 <strong>직접 /etc/crontab</strong>을 편집하는 두 가지 방법이 있다. 두 번째 방법처럼 vi /etc/crontab을 통해 직접 수정을 했을 경우 root 권한 명령을 실행하려면 root권한을 명시해 주어야 한다. </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line">* * * * * example.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># vi /etc/crontab</span></span><br><span class="line">* * * * * root example.sh</span><br></pre></td></tr></table></figure>
+<p>  두 번째 처럼 root 권한을 명시해야 한다!!</p>
+<h3 id="3-절대경로-상대경로"><a href="#3-절대경로-상대경로" class="headerlink" title="3. 절대경로 / 상대경로"></a>3. 절대경로 / 상대경로</h3><p>절대경로로 작성하는 것을 추천한다 @.@</p>
+<h3 id="4-최소-반복-시간"><a href="#4-최소-반복-시간" class="headerlink" title="4. 최소 반복 시간"></a>4. 최소 반복 시간</h3><p>크론탭의 <strong>최소 반복시간은 1분</strong>이다. 명심하자.</p>
+<hr>
+<h4 id="내가-겪은-문제"><a href="#내가-겪은-문제" class="headerlink" title="내가 겪은 문제"></a>내가 겪은 문제</h4><p>파이썬으로 웹 페이지를 크롤링하는 코드를 작성하였고 간단한 설명을 위해 한글로 주석을 달아놓았다. 또한 virtualenv를 사용하고 있었기 때문에 크론이 돌아가는 쉘이 가상환경 경로를 모르는 듯 했다.</p>
+<p>약 두 세시간 삽질끝에 이유를 위와 같이 알 수 있었고 <del>정석대로 해결을 못해서</del> 한글주석을 지웠다… 그리고 path설정을 하니 정상작동했다.</p>
+<ul>
+<li><p>path 설정<br>파이썬 가상환경을 사용하고 있다면, 패키지들과 어떤 파이썬으로 실행되는지 path로 설정해줄 필요가 있다고 한다. 그래서 구동되는 파이썬의 path를 보기위해 다음과 같이 했다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python3 <span class="comment"># 파이썬 실행</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; import sys <span class="comment"># sys모듈 임포트</span></span><br><span class="line">&gt;&gt;&gt; sys.path <span class="comment"># path 출력(리스트 형태)</span></span><br></pre></td></tr></table></figure>
+<p>sys.path를 실행해서 출력된 path값들을 crontab의 PATH에 추가해 주었다.</p>
+</li>
+<li><p>가상환경 경로 입력<br>스크립트를 실행하는 명령을 입력하기 전에 파이썬 가상환경을 활성화하는 명령을 입력해 보았다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line"></span><br><span class="line">* * * * * <span class="built_in">source</span> /path/to/virtualenv/bin/activate &amp;&amp; python3 /path/to/file/example.py</span><br></pre></td></tr></table></figure>
+<p>위와 같이 했더니 가상환경을 정상적으로 활성화하고 파이썬 스크립트를 실행했다.</p>
+</li>
+<li><p>파이썬 경로 입력<br>파이썬 인터프리터에게 어떤 파이썬을 사용할 지 알려주는 것이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/home/my/virtualenv/bin/python</span></span><br></pre></td></tr></table></figure>
+<p>스크립트 맨위에 주석을 달아준다.</p>
+</li>
+<li><p>SHELL 경로 지정<br>주로 zsh을 설치하여 사용하고 있기 때문에 경로를 바꿔보았다</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line">SHELL=/usr/bin/zsh</span><br></pre></td></tr></table></figure>
+<p>이렇게 했더니 웬걸… python을 찾을 수 없다고 한다. 그래서 sys.path을 통해 파이썬 경로를 알아내어 PATH설정도 해주었는데 그래도 작동하지 않았다..</p>
+</li>
+<li><p>한글주석 삭제<br>한글주석을 지워보았더니 non-ascii 문제가 사라졌다. 그 다음에 path설정을 해주었더니 올바르게 동작…</p>
+</li>
+</ul>
+<hr>
+<h4 id="추가-팁"><a href="#추가-팁" class="headerlink" title="추가 팁?"></a>추가 팁?</h4><p><del>귀차니즘으로 인해 아직 해보지는 않았지만</del> 실행할 명령어를 크론탭에서 바로 작성하는 것이 아니라 따로 .sh을 만들고 크론에서 그 .sh을 실행하는 방법이다. 왜 이렇게하면 잘 작동하는 가에 대한 이유를 찾아보려고 했으나 아직까진 발견하지 못했다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi example.sh</span></span><br><span class="line">python /path/to/test.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line">* * * * * /path/example.sh</span><br></pre></td></tr></table></figure>
+<p>  바로 파이썬 스크립트를 입력하지 말고 한번 .sh로 감싼다음에 그 .sh 스크립트를 실행한다는 것이다. 꼭 한번 시도해보자.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/01/07/linux/basic-of-crontab/" data-id="cka56ji5f0053987544gj3wbk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/42/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/44/">Next &amp;raquo;</a>
+    </nav>
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

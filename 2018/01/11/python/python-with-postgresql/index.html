@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>python과 PostgreSQL 연동하기 | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="PostgreSQL은 오픈소스 관계형데이터베이스(RDBMS)이다. 오픈소스 진영의 RDBMS 중에서 두 번째로 큰 사용자층을 가지고 있으며 가장 많이 사용되는 DB는 MySQL이다. 처음 접해본 DBMS가 postgresql이었기 때문에 현재고 가끔식 사용하는 중이다. 이용중인 운영체제에 따라서 설치하는 방법이 조금씩 다르며, 같은 운영체제라고 해도 CLI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python과 PostgreSQL 연동하기">
+<meta property="og:url" content="https://jinmay.github.io/2018/01/11/python/python-with-postgresql/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="PostgreSQL은 오픈소스 관계형데이터베이스(RDBMS)이다. 오픈소스 진영의 RDBMS 중에서 두 번째로 큰 사용자층을 가지고 있으며 가장 많이 사용되는 DB는 MySQL이다. 처음 접해본 DBMS가 postgresql이었기 때문에 현재고 가끔식 사용하는 중이다. 이용중인 운영체제에 따라서 설치하는 방법이 조금씩 다르며, 같은 운영체제라고 해도 CLI">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-01-10T15:58:31.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:09:40.060Z">
+<meta property="article:author" content="jinmay">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="postgresql">
+<meta property="article:tag" content="database">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2018/01/11/python/python-with-postgresql/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-python/python-with-postgresql" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            python과 PostgreSQL 연동하기
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/01/11/python/python-with-postgresql/">
+            <time datetime="2018-01-10T15:58:31.000Z" itemprop="datePublished">2018-01-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/database/" rel="tag">database</a>, <a class="tag-link" href="/tags/postgresql/" rel="tag">postgresql</a>, <a class="tag-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>PostgreSQL은 <strong>오픈소스 관계형데이터베이스(RDBMS)</strong>이다. 오픈소스 진영의 RDBMS 중에서 두 번째로 큰 사용자층을 가지고 있으며 가장 많이 사용되는 DB는 MySQL이다. 처음 접해본 DBMS가 postgresql이었기 때문에 현재고 가끔식 사용하는 중이다.</p>
+<p>이용중인 운영체제에 따라서 설치하는 방법이 조금씩 다르며, 같은 운영체제라고 해도 CLI와 GUI로 구분함에 따라 또 나뉘어진다.</p>
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><ul>
+<li>in OSX<br>먼저 맥에서 어떻게 설치해야 하는지 알아보자. 공식홈페이지에서 배포하고있는 gui 기반의 소프트웨어도 있지만, 터미널에서 사용하기 위해 Homebrew를 통해 설치를 진행해본다.<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew update <span class="comment"># 먼저 homebrew를 업데이트해준다</span></span><br><span class="line">brew install  postgresql <span class="comment"># psql 설치</span></span><br></pre></td></tr></table></figure>
+두 번재 명령을 통해서 psql을 설치할 수 있다. <del>설치는 매우 간단하다.</del></li>
+</ul>
+<p>psql을 처음 설치했다면 db를 만들기 위해 아래와 같이 입력한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">initdb /usr/<span class="built_in">local</span>/var/postgres -E utf8</span><br></pre></td></tr></table></figure>
+
+<p>데몬을 통해 db서버를 항상 띄워놓을 수도 있지만 다음 명령어로 수동으로 실행하고 종료할 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pg_ctl -D /usr/<span class="built_in">local</span>/var/postgres start <span class="comment"># 실행</span></span><br><span class="line">pg_ctl -D /usr/<span class="built_in">local</span>/var/postgres stop -s -m fast <span class="comment"># 종료</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="기본-명령어"><a href="#기본-명령어" class="headerlink" title="기본 명령어"></a>기본 명령어</h2><p>설치까지 완료하였고 python과 연동하기에 앞서서 가장 기초적인 명령어를 살펴보자.</p>
+<ul>
+<li><p>클라이언트 접속</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql &lt;db_name&gt;</span><br></pre></td></tr></table></figure>
+<p>클라이언트에 접속하기 위해서 psql이라는 명령어를 사용해야한다. 뒤에는 db명을 명시해야하며 비밀번호를 요구할 수도 있다.</p>
+</li>
+<li><p>데이터베이스 목록 확인</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\l</span><br></pre></td></tr></table></figure>
+<p>현재 데이터베이스의 목록을 출력하는 명령어는 \l(역슬래시 + 영소문자 L)이다. 아마도 기본적으로 <strong>postgres와 template0 그리고 template1</strong>이 있을것이다. 또한 프롬프트를 통해 현재 어떠한 데이터베이스에 접속해 있는지도 알 수 있다.</p>
+</li>
+<li><p>데이터베이스 변경</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\c &lt;db_name&gt;</span><br></pre></td></tr></table></figure>
+<p>사용중인 데이터베이스를 변경한다. 명령어는 \c(역슬래시 + 영소문자 C) 이다. 정상적으로 변경이 완료되었다면 프롬프트(쉘)의 이름이 변경된 것을 확인할 수 있다.</p>
+</li>
+<li><p>새로운 데이터베이스 생성</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> &lt;db_name&gt;;</span><br></pre></td></tr></table></figure>
+<p>새로운 데이터베이스를 생성하며 자동으로 로그인 중인 db를 변경해준다. 소문자로 적어도 작동은 하는 것 같고.. 문장 끝에 세미콜론을 잊으면 안된다.</p>
+</li>
+<li><p>스키마 목록 확인</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\dn</span><br></pre></td></tr></table></figure>
+<p>스키마 목록을 확인할 수 있다. 데이터베이스를 막 생성한 직후라면 기본적으로 public 밖에 없을 것이다.</p>
+</li>
+<li><p>테이블 목록</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\dt</span><br></pre></td></tr></table></figure>
+<p>현재 데이터베이스의 테이블 목록을 확인할 수 있다.</p>
+</li>
+<li><p>클라이언트 종료</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\q</span><br></pre></td></tr></table></figure>
+<p>psql 클라이언트를 종료한다.</p>
+</li>
+<li><p>테이블 정의</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> &lt;<span class="built_in">table_name</span>&gt; (</span><br><span class="line">  column1 datatype,</span><br><span class="line">  column2 datatype,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>이름이 table_name 이고 데이터 타입이 datatype인 컬럼을 두 개 가진 테이블을 생성한다.</p>
+</li>
+<li><p>테이블 삭제</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> &lt;<span class="built_in">table_name</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>해당 테이블을 삭제한다. 해당 커맨드는 테이블 자체를 삭제하는 것이며, 테이블의 데이터를 삭제하려고 한다면 DELETE 또는 TRUNCATE 명령을 사용해야 한다.</p>
+</li>
+<li><p>테이블의 데이터 삭제</p>
+<figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">from</span> &lt;<span class="built_in">table_name</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>해당 테이블의 모든 데이터를 삭제한다.</p>
+</li>
+</ul>
+<p>지금까지 맥북에서 설치하는 방법과 간단한 명령어를 알아보았다. </p>
+<h2 id="python과-연동"><a href="#python과-연동" class="headerlink" title="python과 연동"></a>python과 연동</h2><p>간단하게나마 psql에 대해서 접해보았으니 원래 주제인 python과 연동하는 방법을 알아보자. 패키지 의존성 문제를 피하기 위해 virtualenv와 같은 가상환경을 이용하도록 하자.</p>
+<p>실습을 위한 가상환경을 생성했으면 잊지말고 활성화를 하자. psql을 python에서 사용하려면 driver(adapter)를 이용해야만 한다. psql을 파이썬과 함께 사용할때 가장 많이 쓰이는 드라이버는 <strong>psycopg2</strong>이다. psycopg2란 파이썬을 위한 가장 알려진 psql db adapter 라고 공식문서에서 소개하고 있으며 주된 기능으로는 thread safety와 파이썬 db api 2.0을 완벽하게 수행하는 것이라고 한다.</p>
+<ul>
+<li><p>psycopg2 설치</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install psycopg2</span><br></pre></td></tr></table></figure>
+<p>매우 간단하다.</p>
+</li>
+<li><p>연동</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> psycopg2 <span class="comment"># driver 임포트</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># conn = psycopg2.connect("host=localhost dbname=test user=postgres password=pwtest port=5432")</span></span><br><span class="line">conn = psycopg2.connect(host=<span class="string">'localhost'</span>, dbname=<span class="string">'test'</span>, user=<span class="string">'postgres'</span>, password=<span class="string">'pwtest'</span>, port=<span class="string">'5432'</span>) <span class="comment"># db에 접속</span></span><br></pre></td></tr></table></figure>
+<p>먼저 설치한 psycopg2를 임포트한다. 그 다음으로 psql db에 접속할 차례인데 위의 예제코드처럼 두 가지 방법이 있다. 첫 번째는, 연결옵션들을 모두 하나의 따옴표(“”)안에 넣는 방법이고 두 번째 방법은 각각의 연결옵션마다 개별적으로 적어주는 방법이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cur = conn.cursor() <span class="comment"># 커서를 생성한다</span></span><br><span class="line">                    <span class="comment"># 특정한 처리를 할때 사용함</span></span><br></pre></td></tr></table></figure>
+<p>  커서를 생성했다. 커서란 select 되는 특정 집합에 대해서 각 행에 대해 특정한 처리를 할 때 사용한다고 한다.(결과로 도출된 데이터에서 특정 위치, 특정 row를 가리킬 때 사용된다)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 명령 실행 : 새 테이블 만들기</span></span><br><span class="line">cur.execute(<span class="string">"CREATE TABLE test_table (title varchar, content text);"</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># data 입력</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO test_table (title, content) VALUES (%s, %s)"</span>, (<span class="string">'hello'</span> ,<span class="string">'qwerttyfdas'</span>))</span><br></pre></td></tr></table></figure>
+<p>  생성한 커서를 가지고 명령을 수행하는 코드이다. execute()안에 psql 명령어를 입력하면 된다.</p>
+<p><strong>데이터를 집어넣는 명령을 수행할때 주의해야할 것들이 있다.</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># example 1</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO numbers VALUES (%d)"</span>, (42,)) <span class="comment"># WRONG</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO numbers VALUES (%s)"</span>, (42,)) <span class="comment"># correct</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># example 2</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO foo VALUES (%s)"</span>, <span class="string">"bar"</span>)    <span class="comment"># WRONG</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO foo VALUES (%s)"</span>, (<span class="string">"bar"</span>))  <span class="comment"># WRONG</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO foo VALUES (%s)"</span>, (<span class="string">"bar"</span>,)) <span class="comment"># correct</span></span><br><span class="line">cur.execute(<span class="string">"INSERT INTO foo VALUES (%s)"</span>, [<span class="string">"bar"</span>])  <span class="comment"># correct</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># exampel 3</span></span><br><span class="line">SQL = <span class="string">"INSERT INTO authors (name) VALUES (%s);"</span> <span class="comment"># Note: no quotes</span></span><br><span class="line">data = (<span class="string">"O'Reilly"</span>, )</span><br><span class="line">cur.execute(SQL, data) <span class="comment"># Note: no % operator</span></span><br></pre></td></tr></table></figure>
+<p>  ex1 - 숫자형이라고 placeholder를 %d로 입력하지 않는다.<br>  ex2 - 튜플로 넘겨줄땐 항상 following comma가 필요하며 리스트로 넘겨주는 것 또한 가능하다.<br>  ex3 - 또한 .execute()안에 명령어를 직접 입력해주는 것 보다 수행할 sql문과 대입할 data을 따로 넘겨주는 것을 선호한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test 테이블의 모든 데이터를 가져오고 출력한다</span></span><br><span class="line">cur.execute(<span class="string">"SELECT * FROM test;"</span>)</span><br><span class="line"><span class="keyword">print</span> cur.fetchone()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 데이터를 변경했다면 반드시 .commit() 해주어야 한다</span></span><br><span class="line">conn.commit()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 커서를 닫고 연걸을 종료한다.</span></span><br><span class="line">cur.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+<p>  잊지말고 conn.commit()을 해주어야 삭제했던 변경했던 새로 데이터를 추가했던간에 실제 db에 반영이된다. <del>매번 commit을 하지 않아서 왜 db에 값이 저장되지 않을까? 하는 실수를 반복하고 있다.</del></p>
+</li>
+</ul>
+<hr>
+<p>[참고]<br><a href="https://gist.github.com/xpepper/8110743" target="_blank" rel="external nofollow noopener noreferrer">https://gist.github.com/xpepper/8110743</a><br><a href="http://blog.naver.com/PostView.nhn?blogId=alice_k106&amp;logNo=220847310053" target="_blank" rel="external nofollow noopener noreferrer">http://blog.naver.com/PostView.nhn?blogId=alice_k106&amp;logNo=220847310053</a><br><a href="http://www.sqler.com/400339" target="_blank" rel="external nofollow noopener noreferrer">http://www.sqler.com/400339</a><br><a href="http://blog.secretmuse.net/?p=24" target="_blank" rel="external nofollow noopener noreferrer">http://blog.secretmuse.net/?p=24</a><br><a href="http://freeprog.tistory.com/100" target="_blank" rel="external nofollow noopener noreferrer">http://freeprog.tistory.com/100</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/01/11/python/python-with-postgresql/" data-id="cka56ji6r009w987524132cpx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/03/13/git/git-server-within-synology-nas/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    시놀로지 나스와 함께하는 git server
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/01/09/python/python-package-pyowm/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">PyOWM를 이용하여 현재기온 받아오기</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

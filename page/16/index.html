@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Daily Programming">
+<meta property="og:url" content="https://jinmay.github.io/page/16/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="jinmay">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/page/16/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main">
+    <article id="post-python/python-high-order-function" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/11/22/python/python-high-order-function/">[파이썬]고차함수</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/22/python/python-high-order-function/">
+            <time datetime="2019-11-22T04:32:14.000Z" itemprop="datePublished">2019-11-22</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><strong>파이썬에서 모든 것은 객체다.</strong> 라는 유명한 설명이 있다. 파이썬은 일급 객체를 지원하는 언어이며 아래와 같은 특징을 갖는다.</p>
+<ul>
+<li>런타임에서 초기화 가능</li>
+<li>변수 등에 할당 가능</li>
+<li>함수의 인자로 전달 가능</li>
+<li>함수의 결과값으로 사용 가능</li>
+</ul>
+<p>위와 같은 일급 객체의 특징을 가진 함수가 있다면 그것을 <strong>고차함수(Higher Order Function)</strong>이라고 부를 수 있으며 좀 더 특징을 다듬어 보자면</p>
+<ul>
+<li><strong>다른 함수를 생산/소비 하는 함수</strong></li>
+<li><strong>다른 함수를 인자로 받거나, 결과로 함수를 반환하는 함수</strong></li>
+</ul>
+<p>라고 할 수 있다.</p>
+<h2 id="정말-모든-것은-객체일까"><a href="#정말-모든-것은-객체일까" class="headerlink" title="정말 모든 것은 객체일까?"></a>정말 모든 것은 객체일까?</h2><p>간단한 함수를 만들고 타입을 확인하자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">print(type(func), type(A))</span><br><span class="line"><span class="comment"># &lt;class 'function'&gt; &lt;class 'type'&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>출력된 값을 보면 둘 다 객체라는 것을 알 수 있다.</p>
+<h2 id="고차함수-예시"><a href="#고차함수-예시" class="headerlink" title="고차함수 예시"></a>고차함수 예시</h2><p>파이썬 빌트인 함수 중에서 대표적인 고차함수로 map이 있다. map 함수는 인자로서 <strong>함수</strong>와 <strong>순회가능한 객체</strong>를 받는다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">number_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">result = list(map(<span class="keyword">lambda</span> x: x ** <span class="number">2</span>, number_list))</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>[참고]<br>AskDjango<br><a href="https://itholic.github.io/etc-higer-order-function/" target="_blank" rel="external nofollow noopener noreferrer">https://itholic.github.io/etc-higer-order-function/</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/22/python/python-high-order-function/" data-id="cka56ji6g009098758pu3gr9e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-python/python-copy-deepcopy" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/11/21/python/python-copy-deepcopy/">[파이썬]얕은 복사와 깊은 복사</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/21/python/python-copy-deepcopy/">
+            <time datetime="2019-11-21T09:17:05.000Z" itemprop="datePublished">2019-11-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>데이터를 복사하는 방법에는 크게 <strong>얕은 복사</strong>와 <strong>깊은 복사</strong>가 있다. 이 둘에 대해서 어떠한 차이점이 있는지 알아보고 흔히 할 수 있는 실수에 대해서 정리해보자.</p>
+<h2 id="기본-개념"><a href="#기본-개념" class="headerlink" title="기본 개념"></a>기본 개념</h2><h3 id="파이썬에서의-대입문"><a href="#파이썬에서의-대입문" class="headerlink" title="파이썬에서의 대입문"></a>파이썬에서의 대입문</h3><p>파이썬에서 대입문은 객체를 복사하지 않고 대상과 객체 사이에 바인딩을 만든다. </p>
+<h3 id="얕은-복사"><a href="#얕은-복사" class="headerlink" title="얕은 복사"></a>얕은 복사</h3><p>새로운 객체를 생성한 후 원본에 접근할 수 있는 참조를 입력한다.</p>
+<h3 id="깊은-복사"><a href="#깊은-복사" class="headerlink" title="깊은 복사"></a>깊은 복사</h3><p>새로운 객체를 생성한 후 원본의 복사본으로 데이터를 채워 넣는다.</p>
+<p>코드로 비교를 해 보면 더 차이점이 와닿을 것 같다.</p>
+<h3 id="대입문을-통한-복사"><a href="#대입문을-통한-복사" class="headerlink" title="대입문을 통한 복사"></a>대입문을 통한 복사</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">b = a</span><br><span class="line"></span><br><span class="line">id(a), id(b) <span class="comment"># id값이 같다</span></span><br><span class="line"></span><br><span class="line">b[<span class="number">0</span>] = <span class="string">'aaa'</span></span><br><span class="line">a <span class="comment"># ['aaa', 2, 3]</span></span><br><span class="line">b <span class="comment"># ['aaa', 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<p>이미 잘 알려져있는 예제이다. 위의 파이썬의 대입문에서 말했듯이 객체를 복사하지 않고 바인딩을 만들기 때문에 a와 b 변수는 같은 리스트 객체를 참조하고 있다. 따라서 둘 중 하나만 변경이 되더라도 모든 변수의 데이터에 영향을 주게 된다.</p>
+<p>위의 문제를 해결하기 위해서 보통은 아래와 같은 방법을 사용해 복사를 수행한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> copy <span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">b = a[:]</span><br><span class="line">c = list(a)</span><br><span class="line">d = copy(a)</span><br><span class="line"></span><br><span class="line">id(a), id(b), id(c),id(d)</span><br><span class="line"><span class="comment"># (4590448328, 4592590408, 4592444552, 4590818120)</span></span><br><span class="line"></span><br><span class="line">a[<span class="number">0</span>] = <span class="string">'aaa'</span></span><br><span class="line">a <span class="comment"># ['aaa', 2, 3]</span></span><br><span class="line">b <span class="comment"># [1, 2, 3]</span></span><br><span class="line">c <span class="comment"># [1, 2, 3]</span></span><br><span class="line">d <span class="comment"># [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>리스트 슬라이스 / list 함수 / copy 함수</strong>를 통해 복사하면 객체의 id값이 다르기 때문에 다른 데이터에는 영향을 주지 않게 된다. 그리고 <strong>이러한 복사 방식을 얕은 복사라고 부른다.</strong> 얼핏보면 문제없어 보이지만 리스트 안에 리스트가 있을 경우에는 예기치 못한 상황이 생긴다.</p>
+<h3 id="얕은-복사-copy-함수"><a href="#얕은-복사-copy-함수" class="headerlink" title="얕은 복사(copy 함수)"></a>얕은 복사(copy 함수)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]]</span><br><span class="line">b = copy(a) <span class="comment"># 얕은 복사 수행</span></span><br><span class="line"></span><br><span class="line">id(a), id(b)</span><br><span class="line"><span class="comment"># (4592590728, 4592373128)</span></span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>].append(<span class="string">'aa'</span>)</span><br><span class="line">a <span class="comment"># [1, [1, 2, 3, 'aa']]</span></span><br><span class="line">b <span class="comment"># [1, [1, 2, 3, 'aa']]</span></span><br></pre></td></tr></table></figure>
+
+<p>copy 모듈의 copy 함수를 통해 변수 b를 만들고 리스트안의 리스트를 수정했더니 a, b 두 변수의 값이 변경되었다. <strong>즉, copy 함수도 얕은 복사를 수행한다는 것이다.</strong> 원본의 값이 바뀌어도 복사된 객체에 영향을 주지 않으려면 깊은 복사(deepcopy)가 필요하다.</p>
+<h3 id="깊은-복사-deepcopy"><a href="#깊은-복사-deepcopy" class="headerlink" title="깊은 복사(deepcopy)"></a>깊은 복사(deepcopy)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> copy <span class="keyword">import</span> deepcopy</span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]]</span><br><span class="line">b = deepcopy(a)</span><br><span class="line"></span><br><span class="line">id(a), id(b)</span><br><span class="line"><span class="comment"># (4592642568, 4591296456)</span></span><br><span class="line"></span><br><span class="line">a[<span class="number">1</span>].append(<span class="string">'aa'</span>)</span><br><span class="line">a <span class="comment"># [1, [2, 3, 4, 'aa']]</span></span><br><span class="line">b <span class="comment"># [1, [2, 3, 4]]</span></span><br></pre></td></tr></table></figure>
+
+<p>이렇게 깊은 복사를 통해 복사를 하면 원본 데이터의 값이 변경되어도 복사본은 영향을 받지 않는다. </p>
+<h3 id="얕은-복사와-깊은-복사의-차이"><a href="#얕은-복사와-깊은-복사의-차이" class="headerlink" title="얕은 복사와 깊은 복사의 차이"></a>얕은 복사와 깊은 복사의 차이</h3><p>어떠한 차이점이 있는지 정리해보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 얕은 복사</span></span><br><span class="line">a = [<span class="number">1</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]]</span><br><span class="line">b = copy(a)</span><br><span class="line">c = deepcopy(a)</span><br><span class="line"></span><br><span class="line">id(a), id(b), id(c)</span><br><span class="line"><span class="comment"># (4592854280, 4591051528, 4594252744)</span></span><br><span class="line"><span class="comment"># 일단 모든 객체는 서로 다른 주소를 가진다</span></span><br><span class="line"></span><br><span class="line">id(a[<span class="number">1</span>]), id(b[<span class="number">1</span>]), id(c[<span class="number">1</span>])</span><br><span class="line"><span class="comment"># (4592595592, 4592595592, 4594187592)</span></span><br><span class="line"><span class="comment"># 얕은 복사한 b의 내부 리스트는 원본과 같은 주소를 가진다</span></span><br><span class="line"><span class="comment"># 그렇기 때문에 원본에 영향을 받는 것이다</span></span><br></pre></td></tr></table></figure>
+
+<p>얕은 복사과 깊은 복사 모두 객체를 복사하긴한다. 하지만 얕은 복사의 경우 저장된 데이터들까지 복사를 하진 않기때문에 서로가 영향을 주고 받으며, <strong>완전히 독립적인 객체로 만들기 위해서는 깊은 복사가 필요한 것이다.</strong></p>
+<p>마지막으로 정리를 해보면,  </p>
+<ul>
+<li>대입문을 통한 복사는 단순 복제(동일한 객체를 참조)</li>
+<li>얕은 복사는 껍데기만 복사, 내용은 동일한 객체를 참조</li>
+<li>깊은 복사는 껍데기를 복사하고 내용도 재귀적으로 복사</li>
+</ul>
+<hr>
+<p>[참고]<br><a href="https://docs.python.org/ko/3/library/copy.html" target="_blank" rel="external nofollow noopener noreferrer">https://docs.python.org/ko/3/library/copy.html</a><br><a href="https://kongdols-room.tistory.com/67" target="_blank" rel="external nofollow noopener noreferrer">https://kongdols-room.tistory.com/67</a>  </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/21/python/python-copy-deepcopy/" data-id="cka56ji6f008u98757d2z0bgx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-python/python-closure-decorator" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/11/19/python/python-closure-decorator/">파이썬의 클로저</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/19/python/python-closure-decorator/">
+            <time datetime="2019-11-19T05:59:32.000Z" itemprop="datePublished">2019-11-19</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>함수 안에 함수를 정의하는 내부함수를 통해 클로저를 구현할 수 있다. 파이썬이 함수를 일급 객체로 취급하기 때문에 가능하다. 클로저의 <strong>간단한 사전적 의미로는 “일급 객체를 지원하는 언어에서 유효 범위 이름을 바인딩하는 기술”</strong> 이라고 하는데 이해하기 복잡하니 내부함수를 반환하는 함수라고 (간단하게) 생각해도 될 것 같다.</p>
+<p>클로저를 살펴보기에 앞서 변수의 스코프에 대해 먼저 알아보자.</p>
+<h2 id="클로저-이해에-필요한-스코프"><a href="#클로저-이해에-필요한-스코프" class="headerlink" title="클로저 이해에 필요한 스코프"></a>클로저 이해에 필요한 스코프</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line"></span><br><span class="line">func1(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>너무 간단하다. b의 값이 없기 때문에 에러가 발생한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">123</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line"></span><br><span class="line">func2(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>함수 안에는 b 변수에 대한 값이 없으며 전역으로 선언된 b = 123을 사용하기 때문에 에러없이 함수를 호출할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">123</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func3</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line">  b = <span class="number">321</span></span><br><span class="line"></span><br><span class="line">func3(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>이번 예제는 주의해서 봐야한다. 일단 에러가 발생한다. 함수 안에서 변수 b를 출력하려고 하는데 값이 초기화 되기 전에 사용했기 때문에 UnboundedError가 일어난 것이다.  </p>
+<p>조금 더 설명하자면,<br>func3이 실행될때 런타임 상에서 변수의 존재를 체크한다. 함수 내에 변수 b가 있기 때문에 변수의 존재는 알고 있게되며 값이 할당되기 전에 출력을 먼저 하려고 해서 에러가 발생하게 된 것이다.</p>
+<h2 id="클로저"><a href="#클로저" class="headerlink" title="클로저"></a>클로저</h2><p>위의 스코프를 이해했다면 클로저의 동작 방식을 이해하는 데에도 큰 도움이 된다. 자유 변수(free variable)가 무엇인지 보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="comment"># free variable 영역</span></span><br><span class="line">  <span class="comment"># 클로저 영역</span></span><br><span class="line">  number_list = []</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(v)</span>:</span></span><br><span class="line">    number_list.append(v)</span><br><span class="line">    print(sum(number_list))</span><br><span class="line">  <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">func = outer() <span class="comment"># inner 함수 리턴 후 outer 함수 종료</span></span><br><span class="line">func(<span class="number">1</span>) <span class="comment"># 1</span></span><br><span class="line">func(<span class="number">2</span>) <span class="comment"># 3</span></span><br><span class="line">func(<span class="number">3</span>) <span class="comment"># 6</span></span><br></pre></td></tr></table></figure>
+
+<p>함수 실행의 결과는 인자로 들어간 값들이 누적된 합이 출력된다. outer 함수는 inner 함수를 리턴하고 종료가 되었는데 어떻게 inner 함수는 outer 함수 영역에 존재하는 변수를 계속해서 사용할 수 있는 것일까?</p>
+<p><strong>number_list 변수가 자유 변수 영역에 있기 때문이다.</strong> 내부함수 입장에서 자기가 선언하지 않은 변수를 자유 변수라고 이해하면 쉬울 것 같다. 외부함수의 변수를 계속 참조할 수 있어서 값을 계속 사용할 수 있다는 장점이 있지만 남용하게 되면 메모리를 낭비할 수도 있다는 단점도 있다.</p>
+<h2 id="자유변수-확인하기"><a href="#자유변수-확인하기" class="headerlink" title="자유변수 확인하기"></a>자유변수 확인하기</h2><p>dir 함수를 사용한다면 객체가 가진 내부정보를 볼 수 있다. 자유 변수로 사용되는 변수가 무엇인지 확인하려면 아래와 같이 하면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(func.__code__.co_freevars)</span><br><span class="line"><span class="comment"># ('number_list',)</span></span><br></pre></td></tr></table></figure>
+
+<p>자유 변수로서 사용되는 변수를 출력한다. 변수의 값을 확인하려면 이렇게 하면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(func.__closure__[<span class="number">0</span>].cell_contents)</span><br><span class="line"><span class="comment"># [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="클로저-사용시-주의사항"><a href="#클로저-사용시-주의사항" class="headerlink" title="클로저 사용시 주의사항"></a>클로저 사용시 주의사항</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></span><br><span class="line">  count = <span class="number">0</span></span><br><span class="line">  total = <span class="number">0</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(v)</span>:</span></span><br><span class="line">    <span class="comment"># nonlocal count, total # 문제 해결</span></span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line">    total += v</span><br><span class="line">    print(total / count)</span><br><span class="line">  <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">func = outer()</span><br><span class="line">func(<span class="number">1</span>) </span><br><span class="line"><span class="comment"># UnboundLocalError: local variable 'count' referenced before assignment</span></span><br></pre></td></tr></table></figure>
+
+<p>count 변수를 값이 할당 되기 전에 사용했기 때문에 에러가 발생한다. <strong>여기서 중요한 점은 밖의 변수들과 inner의 변수들이 이름이 같을지라도 다른 변수라는 것이다.</strong> 문제를 해결하기 위해서 nonlocal 키워드를 사용해주어야 한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">nonlocal</span> count, total</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<p>[참고]<br><a href="https://itholic.github.io/python-closure/" target="_blank" rel="external nofollow noopener noreferrer">https://itholic.github.io/python-closure/</a><br><a href="http://schoolofweb.net/blog/posts/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%ED%81%B4%EB%A1%9C%EC%A0%80-closure/" target="_blank" rel="external nofollow noopener noreferrer">http://schoolofweb.net/blog/posts/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%ED%81%B4%EB%A1%9C%EC%A0%80-closure/</a>  </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/19/python/python-closure-decorator/" data-id="cka56ji6e008r98751yj888t7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/15/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/17/">Next &amp;raquo;</a>
+    </nav>
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

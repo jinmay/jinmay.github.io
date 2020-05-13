@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Daily Programming">
+<meta property="og:url" content="https://jinmay.github.io/page/41/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="jinmay">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/page/41/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main">
+    <article id="post-network/transport-layer-of-tcp-ip" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/04/12/network/transport-layer-of-tcp-ip/">TCP/IP 4계층 - 트랜스포트 계층</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/04/12/network/transport-layer-of-tcp-ip/">
+            <time datetime="2018-04-12T03:17:26.000Z" itemprop="datePublished">2018-04-12</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="트랜스포트-계층"><a href="#트랜스포트-계층" class="headerlink" title="트랜스포트 계층"></a>트랜스포트 계층</h1><p>컴퓨터 안까지 들어온 데이터를 각 애플리케이션까지 전달하는 것이 트랜스포트 계층의 역할이다. 여러 컴퓨터로부터 받은 데이터들은 트랜스포트 계층에서 포트번호에 의해 분류되고 각 포트번호에 맞는 애플리케이션으로 전달된다. </p>
+<h2 id="트랜스포트-계층-프로토콜"><a href="#트랜스포트-계층-프로토콜" class="headerlink" title="트랜스포트 계층 프로토콜"></a>트랜스포트 계층 프로토콜</h2><p>두 가지의 대표 프로토콜이 있다.</p>
+<ol>
+<li><p>TCP</p>
+<ul>
+<li>웹이나 이메일같이 데이터가 정확하게 전달되어야 하는 통신에 사용된다. </li>
+<li>Transmission Control Protocol</li>
+<li>수신지의 통신 상태를 확인하고 제대로 전송이 안됐을 경우 재전송하는 기능도 한다.</li>
+<li>높은 신뢰성 - 패킷 전송여부 확인</li>
+</ul>
+</li>
+<li><p>UDP</p>
+<ul>
+<li>VoIP나 동영상 스트리밍처럼 전송 속도가 중요한 통신에 사용된다.</li>
+<li>User Datagram Protocol</li>
+<li>낮은 신뢰성 - 패킷 전송여부 미확인</li>
+</ul>
+</li>
+</ol>
+<h1 id="역할"><a href="#역할" class="headerlink" title="역할"></a>역할</h1><ol>
+<li><p>애플리케이션에 데이터를 전달한다.<br>인터넷 계층과의 차이점을 알아두어야 할 것 같다. <strong>트랜스포트 계층</strong>은 컴퓨터가 받은 데이터를 애플리케이션에 전달하는 역할을 가지며, <strong>인터넷 계층</strong>은 데이터를 수신지 컴퓨터까지 전달하는 것이다. </p>
+</li>
+<li><p>포트번호로 애플리케이션을 구분한다.<br>인터넷 계층을 통해 들어온 데이터를 애플리케이션에 전달해야 하는데 이때에 포트번호를 이용해서 각 애플리케이션을 구분한다. 인터넷 계층에서 프로토콜 번호가 6번이면 TCP로, 17번이면 UDP를 통해 트랜스포트 계층으로 전달되고 각 애플리케이션의 포트번호를 가지고 어떠한 애플리케이션으로 데이터를 전달할지 구분한다.</p>
+</li>
+</ol>
+<h1 id="포트번호"><a href="#포트번호" class="headerlink" title="포트번호"></a>포트번호</h1><ul>
+<li><p>포트 번호는 컴퓨터 내부의 수신지를 표현한다.<br>인터넷 계층이 전달한 여러 종류의 패킷이 트랜스포트 계층으로 전될되는데 해당하는 어플리케이션에 다시 전달하기 위해서 포트번호를 사용한다.</p>
+<blockquote>
+<p>ip_addr/post-no.</p>
+</blockquote>
+</li>
+<li><p>포트 번호의 범위<br>포트 번호는 0 ~ 65535번 까지 사용할 수 있으며 세 종류로 나누기도 한다.</p>
+<ol>
+<li>well-known ports : 서버 프로그램이 수신 대기할때 사용하는 포트번호</li>
+<li>registered ports : 벤더가 할당받아 사용하는 포트번호</li>
+<li>dynamic ports : 클라이언트 프로그램이 동적으로 할당받아 사용하는 포트번호. 때문에 미리 알수 없는 특징이 있다.</li>
+</ol>
+</li>
+</ul>
+<h2 id="클라이언트-서버-접속-과정"><a href="#클라이언트-서버-접속-과정" class="headerlink" title="클라이언트 - 서버 접속 과정"></a>클라이언트 - 서버 접속 과정</h2><p>클라이언트 - 서버가 서로 통신하는 과정은 다음과 같다.</p>
+<ol>
+<li><p>클라이언트가 사용할 포트를 먼저 정한다</p>
+<ul>
+<li>이때에 사용되는 포트구분은 dynamic 포트이다</li>
+</ul>
+</li>
+<li><p>서버의 포트에 접속한다.</p>
+<ul>
+<li>HTTP의 경우 80번 포트로 대기중인데 클라이언트가 동적으로 할당받은 포트번호를 가지고 서버에 접속을 요청하게 된다.</li>
+</ul>
+</li>
+<li><p>접속 완료</p>
+<ul>
+<li>웹 서버가 접속을 허용하면 통신 가능한 상태가 되고 통신이 종료되면 클라이언트는 할당 받은 포트를 반납한다.</li>
+</ul>
+</li>
+</ol>
+<p>또한 서버는 IP주소와 포트 번호로 요청하는 상대방을 식별한다. 서버는 수신 대기를 위해 고정된 포트 번호를 사용하지만, 접속을 요청한 클라이언트들은 각기 다른 포트번호를 사용한다. 이때에 서버는 서로 다른 클라이언트들을 구분하기 위해 IP주소와 포트번호를 사용하여 혼선없이 통신한다.</p>
+<h1 id="TCP-Transmission-Control-Protocol"><a href="#TCP-Transmission-Control-Protocol" class="headerlink" title="TCP(Transmission Control Protocol)"></a>TCP(Transmission Control Protocol)</h1><p>데이터 전송에 신뢰성을 더하기 위해 데이터를 세그먼트(segment) 단위로 분할하고, 전송 속도를 조정하며, 데이터가 제대로 전달되지 않았을 경우 재전송을 한다. </p>
+<p>커넥션을 맺는 과정으로 3단계가 있다. 3방향 핸드셰이크(3-way handshake)라고 부르며, 커넥션이 맺어지면 데이터를 전송할 수 있는 상태가 되고, 데이터 전송이 끝나면 커넥션을 끊는다.(SYN / ACK / FIN)</p>
+<h1 id="UDP-User-Datagram-Protocol"><a href="#UDP-User-Datagram-Protocol" class="headerlink" title="UDP(User Datagram Protocol)"></a>UDP(User Datagram Protocol)</h1><p>통신 과정에서 데이터의 손실이 발생할 수 있는데, VoIP와 같은 음성 서비스나 동영상 스트리밍 서비스는 일부 데이터가 누락되거나 왜곡되더라도 큰 문제가 없기 때문에 UDP를 주로 사용한다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/04/12/network/transport-layer-of-tcp-ip/" data-id="cka56ji67007y9875gbubaq55" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-network/application-layer-of-tcp-ip" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/04/11/network/application-layer-of-tcp-ip/">TCP/IP 4계층 - 애플리케이션 계층</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/04/11/network/application-layer-of-tcp-ip/">
+            <time datetime="2018-04-11T06:38:43.000Z" itemprop="datePublished">2018-04-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>, <a class="tag-link" href="/tags/tcp-ip/" rel="tag">tcp/ip</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="애플리케이션-계층"><a href="#애플리케이션-계층" class="headerlink" title="애플리케이션 계층"></a>애플리케이션 계층</h1><p>애플리케이션 계층의 프로토콜들은 웹이나 이메일, 파일 공유와 같이 사용자가 실제로 사용하면서 체감할 수 있는 서비스를 제공한다. 하지만 사용자가 직접 이용하지 않아서 체감할 수 없는 프로토콜들도 존재하는데 DNS, DHCP, SSL/TLS, NTP, LDAP와 같은 것들이 있다. 이러한 프로토콜들은 OS나 다른 애플리케이션 계층의 프로토콜들이 간접적으로 사용하는데, 주로 인터넷이나 LAN의 원활한 사용을 위해 사용자에게 보이지 않는 이면에서 동작하고 있다. </p>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>HyperText Transfer Protocol의 약자이다. 말 그대로 요청에 대한 응답으로 HTML을 해준다. </p>
+<h3 id="HTTP-message"><a href="#HTTP-message" class="headerlink" title="HTTP message"></a>HTTP message</h3><p>HTTP 프로토콜을 통해 클라이언트와 서버는 데이터를 주고받게 되는데, 이 때에 주고받은 데이터를 HTTP 메세지라고 부르며 크게 <strong>request</strong>, <strong>response</strong>의 두 가지 형태로 구분된다. HTTP 메세지는 총 네 가지 영역으로 구분한다. </p>
+<ol>
+<li>start line - 요청 / 응답에 따라 두 가지로 나뉨<ul>
+<li>요청 : request line</li>
+<li>응답 : status line</li>
+</ul>
+</li>
+<li>header - 메세지 상세정보</li>
+<li>blank line</li>
+<li>message body</li>
+</ol>
+<h3 id="stateless-status"><a href="#stateless-status" class="headerlink" title="stateless status"></a>stateless status</h3><p>HTTP는 <strong>무상태성</strong>이다. 통신할때 정보를 한 번씩 주고받고 바로 끊기때문에 상태정보를 저장하지 않는다. 상태정보를 저장하지 않는다 함은 사용자나 클라이언트의 컨택스트를 서버쪽에 유지 하지 않는다는 의미로,쉽게 표현하면 HTTP Session과 같은 컨텍스트 저장소에 상태 정보를 저장하지 않는 형태를 의미한다. </p>
+<h3 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h3><p>Uniform Resource Locator의 약자이다. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://www.sample.co.kr/sample/index.html</span><br><span class="line">스키마://호스트.도메인/디렉터리/파일</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTTP-응답과-상태-코드"><a href="#HTTP-응답과-상태-코드" class="headerlink" title="HTTP 응답과 상태 코드"></a>HTTP 응답과 상태 코드</h3><p>HTTP response 데이터의 첫 번째 행에는 상태 코드가 들어가며, 요청에 대한 응답 상태를 표시하기 위함이다. 응답 내용은 메세지 바디에 들어가게된다. 상태코드는 1xx ~ 5xx 번 대로 이루어져 있으며 간단하게 살펴보면</p>
+<ul>
+<li>1xx : 조건부 응답</li>
+<li>2xx : 성공</li>
+<li>3xx : 리다이렉트</li>
+<li>4xx : 클라이언트 오류(요청 오류)</li>
+<li>5xx : 서버 오류<br>로 나누어 진다.</li>
+</ul>
+<h3 id="세션을-유지하기-위한-쿠키"><a href="#세션을-유지하기-위한-쿠키" class="headerlink" title="세션을 유지하기 위한 쿠키"></a>세션을 유지하기 위한 쿠키</h3><p>앞서 얘기한 것 처럼  HTTP는 stateless 프로토콜이기 때문에 요청과 응답하는 과정에서 상태 정보를 저장하지 않는다. 상태를 유지하기 위해서 <strong>Cookie(쿠키)</strong>를 사용한다.</p>
+<h4 id="쿠키-Cookie"><a href="#쿠키-Cookie" class="headerlink" title="쿠키(Cookie)"></a>쿠키(Cookie)</h4><p>웹 브라우저는 웹 서버로부터 응답받은 메세지에 <strong>Set-Cookie</strong>라는 물자열이 있는지 확인하고, 만약 있으면 쿠키 내용을 로컬 디스크에 쿠키형태로 저장한다. 기본적으로 쿠키는 클라이언트가 보관하고있기 때문에 보안에 취약한데, 각각의 브라우저들이 자체적으로 방어책을 구현하고 있다. 예를 들면, 쿠키가 생성된 웹 서버와 동일한 도메인을 사용하는 웹 사이트에만 쿠키를 전송시키거나, 유효기간이 지난 쿠키들을 폐기하기도 한다. 중요한 것은 유출되었을 때 보안 문제가 생길 만한 정보는 쿠키에 저장하지 않는 것이 제일 중요하다. 기본적으로 각종 정보는 서버에 저장하는 것이 원칙이고, 동일한 사용자인지 확인하기 위한 <strong>세션 ID</strong> 등의 식별 정보만 클라이언트에 쿠키로 저장하도록 제한해야 한다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/04/11/network/application-layer-of-tcp-ip/" data-id="cka56ji62007e987596ju94co" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-network/basic-of-network" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/04/10/network/basic-of-network/">네트워크 기초</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/04/10/network/basic-of-network/">
+            <time datetime="2018-04-10T14:16:52.000Z" itemprop="datePublished">2018-04-10</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>웹 프로그래밍을 하다보면 네트워크 지식을 알게 모르게 필요로 했던거 같다. 프레임워크를 사용하면서 내부적으로 어떻게 작동되는지 제대로 이해하지 못한채 사용하는 경우가 많았는데 이유를 생각해보니 HTTP에 대해서 아주 조금의 지식만 가지고 있었기 때문에 그랬지 싶다. 당장 FBV만 사용하더라도 각 함수들의 첫 번째 인자로 request를 받는데 이는 HttpRequest의 인스턴스이며 어디로부터 오는지 전혀 이해할 수 없었고 궁금해하지도 않았다. </p>
+</blockquote>
+<blockquote>
+<p>Django를 공부하다보니 인터넷 네트워크가 어떻게 작동하는 지 문득 궁금해지게 되었고 깊은 이해보다는 전체적인 프로세스를 전반적으로 다루어보자 싶어서 두루두루 공부한 것을 정리해 보려고 한다.</p>
+</blockquote>
+<h1 id="네트워크-기초"><a href="#네트워크-기초" class="headerlink" title="네트워크 기초"></a>네트워크 기초</h1><p>보통 네트워크를 공부한다고 하면 <strong>OSI 7계층</strong>과 <strong>TCP/IP 4계층</strong>이 있다. 더 큰 범주에 속해있는 것은 OSI 7계층으로서 네트워크 전송 시 데이터 표준을 정리한 것이라고 한다. TCP/IP 4계층은 이에 속하는 더 작은 개념으로서 이 이론을 실제로 사용하는 인터넷 네트워크 표준이 TCP/IP 4계층이라고 한다. 그리고 TCP/IP 4계층은 <strong>인터넷 모델</strong>이라고도 부른다.</p>
+<ol>
+<li>컴퓨터 네트워크의 종류<br>컴퓨터 네트워크는 여러 대의 컴퓨터를 서로 연결하여 서로 데이터를 주고받을 수 있도록 망이 사전에 구축된 것을 말한다. 통신망의 거리에 따라 LAN(Local Area Network) 그리고 WAN(Wide Area Network)으로 나눈다. <ul>
+<li>LAN = Local Area Network<ul>
+<li>가정이나 사무실처럼 실내에서 비교적 근거리에 위치한 컴퓨터들이 연결된 것을 의미한다.</li>
+</ul>
+</li>
+<li>WAN = Wide Area Network<ul>
+<li>집 밖이나 회사 건물 밖처럼 비교적 먼 거리에 위치한 컴퓨터들과 연결된 것을 말한다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>공부하기 전까지 인터넷 = 네트워크라고 생각하고 있었는데, 여러 네트워크 중에서 가장 규모가 큰 네트워크가 인터넷이라고 한다. 또한 스마트폰을 연결하기 위해 무선 기술을 활용한 것을 무선 네트워크(모바일 네트워크)라고 한다.</p>
+<ul>
+<li>3G / 4G </li>
+<li>WiMAX</li>
+<li>Wi-Fi</li>
+</ul>
+<p>네트워크에 연결된 컴퓨터들은 서버 혹은 클라이언트에 속하게 되는데 서비스를 제공하는 쪽을 서버(Server) / 서비스를 제공 받는 쪽을 클라이언트(Client)라고 부른다. 서버와 클라이언트의 역할은 하드웨어로 구분하는 것이 아니라 어떤 역할의 프로그램을 설치하느냐에 따라 결정된다.</p>
+<h2 id="네트워크-전달방식"><a href="#네트워크-전달방식" class="headerlink" title="네트워크 전달방식"></a>네트워크 전달방식</h2><p>네트워크 전달 방식에는 <strong>패킷 교환 방식</strong>과 <strong>회선 교환 방식</strong>이 있다. 컴퓨터 네트워크에서는 이메일이나 파일과 같은 데이터를 <strong>패킷(Packet)</strong>으로 분할한 후 주고 받는다. 이때에 패킷은 어디로 전달되야하는지 알 수 있도록 <strong>주소(address)</strong>정보를 가지고 있다.</p>
+<ol>
+<li><p>회선 교환 방식</p>
+<ul>
+<li>아날로그 방식의 유선전화 또는 3G 휴대전화가 사용했다</li>
+<li>통신하려는 양쪽 디바이스가 하나의 통신 경로를 점유하는 방식이다</li>
+<li>때문에 일대일 통신을 기본으로 한다</li>
+<li>통신 속도가 안정적이라는 장점이 있다</li>
+</ul>
+</li>
+<li><p>패킷 교환 방식</p>
+<ul>
+<li>주고받을 데이터는 작게 쪼갠 후 주고받는다</li>
+<li>다른 데이터 조각들과 섞여서 주고 받곤한다</li>
+<li>통신 경로를 공유하며 전달하기 때문에 여러 상대와 통신할때 효과적이다</li>
+<li>주고받는 패킷이 증가하면 전송 속도가 느려지는 단점이 있다</li>
+</ul>
+</li>
+</ol>
+<h2 id="계층-모델"><a href="#계층-모델" class="headerlink" title="계층 모델"></a>계층 모델</h2><p>위에서 말한 것처럼 OSI 7계층과 TCP/IP 4계층이 있는데, 인터넷 모델이라고 불리기도하는 TCP/IP 4계층에 대해서 살펴보기로 하자. 총 네 가지의 계층으로 구분되어진다.</p>
+<ol>
+<li>애플리케이션 계층 -  server / client / HTTP / SSH와 같이 서비스를 제공하는 부분</li>
+<li>트랜스포트 계층 - TCP / UDP</li>
+<li>인터넷 계층 - IP / ICMP / router</li>
+<li>네트워크 인터페이스 계층 - Ethernet / Wireless LAN / MAC address</li>
+</ol>
+<p>위 와 같이 네 가지의 계층이 있다. 4개 계층 중 서비스의 내용을 결정하는 것은 애플리케이션 계층 하나 뿐이며, 나머지 3개 계층은 보이지 않는 곳에서 통신 기능을 담당하고 있다. </p>
+<h3 id="애플리케이션-계층"><a href="#애플리케이션-계층" class="headerlink" title="애플리케이션 계층"></a>애플리케이션 계층</h3><p>사용자가 실제로 체감할 수 있는 서비스를 제공하는 계층이다. 웹 서비스를 예로 들면, 웹 브라우저와 웹 서버는 애플리케이션 계층에 속하는 프로그램이 된다. 데이터 전송에 관한 처리는 하위 계층에 위임하며 서비스를 처리하는 데에 집중하는 계층이다. </p>
+<h3 id="트랜스포트-계층"><a href="#트랜스포트-계층" class="headerlink" title="트랜스포트 계층"></a>트랜스포트 계층</h3><p>상위 계층인 애플리케이션 계층으로부터 전달받은 데이터를 목적지 애플리케이션 계층의 프로그램까지 전달하는 역할을 담당한다. 또한 데이터가 제대로 전달되지 않았을 때 재전송하는 것도 이 계층에서 맡고 있는 역할이다.</p>
+<h3 id="인터넷-계층"><a href="#인터넷-계층" class="headerlink" title="인터넷 계층"></a>인터넷 계층</h3><p>데이터에 주소 정보를 붙여 수신지(목적지)까지 전달하는 역할을 한다. 목적지까지 도달하기 위한 경로가 있는데 네트워크를 넘나들면서 최적의 경로를 탐색하는 데에 <strong>라우터</strong>라는 장비를 사용한다. </p>
+<h3 id="네트워크-인터페이스-계층"><a href="#네트워크-인터페이스-계층" class="headerlink" title="네트워크 인터페이스 계층"></a>네트워크 인터페이스 계층</h3><p>유선 LAN 어댑터나 무선 LAN 어댑터가 처리할 수 있는 형태로 데이터를 변환하고 이 데이터를 목적지까지 전달하는 역할을 한다. 물리적으로 인접하여 연결된 장비까지 어떻게 하면 데이터를 잘 전달할까에 초점을 맞추고 있다. </p>
+<h2 id="프로토콜-protocol"><a href="#프로토콜-protocol" class="headerlink" title="프로토콜(protocol)"></a>프로토콜(protocol)</h2><p>원활한 데이터 송수신을 위해 지켜야할 통신 규약 혹은 절차를 <strong>프로토콜</strong>이라고 부른다. 통신 절차가 기술된 것 뿐이기 때문에 물리적 형태가 존재하지는 않는다. 하지만 프로토콜에 맞게 동작하도록 만들어진 프로그램이나 통신장비,데이터 포멧 등이 존재하고, 프로토콜을 잘 지켰을때 원활한 통신이 가능해진다.</p>
+<ul>
+<li><p>애플리케이션 계층</p>
+<ul>
+<li>프로토콜 : HTTP</li>
+<li>HTTP 프로토콜에 따라 동작하도록 만들어진 웹 브라우저</li>
+</ul>
+</li>
+<li><p>트랜스포트 계층 / 인터넷 계층</p>
+<ul>
+<li>프로토콜 : TCP/IP</li>
+<li>TCP/IP 프로토콜에 따라 동작하도록 만들어진 OS 내장 통신 프로그램</li>
+</ul>
+</li>
+<li><p>네트워크 인터페이스 계층</p>
+<ul>
+<li>프로토콜 : Ethernet(이더넷)</li>
+<li>Ethernet 프로토콜에 따라 동작하도록 만들어진 네트워크 어댑터용 디바이스 드라이버</li>
+</ul>
+</li>
+</ul>
+<p>또한 이더넷에 맞게 동작하도록 만들어진 LAN 케이블과 네트워크 허브가 있다(하드웨어 부분)</p>
+<h3 id="대표적인-프로토콜"><a href="#대표적인-프로토콜" class="headerlink" title="대표적인 프로토콜"></a>대표적인 프로토콜</h3><ol>
+<li>애플리케이션 계층<ul>
+<li>HTTP : 하이퍼텍스트를 주고받음(웹 페이지)</li>
+<li>HTTPS : 보안을 위해 웹 페이지 데이터를 주고받는 과정을 암호화</li>
+<li>POP3 : 서버에 보관된 수신 메일을 가져옴</li>
+<li>SMTP : 메일 송신</li>
+<li>FTP : 파일 전송</li>
+<li>Telnet : 컴퓨터 원격 제어</li>
+<li>SSH : 보안을 위해 컴퓨터를 원격제어하는 과정을 암호화</li>
+<li>SMB : 윈도 컴퓨터와 파일 공유</li>
+<li>DHCP : 사설 IP(private IP)를 동적 할당</li>
+<li>DNS : 도메인 이름과 IP 주소를 변환</li>
+<li>SSL : 보안을 위해 통신 과정에서 주고받는 데이터를 암호화</li>
+</ul>
+</li>
+<li>트랜스포트 계층<ul>
+<li>TCP : 애플리케이션의 데이터를 송수신. 데이터의 정확한 전달을 중시함</li>
+<li>UDP : 애플리케이션의 데이터를 송수신. 데이터의 전송 속도를 중시함</li>
+</ul>
+</li>
+<li>인터넷 계층<ul>
+<li>IP : 패킷을 목적지까지 전달</li>
+<li>ICMP : IP의 통신 오류를 전달</li>
+<li>IPsec : 패킷을 암호화하여 전달</li>
+<li>ARP : 네트워크 장비의 MAC address를 알아냄</li>
+</ul>
+</li>
+<li>네트워크 인터페이스 계층<ul>
+<li>Ethernet(이더넷): 일반 금속 케이블이나 광 케이블을 통해 데이터를 전달</li>
+<li>PPP : 사용자 인증 후에 원격지의 장비와 통신</li>
+</ul>
+</li>
+</ol>
+<p>[참고]<br><a href="http://pigbrain.github.io/network/2017/03/08/OSI7_on_Network" target="_blank" rel="external nofollow noopener noreferrer">http://pigbrain.github.io/network/2017/03/08/OSI7_on_Network</a><br><a href="http://hahahoho5915.tistory.com/15" target="_blank" rel="external nofollow noopener noreferrer">http://hahahoho5915.tistory.com/15</a><br><a href="http://tar-cvzf-studybackup-tar-gz.tistory.com/38" target="_blank" rel="external nofollow noopener noreferrer">http://tar-cvzf-studybackup-tar-gz.tistory.com/38</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/04/10/network/basic-of-network/" data-id="cka56ji61007c9875euh0hh0b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/40/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/42/">Next &amp;raquo;</a>
+    </nav>
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

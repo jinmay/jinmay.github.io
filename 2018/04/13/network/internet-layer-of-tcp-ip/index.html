@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>TCP/IP 4계층 - 인터넷 계층 | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="인터넷 계층IP 주소인터넷 계층의 역할은 송신지 컴퓨터의 데이터를 수신지 컴퓨터까지 전달하는 것이다. 수신지 컴퓨터를 찾아내기 위해 식별할 수 있는 고유한 정보가 필요하고 이때에 사용되는 식별자가 바로 IP 주소이다. 흔히 IP 주소를 우편번호로 비유하곤 하는데, 자세히 들여다보면 중요한 차이가 존재한다. 우편번호는 지역정보를 포함하고 있는 것과 달리 IP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP&#x2F;IP 4계층 - 인터넷 계층">
+<meta property="og:url" content="https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="인터넷 계층IP 주소인터넷 계층의 역할은 송신지 컴퓨터의 데이터를 수신지 컴퓨터까지 전달하는 것이다. 수신지 컴퓨터를 찾아내기 위해 식별할 수 있는 고유한 정보가 필요하고 이때에 사용되는 식별자가 바로 IP 주소이다. 흔히 IP 주소를 우편번호로 비유하곤 하는데, 자세히 들여다보면 중요한 차이가 존재한다. 우편번호는 지역정보를 포함하고 있는 것과 달리 IP">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-13T07:15:29.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:09:40.057Z">
+<meta property="article:author" content="jinmay">
+<meta property="article:tag" content="network">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-network/internet-layer-of-tcp-ip" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            TCP/IP 4계층 - 인터넷 계층
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/04/13/network/internet-layer-of-tcp-ip/">
+            <time datetime="2018-04-13T07:15:29.000Z" itemprop="datePublished">2018-04-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="인터넷-계층"><a href="#인터넷-계층" class="headerlink" title="인터넷 계층"></a>인터넷 계층</h1><h2 id="IP-주소"><a href="#IP-주소" class="headerlink" title="IP 주소"></a>IP 주소</h2><p>인터넷 계층의 역할은 송신지 컴퓨터의 데이터를 수신지 컴퓨터까지 전달하는 것이다. 수신지 컴퓨터를 찾아내기 위해 식별할 수 있는 고유한 정보가 필요하고 이때에 사용되는 식별자가 바로 IP 주소이다. 흔히 IP 주소를 우편번호로 비유하곤 하는데, 자세히 들여다보면 중요한 차이가 존재한다. 우편번호는 지역정보를 포함하고 있는 것과 달리 IP 주소는 지리적인 위치와는 상관없이 네트워크 단위로 할당된다. 따라서 IP 주소를 통해 그 컴퓨터가 어느 위치에 존재하는 지 알기 힘들며 <strong>어느 네트워크에 속해있는 지와 소속된 네트워크의 규모를 짐작할 수 있을 뿐이다.</strong></p>
+<h2 id="라우터"><a href="#라우터" class="headerlink" title="라우터"></a>라우터</h2><p>IP 주소는 지리적인 위치 정보를 포함하고 있지 않기 때문에 수신자를 찾기 위해서는 다른 방법을 이용해야 한다. <strong>라우터(router)</strong>라는 네트워크 장비는 서로 다른 네트워크 간의 연결 정보를 관리한다. IP 주소를 보면 소속된 네트워크가 어디인지 알 수 있는데, 해당 네트워크에 연결된 라우터를 추적하다 보면 그 장비가 최종적으로는 목표로 한 수신지 컴퓨터를 찾게되고 송신지에서 수신지까지 연결되는 통신 경로를 만들 수 있게 된다. 이와 같은 과정을 <strong>라우팅(routing)</strong> 이라고 한다.</p>
+<h2 id="공인-IP-사설-IP"><a href="#공인-IP-사설-IP" class="headerlink" title="공인 IP / 사설 IP"></a>공인 IP / 사설 IP</h2><p>급속한 인터넷의 보급으로 사용 가능한 IP 주소가 점점 줄어들고있다. 이와 같은 현상을 피하기위한 방안으로 <strong>사설 IP / 공인 IP</strong>를 구분하는 기법을 사용한다. 또한 근본적인 방법으로 고갈되어져 가는 IPv4 주소체계를 IPv6로 확장하고 있다.</p>
+<ul>
+<li><p>공인 IP<br>Public IP라고 불린다. 인터넷에서 사용가능한 IP 주소를 말하며, 외부에서도 접근이 가능한 주소를 의미한다.</p>
+</li>
+<li><p>사설 IP<br>Private IP라고 불린다. 사무실이나 가정 내에서만 사용 가능한 IP이며, 외부에서 접근할 수 없는 주소이다. </p>
+</li>
+</ul>
+<h2 id="IPv4-와-IPv6"><a href="#IPv4-와-IPv6" class="headerlink" title="IPv4 와 IPv6"></a>IPv4 와 IPv6</h2><p>인터넷 계층에서 사용되는 프로토콜이다. IP 주소를 결정할 때 사용하는 비트의 길이가 다르다. IP 주소는 유통기한을 가지고 있는데, 패킷이 제대로 전달되지 않는 경우 네트워크 안을 계속해서 떠도는 걸 방지하기 위함이다. 제대로 전달되지 않은채 네트워크 안을 떠돌게되는 패킷이 많아지면 자연스레 네트워크는 복잡해져 다른 패킷들에게도 영향을 미치게 되는데 이러한 부작용을 방지하기 위해 <strong>IPv4 헤더에는 생존기간(TTL - Time To Live) 정보가 담겨져있다.</strong> TTL이 0인 패킷이 발견된다면 그 패킷을 소멸시키도록 규정하고 있다.</p>
+<ol>
+<li><p>IPv4<br>32비트 주소 체계이다. 32비트 문자열은 사람이 알아보기 어렵기 때문에 8비트씩 4개 단위로 끊은 후에 10진수로 변환하여 표현한다.</p>
+</li>
+<li><p>IPv6<br>128비트 주소 체계이다. 급격한 인터넷의 성장으로 IPv4의 주소가 고갈되어가자 피해를 방지하기 위해 만들어졌다.</p>
+<blockquote>
+<p>인터넷 계층에서 사용되는 장비에만 IP 주소가 할당된다.</p>
+</blockquote>
+</li>
+</ol>
+<p>한 번에 전송할 수 있는 데이터의 크기를  **MTU(Maximum Transmission Unit)라고 한다. 통신 상태에 따라 달라지게 되는데, 예를 들어 경로 상태가 좋지 않으면 값이 줄어들게 되고 라우터는 이 MTU 값에 따라 패킷을 분할해서 수신지로 전송하게 된다. 라우터가 데이터를 송신하기 전에 통신 경로 전체의 MTU를 살펴보고 처음부터 MTU보다 작은 크기의 패킷을 전송하게 된다. 수신지의 컴퓨터에서는 도착한 분할된 패킷들을 복원하여 수신한다!</p>
+<h2 id="네트워크-부와-호스트-부"><a href="#네트워크-부와-호스트-부" class="headerlink" title="네트워크 부와 호스트 부"></a>네트워크 부와 호스트 부</h2><p>IP 주소는 네트워크 부와 호스트 부로 나누어 진다. 라우터는 IP 주소의 네트워크 부를 보고 데이터를 전송할 목적지가 같은 네트워크에 있는지 다른네트워크에 있는지 판단한다.</p>
+<h2 id="어드레스-클래스"><a href="#어드레스-클래스" class="headerlink" title="어드레스 클래스"></a>어드레스 클래스</h2><p>하나의 IP 주소에서 어디까지가 네트워크 부이고 호스트 부인지 표현하기 위해 어드레스 클래스를 이용한다. 총 네 가지의 어드레스 클래스가 있다.</p>
+<ul>
+<li>클래스 A<ul>
+<li>네트워크 부 : 8비트 - 126개 네트워크</li>
+<li>호스트 부 : 24비트 - 약 1677만개 호스트</li>
+</ul>
+</li>
+<li>클래스 B<ul>
+<li>네트워크 부 : 16비트 - 약 1만 6천개 네트워크</li>
+<li>호스트 부 : 16비트 - 약 6만 5천개 호스트</li>
+</ul>
+</li>
+<li>클래스 C<ul>
+<li>네트워크 부 : 24비트 - 약 209만개 네트워크</li>
+<li>호스트부 : 8비트 - 254개 호스트</li>
+</ul>
+</li>
+<li>클래스 D (특수 클래스) : 멀티캐스트 그룹<ul>
+<li>네트워크 부 : 32비트</li>
+</ul>
+</li>
+</ul>
+<p>클래스 A를 보면 한 개의 네트워크당 1677만개의 호스트를 할당할 수 있는데, 실제로 단일 네트워크에 이렇게 많은 호스트를 필요로 하는 경우는 없다. 이런 경우 호스트 낭비가 심하게 되는데 효율적으로 주소를 할당하고자 나온 방법이 <strong>서브넷 마스크</strong>이다.</p>
+<h2 id="서브넷-마스크"><a href="#서브넷-마스크" class="headerlink" title="서브넷 마스크"></a>서브넷 마스크</h2><p><strong>어드레스 클래스의 경우 네트워크 부의 길이가 미리 정해져있다.</strong> 어드레스 클래스와 다르게 네트워크 부의 길이를 가변적으로 사용하기 위해 <strong>서브넷 마스크</strong>를 사용하며, 비트 단위로 유연하게 늘려서 쓰는 것이 가능해진다.</p>
+<blockquote>
+<p>네트워크 부를 1비트 단위로 변경할 수 있다!!<br>IP 주소를 할당하는 방법은 IPv4를 기준으로 전체 32비트 중 네트워크 부를 제외한 호스트 부분을 자유롭게 할당하여 사용하는 것이다.</p>
+</blockquote>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/" data-id="cka56ji66007u9875ap5efu01" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/04/17/mysql/basic-of-mysql/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    MySQL 기본
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/04/12/network/transport-layer-of-tcp-ip/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">TCP/IP 4계층 - 트랜스포트 계층</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

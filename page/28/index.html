@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Daily Programming">
+<meta property="og:url" content="https://jinmay.github.io/page/28/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="jinmay">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/page/28/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main">
+    <article id="post-linux/linux-command-sed" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/01/29/linux/linux-command-sed/">sed 명령어와 -i 옵션으로 파일내용 수정하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/01/29/linux/linux-command-sed/">
+            <time datetime="2019-01-29T06:30:23.000Z" itemprop="datePublished">2019-01-29</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/command/" rel="tag">command</a>, <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/macos/" rel="tag">macos</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="명령어-sed"><a href="#명령어-sed" class="headerlink" title="명령어 sed"></a>명령어 sed</h1><p>하이퍼레저 패브릭을 하다보면 쉘 스크립트를 수정해야 할 일들이 꽤나 많다. 그 중에 하나가 정식의 CA 서버를 건너뛰고 certificate 를 생성해 주는 부분인데 이 때에 sed 명령어를 사용하는 스크립트들이 굉장히 많다.</p>
+<h5 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">"s/DEVORG_CA_PRIVATE_KEY/<span class="variable">$&#123;PRIV_KEY&#125;</span>/g"</span> docker-compose-e2e.yaml</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h5><p><strong>파일 내용을 수정할 때 사용한다. cat과 파이프라인을 통해서 할 수도 있지만 꽤 손이 많이 가는 작업이기 때문에 sed를 이용하여 간단하게 수정 할 수 있다.</strong></p>
+<p>sed 명령어는 ed 명령어와 grep 명령어<strong>(필터링 기능)</strong>의 일부 기능을 합친 것이라고 한다.(sed는 Stream EDitor의 약자이다) </p>
+<h5 id="활용"><a href="#활용" class="headerlink" title="활용"></a>활용</h5><p>sed 명령어를 이용하여 파일 내용의 문자를 수정해보자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test.txt</span></span><br><span class="line">abcde</span><br><span class="line">fgh</span><br><span class="line">231</span><br></pre></td></tr></table></figure>
+
+<p>일단 테스트를 위해 영문 알파벳과 숫자를 내용으로 하는 test.txt 텍스트 파일을 생성했다.</p>
+<p>abcde 문자열을 숫자로 바꾸어보자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'s/abcde/12321/'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 출력</span></span><br><span class="line">12321</span><br><span class="line">fgh</span><br><span class="line">231</span><br></pre></td></tr></table></figure>
+
+<p>파일을 확인해보면 내용은 변하지 않은채 쉘에 출력만 해줄뿐이다. 어떻게 해야지 실제로 파일 내용을 수정할 수 있는 걸까? <strong>-i 옵션</strong>을 사용해야지 출력이 아닌 실제 파일에 수정사항을 반영할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">'s/abcde/12321/'</span> test.txt</span><br></pre></td></tr></table></figure>
+
+<p>ubuntu나 centos같은 리눅스에서 사용한다면 별다른 출력과 에러 없이 제대로 동작하는 것을 볼 수 있다. 하지만 macOS를 사용하고 있다면 undefined label과 같은 에러가 발생하는데 <strong>이는 macOS에서 사용하는 sed가 다른 리눅스에서 사용중인 sed와는 다르기 때문이다.</strong></p>
+<p>간단하게 말하자면 각 리눅스 배포판에서 사용하고 있는 소프트웨어의 차이로 인해서 발생하는 문제이다. macOS의 경우 man을 통해서 명령어를 살펴보면 맨 윗줄에서 아래와 같은 결과를 볼 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sed 매뉴얼 출력</span></span><br><span class="line">man sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line">SED(1)                    BSD General Commands Manual                   SED(1)</span><br></pre></td></tr></table></figure>
+
+<p>BSD 계열의 소프트웨어라는 의미이다. 하지만 ubuntu나 centos에서 똑같이 테스트하게 되면 다른 결과를 볼 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sed 매뉴얼 출력</span></span><br><span class="line">man sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 또는 그냥 입력</span></span><br><span class="line">sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line">GNU sed home page: &lt;https://www.gnu.org/software/sed/&gt;.</span><br><span class="line">General <span class="built_in">help</span> using GNU software: &lt;https://www.gnu.org/gethelp/&gt;.</span><br></pre></td></tr></table></figure>
+
+<p>잘은 모르겠지만 우분투의 sed는 GNU sed라는 것을 알 수 있다.</p>
+<p><strong>다시 정리하자면 BSD와 GNU 소프트웨어의 차이로 인해서 발생한 에러라는 것이다!!</strong></p>
+<p>macOS에서 GNU sed를 사용하려면 아래와 같은 작업을 해주면 된다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mac에서 GNU's sed 설치</span></span><br><span class="line"><span class="comment"># --with-default-names 옵션은 기존의 sed이름으로 gnu-sed를 사용하겠다는 의미</span></span><br><span class="line">brew install gnu-sed --with-default-names</span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/01/29/linux/linux-command-sed/" data-id="cka56ji5n005v98757zra9zc9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-linux/linux-command-find" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/01/25/linux/linux-command-find/">GNU와 BSD의 find 명령어</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/01/25/linux/linux-command-find/">
+            <time datetime="2019-01-25T08:36:51.000Z" itemprop="datePublished">2019-01-25</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/freebsd/" rel="tag">freebsd</a>, <a class="tag-link" href="/tags/macos/" rel="tag">macos</a>, <a class="tag-link" href="/tags/utility/" rel="tag">utility</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="GNU의-find-명령어"><a href="#GNU의-find-명령어" class="headerlink" title="GNU의 find 명령어"></a>GNU의 find 명령어</h1><p>쉘에서 find 커맨드를 통해서 어떤 경로의 파일명을 가져와야 할 상황이 생겼다. 간단하게 정의해보자면</p>
+<blockquote>
+<p>find 명령어는 디렉터리 계층에서 파일을 검색하기 위한 명령이다. </p>
+</blockquote>
+<p>와 같을 수 있다. </p>
+<p>find 명령으로 검색한 결과는 하나의 라인으로 된 파일명을 출력하며 흔히 사용하는 파이프를 통해 추가적인 작업을 할 수 있다.</p>
+<h4 id="형식"><a href="#형식" class="headerlink" title="형식"></a>형식</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">find [검색할 디렉터리 경로] [옵션]</span><br><span class="line"></span><br><span class="line"><span class="comment"># example</span></span><br><span class="line">find . -name <span class="string">"*.txt"</span> // 현재 경로에서 .txt로 끝나는 모든 파일 출력</span><br><span class="line">find ~/desktop -name <span class="string">"*.tet"</span> // 사용자 홈 디렉터리/desktop 경로에서 .txt로 끝나는 모든 파일 출력</span><br></pre></td></tr></table></figure>
+
+<p>기본적으로 사용하기 위한 방법으로는 어렵지 않다. 하지만 macos를 사용중에 있어서 실행되지 않았던 옵션을 마주치게됐고 이것저것 찾아본 결과 <strong>macos의 find 명령어는 GNU의 find와는 다른 것이 원인이었다.</strong> </p>
+<p>BSD와 GNU 이러한 것들에 대해서 많이 들어보기는 했지만 자세하게 알고 있진 못하다. 어쨌든 결과적으로는 BSD의 특징을 조금 가지고 있는 macOS와 GNU 사이에는 분명히 차이가 존재하며 이러한 이유로 find 명령어를 제대로 쓸 수 없었던 것이었다.</p>
+<p>macOS의 find 명령어가 GNU 소프트웨어인지 확인하기 위해서 <strong>매뉴얼을 보기위한 man 명령어를 사용했다.</strong> 그 결과는 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">man find</span><br><span class="line"></span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line">FIND(1) BSD General Commands Manual FIND(1)</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>와 같은 식으로 나오는 것을 확인할 수 있었다. <strong>기존의 맥북에서 사용하는 find 명령어는 GNU가 아닌 BSD로 부터 온것임을 알 수 있다.</strong> </p>
+<h4 id="GNU’s-find-설치"><a href="#GNU’s-find-설치" class="headerlink" title="GNU’s find 설치"></a>GNU’s find 설치</h4><p>GNU의 find 를 사용하기 위해서는 따로 설치를 해줘야하며 macOS의 homebrew를 통해 할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br><span class="line">brew install findutils</span><br></pre></td></tr></table></figure>
+
+<p>설치완료 후 <strong>gfind</strong> 명령어를 통해 GNU의 find를 사용할 수 있을 것이다!</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gfind / -name <span class="string">"*.txt"</span> -<span class="built_in">printf</span> <span class="string">"%f\n"</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>GNU의 find 명령어가 아닌 BSD의 find를 사용한다면 -printf 옵션을 사용할때 에러가 난다. <del>사실 이부분 때문에 이와 관련된 부분을 찾아본 것이다.</del> </p>
+</blockquote>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/01/25/linux/linux-command-find/" data-id="cka56ji5l005m9875075lby60" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-javascript/javascript-tagged-template-literal" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/01/22/javascript/javascript-tagged-template-literal/">템플릿 태그 리터럴</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/01/22/javascript/javascript-tagged-template-literal/">
+            <time datetime="2019-01-22T06:12:08.000Z" itemprop="datePublished">2019-01-22</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/javascript/">javascript</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/es6/" rel="tag">es6</a>, <a class="tag-link" href="/tags/javascript/" rel="tag">javascript</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="tagged-template-literals"><a href="#tagged-template-literals" class="headerlink" title="tagged template literals"></a>tagged template literals</h1><p>자바스크립트에서 HTML을 조합해 사용하는 경우가 있다. json으로 받은 데이터들을 사용하는 경우이며 underscore와 같은 패키지를 사용하곤 한다. </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">'starbucks'</span>,</span><br><span class="line">	order: <span class="literal">true</span>,</span><br><span class="line">	menus: [<span class="string">'hand drip'</span>, <span class="string">'americano'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">	name: <span class="string">'coffeebay'</span>,</span><br><span class="line">    order: <span class="literal">false</span>,</span><br><span class="line">  &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> message = <span class="string">`&lt;h1&gt;<span class="subst">$&#123;data[<span class="number">0</span>].name&#125;</span>&lt;/h1&gt;</span></span><br><span class="line"><span class="string">				 &lt;p&gt;menu: <span class="subst">$&#123;data[<span class="number">0</span>].menus&#125;</span>&lt;/p&gt;`</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(message);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 결과</span></span><br><span class="line"><span class="comment">// "&lt;h1&gt;starbucks&lt;/h1&gt;</span></span><br><span class="line"><span class="comment">//  &lt;p&gt;menu: hand drip,americano&lt;/p&gt;"</span></span><br></pre></td></tr></table></figure>
+
+<p>data 배열 첫 번째 값의 name과 menus를 태그와 함께 출력해 보았다. 위의 예시는 간단하지만 조립해야 하는 태그와 데이터가 많아진다면 이런 방법으로 계속 할 수 있을까? 뿐만 아니라 데이터의 형식에 맞게 유동적으로 사용할 수 없다는 단점도 존재한다.</p>
+<ul>
+<li>일일히 하나씩 해주어야 한다.</li>
+<li>두 번째 객체 coffeebay에는 menus라는 항목이 없다.</li>
+</ul>
+<p>형태에 따라 유동적으로 대응할 수도 없고 조립할 것들이 많아지면 수작업으로 하는 건 거의 불가능에 가깝다고 볼 수 있다. 또한 로직을 추가하는 것도 힘들 것이다. 조금은 더 유동적으로 사용하기 위해 함수를 작성해보자.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">'starbucks'</span>,</span><br><span class="line">	order: <span class="literal">true</span>,</span><br><span class="line">	menus: [<span class="string">'hand drip'</span>, <span class="string">'americano'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">	name: <span class="string">'coffeebay'</span>,</span><br><span class="line">    order: <span class="literal">false</span>,</span><br><span class="line">  &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">messageFn</span>(<span class="params">tags, name, menus</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> (tags[<span class="number">0</span>] + name + tags[<span class="number">1</span>] + menus + tags[<span class="number">2</span>])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> message = messageFn<span class="string">`&lt;h1&gt;<span class="subst">$&#123;data[<span class="number">0</span>].name&#125;</span>&lt;/h1&gt;</span></span><br><span class="line"><span class="string">				 &lt;p&gt;menu: <span class="subst">$&#123;data[<span class="number">0</span>].menus&#125;</span>&lt;/p&gt;`</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(message);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 결과</span></span><br><span class="line"><span class="comment">// "&lt;h1&gt;starbucks&lt;/h1&gt;</span></span><br><span class="line"><span class="comment">//  &lt;p&gt;menu: hand drip,americano&lt;/p&gt;"</span></span><br></pre></td></tr></table></figure>
+
+<p>data[1]에는 menus가 없기 때문에 data[2]에 대해서 함수를 실행하게 되면 undefined가 출력된다. 객체의 키가 없을 경우를 대비하는 로직을 추가해서 반복문을 통해 모두 출력해보자.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">messageFn</span>(<span class="params">tags, name, menus</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> menus === <span class="string">"undefined"</span>)&#123;</span><br><span class="line">        menus = <span class="string">"현재 메뉴를 준비중입니다..."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (tags[<span class="number">0</span>] + name + tags[<span class="number">1</span>] + menus + tags[<span class="number">2</span>])   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> message = messageFn<span class="string">`&lt;h1&gt;<span class="subst">$&#123;value.name&#125;</span>&lt;/h1&gt;</span></span><br><span class="line"><span class="string">                              &lt;p&gt;menu: <span class="subst">$&#123;value.menus&#125;</span>&lt;/p&gt;`</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(message);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>에러 없이 잘 작동한다. 마지막으로 콘솔 출력이 아닌 HTML에 뿌려보자.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> message = messageFn<span class="string">`&lt;h1&gt;<span class="subst">$&#123;value.name&#125;</span>&lt;/h1&gt;</span></span><br><span class="line"><span class="string">                              &lt;p&gt;menu: <span class="subst">$&#123;value.menus&#125;</span>&lt;/p&gt;`</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"#message"</span>).innerHTML(message);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>최종 코드는 아래와 같다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">'starbucks'</span>,</span><br><span class="line">	order: <span class="literal">true</span>,</span><br><span class="line">	menus: [<span class="string">'hand drip'</span>, <span class="string">'americano'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">	name: <span class="string">'coffeebay'</span>,</span><br><span class="line">    order: <span class="literal">false</span>,</span><br><span class="line">  &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">messageFn</span>(<span class="params">tags, name, menus</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> menus === <span class="string">"undefined"</span>)&#123;</span><br><span class="line">        menus = <span class="string">"현재 메뉴를 준비중입니다..."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (tags[<span class="number">0</span>] + name + tags[<span class="number">1</span>] + menus + tags[<span class="number">2</span>])   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> message = messageFn<span class="string">`&lt;h1&gt;<span class="subst">$&#123;value.name&#125;</span>&lt;/h1&gt;</span></span><br><span class="line"><span class="string">                              &lt;p&gt;menu: <span class="subst">$&#123;value.menus&#125;</span>&lt;/p&gt;`</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">"#message"</span>).innterHTML += message;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/01/22/javascript/javascript-tagged-template-literal/" data-id="cka56ji5b004r9875c8l92tgh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/27/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/29/">Next &amp;raquo;</a>
+    </nav>
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>

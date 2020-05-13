@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="S1CPebB-_3fi1-9r0_WWgx_cRQh187CxWzYm5xIxKzs">
+    
+    <title>PyOWM를 이용하여 현재기온 받아오기 | Daily Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="현재 간단하게 운영하고 있는 서비스에 현재기온을 알 수 있는 기능을 추가하고 싶어 api를 찾던 중 openweathermap를 발견했다. api doc을 읽으면서 그냥 사용해도 무방할 것 같았지만 왠지 래핑된 파이썬 패키지가 있을거 같아서 찾아보았더니 역시나.. 있었다. official doc은 물론 깃허브에 설명이 너무 잘 되어있어서 사용하는 데에는 크">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyOWM를 이용하여 현재기온 받아오기">
+<meta property="og:url" content="https://jinmay.github.io/2018/01/09/python/python-package-pyowm/index.html">
+<meta property="og:site_name" content="Daily Programming">
+<meta property="og:description" content="현재 간단하게 운영하고 있는 서비스에 현재기온을 알 수 있는 기능을 추가하고 싶어 api를 찾던 중 openweathermap를 발견했다. api doc을 읽으면서 그냥 사용해도 무방할 것 같았지만 왠지 래핑된 파이썬 패키지가 있을거 같아서 찾아보았더니 역시나.. 있었다. official doc은 물론 깃허브에 설명이 너무 잘 되어있어서 사용하는 데에는 크">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-01-09T02:21:25.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:09:40.060Z">
+<meta property="article:author" content="jinmay">
+<meta property="article:tag" content="package">
+<meta property="article:tag" content="pyowm">
+<meta name="twitter:card" content="summary">
+    <meta property="og:image:width" content="420">
+    <meta property="og:image:height" content="420">
+    
+    <link rel="canonical" href="https://jinmay.github.io/2018/01/09/python/python-package-pyowm/">
+    
+<link rel="stylesheet" href="/libs/noto-sans-kr/styles.css">
+
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-111931391-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Daily Programming</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            <section id="main"><article id="post-python/python-package-pyowm" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            PyOWM를 이용하여 현재기온 받아오기
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/01/09/python/python-package-pyowm/">
+            <time datetime="2018-01-09T02:21:25.000Z" itemprop="datePublished">2018-01-09</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/package/" rel="tag">package</a>, <a class="tag-link" href="/tags/pyowm/" rel="tag">pyowm</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>현재 간단하게 운영하고 있는 서비스에 현재기온을 알 수 있는 기능을 추가하고 싶어 api를 찾던 중 <strong>openweathermap</strong>를 발견했다. api doc을 읽으면서 그냥 사용해도 무방할 것 같았지만 왠지 래핑된 파이썬 패키지가 있을거 같아서 찾아보았더니 역시나.. 있었다. official doc은 물론 깃허브에 설명이 너무 잘 되어있어서 사용하는 데에는 크게 무리 없었지만 처음으로 오픈소스를 찾아본 기념으로 정리하려고 한다.</p>
+<h1 id="PyOWM"><a href="#PyOWM" class="headerlink" title="PyOWM"></a>PyOWM</h1><p>일단 OWM이 뭔지 알아야 할 것 같다. OWM이란? <strong>OpenWeatherMap</strong>은 현재날씨 뿐만아니라 예보 풍향, 기온 등을 알려주는 온라인 서비스이다. 총 다섯가지 티어로 나누어져있고 프리티어도 존재하기 때문에 무료로 사용할 수 있다. 공식 페이지를 통해 각 티어간의 차이를 알 수 있을 것이다. </p>
+<p>나의 경우에는 현재기온만을 필요로 했기때문에 프리티어면 충분했다. owm의 장점으로는 api doc이 설명이 자세하다는 것과 사용하는 것도 편리하다는 것이다. 하지만 더 나아가서 파이썬 사용자들을 위해 누군가가 더 편리하게 만들어서 PyOWM이라는 파이썬 패키지를 제공하고 있는 것이다. 파이썬2의 2.7과 3.2버전 이상을 지원하고 있으며 웹 프레임워크 Django1.10이상의 모델에도 사용할 수 있다.</p>
+<h3 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h3><ol>
+<li>pip를 이용한다<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyowm</span><br></pre></td></tr></table></figure>
+매우 편리하다. 쉽다.</li>
+</ol>
+<h2 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h2><p><strong>일단 owm이 제공하는 api를 이용하기 위해서는 공식 페이지로 들어가 api key를 받아야한다.</strong><br><del>물론 영어로 적혀있지만 간단하기 때문에 쉽게 할 수 있을 것이다.</del></p>
+<p><em>주의할 점</em><br><em>서비스에 가입하고 api key를 받았더라도 바로 사용할 수 없다. 공식 안내에 따르면 free tier 계정과 startup tier 계정은 받은 api key를 활성화하는 데에 10분이 소요된다고 하니 발급받고 10분 뒤에 사용하도록 한다.</em></p>
+<p>설치한 패키지를 임포트 하는것으로 시작하면 된다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 아래 어느것으로 해도 무방하다</span></span><br><span class="line"><span class="comment"># import pyowm</span></span><br><span class="line">from pyowm import OWM</span><br></pre></td></tr></table></figure>
+
+<p>임포트 한 뒤 OWM 객체를 생성해야 한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">owm = OWM(API_KEY)</span><br></pre></td></tr></table></figure>
+<p>어떠한 종류의 api를 구독하는지 명시하지 않았다면 free tier로 간주한다. 유료api를 구독하고 있다면 아래와 같이 하자.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">owm = OWM(API_KEY, subscription_type=<span class="string">'pro'</span>) <span class="comment"># pro tier를 구독하는 예시</span></span><br></pre></td></tr></table></figure>
+
+<p>사용하려는 owm api 버전도 지정할 수 있다. 만약 명시하지 않으면 가장 최신버전의 api를 사용한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">owm = OWM(API_KEY, version=<span class="string">'2.5'</span>) <span class="comment"># owm api version == 2.5</span></span><br></pre></td></tr></table></figure>
+
+<p>지금까지 했다면 최소한의 준비는 됐다. 도시이름을 통해 해당도시의 날씨상황을 가져와보자. 현재 날씨를 받아오기 위해 검색하는 것은 매우 간단하다. 날씨를 알고싶은 지역의 이름을 OWM 객체에 전달해주면 된다. “지명”으로 해도 좋고 “도시ID”와 “위도/경도”로도 검색 할 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">observation = owm.weather_at_place(<span class="string">'Seoul,KR'</span>)</span><br></pre></td></tr></table></figure>
+<p>입력한 지역과 매칭되는 날씨 정보를 포함한 <strong>observation 객체</strong>가 리턴된다. observation 객체는 두 가지 또다른 객체를 포함하고 있다. <strong>날씨와 관련된 데이터를 포함한 Weather 객체와 지역에 대한 데이터를 가진 Location 객체 이다.</strong> </p>
+<p>아래와 같이 하면 Weather 객체를 가져올 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seoul_weather = observation.get_weather()</span><br><span class="line"><span class="built_in">print</span>(seoul_weather)   <span class="comment"># &lt;Weather - reference time=2013-12-18 09:20, status=Clouds&gt; 를 출력한다.</span></span><br></pre></td></tr></table></figure>
+
+<p>더 디테일한 날씨정보를 가져오기 위해 아래 예시코드를 참고하자 : </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">seoul_weather.get_wind()                  <span class="comment"># &#123;'speed': 4.6, 'deg': 330&#125;</span></span><br><span class="line">seoul_weather.get_humidity()              <span class="comment"># 87</span></span><br><span class="line">seoul_weather.get_rain()                  <span class="comment"># Get rain volume</span></span><br><span class="line">seoul_weather.get_clouds()                <span class="comment"># Get cloud coverage </span></span><br><span class="line">seoul_weather.get_snow()                  <span class="comment"># Get snow volume</span></span><br><span class="line">seoul_weather.get_wind()                  <span class="comment"># Get wind degree and speed</span></span><br><span class="line">seoul_weather.get_pressure()              <span class="comment"># 기압</span></span><br><span class="line"></span><br><span class="line">seoul_weather.get_temperature()           <span class="comment"># 온도(캘빈온도)</span></span><br><span class="line">seoul_weather.get_temperature(<span class="string">'celsius'</span>)  <span class="comment"># &#123;'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0&#125;</span></span><br><span class="line"></span><br><span class="line">seoul_weather.get_status()                <span class="comment"># Get weather short status ex) 'Clouds'</span></span><br><span class="line">seoul_weather.get_detailed_status()       <span class="comment"># ex) 'Broken clouds'</span></span><br><span class="line">seoul_weather.get_weather_code()          <span class="comment"># owm에서 사용하는 상태코드 - ex) 803</span></span><br><span class="line">seoul_weather.get_sunrise_time()          <span class="comment"># 일출시각 ex) 1377862896L</span></span><br><span class="line">seoul_weather.get_sunset_time(<span class="string">'iso'</span>)      <span class="comment"># 일몰시각(iso시간) ex) '2013-08-30 20:07:57+00'</span></span><br></pre></td></tr></table></figure>
+
+<p>위에서 이미 얘기했듯이 observation 객체는 Location 객체도 가지고 있다. 아래는 Location 객체를 가져오는 코드이다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">location_seoul = observation.get_location()</span><br><span class="line"><span class="built_in">print</span>(location_seoul)</span><br></pre></td></tr></table></figure>
+
+<p>Location 객체도 다양한 속성이 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location_seoul.get_name()    <span class="comment"># 'Seoul'</span></span><br><span class="line">location_seoul.get_lon()     <span class="comment"># 경도</span></span><br><span class="line">location_seoul.get_lat()     <span class="comment"># 위도</span></span><br><span class="line">location_seoul.get_ID()      <span class="comment"># 도시ID</span></span><br></pre></td></tr></table></figure>
+
+
+<p><del>실시간 날씨현황뿐만 아니라 예보기능도 있지만 아직 사용해보지 않은 관계로 추후에 정리해보자!!</del></p>
+<hr>
+<p>[참고]<br><a href="https://github.com/csparpa/pyowm" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/csparpa/pyowm</a><br><a href="https://github.com/csparpa/pyowm/blob/master/pyowm/docs/usage-examples.md" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/csparpa/pyowm/blob/master/pyowm/docs/usage-examples.md</a><br><a href="https://openweathermap.org/current" target="_blank" rel="external nofollow noopener noreferrer">https://openweathermap.org/current</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/01/09/python/python-package-pyowm/" data-id="cka56ji6m009c98753rm3auul" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/01/11/python/python-with-postgresql/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    python과 PostgreSQL 연동하기
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/01/07/linux/basic-of-crontab/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">리눅스 크론탭 기본(Basic of crontab)</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+    <div class="profile-block social-links">
+        <table>
+            <tr>
+                
+                
+                <td>
+                    <a href="http://github.com/jinmay" target="_blank" title="github" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </td>
+                
+                <td>
+                    <a href="mailto:britzegs@gmail.com" target="_blank" title="envelope" rel="external nofollow noopener noreferrer">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 jinmay<br>
+            Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme by <a href="http://github.com/ppoffice" target="_blank" rel="external nofollow noopener noreferrer">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
