@@ -1,36 +1,36 @@
 {
-	"name": "hexo-site",
-	"version": "0.0.0",
-	"private": true,
-	"hexo": {
-		"version": "4.0.0"
-	},
-	"dependencies": {
-		"hexo": "^4.0.0",
-		"hexo-auto-canonical": "^0.1.1",
-		"hexo-auto-category": "^0.2.0",
-		"hexo-autonofollow": "^1.0.1",
-		"hexo-deployer-git": "^2.0.0",
-		"hexo-generator-archive": "^0.1.4",
-		"hexo-generator-category": "^1.0.0",
-		"hexo-generator-feed": "^1.2.2",
-		"hexo-generator-index": "^0.2.0",
-		"hexo-generator-robotstxt": "^0.2.0",
-		"hexo-generator-seo-friendly-sitemap": "0.0.22",
-		"hexo-generator-tag": "^0.2.0",
-		"hexo-renderer-ejs": "^0.3.0",
-		"hexo-renderer-jade": "^0.4.1",
-		"hexo-renderer-marked": "^2.0.0",
-		"hexo-renderer-sass": "^0.3.2",
-		"hexo-renderer-stylus": "^0.3.3",
-		"hexo-server": "^0.2.2",
-		"hexo-wordcount": "^3.0.2",
-		"jsdom": "^15.2.1",
-		"node-sass": "^4.10.0",
-		"npm": "^6.13.0"
-	},
-	"scripts": {
-		"deploy": "hexo clean && hexo generate && git add . && git commit -m \"updated on `date + \"+%Y/%m/%d %H:%M:%S\"`\" && git push origin gh-pages && hexo deploy",
-		"ready": "hexo clean && hexo generate"
-	}
+  "name": "hexo-site",
+  "version": "0.0.0",
+  "private": true,
+  "hexo": {
+    "version": "4.2.0"
+  },
+  "dependencies": {
+    "hexo": "^4.0.0",
+    "hexo-auto-canonical": "^0.1.1",
+    "hexo-auto-category": "^0.2.0",
+    "hexo-autonofollow": "^1.0.1",
+    "hexo-deployer-git": "^2.0.0",
+    "hexo-generator-archive": "^0.1.4",
+    "hexo-generator-category": "^1.0.0",
+    "hexo-generator-feed": "^1.2.2",
+    "hexo-generator-index": "^0.2.0",
+    "hexo-generator-robotstxt": "^0.2.0",
+    "hexo-generator-seo-friendly-sitemap": "0.0.22",
+    "hexo-generator-tag": "^0.2.0",
+    "hexo-renderer-ejs": "^0.3.0",
+    "hexo-renderer-jade": "^0.4.1",
+    "hexo-renderer-marked": "^2.0.0",
+    "hexo-renderer-sass": "^0.3.2",
+    "hexo-renderer-stylus": "^0.3.3",
+    "hexo-server": "^0.2.2",
+    "hexo-wordcount": "^3.0.2",
+    "jsdom": "^15.2.1",
+    "node-sass": "^4.10.0",
+    "npm": "^6.13.0"
+  },
+  "scripts": {
+    "deploy": "hexo clean && hexo generate && git add . && git commit -m \"updated on `date + \"+%Y/%m/%d %H:%M:%S\"`\" && git push origin gh-pages && hexo deploy",
+    "ready": "hexo clean && hexo generate"
+  }
 }

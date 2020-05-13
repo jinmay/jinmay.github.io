@@ -1,11 +1,5 @@
 ---
 title: vim에서 붙여넣기 할때 계단현상 방지하기
-tags:
-  - vi
-  - command
-  - linux
-  - ubuntu
-  - centos
 categories:
   - linux
 date: 2019-03-21 20:44:59
