@@ -1,10 +1,8 @@
 ---
-title: vimrc-to-nvimrc
+title: '[vim] nvim 사용시 vimrc를 통해 설정하기'
 categories:
   - linux
 ---
-
-[vim] nvim 사용시 vimrc를 통해 설정하기
 
 vim보다 가볍다는 이유로 nvim을 사용중이다.~~(사실 둘의 차이를 느끼지는 못한다.)~~ vim과 nvim의 설정파일이 나누어져 있는데, 같은 편집기끼리 설정을 나누어서 하고 싶진 않았다. 역시나 비슷한 생각을 가진 개발자들은 많았고 간단한 설정을 통해 해결할 수 있었다.  
 
