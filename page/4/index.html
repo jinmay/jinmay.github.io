@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-react-native/rn-how-to-find-size-of-screen" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-react-native/axios-with-android-avd" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/">리액트 네이티브에서 스크린 사이즈 구하기</a>
+            <a class="article-title" href="/2020/05/13/react-native/axios-with-android-avd/">안드로이드 AVD 에뮬레이터를 통해 axios 사용할때 발생하는 문제점</a>
         </h1>
     
 
@@ -160,7 +160,7 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/">
+        <a href="/2020/05/13/react-native/axios-with-android-avd/">
             <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
@@ -181,12 +181,10 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>모바일 어플리케이션을 만들다 보면 각 기기마다 다른 스크린 크기 때문에 머리아픈 경우가 정말 많은 것 같다. 코드로서 화면 크기를 구할 수 있는 방법이 있을까 찾아보았고 정리해본다.</p>
-<h2 id="화면크기-구하기"><a href="#화면크기-구하기" class="headerlink" title="화면크기 구하기"></a>화면크기 구하기</h2><p><strong>react-native의 Dimensions을 사용하면 된다.</strong> 현재 열린 윈도우 사이즈를 통해 height와 width를 구할 수 있다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Dimensions &#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> chartHeight = Dimensions.get(<span class="string">'window'</span>).height;</span><br><span class="line"><span class="keyword">const</span> chartWidth = Dimensions.get(<span class="string">'window'</span>).width;</span><br></pre></td></tr></table></figure>
-
+            <p>리액트 네이티브를 통해 앱 개발을 할때 http 패키지로서 보통 axios를 사용하는 것 같다. AVD를 띄우고 로컬호스트로 돌아가는 장고 서버에 HTTP 요청을 하려고 했는데 항상 network error를 뱉었다. <strong>유효하지 않은 요청이 아니라 아예 요청 자체가 들어가지 않는 현상</strong>이었다. 정확한 문제의 원인은 찾지 못했지만 AVD를 통해 안드로이드 시뮬레이터를 사용중이라면 localhost의 주소를 아래의 주소로 변경해보라는 답을 발견했고 문제를 해결할 수 있었다.</p>
+<p><strong>10.0.2.2</strong></p>
 <hr>
-<p>[참고]<br><a href="https://stackoverflow.com/questions/53796007/react-native-flex-layout-with-victorychart-chart-fit-the-parent-container" target="_blank" rel="external nofollow noopener noreferrer">https://stackoverflow.com/questions/53796007/react-native-flex-layout-with-victorychart-chart-fit-the-parent-container</a></p>
+<p>[참고]<br><a href="https://github.com/axios/axios/issues/973" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/axios/axios/issues/973</a></p>
 
         
         </div>
@@ -197,7 +195,143 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/react-native/rn-how-to-find-size-of-screen/" data-id="cka56ji7000ar9875asf931yq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/react-native/axios-with-android-avd/" data-id="cka6d06ex00a67y75ffmxgpww" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-python/selenium-click-does-not-work" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/python/selenium-click-does-not-work/">[selenium]셀레니움 사용시 특정 element의 클릭이 되지 않을때 대처법</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/python/selenium-click-does-not-work/">
+            <time datetime="2020-05-13T09:09:40.060Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>셀레니움을 통해 특정 element를 클릭하려고 할때 보통은 아래와 같은 방법을 사용하곤 한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">body.find_element_by_class_name(<span class="string">"btn_more"</span>).click()</span><br></pre></td></tr></table></figure>
+
+<p>click() 함수를 사용하게 되면 간단하게 해당 element를 클릭할 수 있는데, 원인 미상으로 가끔씩 클릭이 되지 않는 상황이 발생했다.</p>
+<p>클릭을 구현하는 방법으로는 click() 함수와 submit() 함수를 사용할 수 있지만, 위의 상황처럼 보통의 방법으로는 클릭이 수행되지 않을때 아래의 코드 처럼 구현하면 문제 없이 사용할 수 있었다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.keys <span class="keyword">import</span> Keys</span><br><span class="line"></span><br><span class="line">driver.find_element_by_id(<span class="string">"TOTAL"</span>).send_keys(Keys.ENTER)</span><br></pre></td></tr></table></figure>
+
+<p>하지만,,<br>위의 방법을 통해도 클릭이 되지 않을 수 있는데, 아래와 같은 방법을 시도해보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">element = driver.find_element_by_id(<span class="string">"TOTAL"</span>)</span><br><span class="line">driver.execute_script(<span class="string">"arguments[0].click();"</span>, element)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>[참고]<br><a href="https://wkdtjsgur100.github.io/selenium-does-not-work-to-click/" target="_blank" rel="external nofollow noopener noreferrer">https://wkdtjsgur100.github.io/selenium-does-not-work-to-click/</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/python/selenium-click-does-not-work/" data-id="cka6d06et009x7y751rw9ci44" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -343,143 +477,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/python/python-type-hint/" data-id="cka56ji6q009u98752pvl5oaf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/selenium-click-does-not-work" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/python/selenium-click-does-not-work/">[selenium]셀레니움 사용시 특정 element의 클릭이 되지 않을때 대처법</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/python/selenium-click-does-not-work/">
-            <time datetime="2020-05-13T09:09:40.060Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>셀레니움을 통해 특정 element를 클릭하려고 할때 보통은 아래와 같은 방법을 사용하곤 한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">body.find_element_by_class_name(<span class="string">"btn_more"</span>).click()</span><br></pre></td></tr></table></figure>
-
-<p>click() 함수를 사용하게 되면 간단하게 해당 element를 클릭할 수 있는데, 원인 미상으로 가끔씩 클릭이 되지 않는 상황이 발생했다.</p>
-<p>클릭을 구현하는 방법으로는 click() 함수와 submit() 함수를 사용할 수 있지만, 위의 상황처럼 보통의 방법으로는 클릭이 수행되지 않을때 아래의 코드 처럼 구현하면 문제 없이 사용할 수 있었다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.keys <span class="keyword">import</span> Keys</span><br><span class="line"></span><br><span class="line">driver.find_element_by_id(<span class="string">"TOTAL"</span>).send_keys(Keys.ENTER)</span><br></pre></td></tr></table></figure>
-
-<p>하지만,,<br>위의 방법을 통해도 클릭이 되지 않을 수 있는데, 아래와 같은 방법을 시도해보자.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">element = driver.find_element_by_id(<span class="string">"TOTAL"</span>)</span><br><span class="line">driver.execute_script(<span class="string">"arguments[0].click();"</span>, element)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://wkdtjsgur100.github.io/selenium-does-not-work-to-click/" target="_blank" rel="external nofollow noopener noreferrer">https://wkdtjsgur100.github.io/selenium-does-not-work-to-click/</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/python/selenium-click-does-not-work/" data-id="cka56ji6s00a09875e9r9hp4d" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/python/python-type-hint/" data-id="cka6d06ev00a17y75aqil5teh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -602,8 +600,17 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 
@@ -620,16 +627,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/basic-of-jwt/" class="title">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
@@ -638,7 +636,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" class="title">리액트 네이티브에서 스크린 사이즈 구하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>

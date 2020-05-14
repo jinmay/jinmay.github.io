@@ -143,6 +143,151 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-git/github-action" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/git/github-action/">[Github]깃허브 액션이란</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/git/github-action/">
+            <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/git/">git</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="https://user-images.githubusercontent.com/13075035/73540557-98943900-4473-11ea-8839-82d2bb798645.png" alt="https://github.com/features/actions"></p>
+<p>Github에서 CI를 위한 툴인 Actions을 제공하고 있다. CI란 Continuous Integration의 약자로써 계속적 통합(?)이라고 번역되기도 하는데 각각의 개발자가 개발한 코드를 하나의 저장소에서 통합하는 과정을 말한다. <strong>하지만 단순히 코드의 통합만을 의미하진 않으며 정적 분석, 단위 테스트, 분석결과 리포팅, 배포 서버에 push 하는 등의 여러 작업들을 수행한다.</strong> 즉, 배포 전에 한 번에 모아서 통합하는 것이 아닌 조금씩 자주 계속해서 통합해 나가는 과정이라고 이해할 수 있을 것 같다.</p>
+<p>기존의 Circle CI / Travis CI / Jenkins CI와 같은 서비스 또는 설치형 CI처럼 Github에서도 Actions이라는 CI툴을 선보였으며 별다른 복잡한 절차 없이 Github를 통해 사용할 수 있다는 장점이 있다.</p>
+<h3 id="주요-개념"><a href="#주요-개념" class="headerlink" title="주요 개념"></a>주요 개념</h3><p>Github Actions에는 몇몇의 중요한 개념이 있다.</p>
+<ul>
+<li>workflow</li>
+<li>event</li>
+<li>job</li>
+<li>step</li>
+</ul>
+<h4 id="1-workflow"><a href="#1-workflow" class="headerlink" title="1. workflow"></a>1. workflow</h4><p>github repository에 대해 일련의 작업들을 수행하는 자동화된 프로세스이다. repository의 root에서 ./github/workflows/ 아래에 workflow에 대한 yml 형식의 설정 파일이 있어야한다.</p>
+<h4 id="2-event"><a href="#2-event" class="headerlink" title="2. event"></a>2. event</h4><p>workflow 실행되도록 만드는 trigger 역할을 담당한다. push와 pull request 같은 트리거가 있다.</p>
+<h4 id="3-job"><a href="#3-job" class="headerlink" title="3. job"></a>3. job</h4><p>job은 여러 개의 step으로 이루어질 수 있으며 단일한 가상 환경을 가진다.</p>
+<h4 id="4-step"><a href="#4-step" class="headerlink" title="4. step"></a>4. step</h4><p>job 안에서 순차적으로 실행되는 프로세스 단위이다.</p>
+<p>아래의 그림은 간단한 workflow의 예시이다.</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># workflow</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">TEST</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> <span class="comment"># event</span></span><br><span class="line">    <span class="attr">pull_request:</span></span><br><span class="line">        <span class="attr">branches:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">develop</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="comment"># job</span></span><br><span class="line">        <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">steps:</span> <span class="comment"># step</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Python</span> <span class="number">3.7</span></span><br><span class="line">                <span class="attr">uses:</span> <span class="string">actions/setup-python@v1</span></span><br><span class="line">                <span class="attr">with:</span></span><br><span class="line">                <span class="attr">python-version:</span> <span class="number">3.7</span></span><br></pre></td></tr></table></figure>
+
+<p>Actions은 CI로서의 역할을 한다고 볼 수 있기 때문에 CD(Continuous Delivery) 작업을 함께하여 배포 파이프라인을 구축할 수 있다.<br><img src="https://user-images.githubusercontent.com/13075035/73540395-26235900-4473-11ea-83d2-9c480244639b.png" alt="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application"></p>
+<h3 id="마무리"><a href="#마무리" class="headerlink" title="마무리"></a>마무리</h3><p>Github에서 제공하는 CI Tool로서 Actions에 대해서 아주 간단히 정리했다. CI는 작업을 단위별로 나누어 조금씩 자주 통합하여 통합과정에서 발생할 수 있는 부담을 최소화하기 위해 사용한다. 또한 Actions의 중요 개념으로 workflow / event / job / step을 간단하게 정리했다.</p>
+<hr>
+<p>[참고]<br><a href="https://asfirstalways.tistory.com/303" target="_blank" rel="external nofollow noopener noreferrer">https://asfirstalways.tistory.com/303</a><br><a href="https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95" target="_blank" rel="external nofollow noopener noreferrer">https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95</a><br><a href="https://coffeewhale.com/cicd/github/2019/10/14/github-actions/" target="_blank" rel="external nofollow noopener noreferrer">https://coffeewhale.com/cicd/github/2019/10/14/github-actions/</a><br><a href="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application" target="_blank" rel="external nofollow noopener noreferrer">https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action/" data-id="cka6d06d3003z7y75hx7m1j7y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-git/how-to-amend-git-commit-author-info" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -199,7 +344,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/" data-id="cka56ji5400419875ckx6aw5k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/" data-id="cka6d06d2003w7y75dy6pg44m" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -329,152 +474,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="cka56ji53003w98754ru5cofh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-git/github-action" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/git/github-action/">[Github]깃허브 액션이란</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/git/github-action/">
-            <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/git/">git</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><img src="https://user-images.githubusercontent.com/13075035/73540557-98943900-4473-11ea-8839-82d2bb798645.png" alt="https://github.com/features/actions"></p>
-<p>Github에서 CI를 위한 툴인 Actions을 제공하고 있다. CI란 Continuous Integration의 약자로써 계속적 통합(?)이라고 번역되기도 하는데 각각의 개발자가 개발한 코드를 하나의 저장소에서 통합하는 과정을 말한다. <strong>하지만 단순히 코드의 통합만을 의미하진 않으며 정적 분석, 단위 테스트, 분석결과 리포팅, 배포 서버에 push 하는 등의 여러 작업들을 수행한다.</strong> 즉, 배포 전에 한 번에 모아서 통합하는 것이 아닌 조금씩 자주 계속해서 통합해 나가는 과정이라고 이해할 수 있을 것 같다.</p>
-<p>기존의 Circle CI / Travis CI / Jenkins CI와 같은 서비스 또는 설치형 CI처럼 Github에서도 Actions이라는 CI툴을 선보였으며 별다른 복잡한 절차 없이 Github를 통해 사용할 수 있다는 장점이 있다.</p>
-<h3 id="주요-개념"><a href="#주요-개념" class="headerlink" title="주요 개념"></a>주요 개념</h3><p>Github Actions에는 몇몇의 중요한 개념이 있다.</p>
-<ul>
-<li>workflow</li>
-<li>event</li>
-<li>job</li>
-<li>step</li>
-</ul>
-<h4 id="1-workflow"><a href="#1-workflow" class="headerlink" title="1. workflow"></a>1. workflow</h4><p>github repository에 대해 일련의 작업들을 수행하는 자동화된 프로세스이다. repository의 root에서 ./github/workflows/ 아래에 workflow에 대한 yml 형식의 설정 파일이 있어야한다.</p>
-<h4 id="2-event"><a href="#2-event" class="headerlink" title="2. event"></a>2. event</h4><p>workflow 실행되도록 만드는 trigger 역할을 담당한다. push와 pull request 같은 트리거가 있다.</p>
-<h4 id="3-job"><a href="#3-job" class="headerlink" title="3. job"></a>3. job</h4><p>job은 여러 개의 step으로 이루어질 수 있으며 단일한 가상 환경을 가진다.</p>
-<h4 id="4-step"><a href="#4-step" class="headerlink" title="4. step"></a>4. step</h4><p>job 안에서 순차적으로 실행되는 프로세스 단위이다.</p>
-<p>아래의 그림은 간단한 workflow의 예시이다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># workflow</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">TEST</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> <span class="comment"># event</span></span><br><span class="line">    <span class="attr">pull_request:</span></span><br><span class="line">        <span class="attr">branches:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">develop</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="comment"># job</span></span><br><span class="line">        <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">steps:</span> <span class="comment"># step</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Python</span> <span class="number">3.7</span></span><br><span class="line">                <span class="attr">uses:</span> <span class="string">actions/setup-python@v1</span></span><br><span class="line">                <span class="attr">with:</span></span><br><span class="line">                <span class="attr">python-version:</span> <span class="number">3.7</span></span><br></pre></td></tr></table></figure>
-
-<p>Actions은 CI로서의 역할을 한다고 볼 수 있기 때문에 CD(Continuous Delivery) 작업을 함께하여 배포 파이프라인을 구축할 수 있다.<br><img src="https://user-images.githubusercontent.com/13075035/73540395-26235900-4473-11ea-83d2-9c480244639b.png" alt="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application"></p>
-<h3 id="마무리"><a href="#마무리" class="headerlink" title="마무리"></a>마무리</h3><p>Github에서 제공하는 CI Tool로서 Actions에 대해서 아주 간단히 정리했다. CI는 작업을 단위별로 나누어 조금씩 자주 통합하여 통합과정에서 발생할 수 있는 부담을 최소화하기 위해 사용한다. 또한 Actions의 중요 개념으로 workflow / event / job / step을 간단하게 정리했다.</p>
-<hr>
-<p>[참고]<br><a href="https://asfirstalways.tistory.com/303" target="_blank" rel="external nofollow noopener noreferrer">https://asfirstalways.tistory.com/303</a><br><a href="https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95" target="_blank" rel="external nofollow noopener noreferrer">https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95</a><br><a href="https://coffeewhale.com/cicd/github/2019/10/14/github-actions/" target="_blank" rel="external nofollow noopener noreferrer">https://coffeewhale.com/cicd/github/2019/10/14/github-actions/</a><br><a href="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application" target="_blank" rel="external nofollow noopener noreferrer">https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action/" data-id="cka56ji53003v9875h788hkff" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="cka6d06d400427y75b2skcuvw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -597,8 +597,17 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 
@@ -615,16 +624,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/basic-of-jwt/" class="title">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
@@ -633,7 +633,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" class="title">리액트 네이티브에서 스크린 사이즈 구하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>

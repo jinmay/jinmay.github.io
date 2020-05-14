@@ -143,143 +143,6 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-aws/where-is-aws-code-deploy-logs" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/aws/where-is-aws-code-deploy-logs/">[CodeDeploy]CodeDeploy EC2/온프레미스 배포에 대한 로그 데이터 위치</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/aws/where-is-aws-code-deploy-logs/">
-            <time datetime="2020-05-13T09:09:40.040Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/aws/">aws</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <blockquote>
-<p>참고: AWS Lambda 또는 Amazon ECS 배포에는 로그가 지원되지 않는다.</p>
-</blockquote>
-<p>개별 인스턴스에 대한 <strong>CodeDeploy 배포 로그 데이터를 보려면 아래의 경로를 참고</strong>한다. Windows Server를 제외한 Amazon Linux, RHEL, Ubuntu Server 인스턴스에서 확인할 수 있다.</p>
-<p><strong>경로: /opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log</strong></p>
-<p>CodeDeploy가 설치되어 있는 인스턴스에서 CodeDeploy Agent의 로그를 확인하려면 아래의 경로를 확인한다.</p>
-<p><strong>경로: /var/log/aws/codedeploy-agent</strong></p>
-<p>참고로 CodeDeploy Agent가 설치되어 있는 경로는 /opt/codedeploy-agent 이다.</p>
-<p>아래의 명령어를 통해 agent의 상태를 확인할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service codedeploy-agent status</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance-unix" target="_blank" rel="external nofollow noopener noreferrer">https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance-unix</a><br><a href="https://americanopeople.tistory.com/284" target="_blank" rel="external nofollow noopener noreferrer">https://americanopeople.tistory.com/284</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/aws/where-is-aws-code-deploy-logs/" data-id="cka56ji3t00089875382dauzk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <article id="post-aws/how-to-install-code-deploy-agent-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -345,7 +208,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/aws/how-to-install-code-deploy-agent-ubuntu/" data-id="cka56ji3p00039875hhq32fir" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/how-to-install-code-deploy-agent-ubuntu/" data-id="cka6d06c000077y75c5rv5lr0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -476,7 +339,144 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/aws/run-shell-script-aws-code-deploy/" data-id="cka56ji3s0006987590s92d27" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/run-shell-script-aws-code-deploy/" data-id="cka6d06c000087y7544is62ty" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-aws/where-is-aws-code-deploy-logs" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/aws/where-is-aws-code-deploy-logs/">[CodeDeploy]CodeDeploy EC2/온프레미스 배포에 대한 로그 데이터 위치</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/aws/where-is-aws-code-deploy-logs/">
+            <time datetime="2020-05-13T09:09:40.040Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/aws/">aws</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>참고: AWS Lambda 또는 Amazon ECS 배포에는 로그가 지원되지 않는다.</p>
+</blockquote>
+<p>개별 인스턴스에 대한 <strong>CodeDeploy 배포 로그 데이터를 보려면 아래의 경로를 참고</strong>한다. Windows Server를 제외한 Amazon Linux, RHEL, Ubuntu Server 인스턴스에서 확인할 수 있다.</p>
+<p><strong>경로: /opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log</strong></p>
+<p>CodeDeploy가 설치되어 있는 인스턴스에서 CodeDeploy Agent의 로그를 확인하려면 아래의 경로를 확인한다.</p>
+<p><strong>경로: /var/log/aws/codedeploy-agent</strong></p>
+<p>참고로 CodeDeploy Agent가 설치되어 있는 경로는 /opt/codedeploy-agent 이다.</p>
+<p>아래의 명령어를 통해 agent의 상태를 확인할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service codedeploy-agent status</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>[참고]<br><a href="https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance-unix" target="_blank" rel="external nofollow noopener noreferrer">https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance-unix</a><br><a href="https://americanopeople.tistory.com/284" target="_blank" rel="external nofollow noopener noreferrer">https://americanopeople.tistory.com/284</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/where-is-aws-code-deploy-logs/" data-id="cka6d06bz00057y75gh1wddx9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -599,8 +599,17 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 
@@ -617,16 +626,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/basic-of-jwt/" class="title">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
@@ -635,7 +635,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" class="title">리액트 네이티브에서 스크린 사이즈 구하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>

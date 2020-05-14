@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/linux/vimrc-to-nvimrc/">vimrc-to-nvimrc</a>
+            <a class="article-title" href="/2020/05/13/linux/vimrc-to-nvimrc/">[vim] nvim 사용시 vimrc를 통해 설정하기</a>
         </h1>
     
 
@@ -181,8 +181,7 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>[vim] nvim 사용시 vimrc를 통해 설정하기</p>
-<p>vim보다 가볍다는 이유로 nvim을 사용중이다.<del>(사실 둘의 차이를 느끼지는 못한다.)</del> vim과 nvim의 설정파일이 나누어져 있는데, 같은 편집기끼리 설정을 나누어서 하고 싶진 않았다. 역시나 비슷한 생각을 가진 개발자들은 많았고 간단한 설정을 통해 해결할 수 있었다.  </p>
+            <p>vim보다 가볍다는 이유로 nvim을 사용중이다.<del>(사실 둘의 차이를 느끼지는 못한다.)</del> vim과 nvim의 설정파일이 나누어져 있는데, 같은 편집기끼리 설정을 나누어서 하고 싶진 않았다. 역시나 비슷한 생각을 가진 개발자들은 많았고 간단한 설정을 통해 해결할 수 있었다.  </p>
 <p>보통 vim / nvim의 설정파일 경로는 아래와 같다.</p>
 <ul>
 <li>vim 설정파일 경로 : ~/.vimrc</li>
@@ -203,7 +202,143 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/linux/vimrc-to-nvimrc/" data-id="cka56ji5w006v9875hcyr7c9x" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/vimrc-to-nvimrc/" data-id="cka6d06dz006t7y755zgjfmgo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-web/hosts-file" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/web/hosts-file/">[DNS]ip 주소와 hosts 파일</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/web/hosts-file/">
+            <time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>서비스를 제공하는 서버 컴퓨터에 접속을 하기 위해서는 서버의 ip 주소를 알아야 한다. 또한 서버가 클라이언트에게 서비스를 제공하려면 서비스를 받을 클라이언트 또한 ip 주소를 가져야한다.</p>
+<p><strong>즉, 인터넷에 연결되어 있는 장치들은 통신을 하기 위해서 ip를 가져야한다.</strong>(컴퓨터 뿐만 아니라 모든 장치들에 해당한다.) 이렇게 인터넷에 연결된 장치들을 host라고 부르며 네트워크에 연결되어 있는 컴퓨터 또는 장치라고 생각하면 된다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75006044-c76e5f80-54b3-11ea-8260-da19fbbcc11a.png" alt></p>
+<p>ip주소는 숫자로 되어 있기 때문에 기억하기 어렵다는 단점이 있는데, 이를 해소하기 위해 hosts 파일을 사용한다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75006098-f08ef000-54b3-11ea-8224-1aef114c2133.png" alt></p>
+<p>hosts 파일은 핸드폰의 전화번호부와 비슷하다고 생각하면 된다. 전화번호에 이름을 부여해서 사용하는 것처럼 컴퓨터는 hosts 파일에 ip주소에 해당하는 도메인 주소를 부여해서 저장하고 관리한다.</p>
+<p>추후에 example.com에 접속하면 사용자의 컴퓨터는 DNS를 거치지 않고 hosts 파일에 저장되어 있는 내용을 통해 example.com이 가르키는 ip로 접속할 수 있다.</p>
+<p><strong>또한 별거 아닌 것 같지만 hosts 파일의 보안에 신경써야한다.</strong> 만약 hosts 파일이 변조되어 example.com의 ip 주소가 피싱하려고 만든 서비스의 ip주소로 바뀌면 어떻게 될까? 사용자는 example.com를 제대로 입력했다고 생각했기 때문에 정상적인 사이트로 판단하고 피싱을 당할 지도 모른다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75006972-fafeb900-54b6-11ea-8bb8-2a432294bff0.png" alt></p>
+<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><p>DNS에 대해 알아보기 전에 DNS에 비슷한 역할을 하는 hosts 파일에 대해서 알아보았다. hosts 파일은 ip주소와 도메인 주소를 매칭시켜주는 역할을 하며, 클라이언트가 서비스에 접속하기 위해서 ip 주소를 외워야 하는 불편함을 간단하게 해소시켜준다.</p>
+<hr>
+<p>[참고]<br><a href="https://opentutorials.org/module/3421/20296" target="_blank" rel="external nofollow noopener noreferrer">https://opentutorials.org/module/3421/20296</a><br><a href="https://www.youtube.com/watch?v=viy1MV_vNXA&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=2" target="_blank" rel="external nofollow noopener noreferrer">https://www.youtube.com/watch?v=viy1MV_vNXA&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=2</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/web/hosts-file/" data-id="cka6d06gz00jy7y75gdkzfmhr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -394,143 +529,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/web/cookies-and-session/" data-id="cka56ji6x00ae98758mvocsve" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-web/hosts-file" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/web/hosts-file/">[DNS]ip 주소와 hosts 파일</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/web/hosts-file/">
-            <time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/web/">web</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>서비스를 제공하는 서버 컴퓨터에 접속을 하기 위해서는 서버의 ip 주소를 알아야 한다. 또한 서버가 클라이언트에게 서비스를 제공하려면 서비스를 받을 클라이언트 또한 ip 주소를 가져야한다.</p>
-<p><strong>즉, 인터넷에 연결되어 있는 장치들은 통신을 하기 위해서 ip를 가져야한다.</strong>(컴퓨터 뿐만 아니라 모든 장치들에 해당한다.) 이렇게 인터넷에 연결된 장치들을 host라고 부르며 네트워크에 연결되어 있는 컴퓨터 또는 장치라고 생각하면 된다.</p>
-<p><img src="https://user-images.githubusercontent.com/13075035/75006044-c76e5f80-54b3-11ea-8260-da19fbbcc11a.png" alt></p>
-<p>ip주소는 숫자로 되어 있기 때문에 기억하기 어렵다는 단점이 있는데, 이를 해소하기 위해 hosts 파일을 사용한다.</p>
-<p><img src="https://user-images.githubusercontent.com/13075035/75006098-f08ef000-54b3-11ea-8224-1aef114c2133.png" alt></p>
-<p>hosts 파일은 핸드폰의 전화번호부와 비슷하다고 생각하면 된다. 전화번호에 이름을 부여해서 사용하는 것처럼 컴퓨터는 hosts 파일에 ip주소에 해당하는 도메인 주소를 부여해서 저장하고 관리한다.</p>
-<p>추후에 example.com에 접속하면 사용자의 컴퓨터는 DNS를 거치지 않고 hosts 파일에 저장되어 있는 내용을 통해 example.com이 가르키는 ip로 접속할 수 있다.</p>
-<p><strong>또한 별거 아닌 것 같지만 hosts 파일의 보안에 신경써야한다.</strong> 만약 hosts 파일이 변조되어 example.com의 ip 주소가 피싱하려고 만든 서비스의 ip주소로 바뀌면 어떻게 될까? 사용자는 example.com를 제대로 입력했다고 생각했기 때문에 정상적인 사이트로 판단하고 피싱을 당할 지도 모른다.</p>
-<p><img src="https://user-images.githubusercontent.com/13075035/75006972-fafeb900-54b6-11ea-8bb8-2a432294bff0.png" alt></p>
-<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><p>DNS에 대해 알아보기 전에 DNS에 비슷한 역할을 하는 hosts 파일에 대해서 알아보았다. hosts 파일은 ip주소와 도메인 주소를 매칭시켜주는 역할을 하며, 클라이언트가 서비스에 접속하기 위해서 ip 주소를 외워야 하는 불편함을 간단하게 해소시켜준다.</p>
-<hr>
-<p>[참고]<br><a href="https://opentutorials.org/module/3421/20296" target="_blank" rel="external nofollow noopener noreferrer">https://opentutorials.org/module/3421/20296</a><br><a href="https://www.youtube.com/watch?v=viy1MV_vNXA&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=2" target="_blank" rel="external nofollow noopener noreferrer">https://www.youtube.com/watch?v=viy1MV_vNXA&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=2</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/web/hosts-file/" data-id="cka56ji6v00a99875gi9w98o1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/web/cookies-and-session/" data-id="cka6d06f100aq7y75g92o8pax" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -653,8 +652,17 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">vimrc-to-nvimrc</a></p>
+                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
+                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 
@@ -671,16 +679,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/basic-of-jwt/" class="title">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
@@ -689,7 +688,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" class="title">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" class="title">리액트 네이티브에서 스크린 사이즈 구하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
