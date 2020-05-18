@@ -143,6 +143,266 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-ckan/ckan" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/09/30/ckan/ckan/">[CKAN]우분투에 CKAN 설치하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/09/30/ckan/ckan/">
+            <time datetime="2018-09-30T09:59:48.000Z" itemprop="datePublished">2018-09-30</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/ckan/">ckan</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ckan/" rel="tag">ckan</a>, <a class="tag-link" href="/tags/open-data/" rel="tag">open data</a>, <a class="tag-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="CKAN이란"><a href="#CKAN이란" class="headerlink" title="CKAN이란?"></a>CKAN이란?</h2><p>설치를 하기에 앞서서, CKAN이 무엇인지 간단한게 알아보는 것도 좋을거 같다. <strong>CKAN</strong>이란 오픈 놀리지(Open Knowledge)가 개발 및 관리하는 <strong>데이터 포털 구축을 위한 오프소스 소프트웨어 플랫폼</strong>이다. 20여 개국 중앙 정부의 공식 데이터 발행 플랫폼으로 사용되며, 더 많은 지방 정부, 커뮤니티, 과학 및 기타 데이터 포털이 이를 바탕으로 동작하고 있다고 한다.</p>
+<h5 id="그렇다면-본적적으로-CKAN을-설치해보자"><a href="#그렇다면-본적적으로-CKAN을-설치해보자" class="headerlink" title="그렇다면, 본적적으로 CKAN을 설치해보자."></a>그렇다면, 본적적으로 CKAN을 설치해보자.</h5><p>CKAN을 설치하는 방법에는 세 가지가 있다. </p>
+<blockquote>
+<ol>
+<li>operating system package를 통한 설치</li>
+<li>source를 이용한 설치</li>
+<li>docker compose를 이용한 설치</li>
+</ol>
+</blockquote>
+<p>가장 쉽고 빠르게 설치할 수 있는 방법은 첫 번째 방법이다. 그러나 우분투 16.04 64비트 또는 우분투 14.04 64비트를 필요로 하는 제약조건이 있다. 따라서 CentOS와 같은 우분투를 제외한 다른 리눅스 배포판에 설치를 하려면 두 번째 방법을 통해 설치해야만 한다. 이번 글에서는 첫 번째 방법으로 설치를 할 것이며, 설치환경은 아래와 같다.</p>
+<blockquote>
+<p>Ubuntu 16.04 LTS 64bit - AWS의 EC2에서 임대받은 가상서버</p>
+</blockquote>
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><p>CKAN을 설치할때에 필요한 소프트웨어이다. 각 소프트웨어들이 무엇을 위해 사용되어지고 몇 번 포트를 사용하는지 익혀두고 진행하면 좀 도움이 많이 되는 듯 싶다.</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Port</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NGINX</td>
+<td>80</td>
+<td>Proxy</td>
+</tr>
+<tr>
+<td>Apache2</td>
+<td>8080</td>
+<td>Web Server</td>
+</tr>
+<tr>
+<td>Solr/Jetty</td>
+<td>8983</td>
+<td>Search</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>5432</td>
+<td>Database</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>6379</td>
+<td>Search</td>
+</tr>
+</tbody></table>
+<h3 id="1-CKAN-package-설치"><a href="#1-CKAN-package-설치" class="headerlink" title="1. CKAN package 설치"></a>1. CKAN package 설치</h3><ol>
+<li>터미널을 열고, 먼저 apt를 업데이트 해준다</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>그리고 필요한 패키지들을 설치한다(git은 CKAN 확장프로그램을 위해 설치)</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server git-core</span><br></pre></td></tr></table></figure>
+
+<p>두 번째 과정을 진행하다보면 높은 확률로 한번에 설치가 안된다. 아파치가 돌아가고 있기때문에 정지시키고 재설치하자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service apache2 stop <span class="comment"># 아파치 정지</span></span><br><span class="line">sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server git-core</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>CKAN 패키지 다운로드 및 인스톨</li>
+</ol>
+<p>패키지를 다운로드 받는다. 현재 사용하고 있는 우분투의 버전을 확인하여 다운받고 인스톨까지 진행한다</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># for 16.04</span></span><br><span class="line">wget http://packaging.ckan.org/python-ckan_2.8-xenial_amd64.deb</span><br><span class="line">sudo dpkg -i python-ckan_2.8-xenial_amd64.deb</span><br><span class="line"></span><br><span class="line"><span class="comment"># for 14.04</span></span><br><span class="line">wget http://packaging.ckan.org/python-ckan_2.8-trusty_amd64.deb </span><br><span class="line">sudo dpkg -i python-ckan_2.8-trusty_amd64.deb</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-PostgreSQL-설치-및-설정"><a href="#2-PostgreSQL-설치-및-설정" class="headerlink" title="2. PostgreSQL 설치 및 설정"></a>2. PostgreSQL 설치 및 설정</h3><p>psql를 설치한다. <strong>sqlalchemy.url</strong> (/etc/ckan/default/production.ini)을 상황에 맞게 수정한다면 psql과 ckan은 서로 다른 서버에 위치해도 괜찮다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y postgresql</span><br><span class="line">sudo -u postgres psql -l <span class="comment"># 설치 확인</span></span><br></pre></td></tr></table></figure>
+
+<p>db의 인코딩이 utf8인지 확인하는 것도 좋다. ckan 설치를 계속하기 이전에 인코딩을 확인하고 넘어가자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">psql my_database -c <span class="string">'SHOW SERVER_ENCODING'</span> <span class="comment"># from command line</span></span><br><span class="line">SHOW SERVER_ENCODING <span class="comment"># within psql</span></span><br></pre></td></tr></table></figure>
+
+<p>psql에 사용중인 계정이 없다면 새로 생성해주자. ckan_default라는 이름의 계정을 생성하며 적당한 pw를 입력하자</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createuser -S -D -R -P ckan_default</span><br></pre></td></tr></table></figure>
+
+<p>계정을 생성해 주었으면 데이터베이스도 만들자</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createdb -O ckan_default ckan_default -E utf-8</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-Solr-설치-및-설정"><a href="#3-Solr-설치-및-설정" class="headerlink" title="3. Solr 설치 및 설정"></a>3. Solr 설치 및 설정</h3><p>psql과 마찬가지로 /etc/ckan/default/production.ini의 solr_url를 상황에 맞게 수정한다면 ckan과 다른 서버에 설치해도 무방하다. solr을 설치하기 위해 아래의 명령어를 입력하자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y solr-jetty</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>jetty 설정</li>
+</ol>
+<p>Jetty의 설정파일의 일부분을 수정해주어야 한다. 파일은 /etc/default/jetty8에 위치해있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NO_START=0            <span class="comment"># (line 4)</span></span><br><span class="line">JETTY_HOST=127.0.0.1  <span class="comment"># (line 16)</span></span><br><span class="line">JETTY_PORT=8983       <span class="comment"># (line 20)</span></span><br></pre></td></tr></table></figure>
+
+<p>host의 경우 주의깊게 설정해주어야 한다. standalone으로 테스트를 위해 설치하는 것이라면 루프백 주소를 넣어도 상관없으나 지금 나의 경우는 외부 접속을 위해 AWS에서 제공해주는 EIP를 입력했다.</p>
+<ol start="2">
+<li>서버 재시작</li>
+</ol>
+<p>jetty의 설정을 변경했다면 서버를 재시작 / 시작 하자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service jetty8 restart <span class="comment"># for 16.04</span></span><br><span class="line">sudo service jetty restart <span class="comment"># for 14.04</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>확인</li>
+</ol>
+<p><a href="http://host_ip/solr/" target="_blank" rel="external nofollow noopener noreferrer">http://host_ip/solr/</a> 를 접속해보면 Solr의 welcome page를 볼 수 있다.</p>
+<ol start="4">
+<li>schema.xml 수정</li>
+</ol>
+<p>기본 schema.xml 파일을 ckan schema 파일로 심볼릭 링크를 걸어준다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mv /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.bak</span><br><span class="line">sudo ln -s /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml</span><br></pre></td></tr></table></figure>
+
+<p>그리고 Solr을 다시 시작한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service jetty8 restart <span class="comment"># for 16.04</span></span><br><span class="line">sudo service jetty restart <span class="comment"># for 14.04</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-설정파일-업데이트-및-데이터베이스-시작"><a href="#4-설정파일-업데이트-및-데이터베이스-시작" class="headerlink" title="4. 설정파일 업데이트 및 데이터베이스 시작"></a>4. 설정파일 업데이트 및 데이터베이스 시작</h3><ol>
+<li>ckan의 config 수정</li>
+</ol>
+<p>아래의 코드는 예시이다. site_id에는 유니크한 값이 들어가야한다. 또한 site_url에도 실제 url을 적어준다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># For example</span></span><br><span class="line">ckan.site_id = default</span><br><span class="line">ckan.site_url = http://demo.ckan.org</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>ckan db 시동</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ckan db init</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-Apache-Nginx-재시작"><a href="#5-Apache-Nginx-재시작" class="headerlink" title="5. Apache / Nginx 재시작"></a>5. Apache / Nginx 재시작</h3><p>아파치와 엔진엑스를 재시작하자. 서버 재시작후 접속해보자.</p>
+<h5 id="6-마무리"><a href="#6-마무리" class="headerlink" title="6. 마무리"></a>6. 마무리</h5><p>맨 밑에 출처에도 있지만 <a href="https://docs.ckan.org/en/2.8/maintaining/installing/install-from-package.html" target="_blank" rel="external nofollow noopener noreferrer">ckan 공식문서</a>를 보게되면 정말 자세하게 안내하고 있는 것을 볼수 있다. 본인이 직접 설치하면서 추가한 내용도 조금은 있지만 웬만한 내용은 다 문서에 있으니 문서를 두 세번 읽어 보는 게 좋을거 같다고 느꼈다. 또한 본인만의 방법으로 정리하는 것도 좋을 거 같다.</p>
+<hr>
+<p><a href="https://docs.ckan.org/en/2.8/maintaining/installing/install-from-package.html" target="_blank" rel="external nofollow noopener noreferrer">https://docs.ckan.org/en/2.8/maintaining/installing/install-from-package.html</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/09/30/ckan/ckan/" data-id="ckaclz3lz000i7b756g060jz5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-javascript/nvm-install" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -210,7 +470,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/08/26/javascript/nvm-install/" data-id="cka6d06dd004y7y75b8ughfg7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/08/26/javascript/nvm-install/" data-id="ckaclz3ni00517b75eni67e0d" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -347,149 +607,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/08/23/javascript/from-method/" data-id="cka6d06d6004b7y751us27k68" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-javascript/for-statement-es6" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/08/23/javascript/for-statement-es6/">자바스크립트의 반복문 - for</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/08/23/javascript/for-statement-es6/">
-            <time datetime="2018-08-23T08:12:33.000Z" itemprop="datePublished">2018-08-23</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/javascript/">javascript</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/es6/" rel="tag">es6</a>, <a class="tag-link" href="/tags/javascript/" rel="tag">javascript</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="자바스크립트에서-사용되는-for문에-대해서-알아보자"><a href="#자바스크립트에서-사용되는-for문에-대해서-알아보자" class="headerlink" title="자바스크립트에서 사용되는 for문에 대해서 알아보자"></a>자바스크립트에서 사용되는 for문에 대해서 알아보자</h1><ol>
-<li><p>for<br>가장 일반적으로 사용되는 for문이다. 배열의 크기가 가변적이더라도 대응할 수 있다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(data[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>forEach<br>Array가 제공하고 있는 forEach 메소드와 callback 함수를 통해서 배열을 순회할 수 있다. 이 때에 콜백함수의 인자로는 순회하고 있는 요소가 들어가게 된다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>];</span><br><span class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>for in<br>파이썬처럼 for in 함수도 있다. 객체의 프로퍼티에 루프를 실행하게 된다. Array에서는 사용하지 않는 걸 추천하며, 그 이유는 다음과 같다. 원래 object를 위해서 만들어졌기 때문이기도 하며 <strong>Array.prototype.getIndex = function() {}</strong> 처럼 prototype에 직접적으로 새로 생성한 프로퍼티가 있을때 의도치 않게 같이 순회하기 때문이다. 또한 배열의 경우 값(value)를 가져오는 게 아니라 인덱스(index)를 가져오게 됨을 주의하자!</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> idx <span class="keyword">in</span> data) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(data[idx]); <span class="comment">// 인덱스를 가져오기 때문에 이렇게 순회해야 값을 출력한다.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>for of<br>es6에서 새로 생긴 반복문이다. for in과는 다르게 컬렉션의 요소를 순회하는 반복문이다. 배열을 순회할때 알맞으며 문자열 각각의 문자들을 반복할때도 사용한다. for in과의 차이점으로는 idx가 아닌 value(값)을 가져오는 것이다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">in</span> data) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> test_str = <span class="string">"abcdefg"</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> char <span class="keyword">in</span> test_str) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(char);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/08/23/javascript/for-statement-es6/" data-id="cka6d06d500487y7574z7db8y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/08/23/javascript/from-method/" data-id="ckaclz3nc004e7b75fq7z98g0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -597,7 +715,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -611,9 +729,18 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
+                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
+                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 
@@ -638,17 +765,8 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-jwt/" class="title">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" class="title">리액트 네이티브에서 스크린 사이즈 구하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>

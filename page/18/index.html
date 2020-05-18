@@ -143,6 +143,159 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-django/django-select-prefetch-related" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/11/09/django/django-select-prefetch-related/">장고 쿼리셋의 select_related</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/09/django/django-select-prefetch-related/">
+            <time datetime="2019-11-09T14:37:05.000Z" itemprop="datePublished">2019-11-09</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/django/">django</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>debug_toolbar를 설치해서 SQL 항목을 보기 전까지 select_related와 prefetch_related는 아직은 필요하지 않은 것들이라고 생각했다. 데이터가 많지 않아 드라마틱한 속도는 볼 수 없었지만 duplicated를 보지 않는 것만으로도 효과는 충분히 보았다고 생각한다.</p>
+</blockquote>
+<p>장고 ORM을 사용할 수 있다는 것은 정말 큰 장점이 되는 것 같다. 물론 이 ORM이 어떻게 동작하는 지 이해하고 쓴다면 더할 나위 없이 좋겠지만 차차 알아보기로 하고 지금은 select_related에 대해서 정리해 보려고 한다.</p>
+<p>일단 아래와 같은 모델이 있다고 가정하고 시작해보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 게시글</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    title = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">    author = models.ForeignKey(<span class="string">'user'</span>, on_delete=models.CASCADE)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 글쓴이</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="select-related"><a href="#select-related" class="headerlink" title="select_related"></a>select_related</h2><p>모든 게시글에 대해서 글쓴이를 순회하는 출력하는 HTML 코드가 있다면 아래와 같을 것이다.</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> post <span class="keyword">in</span> post_list %&#125;</span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>글쓴이 : </span><span class="template-variable">&#123;&#123; post.author &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>정말 흔하게 작성하는 코드이기 때문에 큰 의문이 들지 않을 수도 있지만, 장고의 QuerySet의 특성 한 가지를 이해한다면 비효율적으로 실행되는 것을 이해할 수 있게된다.</p>
+<p>여기서 필요한 쿼리셋의 특성 한 가지는</p>
+<ul>
+<li>QuerySet은 기본적으로 지연평가(Lazy Evaluation)를 한다는 것</li>
+</ul>
+<p>이다.</p>
+<h3 id="지연평가란"><a href="#지연평가란" class="headerlink" title="지연평가란?"></a>지연평가란?</h3><p><strong>파이썬 코드 상에서 QuerySet을 만드는 작업은 DB에 아무런 작업을 수행하지 않는 다는 것이다.</strong> 즉, all() / filter() 과 같이 QuerySet을 생성하는 작업들은 DB에 접근하는 작업이 아니며 실제 값을 뽑는 - 연산 - 과정이 실행되기 전까지 DB query가 일어나지 않는다.</p>
+<p>이러한 지연평가로 인해서 views.py에서 쿼리셋을 생성하는 작업들을 반복해서 수행해도 DB 호출을 최소화 할 수 있다는 장점을 가질 수 있다. 하지만 템플릿 상에서 반복문을 통해 외래키를 참조하는 쿼리셋을 평가하는 작업을 반복하게 된다면 SQL문의 중복이 발생할 수 있다는 단점도 있다.</p>
+<p>다시 코드로 돌아와서..<br>쿼리셋의 지연평가를 이해하면</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> post <span class="keyword">in</span> post_list %&#125;</span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>글쓴이 : </span><span class="template-variable">&#123;&#123; post.author &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong></strong> 부분이 모든 post 객체에 대해서 실행되기 때문에 post 객체의 개수 만큼 쿼리가 중복 발생하는 것을 파악할 수 있다.</p>
+<p>문제를 해결하기 위해선 views.py 에서 post_list를 구할때 <strong>select_related</strong>를 사용하면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_list = Post.object.select_related(<span class="string">'user'</span>).all()</span><br></pre></td></tr></table></figure>
+
+<p>post 객체를 만들때 외래키 관계에 있는 객체를 한 번에 다 가져온다. HTML 상에서 지연평가를 하지 않고 DB상에서 Inner join을 통해 한 번의 접근만으로 필요한 정보를 가져오게 되는 셈이다.</p>
+<p>지금까지 select_related에 대해서 의식의 흐름대로 정리해 보았다. 이제 막 찾아보고 처음으로 사용했던 지라 제대로 소화하지 못한 것 같아서 prefetch_related 정리할 때 다시 해야겠다.</p>
+<hr>
+<p>[참고]<br><a href="https://wayhome25.github.io/django/2017/06/20/selected_related_prefetch_related/" target="_blank" rel="external nofollow noopener noreferrer">https://wayhome25.github.io/django/2017/06/20/selected_related_prefetch_related/</a><br><a href="https://tech.peoplefund.co.kr/2017/11/03/django-db-optimization.html" target="_blank" rel="external nofollow noopener noreferrer">https://tech.peoplefund.co.kr/2017/11/03/django-db-optimization.html</a><br><a href="https://blog.leop0ld.org/posts/database-access-optimization/" target="_blank" rel="external nofollow noopener noreferrer">https://blog.leop0ld.org/posts/database-access-optimization/</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/09/django/django-select-prefetch-related/" data-id="ckaclz3mq00297b75f2eve72s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/linux-rabbitmq-commands-brief" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -207,7 +360,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/06/linux/linux-rabbitmq-commands-brief/" data-id="cka6d06dw006j7y75bogt4gnm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/06/linux/linux-rabbitmq-commands-brief/" data-id="ckaclz3nw006k7b75dpo7gllg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -343,147 +496,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/05/linux/linux-enable-rabbitmq-management/" data-id="cka6d06du006c7y75aryzah87" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-linux/linux-change-locale-to-korean" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/11/04/linux/linux-change-locale-to-korean/">Ubuntu locale 한글로 설정하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/11/04/linux/linux-change-locale-to-korean/">
-            <time datetime="2019-11-04T04:33:33.000Z" itemprop="datePublished">2019-11-04</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/linux/">linux</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="Ubuntu-locale-한글로-설정하기"><a href="#Ubuntu-locale-한글로-설정하기" class="headerlink" title="Ubuntu locale 한글로 설정하기"></a>Ubuntu locale 한글로 설정하기</h1><blockquote>
-<p>로케일 설정은 언어 뿐만 아니라 날짜 / 시간과 같은 표현에도 영향을 미친다</p>
-</blockquote>
-<p>aws의 우분투를 사용하던 중 git log의 한글이 깨져서 보이는 현상이 발생했다. locale 명령어를 통해 보니 en-US.UTF-8 이었기 때문에 한국어 UTF-8로 바꾼 과정을 정리해본다.</p>
-<h2 id="Locale-변경하기"><a href="#Locale-변경하기" class="headerlink" title="Locale 변경하기"></a>Locale 변경하기</h2><h4 id="현재-시스템-확인"><a href="#현재-시스템-확인" class="headerlink" title="현재 시스템 확인"></a>현재 시스템 확인</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">locale</span><br></pre></td></tr></table></figure>
-
-<p>우선 현재 시스템의 locale은 아래의 명령어를 통해 확인할 수 있다.</p>
-<h4 id="한글-패키지-설치"><a href="#한글-패키지-설치" class="headerlink" title="한글 패키지 설치"></a>한글 패키지 설치</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install language-pack-ko</span><br></pre></td></tr></table></figure>
-
-<h4 id="시스템-파일-수정"><a href="#시스템-파일-수정" class="headerlink" title="시스템 파일 수정"></a>시스템 파일 수정</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/default/locale</span></span><br><span class="line"></span><br><span class="line">LANG=ko_KR.UTF-8</span><br><span class="line">LC_MESSAGES=POSIX</span><br><span class="line"></span><br><span class="line"><span class="comment"># 출력</span></span><br><span class="line"><span class="comment"># LANG=ko_KR.UTF-8</span></span><br><span class="line"><span class="comment"># LANGUAGE=</span></span><br><span class="line"><span class="comment"># LC_CTYPE=ko_KR.UTF-8</span></span><br><span class="line"><span class="comment"># LC_NUMERIC="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_TIME="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_COLLATE="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_MONETARY="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_MESSAGES=POSIX</span></span><br><span class="line"><span class="comment"># LC_PAPER="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_NAME="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_ADDRESS="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_TELEPHONE="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_MEASUREMENT="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_IDENTIFICATION="ko_KR.UTF-8"</span></span><br><span class="line"><span class="comment"># LC_ALL=</span></span><br></pre></td></tr></table></figure>
-
-<p>시스템의 언어 설정 파일은 기본적으로 /etc/default/locale에 저장이 되어있다. 따라서 이 부분을 위와 같이 편집해주고 서버 재부팅 또는 재접속을 해보자!!</p>
-<h4 id="확인"><a href="#확인" class="headerlink" title="확인"></a>확인</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">locale</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://www.manualfactory.net/10349" target="_blank" rel="external nofollow noopener noreferrer">https://www.manualfactory.net/10349</a><br><a href="https://beomi.github.io/2017/07/10/Ubuntu-Locale-to-ko_KR/" target="_blank" rel="external nofollow noopener noreferrer">https://beomi.github.io/2017/07/10/Ubuntu-Locale-to-ko_KR/</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/11/04/linux/linux-change-locale-to-korean/" data-id="cka6d06dk005i7y756hnwf0gm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/05/linux/linux-enable-rabbitmq-management/" data-id="ckaclz3nt00647b75diildpu1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -591,7 +604,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -605,9 +618,18 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
+                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
+                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 
@@ -632,17 +654,8 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-jwt/" class="title">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" class="title">리액트 네이티브에서 스크린 사이즈 구하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>

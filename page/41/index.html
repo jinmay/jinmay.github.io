@@ -143,6 +143,183 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-network/internet-layer-of-tcp-ip" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/04/13/network/internet-layer-of-tcp-ip/">TCP/IP 4계층 - 인터넷 계층</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/04/13/network/internet-layer-of-tcp-ip/">
+            <time datetime="2018-04-13T07:15:29.000Z" itemprop="datePublished">2018-04-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="인터넷-계층"><a href="#인터넷-계층" class="headerlink" title="인터넷 계층"></a>인터넷 계층</h1><h2 id="IP-주소"><a href="#IP-주소" class="headerlink" title="IP 주소"></a>IP 주소</h2><p>인터넷 계층의 역할은 송신지 컴퓨터의 데이터를 수신지 컴퓨터까지 전달하는 것이다. 수신지 컴퓨터를 찾아내기 위해 식별할 수 있는 고유한 정보가 필요하고 이때에 사용되는 식별자가 바로 IP 주소이다. 흔히 IP 주소를 우편번호로 비유하곤 하는데, 자세히 들여다보면 중요한 차이가 존재한다. 우편번호는 지역정보를 포함하고 있는 것과 달리 IP 주소는 지리적인 위치와는 상관없이 네트워크 단위로 할당된다. 따라서 IP 주소를 통해 그 컴퓨터가 어느 위치에 존재하는 지 알기 힘들며 <strong>어느 네트워크에 속해있는 지와 소속된 네트워크의 규모를 짐작할 수 있을 뿐이다.</strong></p>
+<h2 id="라우터"><a href="#라우터" class="headerlink" title="라우터"></a>라우터</h2><p>IP 주소는 지리적인 위치 정보를 포함하고 있지 않기 때문에 수신자를 찾기 위해서는 다른 방법을 이용해야 한다. <strong>라우터(router)</strong>라는 네트워크 장비는 서로 다른 네트워크 간의 연결 정보를 관리한다. IP 주소를 보면 소속된 네트워크가 어디인지 알 수 있는데, 해당 네트워크에 연결된 라우터를 추적하다 보면 그 장비가 최종적으로는 목표로 한 수신지 컴퓨터를 찾게되고 송신지에서 수신지까지 연결되는 통신 경로를 만들 수 있게 된다. 이와 같은 과정을 <strong>라우팅(routing)</strong> 이라고 한다.</p>
+<h2 id="공인-IP-사설-IP"><a href="#공인-IP-사설-IP" class="headerlink" title="공인 IP / 사설 IP"></a>공인 IP / 사설 IP</h2><p>급속한 인터넷의 보급으로 사용 가능한 IP 주소가 점점 줄어들고있다. 이와 같은 현상을 피하기위한 방안으로 <strong>사설 IP / 공인 IP</strong>를 구분하는 기법을 사용한다. 또한 근본적인 방법으로 고갈되어져 가는 IPv4 주소체계를 IPv6로 확장하고 있다.</p>
+<ul>
+<li><p>공인 IP<br>Public IP라고 불린다. 인터넷에서 사용가능한 IP 주소를 말하며, 외부에서도 접근이 가능한 주소를 의미한다.</p>
+</li>
+<li><p>사설 IP<br>Private IP라고 불린다. 사무실이나 가정 내에서만 사용 가능한 IP이며, 외부에서 접근할 수 없는 주소이다. </p>
+</li>
+</ul>
+<h2 id="IPv4-와-IPv6"><a href="#IPv4-와-IPv6" class="headerlink" title="IPv4 와 IPv6"></a>IPv4 와 IPv6</h2><p>인터넷 계층에서 사용되는 프로토콜이다. IP 주소를 결정할 때 사용하는 비트의 길이가 다르다. IP 주소는 유통기한을 가지고 있는데, 패킷이 제대로 전달되지 않는 경우 네트워크 안을 계속해서 떠도는 걸 방지하기 위함이다. 제대로 전달되지 않은채 네트워크 안을 떠돌게되는 패킷이 많아지면 자연스레 네트워크는 복잡해져 다른 패킷들에게도 영향을 미치게 되는데 이러한 부작용을 방지하기 위해 <strong>IPv4 헤더에는 생존기간(TTL - Time To Live) 정보가 담겨져있다.</strong> TTL이 0인 패킷이 발견된다면 그 패킷을 소멸시키도록 규정하고 있다.</p>
+<ol>
+<li><p>IPv4<br>32비트 주소 체계이다. 32비트 문자열은 사람이 알아보기 어렵기 때문에 8비트씩 4개 단위로 끊은 후에 10진수로 변환하여 표현한다.</p>
+</li>
+<li><p>IPv6<br>128비트 주소 체계이다. 급격한 인터넷의 성장으로 IPv4의 주소가 고갈되어가자 피해를 방지하기 위해 만들어졌다.</p>
+<blockquote>
+<p>인터넷 계층에서 사용되는 장비에만 IP 주소가 할당된다.</p>
+</blockquote>
+</li>
+</ol>
+<p>한 번에 전송할 수 있는 데이터의 크기를  **MTU(Maximum Transmission Unit)라고 한다. 통신 상태에 따라 달라지게 되는데, 예를 들어 경로 상태가 좋지 않으면 값이 줄어들게 되고 라우터는 이 MTU 값에 따라 패킷을 분할해서 수신지로 전송하게 된다. 라우터가 데이터를 송신하기 전에 통신 경로 전체의 MTU를 살펴보고 처음부터 MTU보다 작은 크기의 패킷을 전송하게 된다. 수신지의 컴퓨터에서는 도착한 분할된 패킷들을 복원하여 수신한다!</p>
+<h2 id="네트워크-부와-호스트-부"><a href="#네트워크-부와-호스트-부" class="headerlink" title="네트워크 부와 호스트 부"></a>네트워크 부와 호스트 부</h2><p>IP 주소는 네트워크 부와 호스트 부로 나누어 진다. 라우터는 IP 주소의 네트워크 부를 보고 데이터를 전송할 목적지가 같은 네트워크에 있는지 다른네트워크에 있는지 판단한다.</p>
+<h2 id="어드레스-클래스"><a href="#어드레스-클래스" class="headerlink" title="어드레스 클래스"></a>어드레스 클래스</h2><p>하나의 IP 주소에서 어디까지가 네트워크 부이고 호스트 부인지 표현하기 위해 어드레스 클래스를 이용한다. 총 네 가지의 어드레스 클래스가 있다.</p>
+<ul>
+<li>클래스 A<ul>
+<li>네트워크 부 : 8비트 - 126개 네트워크</li>
+<li>호스트 부 : 24비트 - 약 1677만개 호스트</li>
+</ul>
+</li>
+<li>클래스 B<ul>
+<li>네트워크 부 : 16비트 - 약 1만 6천개 네트워크</li>
+<li>호스트 부 : 16비트 - 약 6만 5천개 호스트</li>
+</ul>
+</li>
+<li>클래스 C<ul>
+<li>네트워크 부 : 24비트 - 약 209만개 네트워크</li>
+<li>호스트부 : 8비트 - 254개 호스트</li>
+</ul>
+</li>
+<li>클래스 D (특수 클래스) : 멀티캐스트 그룹<ul>
+<li>네트워크 부 : 32비트</li>
+</ul>
+</li>
+</ul>
+<p>클래스 A를 보면 한 개의 네트워크당 1677만개의 호스트를 할당할 수 있는데, 실제로 단일 네트워크에 이렇게 많은 호스트를 필요로 하는 경우는 없다. 이런 경우 호스트 낭비가 심하게 되는데 효율적으로 주소를 할당하고자 나온 방법이 <strong>서브넷 마스크</strong>이다.</p>
+<h2 id="서브넷-마스크"><a href="#서브넷-마스크" class="headerlink" title="서브넷 마스크"></a>서브넷 마스크</h2><p><strong>어드레스 클래스의 경우 네트워크 부의 길이가 미리 정해져있다.</strong> 어드레스 클래스와 다르게 네트워크 부의 길이를 가변적으로 사용하기 위해 <strong>서브넷 마스크</strong>를 사용하며, 비트 단위로 유연하게 늘려서 쓰는 것이 가능해진다.</p>
+<blockquote>
+<p>네트워크 부를 1비트 단위로 변경할 수 있다!!<br>IP 주소를 할당하는 방법은 IPv4를 기준으로 전체 32비트 중 네트워크 부를 제외한 호스트 부분을 자유롭게 할당하여 사용하는 것이다.</p>
+</blockquote>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/" data-id="ckaclz3o9007o7b754gsu3dhv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-network/transport-layer-of-tcp-ip" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -257,7 +434,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/04/12/network/transport-layer-of-tcp-ip/" data-id="cka6d06e9007q7y753c9o06rd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/04/12/network/transport-layer-of-tcp-ip/" data-id="ckaclz3ob007x7b75fhr06kjx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -413,250 +590,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/04/11/network/application-layer-of-tcp-ip/" data-id="cka6d06e200747y75c1fvb7te" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-network/basic-of-network" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/10/network/basic-of-network/">네트워크 기초</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/04/10/network/basic-of-network/">
-            <time datetime="2018-04-10T14:16:52.000Z" itemprop="datePublished">2018-04-10</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/network/">network</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <blockquote>
-<p>웹 프로그래밍을 하다보면 네트워크 지식을 알게 모르게 필요로 했던거 같다. 프레임워크를 사용하면서 내부적으로 어떻게 작동되는지 제대로 이해하지 못한채 사용하는 경우가 많았는데 이유를 생각해보니 HTTP에 대해서 아주 조금의 지식만 가지고 있었기 때문에 그랬지 싶다. 당장 FBV만 사용하더라도 각 함수들의 첫 번째 인자로 request를 받는데 이는 HttpRequest의 인스턴스이며 어디로부터 오는지 전혀 이해할 수 없었고 궁금해하지도 않았다. </p>
-</blockquote>
-<blockquote>
-<p>Django를 공부하다보니 인터넷 네트워크가 어떻게 작동하는 지 문득 궁금해지게 되었고 깊은 이해보다는 전체적인 프로세스를 전반적으로 다루어보자 싶어서 두루두루 공부한 것을 정리해 보려고 한다.</p>
-</blockquote>
-<h1 id="네트워크-기초"><a href="#네트워크-기초" class="headerlink" title="네트워크 기초"></a>네트워크 기초</h1><p>보통 네트워크를 공부한다고 하면 <strong>OSI 7계층</strong>과 <strong>TCP/IP 4계층</strong>이 있다. 더 큰 범주에 속해있는 것은 OSI 7계층으로서 네트워크 전송 시 데이터 표준을 정리한 것이라고 한다. TCP/IP 4계층은 이에 속하는 더 작은 개념으로서 이 이론을 실제로 사용하는 인터넷 네트워크 표준이 TCP/IP 4계층이라고 한다. 그리고 TCP/IP 4계층은 <strong>인터넷 모델</strong>이라고도 부른다.</p>
-<ol>
-<li>컴퓨터 네트워크의 종류<br>컴퓨터 네트워크는 여러 대의 컴퓨터를 서로 연결하여 서로 데이터를 주고받을 수 있도록 망이 사전에 구축된 것을 말한다. 통신망의 거리에 따라 LAN(Local Area Network) 그리고 WAN(Wide Area Network)으로 나눈다. <ul>
-<li>LAN = Local Area Network<ul>
-<li>가정이나 사무실처럼 실내에서 비교적 근거리에 위치한 컴퓨터들이 연결된 것을 의미한다.</li>
-</ul>
-</li>
-<li>WAN = Wide Area Network<ul>
-<li>집 밖이나 회사 건물 밖처럼 비교적 먼 거리에 위치한 컴퓨터들과 연결된 것을 말한다.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<p>공부하기 전까지 인터넷 = 네트워크라고 생각하고 있었는데, 여러 네트워크 중에서 가장 규모가 큰 네트워크가 인터넷이라고 한다. 또한 스마트폰을 연결하기 위해 무선 기술을 활용한 것을 무선 네트워크(모바일 네트워크)라고 한다.</p>
-<ul>
-<li>3G / 4G </li>
-<li>WiMAX</li>
-<li>Wi-Fi</li>
-</ul>
-<p>네트워크에 연결된 컴퓨터들은 서버 혹은 클라이언트에 속하게 되는데 서비스를 제공하는 쪽을 서버(Server) / 서비스를 제공 받는 쪽을 클라이언트(Client)라고 부른다. 서버와 클라이언트의 역할은 하드웨어로 구분하는 것이 아니라 어떤 역할의 프로그램을 설치하느냐에 따라 결정된다.</p>
-<h2 id="네트워크-전달방식"><a href="#네트워크-전달방식" class="headerlink" title="네트워크 전달방식"></a>네트워크 전달방식</h2><p>네트워크 전달 방식에는 <strong>패킷 교환 방식</strong>과 <strong>회선 교환 방식</strong>이 있다. 컴퓨터 네트워크에서는 이메일이나 파일과 같은 데이터를 <strong>패킷(Packet)</strong>으로 분할한 후 주고 받는다. 이때에 패킷은 어디로 전달되야하는지 알 수 있도록 <strong>주소(address)</strong>정보를 가지고 있다.</p>
-<ol>
-<li><p>회선 교환 방식</p>
-<ul>
-<li>아날로그 방식의 유선전화 또는 3G 휴대전화가 사용했다</li>
-<li>통신하려는 양쪽 디바이스가 하나의 통신 경로를 점유하는 방식이다</li>
-<li>때문에 일대일 통신을 기본으로 한다</li>
-<li>통신 속도가 안정적이라는 장점이 있다</li>
-</ul>
-</li>
-<li><p>패킷 교환 방식</p>
-<ul>
-<li>주고받을 데이터는 작게 쪼갠 후 주고받는다</li>
-<li>다른 데이터 조각들과 섞여서 주고 받곤한다</li>
-<li>통신 경로를 공유하며 전달하기 때문에 여러 상대와 통신할때 효과적이다</li>
-<li>주고받는 패킷이 증가하면 전송 속도가 느려지는 단점이 있다</li>
-</ul>
-</li>
-</ol>
-<h2 id="계층-모델"><a href="#계층-모델" class="headerlink" title="계층 모델"></a>계층 모델</h2><p>위에서 말한 것처럼 OSI 7계층과 TCP/IP 4계층이 있는데, 인터넷 모델이라고 불리기도하는 TCP/IP 4계층에 대해서 살펴보기로 하자. 총 네 가지의 계층으로 구분되어진다.</p>
-<ol>
-<li>애플리케이션 계층 -  server / client / HTTP / SSH와 같이 서비스를 제공하는 부분</li>
-<li>트랜스포트 계층 - TCP / UDP</li>
-<li>인터넷 계층 - IP / ICMP / router</li>
-<li>네트워크 인터페이스 계층 - Ethernet / Wireless LAN / MAC address</li>
-</ol>
-<p>위 와 같이 네 가지의 계층이 있다. 4개 계층 중 서비스의 내용을 결정하는 것은 애플리케이션 계층 하나 뿐이며, 나머지 3개 계층은 보이지 않는 곳에서 통신 기능을 담당하고 있다. </p>
-<h3 id="애플리케이션-계층"><a href="#애플리케이션-계층" class="headerlink" title="애플리케이션 계층"></a>애플리케이션 계층</h3><p>사용자가 실제로 체감할 수 있는 서비스를 제공하는 계층이다. 웹 서비스를 예로 들면, 웹 브라우저와 웹 서버는 애플리케이션 계층에 속하는 프로그램이 된다. 데이터 전송에 관한 처리는 하위 계층에 위임하며 서비스를 처리하는 데에 집중하는 계층이다. </p>
-<h3 id="트랜스포트-계층"><a href="#트랜스포트-계층" class="headerlink" title="트랜스포트 계층"></a>트랜스포트 계층</h3><p>상위 계층인 애플리케이션 계층으로부터 전달받은 데이터를 목적지 애플리케이션 계층의 프로그램까지 전달하는 역할을 담당한다. 또한 데이터가 제대로 전달되지 않았을 때 재전송하는 것도 이 계층에서 맡고 있는 역할이다.</p>
-<h3 id="인터넷-계층"><a href="#인터넷-계층" class="headerlink" title="인터넷 계층"></a>인터넷 계층</h3><p>데이터에 주소 정보를 붙여 수신지(목적지)까지 전달하는 역할을 한다. 목적지까지 도달하기 위한 경로가 있는데 네트워크를 넘나들면서 최적의 경로를 탐색하는 데에 <strong>라우터</strong>라는 장비를 사용한다. </p>
-<h3 id="네트워크-인터페이스-계층"><a href="#네트워크-인터페이스-계층" class="headerlink" title="네트워크 인터페이스 계층"></a>네트워크 인터페이스 계층</h3><p>유선 LAN 어댑터나 무선 LAN 어댑터가 처리할 수 있는 형태로 데이터를 변환하고 이 데이터를 목적지까지 전달하는 역할을 한다. 물리적으로 인접하여 연결된 장비까지 어떻게 하면 데이터를 잘 전달할까에 초점을 맞추고 있다. </p>
-<h2 id="프로토콜-protocol"><a href="#프로토콜-protocol" class="headerlink" title="프로토콜(protocol)"></a>프로토콜(protocol)</h2><p>원활한 데이터 송수신을 위해 지켜야할 통신 규약 혹은 절차를 <strong>프로토콜</strong>이라고 부른다. 통신 절차가 기술된 것 뿐이기 때문에 물리적 형태가 존재하지는 않는다. 하지만 프로토콜에 맞게 동작하도록 만들어진 프로그램이나 통신장비,데이터 포멧 등이 존재하고, 프로토콜을 잘 지켰을때 원활한 통신이 가능해진다.</p>
-<ul>
-<li><p>애플리케이션 계층</p>
-<ul>
-<li>프로토콜 : HTTP</li>
-<li>HTTP 프로토콜에 따라 동작하도록 만들어진 웹 브라우저</li>
-</ul>
-</li>
-<li><p>트랜스포트 계층 / 인터넷 계층</p>
-<ul>
-<li>프로토콜 : TCP/IP</li>
-<li>TCP/IP 프로토콜에 따라 동작하도록 만들어진 OS 내장 통신 프로그램</li>
-</ul>
-</li>
-<li><p>네트워크 인터페이스 계층</p>
-<ul>
-<li>프로토콜 : Ethernet(이더넷)</li>
-<li>Ethernet 프로토콜에 따라 동작하도록 만들어진 네트워크 어댑터용 디바이스 드라이버</li>
-</ul>
-</li>
-</ul>
-<p>또한 이더넷에 맞게 동작하도록 만들어진 LAN 케이블과 네트워크 허브가 있다(하드웨어 부분)</p>
-<h3 id="대표적인-프로토콜"><a href="#대표적인-프로토콜" class="headerlink" title="대표적인 프로토콜"></a>대표적인 프로토콜</h3><ol>
-<li>애플리케이션 계층<ul>
-<li>HTTP : 하이퍼텍스트를 주고받음(웹 페이지)</li>
-<li>HTTPS : 보안을 위해 웹 페이지 데이터를 주고받는 과정을 암호화</li>
-<li>POP3 : 서버에 보관된 수신 메일을 가져옴</li>
-<li>SMTP : 메일 송신</li>
-<li>FTP : 파일 전송</li>
-<li>Telnet : 컴퓨터 원격 제어</li>
-<li>SSH : 보안을 위해 컴퓨터를 원격제어하는 과정을 암호화</li>
-<li>SMB : 윈도 컴퓨터와 파일 공유</li>
-<li>DHCP : 사설 IP(private IP)를 동적 할당</li>
-<li>DNS : 도메인 이름과 IP 주소를 변환</li>
-<li>SSL : 보안을 위해 통신 과정에서 주고받는 데이터를 암호화</li>
-</ul>
-</li>
-<li>트랜스포트 계층<ul>
-<li>TCP : 애플리케이션의 데이터를 송수신. 데이터의 정확한 전달을 중시함</li>
-<li>UDP : 애플리케이션의 데이터를 송수신. 데이터의 전송 속도를 중시함</li>
-</ul>
-</li>
-<li>인터넷 계층<ul>
-<li>IP : 패킷을 목적지까지 전달</li>
-<li>ICMP : IP의 통신 오류를 전달</li>
-<li>IPsec : 패킷을 암호화하여 전달</li>
-<li>ARP : 네트워크 장비의 MAC address를 알아냄</li>
-</ul>
-</li>
-<li>네트워크 인터페이스 계층<ul>
-<li>Ethernet(이더넷): 일반 금속 케이블이나 광 케이블을 통해 데이터를 전달</li>
-<li>PPP : 사용자 인증 후에 원격지의 장비와 통신</li>
-</ul>
-</li>
-</ol>
-<p>[참고]<br><a href="http://pigbrain.github.io/network/2017/03/08/OSI7_on_Network" target="_blank" rel="external nofollow noopener noreferrer">http://pigbrain.github.io/network/2017/03/08/OSI7_on_Network</a><br><a href="http://hahahoho5915.tistory.com/15" target="_blank" rel="external nofollow noopener noreferrer">http://hahahoho5915.tistory.com/15</a><br><a href="http://tar-cvzf-studybackup-tar-gz.tistory.com/38" target="_blank" rel="external nofollow noopener noreferrer">http://tar-cvzf-studybackup-tar-gz.tistory.com/38</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/04/10/network/basic-of-network/" data-id="cka6d06e200787y7560bd1kk3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/04/11/network/application-layer-of-tcp-ip/" data-id="ckaclz3o4007b7b758vtl1i42" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -764,7 +698,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -778,9 +712,18 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
+                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
+                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 
@@ -805,17 +748,8 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-jwt/" class="title">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" class="title">리액트 네이티브에서 스크린 사이즈 구하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>

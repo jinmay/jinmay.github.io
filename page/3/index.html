@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-web/basic-of-dns" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-react-native/rn-how-to-find-size-of-screen" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/web/basic-of-dns/">[DNS]DNS의 기초적인 작동방식</a>
+            <a class="article-title" href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/">리액트 네이티브에서 스크린 사이즈 구하기</a>
         </h1>
     
 
@@ -160,7 +160,265 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/web/basic-of-dns/">
+        <a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/">
+            <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/react-native/">react-native</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>모바일 어플리케이션을 만들다 보면 각 기기마다 다른 스크린 크기 때문에 머리아픈 경우가 정말 많은 것 같다. 코드로서 화면 크기를 구할 수 있는 방법이 있을까 찾아보았고 정리해본다.</p>
+<h2 id="화면크기-구하기"><a href="#화면크기-구하기" class="headerlink" title="화면크기 구하기"></a>화면크기 구하기</h2><p><strong>react-native의 Dimensions을 사용하면 된다.</strong> 현재 열린 윈도우 사이즈를 통해 height와 width를 구할 수 있다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Dimensions &#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> chartHeight = Dimensions.get(<span class="string">'window'</span>).height;</span><br><span class="line"><span class="keyword">const</span> chartWidth = Dimensions.get(<span class="string">'window'</span>).width;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>[참고]<br><a href="https://stackoverflow.com/questions/53796007/react-native-flex-layout-with-victorychart-chart-fit-the-parent-container" target="_blank" rel="external nofollow noopener noreferrer">https://stackoverflow.com/questions/53796007/react-native-flex-layout-with-victorychart-chart-fit-the-parent-container</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/react-native/rn-how-to-find-size-of-screen/" data-id="ckaclz3p400ah7b75hypiciqp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-react-native/axios-with-android-avd" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/react-native/axios-with-android-avd/">안드로이드 AVD 에뮬레이터를 통해 axios 사용할때 발생하는 문제점</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/react-native/axios-with-android-avd/">
+            <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/react-native/">react-native</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>리액트 네이티브를 통해 앱 개발을 할때 http 패키지로서 보통 axios를 사용하는 것 같다. AVD를 띄우고 로컬호스트로 돌아가는 장고 서버에 HTTP 요청을 하려고 했는데 항상 network error를 뱉었다. <strong>유효하지 않은 요청이 아니라 아예 요청 자체가 들어가지 않는 현상</strong>이었다. 정확한 문제의 원인은 찾지 못했지만 AVD를 통해 안드로이드 시뮬레이터를 사용중이라면 localhost의 주소를 아래의 주소로 변경해보라는 답을 발견했고 문제를 해결할 수 있었다.</p>
+<p><strong>10.0.2.2</strong></p>
+<hr>
+<p>[참고]<br><a href="https://github.com/axios/axios/issues/973" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/axios/axios/issues/973</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/react-native/axios-with-android-avd/" data-id="ckaclz3p400af7b751i7sb2ch" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-web/basic-of-jwt" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/web/basic-of-jwt/">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/web/basic-of-jwt/">
             <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
@@ -181,309 +439,60 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>DNS는 Domain Name System의 줄임말로써 도메인을 관리하는 시스템이다. DNS의 기본적인 작동방식에 대해서 정리한다.</p>
-<h2 id="1-DNS-서버에-ip-등록"><a href="#1-DNS-서버에-ip-등록" class="headerlink" title="1. DNS 서버에 ip 등록"></a>1. DNS 서버에 ip 등록</h2><p><strong>서비스 제공자는 ip를 DNS 서버에 입력해달라고 요청한다.</strong> 즉, <strong>“도메인 example.com은 ip 93.184.216.34를 의미한다”라고 저장해달라고 요청</strong>한다. 그리고 DNS 서버는 해당 정보를 저장한다.</p>
-<p><img src="https://user-images.githubusercontent.com/13075035/75007854-b9234200-54b9-11ea-83ec-721b621e5d03.png" alt></p>
-<h2 id="2-DHCP를-통해-DNS-서버-주소-할당"><a href="#2-DHCP를-통해-DNS-서버-주소-할당" class="headerlink" title="2. DHCP를 통해 DNS 서버 주소 할당"></a>2. DHCP를 통해 DNS 서버 주소 할당</h2><p>DHCP를 통해 클라이언트는 ip 뿐만 아니라 DNS 서버의 주소 / 서브넷 마스크 / 기본 게이트워이 등의 네트워크 정보를 할당 받는다. <strong>DHCP는 컴퓨터가 네트워크에 연결되는 순간 바로 실행되어 네트워크의 정보를 할당 받게 되며, 따라서 어떤 DNS 서버를 사용해야 하는지도 알게 된다.</strong></p>
-<p><a href="http://www.ciokorea.com/tags/25731/DHCP/39337" target="_blank" rel="external nofollow noopener noreferrer">참고</a></p>
-<h2 id="3-DNS로-도메인에-해당하는-ip-요청"><a href="#3-DNS로-도메인에-해당하는-ip-요청" class="headerlink" title="3. DNS로 도메인에 해당하는 ip 요청"></a>3. DNS로 도메인에 해당하는 ip 요청</h2><p>DHCP를 통해 DNS 서버를 알고있기 때문에 접속할 도메인의 ip가 무엇인지 물어본다. 즉, DNS 서버는 example.com의 ip주소인 93.184.216.34를 클라이언트에게 알려준다.</p>
-<p><img src="https://user-images.githubusercontent.com/13075035/75008872-8d558b80-54bc-11ea-8650-7c41f1941ffa.png" alt></p>
-<p>example.com의 ip 주소를 알게된 클라이언트는 ip 주소를 통해 해당 서비스에 접속할 수 있다.</p>
-<p><img src="https://user-images.githubusercontent.com/13075035/75009128-34d2be00-54bd-11ea-8953-7cf9480cbf42.png" alt></p>
-<h2 id="DNS-이용의-장점"><a href="#DNS-이용의-장점" class="headerlink" title="DNS 이용의 장점"></a>DNS 이용의 장점</h2><ul>
-<li>hosts 파일을 관리하는 수고를 덜어준다.</li>
-<li>도메인의 ip 주소가 변경되어도 DNS 서버에서만 바꾸면된다.</li>
+            <p><img src="https://user-images.githubusercontent.com/13075035/74138722-7057c780-4c35-11ea-8186-736263e14289.png" alt="jwt.io"></p>
+<h2 id="1-사용자-인증정보를-관리하는-두-가지"><a href="#1-사용자-인증정보를-관리하는-두-가지" class="headerlink" title="1. 사용자 인증정보를 관리하는 두 가지"></a>1. 사용자 인증정보를 관리하는 두 가지</h2><ul>
+<li>세션 기반 인증</li>
 </ul>
-<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><ul>
-<li><p>클라이언트가 네트워크에 연결되는 순간 DHCP가 작동하여 ip를 물어볼 DNS 서버를 알게된다.</p>
-</li>
-<li><p>네이버에 접속하는 순간 다음의 두 과정을 거친다.</p>
-<ol>
-<li>DNS 서버에게 naver.com의 ip 주소를 물어본다.</li>
-<li>DNS 서버로부터 naver.com의 ip 주소를 받고 해당 ip로 접속한다.</li>
-</ol>
-</li>
-</ul>
-<hr>
-<p>[참고]<br><a href="https://www.youtube.com/watch?v=iM07I1X7qkg&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=6" target="_blank" rel="external nofollow noopener noreferrer">https://www.youtube.com/watch?v=iM07I1X7qkg&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=6</a><br><a href="https://jwprogramming.tistory.com/35" target="_blank" rel="external nofollow noopener noreferrer">https://jwprogramming.tistory.com/35</a><br><a href="http://www.ciokorea.com/tags/25731/DHCP/39337" target="_blank" rel="external nofollow noopener noreferrer">http://www.ciokorea.com/tags/25731/DHCP/39337</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/web/basic-of-dns/" data-id="cka6d06ez00ah7y75emel3b7y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-react-native/rn-how-to-use-websocke-in-react-native" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/">리액트 네이티브에서 웹 소켓 사용하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/">
-            <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/react-native/">react-native</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>리액트 네이티브에서 웹 소켓을 사용하기 위해서 node.js의 socket.io 또는 기본으로 제공하는 WebSocket을 이용해야한다.</p>
-<p>처음에는 socket.io를 이용하여 구현하려고 시도했는데 잘되지 않아서 리액트 네이티브의 공식문서에서 제시하는 것처럼 WebSocket을 이용하여 구현하였다.</p>
-<h2 id="WebSocket-사용법"><a href="#WebSocket-사용법" class="headerlink" title="WebSocket 사용법"></a>WebSocket 사용법</h2><p>일단 웹 소켓 객체를 생성해야 하며, 인자로 주소를 적어준다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">'ws://&lt;주소&gt;'</span>);</span><br></pre></td></tr></table></figure>
-
-<p>각 상황에 사용할 함수들을 사용하면 된다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 소켓 연결 시</span></span><br><span class="line">ws.onopen = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	ws.send(<span class="string">'something'</span>); <span class="comment">// 메세지 전송</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 메세지 수신</span></span><br><span class="line">ws.onmessage = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e.data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 에러 발생시</span></span><br><span class="line">ws.onerror = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e.message);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 소켓 연결 해제</span></span><br><span class="line">ws.onclose = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e.code, e.reason);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://facebook.github.io/react-native/docs/network#websocket-support" target="_blank" rel="external nofollow noopener noreferrer">https://facebook.github.io/react-native/docs/network#websocket-support</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" data-id="cka6d06ey00ac7y75aeev66d0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-react-native/how-to-build-react-native-android-for-debug" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/">리액트 네이티브에서 테스트를 위한 안드로이드 APK 빌드하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/react-native/how-to-build-react-native-android-for-debug/">
-            <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/react-native/">react-native</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>실 기기에 테스트해볼 용도로 apk를 만드는 과정을 정리한다. 사실, 구글 플레이 스토어를 보면 스토어에 올려서 open하지 않고 테스트할 수 있다. 인증을 거치지않는다.</p>
-<p>간단히 정리를 해보면 다음과 같다.</p>
-<ol>
-<li>bundle 파일 생성</li>
-<li>안드로이드 스튜디오로 프로젝트 열기</li>
-<li>apk 생성</li>
-</ol>
-<h2 id="1-bundle-생성"><a href="#1-bundle-생성" class="headerlink" title="1. bundle 생성"></a>1. bundle 생성</h2><p>프로젝트 폴더에서 다음과 같이 입력한다. 각 옵션들이 제대로 적혀 있는지 본다. 간혹 코드의 시작점을 바꾸는 경우가 있는데, 만약 시작점은 변경했다면 –entry-file을 변경해주어야 한다.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-안드로이드-스튜디오로-프로젝트-열기"><a href="#2-안드로이드-스튜디오로-프로젝트-열기" class="headerlink" title="2. 안드로이드 스튜디오로 프로젝트 열기"></a>2. 안드로이드 스튜디오로 프로젝트 열기</h2><p>개발중인 리액트 네이티브 앱의 프로젝트 폴더를 연다.</p>
-<h2 id="3-apk-생성"><a href="#3-apk-생성" class="headerlink" title="3. apk 생성"></a>3. apk 생성</h2><p>프로젝트를 열었다면 안드로이드 스튜디오의 상단 Build 옵션에 들어가서 Build Bundle / APK를 확인한다. <strong>APK를 생성하기 위해 Build APK 클릭!</strong></p>
-<p><img src="https://user-images.githubusercontent.com/13075035/72409648-b726de80-37a9-11ea-84fc-05de0e2c19ad.png" alt="image"></p>
-<h2 id="4-생성된-APK-확인"><a href="#4-생성된-APK-확인" class="headerlink" title="4. 생성된 APK 확인"></a>4. 생성된 APK 확인</h2><p>APK 빌드가 완료되면 –assets-dest 옵션에서 명시한 경로에 app-debug.apk 파일이 생성된다.</p>
+<p><strong>서버 기반 인증</strong>이라고 불리기도 한다. 과거부터 사용해오는 방법이며 이름에서 알 수 있듯이 유저가 서비스에 로그인을 하면 서버는 인증 정보를 계속해서 사용해야 하기 위해 메모리나 데이터 베이스에 저장하여 관리하는 방식이다. 세션 기반 방식은 정말 정말 널리 쓰이지만 크게 볼때 두 가지의 문제가 존재한다.</p>
+<p>첫 번째, 서비스에 로그인 중인 유저가 많아지면 세션을 유지하기 위해 더 많은 메모리 / 데이터 베이스의 자원을 사용하게 됨으로 성능에 무리를 줄 수 있다. 두 번째, 서버의 확장이 어려워진다. 첫 번째 이유를 확장해 생각해볼때 분산 환경에서 세션을 사용하려면 분산된 서비스간에 세션의 정보가 동기화 되어야 함으로 구현의 복잡도가 매우 커질 것이다.</p>
 <ul>
-<li>경로 : /android/app/build/outputs/apk/debug/</li>
-<li>파일명 : app-debug.apk</li>
+<li>토큰 기반 인증</li>
+</ul>
+<p>HTTP의 두 가지 특성 - 무상태성 / 비연결성 - 에 따라 HTTP는 상태를 가지지 않는다. 그렇기 때문에 <strong>로그인한 상태</strong>를 파악하기 위해 세션 기반 인증을 사용하는 것인데, 이에 반해 토큰 기반 인증은 서버 측에서 상태를 유지하지 않고 로그인 시에 발급한 토큰을 통해 유저가 인증과정을 밟는 것이다. 서버의 구성이 분산되어 있더라도 유저는 동일한 토큰을 통해 서버에 요청할 수 있고, 서버는 데이터 베이스와 통신할 필요 없이 인증을 유지할 수 있어서 확장하기에 편해질 수 있다. 또한 모바일 어플리케이션에서 인증을 구현하기에 매우 편리하다는 장점이 있다.</p>
+<h2 id="2-토큰-관리"><a href="#2-토큰-관리" class="headerlink" title="2. 토큰 관리"></a>2. 토큰 관리</h2><ol>
+<li>브라우저 스토리지에 저장</li>
+</ol>
+<p>유저가 로그인하면 서버는 응답정보에 토큰을 넣어 전달한다. 클라이언트는 브라우저의 localStorage나 sessionStorage에 저장하여 다음 번 요청때 요청 헤더에 토큰을 붙여 보낼 수 있다. 구현하기 매우 쉽지만 보안적으로는 큰 구멍이 존재하는데, 자바스크립트를 통해 웹 브라우저의 스토리지에 접근할 수 있기 때문이다.</p>
+<ol start="2">
+<li>쿠키에 저장</li>
+</ol>
+<p>쿠키를 전송 수단으로써 사용한다. 서버 측에서 응답할때 쿠키 설정에 httpOnly 옵션을 활성화하면, 네트워크 통신 상에서만 해당 쿠키가 붙게 된다. 따라서, 자바스크립트가 브라우저를 통해 토큰 값을 사용할 수 없다. 그렇다고 보안상의 문제가 없는 것은 아니며 CSRF 공격의 위험성이 발생할 수 있다.</p>
+<h2 id="3-JWT란"><a href="#3-JWT란" class="headerlink" title="3. JWT란?"></a>3. JWT란?</h2><p>JWT는 Json Web Token의 약자로써 JSON 문자열로 이루어진 토큰을 의미한다. 토큰 기반 인증 기술 중 하나이며 다른 토큰들과는 다르게 토큰 그 자체가 의미를 가지는 Claim 기반의 토큰이다.</p>
+<h3 id="4-JWT의-구조"><a href="#4-JWT의-구조" class="headerlink" title="4. JWT의 구조"></a>4. JWT의 구조</h3><p><img src="https://user-images.githubusercontent.com/13075035/74138842-a5641a00-4c35-11ea-9c7c-8a0cff73164c.png" alt="https://jwt.io/introduction/"></p>
+<p><strong>Header / Payload / Signature</strong> - 세 개의 섹션으로 이루어져있다.</p>
+<h3 id="4-1-Header"><a href="#4-1-Header" class="headerlink" title="4-1. Header"></a>4-1. Header</h3><p>JWT 웹 토큰의 헤더 정보</p>
+<ul>
+<li>alg: 해시 알고리즘. 데이터 자체를 암호화 하는 것이 아니라 발급된 토큰을 검증하기 위해 사용한다.</li>
+<li>typ: 토큰의 타입. JWT만 사용가능하다.</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"alg"</span>: <span class="string">"HS256"</span>,</span><br><span class="line">	<span class="attr">"typ"</span>: <span class="string">"JWT"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-Payload"><a href="#4-2-Payload" class="headerlink" title="4-2. Payload"></a>4-2. Payload</h3><p>데이터가 저장되는 부분. 3가지의 Claim 데이터가 있다.</p>
+<ul>
+<li>Reserved Claim</li>
+<li>Public Claim</li>
+<li><strong>Private Claim</strong> : 사용자 정의 Claim으로써 아래와 같이 정보를 저장한다.</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"sub"</span>: <span class="string">"1234567890"</span>,</span><br><span class="line">	<span class="attr">"name"</span>: <span class="string">"John Doe"</span>,</span><br><span class="line">	<span class="attr">"admin"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-Signature"><a href="#4-3-Signature" class="headerlink" title="4-3. Signature"></a>4-3. Signature</h3><p>데이터의 무결성과 변조 방지를 위한 서명. Header와 Payload를 합친 후 Secret Key와 함께 Header에 명시한 알고리즘으로 해싱된 값이다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(header) + <span class="string">"."</span> +</span><br><span class="line">  base64UrlEncode(payload),</span><br><span class="line">  secret)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-인증-과정"><a href="#4-4-인증-과정" class="headerlink" title="4-4. 인증 과정"></a>4-4. 인증 과정</h3><p><img src="https://user-images.githubusercontent.com/13075035/74139787-528b6200-4c37-11ea-9177-6d98596c6457.png" alt="image"></p>
+<ol>
+<li>클라이언트가 로그인을 한다.</li>
+<li>서버는 사용자의 정보를 확인 후 토큰을 생성하여</li>
+<li>클라이언트에게 토큰을 전달한다.</li>
+<li>로그인 후 모든 요청때, 헤더에 토큰 값을 붙여 전송한다.</li>
+<li>토큰을 확인하여 유효한 토큰일 경우 요청을 처리한 뒤 응답한다.</li>
+</ol>
+<h3 id="4-5-단점"><a href="#4-5-단점" class="headerlink" title="4-5. 단점"></a>4-5. 단점</h3><ul>
+<li>Payload 부분에 데이터를 저장하기 때문에 데이터가 많아질 경우 토큰의 길이가 증가한다.</li>
+<li>Payload의 데이터는 암호화가 아닌 base64로만 인코딩을 거친 값이다. 즉, 따로 암호화를 수행하거나 보안에 민감한 데이터를 포함하지 않아야만 한다.</li>
+<li>무상태(stateless)하기 때문에 한 번 생성한 토큰을 임의로 삭제할 수 없다. 꼭 토큰 만료시간을 설정하여 대비해야한다.</li>
 </ul>
 <hr>
-<p>[참고]<br><a href="https://webisfree.com/2018-09-17/react-native-standalone-%EB%B0%A9%EB%B2%95%EC%9C%BC%EB%A1%9C-apk-%EB%A7%8C%EB%93%A4%EA%B8%B0" target="_blank" rel="external nofollow noopener noreferrer">https://webisfree.com/2018-09-17/react-native-standalone-%EB%B0%A9%EB%B2%95%EC%9C%BC%EB%A1%9C-apk-%EB%A7%8C%EB%93%A4%EA%B8%B0</a></p>
+<p>[참고]<br><a href="https://jwt.io/introduction/" target="_blank" rel="external nofollow noopener noreferrer">https://jwt.io/introduction/</a><br><a href="https://sanghaklee.tistory.com/47" target="_blank" rel="external nofollow noopener noreferrer">https://sanghaklee.tistory.com/47</a></p>
 
         
         </div>
@@ -494,7 +503,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/react-native/how-to-build-react-native-android-for-debug/" data-id="cka6d06ey00aa7y75bmwpan0r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/web/basic-of-jwt/" data-id="ckaclz3pa00ar7b75gl4t0f5c" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -602,7 +611,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -616,9 +625,18 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
+                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
+                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/13/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:32:56.588Z" itemprop="datePublished">2020-05-13</time></p>
+                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 
@@ -643,17 +661,8 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-jwt/" class="title">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-find-size-of-screen/" class="title">리액트 네이티브에서 스크린 사이즈 구하기</a></p>
+                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
