@@ -201,7 +201,138 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/django/django-collectstatic-yes/" data-id="ckaclz3mi001o7b754qvt0glw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/django/django-collectstatic-yes/" data-id="ckadxpbvz001vbe75f3gfa2b1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-aws/run-shell-script-aws-code-deploy" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/aws/run-shell-script-aws-code-deploy/">[CodeDeploy]AWS CodeDeploy 배포 후 bash script 실행하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/aws/run-shell-script-aws-code-deploy/">
+            <time datetime="2020-05-13T09:09:40.040Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/aws/">aws</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>AWS의 codeDeploy로 서버에 코드 배포 후 shell script 실행하는 법을 정리한다.</p>
+<p><em>appspec.yml</em> 파일로 codeDeploy의 설정을 할 수 있다. hooks 섹션에 적어주어야 하며 codeDeploy를 통해 app을 설치하기 전 / 후로 작업을 수행할 수 있다. hooks 섹션에는 여러 개의 실행 순서가 있는데 <a href="https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html" target="_blank" rel="external nofollow noopener noreferrer">여기</a>를 참고하자.</p>
+<p>주의해야 할 점으로는 실행할 쉘 스크립트는 EC2가 아닌 배포하려는 프로젝트 안에 존재해야 한다는 것이다.</p>
+<h2 id="appspec-yml-예시"><a href="#appspec-yml-예시" class="headerlink" title="appspec.yml 예시"></a>appspec.yml 예시</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="number">0.0</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">files:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">source:</span> <span class="string">/</span></span><br><span class="line">    <span class="attr">destination:</span> <span class="string">/srv/app</span></span><br><span class="line"></span><br><span class="line"><span class="attr">hooks:</span></span><br><span class="line">  <span class="attr">AfterInstall:</span></span><br><span class="line">    <span class="comment"># EC2경로가 아니라 배포할 소스 코드에 shell script가 있어야 함에 유의!!</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">location:</span> <span class="string">scripts/after_deploy.sh</span></span><br><span class="line">      <span class="attr">runas:</span> <span class="string">root</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>[참고]<br><a href="https://suwoni-codelab.com/aws/2018/03/24/aws-after-script/" target="_blank" rel="external nofollow noopener noreferrer">https://suwoni-codelab.com/aws/2018/03/24/aws-after-script/</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/run-shell-script-aws-code-deploy/" data-id="ckadxpbvc0007be75bxs91uyn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -338,138 +469,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/aws/where-is-aws-code-deploy-logs/" data-id="ckaclz3lw000a7b75gawi6don" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-aws/run-shell-script-aws-code-deploy" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/aws/run-shell-script-aws-code-deploy/">[CodeDeploy]AWS CodeDeploy 배포 후 bash script 실행하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/aws/run-shell-script-aws-code-deploy/">
-            <time datetime="2020-05-13T09:09:40.040Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/aws/">aws</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>AWS의 codeDeploy로 서버에 코드 배포 후 shell script 실행하는 법을 정리한다.</p>
-<p><em>appspec.yml</em> 파일로 codeDeploy의 설정을 할 수 있다. hooks 섹션에 적어주어야 하며 codeDeploy를 통해 app을 설치하기 전 / 후로 작업을 수행할 수 있다. hooks 섹션에는 여러 개의 실행 순서가 있는데 <a href="https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html" target="_blank" rel="external nofollow noopener noreferrer">여기</a>를 참고하자.</p>
-<p>주의해야 할 점으로는 실행할 쉘 스크립트는 EC2가 아닌 배포하려는 프로젝트 안에 존재해야 한다는 것이다.</p>
-<h2 id="appspec-yml-예시"><a href="#appspec-yml-예시" class="headerlink" title="appspec.yml 예시"></a>appspec.yml 예시</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="number">0.0</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">files:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">source:</span> <span class="string">/</span></span><br><span class="line">    <span class="attr">destination:</span> <span class="string">/srv/app</span></span><br><span class="line"></span><br><span class="line"><span class="attr">hooks:</span></span><br><span class="line">  <span class="attr">AfterInstall:</span></span><br><span class="line">    <span class="comment"># EC2경로가 아니라 배포할 소스 코드에 shell script가 있어야 함에 유의!!</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">location:</span> <span class="string">scripts/after_deploy.sh</span></span><br><span class="line">      <span class="attr">runas:</span> <span class="string">root</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://suwoni-codelab.com/aws/2018/03/24/aws-after-script/" target="_blank" rel="external nofollow noopener noreferrer">https://suwoni-codelab.com/aws/2018/03/24/aws-after-script/</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/aws/run-shell-script-aws-code-deploy/" data-id="ckaclz3lu00077b75g1trajfu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/where-is-aws-code-deploy-logs/" data-id="ckadxpbvd0008be753ixfh02s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -627,8 +627,8 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/react-native/">react-native</a></p>
-                            <p class="item-title"><a href="/2020/05/13/react-native/rn-how-to-use-websocke-in-react-native/" class="title">리액트 네이티브에서 웹 소켓 사용하기</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
+                            <p class="item-title"><a href="/2020/05/13/web/basic-of-dns/" class="title">[DNS]DNS의 기초적인 작동방식</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
