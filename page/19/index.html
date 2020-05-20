@@ -143,6 +143,142 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-linux/linux-enable-rabbitmq-management" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/11/05/linux/linux-enable-rabbitmq-management/">우분투에서 RabbitMQ의 management 플러그인 사용하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/05/linux/linux-enable-rabbitmq-management/">
+            <time datetime="2019-11-05T04:48:10.000Z" itemprop="datePublished">2019-11-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="우분투에서-RabbitMQ의-management-플러그인-사용하기"><a href="#우분투에서-RabbitMQ의-management-플러그인-사용하기" class="headerlink" title="우분투에서 RabbitMQ의 management 플러그인 사용하기"></a>우분투에서 RabbitMQ의 management 플러그인 사용하기</h1><p>RabbitMQ에서 사용할 수 있는 플러그인 중에서 브라우저를 통해 관리모듈을 사용할 수 있는 플러그인을 활성화 해보자.</p>
+<p>일단 RabbitMQ의 플러그인에 대한 모든 명령어는 <strong>rabbitmq-plugins</strong>로 시작한다. 관리자 권한이 필요하다면 sudo를 사용하자.</p>
+<h4 id="플러그인-목록-확인"><a href="#플러그인-목록-확인" class="headerlink" title="플러그인 목록 확인"></a>플러그인 목록 확인</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmq-plugins list</span><br><span class="line"></span><br><span class="line"><span class="comment"># [  ] rabbitmq_peer_discovery_k8s       3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_prometheus               3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_random_exchange          3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_recent_history_exchange  3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_sharding                 3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_shovel                   3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_shovel_management        3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_stomp                    3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_top                      3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_tracing                  3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_trust_store              3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_web_dispatch             3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_web_mqtt                 3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_web_mqtt_examples        3.8.1</span></span><br><span class="line"><span class="comment"># [  ] rabbitmq_web_stomp                3.8.1</span></span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+<p>현재 사용할 수 있는 모든 플러그인을 출력한다.</p>
+<h4 id="management-플러그인-활성화"><a href="#management-플러그인-활성화" class="headerlink" title="management 플러그인 활성화"></a>management 플러그인 활성화</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sudo rabbitmq-plugins enable &lt;플러그인 이름&gt;</span></span><br><span class="line">sudo rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<p>관리자 페이지 플러그인을 활성화한다. 기본 포트번호는 15672이고 어드민 계정을 생성해야 한다.</p>
+<h4 id="어드민-계정-생성"><a href="#어드민-계정-생성" class="headerlink" title="어드민 계정 생성"></a>어드민 계정 생성</h4><p>RabbitMQ의 기본 명령어는 모두 <strong>rabbitmqctl 로 시작</strong>하며, 현재 어떠한 유저가 있는지 그리고 새로운 유저를 생성해보고 관리자 권한을 할당해보자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 유저 리스트 출력</span></span><br><span class="line">sudo rabbitmqctl list_users</span><br><span class="line"></span><br><span class="line"><span class="comment"># 유저 생성</span></span><br><span class="line"><span class="comment"># 아이디/비밀번호 : admin/admin</span></span><br><span class="line">sudo rabbitmqctl add_user admin admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 관리자 권한 할당</span></span><br><span class="line"><span class="comment"># set_user_tags &lt;유저명&gt; administrator</span></span><br><span class="line">sudo rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
+
+<p>생성한 어드민 유저로 로그인을 하고 관리 콘솔을 살펴 볼 수 있다!</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/05/linux/linux-enable-rabbitmq-management/" data-id="ckafeiu4z0063gs754di7bpui" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/linux-change-locale-to-korean" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -207,7 +343,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/04/linux/linux-change-locale-to-korean/" data-id="ckadxpbx0005lbe75g2wp6myw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/04/linux/linux-change-locale-to-korean/" data-id="ckafeiu4v005lgs75ex2k1hth" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -375,167 +511,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/10/17/docker/docker-dockerfile-build/" data-id="ckadxpbwa002zbe75e8pt0vlp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-django/django-secret-key-management" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/10/12/django/django-secret-key-management/">django의 secret_key 분리해서 관리하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/10/12/django/django-secret-key-management/">
-            <time datetime="2019-10-12T07:29:04.000Z" itemprop="datePublished">2019-10-12</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/django/">django</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="django의-secret-key-분리해서-관리하기"><a href="#django의-secret-key-분리해서-관리하기" class="headerlink" title="django의 secret_key 분리해서 관리하기"></a>django의 secret_key 분리해서 관리하기</h1><p>장고의 secret_key는 보안에 있어서 매우 중요한 역할을 한다. 해쉬 값을 만들때 사용되는 등 장고의 전반적인 보안과 밀접한 관계를 가지고 있기때문에 외부에 노출이 되어서는 안된다.</p>
-<p>50자의 랜덤한 문자로 이루어져 있고, 만약 오픈 해놓은 프로젝트의 비밀 키가 노출되었다는 생각이 들면 바꾸는 것이 좋을 것 같다.</p>
-<blockquote>
-<p><a href="https://www.miniwebtool.com/django-secret-key-generator/" target="_blank" rel="external nofollow noopener noreferrer">여기</a>를 통해 50자의 새로운 비밀키를 생성할 수 있다.</p>
-</blockquote>
-<h3 id="비밀-키-관리방법-두-가지"><a href="#비밀-키-관리방법-두-가지" class="headerlink" title="비밀 키 관리방법 두 가지"></a>비밀 키 관리방법 두 가지</h3><p>비밀 키를 관리하는 방법에는 보통 두 가지가 있다.</p>
-<ol>
-<li>환경 변수 패턴: secret_key를 환경 변수로 관리</li>
-<li>비밀 파일 패턴: secret_key를 별도 파일로 관리</li>
-</ol>
-<h2 id="환경-변수-패턴"><a href="#환경-변수-패턴" class="headerlink" title="환경 변수 패턴"></a>환경 변수 패턴</h2><p>프로세스가 동적으로 참조하는 환경 변수에 비밀 키를 등록하여 직접적인 코드로부터 분리하는 방법이다. </p>
-<p>방법은 꽤 단순하다. 사용하는 쉘의 설정파일에 등록해주면 된다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi ~/.zshrc</span></span><br><span class="line"><span class="built_in">export</span> DJANGO_SECRET_KEY=<span class="string">'비밀 키 입력'</span></span><br></pre></td></tr></table></figure>
-
-<p>터미널 재실행 또는 source를 통해 쉘 설정파일을 반영한다. 그리고 제대로 환경 변수가 등록 되었는지 확인하기 위해 출력해보자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 값 출력해보기</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$DJANGO_SECRET_KEY</span></span><br></pre></td></tr></table></figure>
-
-<p>echo의 결과로 비밀 키가 출력된다면 환경 변수로 저장이 잘 된것이다. 이렇게 저장한 환경 변수를 장고의 settings.py의 SECRET_KEY의 값으로 지정해주면 된다. os 모듈을 임포트하고 environ 함수를 통해 접근할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi 장고의 settings.py</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">SECRET_KEY = os.environ[<span class="string">"DJANGO_SECRET_KEY"</span>]</span><br></pre></td></tr></table></figure>
-
-<p>또는 예외 처리를 할 수 있도록 함수로 만들어서 적용하는 방법도 좋다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi settings.py</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ImproperlyConfigured</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_env_variable</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      <span class="keyword">return</span> os.environ[key]</span><br><span class="line">    <span class="keyword">except</span> KeyError:</span><br><span class="line">      error_msg = <span class="string">f"Set the <span class="subst">&#123;key&#125;</span> environment variable"</span></span><br><span class="line">      <span class="keyword">raise</span> ImproperlyConfigured(error_msg)</span><br><span class="line"></span><br><span class="line">SECRET_KEY = get_env_variable(<span class="string">"DJANGO_SECRET_KEY"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>runserver에 문제가 없다면 성공한 것이다. </p>
-<p>개인적으로는 환경 변수를 통해서 비밀 키값을 관리하고 있었는데 mailgun 서비스를 사용하기 위해 설정하던 중 환경 변수로 등록한 값들을 참조하지 못하는 일이 발생했다. 아파치를 사용하고 있지는 않았지만 간혹 이런 경우가 발생한다고 해서 두 번째 방법인 <strong>비밀 파일 패턴 방식</strong>으로 관리 방법을 바꾸었다.</p>
-<h2 id="비밀-파일-패턴"><a href="#비밀-파일-패턴" class="headerlink" title="비밀 파일 패턴"></a>비밀 파일 패턴</h2><p>json / xml / yaml과 같은 파일에 외부에 노출되어서는 안되는 값을 분리하고 settings.py에서 참조할 수 있도록 하는 관리 방법이다.</p>
-<p>이름이 secrets인 json 파일을 만들어서 key: value 방식으로 장고에서 사용할 세팅 값들을 저장하면 된다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi secrets.json</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"DJANGO_SECRET_KEY"</span>: <span class="string">"비밀 키 값 입력"</span>,</span><br><span class="line">  <span class="string">"EMAIL_HOST_PASSWORD"</span>: <span class="string">"비밀번호"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>첫 번째 방법과 마찬가지로 함수를 하나 만들어서 참조할 수 있도록 해보자.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ImproperlyConfigured</span><br><span class="line"></span><br><span class="line"><span class="comment"># 프로젝트 루트로부터 secrets.json 파일 경로 찾기</span></span><br><span class="line">secret_file = os.path.join(BASE_DIR, <span class="string">'secrets.json'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(secret_file) <span class="keyword">as</span> f:</span><br><span class="line">    secrets = json.loads(f.read())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_env_variable</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> secrets[key]</span><br><span class="line">    <span class="keyword">except</span> KeyError:</span><br><span class="line">        error_msg = <span class="string">f"Set the <span class="subst">&#123;key&#125;</span> environment variable"</span></span><br><span class="line">        <span class="keyword">raise</span> ImproperlyConfigured(error_msg)</span><br><span class="line"></span><br><span class="line">SECRET_KEY = get_env_variable(<span class="string">"DJANGO_SECRET_KEY"</span>)</span><br></pre></td></tr></table></figure>
-
-<p><strong>물론 git과 같은 버전관리시스템이 추적하면 안되기 때문에 secrets.json 파일은 .gitignore에 등록해야 한다!!</strong></p>
-<hr>
-<p>[참고]<br>책 - Two Scoops of Django</p>
-<p><a href="https://wayhome25.github.io/django/2017/07/11/django-settings-secret-key" target="_blank" rel="external nofollow noopener noreferrer">https://wayhome25.github.io/django/2017/07/11/django-settings-secret-key</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/10/12/django/django-secret-key-management/" data-id="ckadxpbw20026be754ppedxjs" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/10/17/docker/docker-dockerfile-build/" data-id="ckafeiu40002zgs75es2o85kj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -643,7 +619,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -653,6 +629,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -687,15 +672,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
                             <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-dns/" class="title">[DNS]DNS의 기초적인 작동방식</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

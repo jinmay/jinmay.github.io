@@ -143,6 +143,220 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-django/how-to-log-django" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/06/18/django/how-to-log-django/">Django(장고) 로깅 기초</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/06/18/django/how-to-log-django/">
+            <time datetime="2018-06-18T08:12:12.000Z" itemprop="datePublished">2018-06-18</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/django/">django</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link" href="/tags/log/" rel="tag">log</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="장고-로깅"><a href="#장고-로깅" class="headerlink" title="장고 로깅"></a>장고 로깅</h1><p>현재 운영하고 있는 식단알리미의 사용자들이 어떠한 버튼을 누르는지 분석하기 위해 방법을 찾던 도중 사용자 입력에 대한 로그를 남기는 게 좋을 것 같아서 장고의 로깅하는 법에 대해서 간략하게 정리해보려고한다.</p>
+<p>일단 장고의 로깅 시스템은 기본적으로 파이썬의 로깅 시스템을 그대로 따르면서 일부만 추가되었다고 한다. 파이썬의 로깅 모듈을 보면 <strong>logger, handler, filter, formatter</strong> 4가지의 컴포넌트를 정의하고 있다. 네 가지 로깅 컴포넌트들에 대해서 정리하자.</p>
+<h2 id="컴포넌트"><a href="#컴포넌트" class="headerlink" title="컴포넌트"></a>컴포넌트</h2><h3 id="logger"><a href="#logger" class="headerlink" title="logger"></a>logger</h3><p>logger는 로깅 시스템의 시작점이다. 로그 메세지를 처리하기 위해 메세지를 담아두는 저장소라고 생각할 수 있으며, 모든 로거는 이름을 가지고 있다. 또한 logger는 <strong>logger level</strong>을 갖고 있으며, 이는 로그 메세지의 중요도에 따라 자신이 어느 레벨 이상의 메세지를 처리할지에 대한 기준이 된다. 아래는 다섯 가지 log level 이다.</p>
+<ul>
+<li><strong>DEBUG</strong> : 디버그 용도로 사용되는 정보. 로그 레벨의 최하위 수준이다</li>
+<li><strong>INFO</strong> : 일반적이고 보편적인 정보(Django의 기본 로그 레벨값이다)</li>
+<li><strong>WARNING</strong> : 문제점 중에서 덜 중요한 문제점이 발생 시 이에 대한 정보</li>
+<li><strong>ERROR</strong> : 문제점 중에서 주요 문제점이 발생 시 이에 대한 정보</li>
+<li><strong>CRITICAL</strong> : 치명적인 문제점 발생 시 이에 대한 정보. 로그 레벨의 최상위 수준이다</li>
+</ul>
+<p>로거에 저장되는 메세지를 <strong>로그 레코드(log record)</strong>라고 부른다. 마찬가지로 <strong>로그 레코드도 로그 레벨을 가진다.</strong> </p>
+<p>메세지가 로거에 도착하면, 로그 레코드의 로그 레벨과 로거의 로그 레벨을 비교한다. 로그 레코드의 로그 레벨이 로거의 로거 레벨과 같거나 높으면 로거는 메세지 처리를 계속하게 된다. 만약 그렇지 않다면 해당 로그 메세지는 무시된다. 이와 같은 과정을 거쳐 로거는 로그 메세지를 핸들러에게 넘기게 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'loggers'</span>: &#123;</span><br><span class="line">        <span class="string">'board'</span>: &#123;</span><br><span class="line">            <span class="string">'handlers'</span>: [<span class="string">'console'</span>],</span><br><span class="line">            <span class="string">'level'</span>: <span class="string">'DEBUG'</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="handler"><a href="#handler" class="headerlink" title="handler"></a>handler</h3><p>핸들러는 로거에 있는 로그 메세지에 어떠한 작업을 할지 결정하는 엔진이다. 로거로 부터 받은 메세지를 화면에 스트림으로 출력하거나 파일로 저장하거나 하는 등의 로그 동작을 의미한다. 핸들러도 로거와 마찬가지로 로그 레벨을 가지고 있다. 로그 레코드의 로그 레벨이 핸들러의 로그 레벨보다 더 낮으면 핸들러는 메세지를 무시하게 된다. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'handlers'</span>: &#123;</span><br><span class="line">        <span class="string">'console'</span>: &#123;</span><br><span class="line">            <span class="string">'level'</span>: <span class="string">'DEBUG'</span>,</span><br><span class="line">            <span class="string">'class'</span>: <span class="string">'logging.StreamHandler'</span>,</span><br><span class="line">            <span class="string">'formatter'</span>: <span class="string">'format2'</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p>로그 레코드가 로거에서 핸들러로 넘어갈 때, 필터를 사용해서 로그 레코드에 부가적인 제어를 할 수 있다. 기본 처리 방식은 로그 레벨을 지정하여 그 로그 레벨에 해당되면 관련 로그 메세지를 처리하는 것인데, 필터를 적용하게 되면 로그 처리 기준을 추가할 수 있다. 예를 들면, 로그 레벨이 ERROR인 로그 레코드 중에서 특정 소스로부터 오는 메세지만 핸들러로 넘길 수 있다. </p>
+<p>필터를 사용하면 로그 레코드를 보내기 전에 수정하는 것도 가능하다. 예를 들면, 어떤 조건에 맞으면 ERROR 로그 레코드를 WARNING 로그 레벨로 낮춰주는 필터를 만들 수도 있다. 필터는 로거와 핸들러 모두에게 적용할 수 있고, 여러 개의 필터를 체인 방식으로 동작시킬 수도 있다!</p>
+<h3 id="formatter"><a href="#formatter" class="headerlink" title="formatter"></a>formatter</h3><p>로그 레코드는 최종적으로 텍스트로 표현된다. 이 때, 포멧터의 역할은 텍스트로 표현 시 임의의 포맷을 지정해주는 것이다. 포맷터는 보통 파이썬의 포맷 스트링을 사용하지만, 사용자 정의 포맷터도 만들어 사용할 수 있다. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'formatters'</span>: &#123;</span><br><span class="line">        <span class="string">'format1'</span>: &#123;</span><br><span class="line">            <span class="string">'format'</span>: <span class="string">'[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s'</span>,</span><br><span class="line">            <span class="string">'datefmt'</span>: <span class="string">'%d/%b/%Y %H:%M:%S'</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">'format2'</span>: &#123;</span><br><span class="line">            <span class="string">'format'</span>: <span class="string">'[%(levelname)s] %(message)s'</span>,</span><br><span class="line">        &#125;,        </span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="로깅"><a href="#로깅" class="headerlink" title="로깅"></a>로깅</h2><p>로깅을 하기 위한 컴포넌트들이 준비되었다면 로그 메세지를 기록하기 위해 코드 내에서 로깅 메소드를 호출하면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># logging 모듈 임포트</span></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="comment"># 로거 인스턴스 생성</span></span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span><br><span class="line">  logger.error(<span class="string">'Something went wrong!'</span>) <span class="comment"># ERROR 레벨 이상의 로그 레코드 로깅</span></span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<p>로거 인스턴스는 이름을 가진다. 명시적으로 적어주어도 되지만 <strong>name</strong> 특수 메소드를 통해서 명명해주는 것이 자주 사용되는 것 같다. 이와 같은 방법으로 로거 이름을 짓는다면 어떻게 출력이 될지 보고 싶을땐</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in views.py</span></span><br><span class="line"></span><br><span class="line">print(__name__) <span class="comment"># 해당 모듈명 출력 : app.views</span></span><br><span class="line">print(logger) <span class="comment"># 로거 이름 출력 : &lt;Logger app.views&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>다른 방식으로 로그 메세지를 계층화하고 싶으면 로거를 구분하는 이름을 도트(.)방식으로 명명해주면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logger = logging.getLogger(<span class="string">'project.interesting.stuff'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>로거 객체(logger)는 각 로그 레벨별로 로깅 호출 메소드를 갖고 있다.</p>
+<ul>
+<li><strong>logger.debug()</strong></li>
+<li><strong>logger.info()</strong></li>
+<li><strong>logger.warning()</strong></li>
+<li><strong>logger.error()</strong></li>
+<li><strong>logger.critical()</strong></li>
+</ul>
+<p>각 메소드들은 해당 레벨의 로그 메세지를 생성한다. 또한 두 가지 로깅 메소드를 추가로 제공하고 있다</p>
+<ul>
+<li><strong>logger.log()</strong> : 원하는 로그 레벨을 정해서 로그 메세지를 생성한다</li>
+<li><strong>logger.exception()</strong> : 익셉션 스택 정보를 포함하는 ERROR 레벨의 로그 메세지 생성</li>
+</ul>
+<h2 id="로깅-설정"><a href="#로깅-설정" class="headerlink" title="로깅 설정"></a>로깅 설정</h2><p>네 가지 컴포넌트들(logger, filter, handler, formatter)을 설정해야 한다. 장고는 dictConfig 설정 방식을 기본으로 사용한다. 프로젝트의 <strong>settings.py</strong> 파일에 <strong>LOGGING</strong> 항목을 생성하여 설정을 하면 된다. LOGGING 속성을 정의하는 경우에 디폴트 로그 설정을 대체할 수도 있고, 디폴트 로그 설정과 병합할 수도 있다. 하는 방법은 LOGGING 설정에서 <strong>disable_existing_loggers</strong> 속성을 통해 지정하면 되는데 값이 True면 장고의 기본 로깅 설정을 대체(덮어쓰기)할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">LOGGING = &#123;</span><br><span class="line">  <span class="string">'version'</span>: <span class="number">1</span>, <span class="comment"># 버전</span></span><br><span class="line">  <span class="string">'disable_existing_loggers'</span>: <span class="literal">True</span>, <span class="comment"># 장고의 기본 로깅 설정 활성화</span></span><br><span class="line">  <span class="comment"># 포맷터</span></span><br><span class="line">  <span class="string">'formatters'</span>: &#123;</span><br><span class="line">      <span class="string">'format1'</span>: &#123;</span><br><span class="line">              <span class="string">'format'</span>: <span class="string">'[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s'</span>,</span><br><span class="line">              <span class="string">'datefmt'</span>: <span class="string">'%d/%b/%Y %H:%M:%S'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">'format2'</span>: &#123;</span><br><span class="line">              <span class="string">'format'</span>: <span class="string">'[%(levelname)s] %(message)s'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment"># 필터</span></span><br><span class="line">  <span class="string">'filters'</span>: &#123;</span><br><span class="line">      <span class="string">'special'</span>: &#123;</span><br><span class="line">        <span class="string">'()'</span>: <span class="string">'project.logging.SpecialFilter'</span>,</span><br><span class="line">        <span class="string">'foo'</span>: <span class="string">'bar'</span>,</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment"># 핸들러</span></span><br><span class="line">  <span class="string">'handlers'</span>: &#123;</span><br><span class="line">      <span class="string">'console'</span>: &#123; <span class="comment"># 콘솔에 스트림 출력</span></span><br><span class="line">          <span class="string">'level'</span>: <span class="string">'DEBUG'</span>,</span><br><span class="line">          <span class="string">'class'</span>: <span class="string">'logging.StreamHandler'</span>,</span><br><span class="line">          <span class="string">'formatter'</span>: <span class="string">'format1'</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment"># 로거</span></span><br><span class="line">  <span class="string">'loggers'</span>: &#123;</span><br><span class="line">      <span class="string">'board'</span>: &#123;</span><br><span class="line">          <span class="string">'handlers'</span>: [<span class="string">'console'</span>],</span><br><span class="line">          <span class="string">'level'</span>: <span class="string">'DEBUG'</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="장고에-추가된-컴포넌트"><a href="#장고에-추가된-컴포넌트" class="headerlink" title="장고에 추가된 컴포넌트"></a>장고에 추가된 컴포넌트</h2><h3 id="로거"><a href="#로거" class="headerlink" title="로거"></a>로거</h3><ol>
+<li><p><strong>django 로거</strong><br>모든 로그 레코드를 잡는 장고의 최상위 루트 로거이다. 이 루트 로거에 직접 로그 메세지를 보낼 수는 없다.</p>
+</li>
+<li><p><strong>django.request 로거</strong><br>http 요청 처리와 관련된 메세지를 기록한다. 5xx 응답은 ERROR / 4xx 응답은 WARNING 메세지로 발생한다. 이 로거에 담기는 메세지는 2개의 추가적인 메타 항목을 가진다. </p>
+<ul>
+<li>status_code : http 응답 코드</li>
+<li>request : 로그 메세지를 생성하는 request 객체</li>
+</ul>
+</li>
+<li><p><strong>django.db.backends 로거</strong><br>데이터베이스와 관련된 메세지를 기록한다. 애플리케이션에서 사용하는 모든 sql 문장들이 이 로거에 debug 레벨로 기록된다. 성능상의 이유로, sql 로깅은 settings.DEBUG 속성이 True일 경우에만 활성화된다.</p>
+<ul>
+<li>duration : sql 실행에 걸린 시간</li>
+<li>sql : 실행된 sql 문장</li>
+<li>params : sql 호출에 사용된 파라미터</li>
+</ul>
+</li>
+<li><p><strong>django.security.* 로거</strong><br>사용자가 보안에 해를 끼칠수 있는 동작을 했을 경우 메세지를 기록한다. </p>
+</li>
+<li><p><strong>django.db.backends.schema 로거</strong><br>데이터베이스의 스키마 변경 시 사용된 sql 쿼리를 기록한다.</p>
+</li>
+</ol>
+<h3 id="핸들러"><a href="#핸들러" class="headerlink" title="핸들러"></a>핸들러</h3><ol>
+<li><strong>AdminEmailHandler</strong><br>이 핸들러가 수신하는 모든 로그 메세지를 이메일로 사이트 관리자에게 전송</li>
+</ol>
+<h3 id="필터"><a href="#필터" class="headerlink" title="필터"></a>필터</h3><ol>
+<li><p><strong>CallBackFilter</strong><br>콜백 함수를 지정해서 필터를 통과하는 모든 메세지에 대해 콜백 함수를 호출해준다. 콜백 함수의 리턴값이 False면 메세지 로깅은 더 이상 처리하지 않는다.</p>
+</li>
+<li><p><strong>RequireDebugFalse</strong><br>settings.DEBUG 속성이 False인 경우만 메세지 처리</p>
+</li>
+<li><p><strong>RequireDebugTrue</strong><br>settings.DEBUG 속성이 True인 경우에만 메세지 처리</p>
+</li>
+</ol>
+<h3 id="장고-로깅-default"><a href="#장고-로깅-default" class="headerlink" title="장고 로깅 default"></a>장고 로깅 default</h3><ul>
+<li><p>django.request 로거<br>settings.DEBUG 속성이 False면 ERROR 또는 CRITICAL 레벨의 모든 메세지를 AdminEmailHandler 핸들러에게 보내주도록 되어있다</p>
+</li>
+<li><p>django 루트 로거<br>django 루트 로거에 오는 모든 메세지는 DEBUG 속성이 True인 경우 콘솔로 보내지고, DEBUG 속성이 False인 경우 NullHandler로 보내서 무시되도록 기본값이 정해져있다.</p>
+</li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/06/18/django/how-to-log-django/" data-id="ckafeiu3y002qgs75dp0e19gw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-docker/dockerfile" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -222,7 +436,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/06/07/docker/dockerfile/" data-id="ckadxpbwc0037be757t4fa6oe" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/06/07/docker/dockerfile/" data-id="ckafeiu420037gs758a008ze7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -383,236 +597,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/06/04/docker/docker/" data-id="ckadxpbwb0034be75db7tafkb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-mysql/basic-of-mysql" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/17/mysql/basic-of-mysql/">MySQL 기본</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/04/17/mysql/basic-of-mysql/">
-            <time datetime="2018-04-17T14:44:05.000Z" itemprop="datePublished">2018-04-17</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/mysql/">mysql</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/database/" rel="tag">database</a>, <a class="tag-link" href="/tags/mysql/" rel="tag">mysql</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="MySQL-기본"><a href="#MySQL-기본" class="headerlink" title="MySQL 기본"></a>MySQL 기본</h1><blockquote>
-<p>파이썬을 쓸때 주로 DBMS로 PostgreSQL을 사용하고있다. 관계형 데이터베이스 시스템들이 그렇게 큰 차이를 보이는 건 아니지만 mysql을 다루고 있는 책들이 워낙 많기도하고 데이터베이스를 공부하는 김에 mysql도 한번 정리해 본다.</p>
-</blockquote>
-<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><p>맥북을 이용하고 있기 때문에 Homebrew를 이용하여 설치했다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br><span class="line">brew install mysql</span><br></pre></td></tr></table></figure>
-
-<h2 id="서버-실행"><a href="#서버-실행" class="headerlink" title="서버 실행"></a>서버 실행</h2><p>서버를 실행해 주어야 한다. mysql이 설치된 곳으로 가서 아래와 같은 명령어를 입력한다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /usr/local/bin</span></span><br><span class="line">mysql.server start</span><br></pre></td></tr></table></figure>
-
-<h2 id="서버-접속"><a href="#서버-접속" class="headerlink" title="서버 접속"></a>서버 접속</h2><p>brew를 통해 설치를 해 주었고 which 명령어를 통해 설치된 곳을 찾았다. 처음에는 기본 로그인 계정에 해당하는 아이디로 자동로그인을 시도하는데 비밀번호를 설정하지 않았기 때문에 실패하게 된다. 따라서 일단 실습을 진행하기 위해 root 계정으로 접속해보자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root</span><br></pre></td></tr></table></figure>
-
-<h2 id="실습-준비"><a href="#실습-준비" class="headerlink" title="실습 준비"></a>실습 준비</h2><p>MySQL을 설치하면 기본적으로 다양한 샘플 데이터가 있다고한다. 하지만 brew를 통해서 설치해서 그런지 몰라도 아무런 샘플 데이터가 없었다. 실습을 준비하기 위해서 world 샘플 데이터를 받는 것부터 시작해보자. <a href="https://dev.mysql.com/doc/index-other.html" target="_blank" rel="external nofollow noopener noreferrer">https://dev.mysql.com/doc/index-other.html</a>에서 world 데이터를 받을 수 있다. 압축을 해제해고 적당한 곳에 저장한 후 데이터베이스에 목록에 추가해보자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SOURCE /world.sql;</span><br></pre></td></tr></table></figure>
-<p>그리고 등록된 데이터 베이스를 살펴보자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">| world              |</span><br><span class="line">+--------------------+</span><br><span class="line">5 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>world 데이터베이스가 추가된 것을 확인할 수 있다. </p>
-<h2 id="등록된-데이터베이스-확인"><a href="#등록된-데이터베이스-확인" class="headerlink" title="등록된 데이터베이스 확인"></a>등록된 데이터베이스 확인</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 복수형 databases임에 조심하자!!</span></span><br><span class="line">show databases;</span><br></pre></td></tr></table></figure>
-
-<h2 id="데이터베이스-선택과-테이블-확인"><a href="#데이터베이스-선택과-테이블-확인" class="headerlink" title="데이터베이스 선택과 테이블 확인"></a>데이터베이스 선택과 테이블 확인</h2><p>world 데이터베이스를 선택하고 테이블의 목록을 확인해보자.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use world;</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+-----------------+</span><br><span class="line">| Tables_in_world |</span><br><span class="line">+-----------------+</span><br><span class="line">| city            |</span><br><span class="line">| country         |</span><br><span class="line">| countrylanguage |</span><br><span class="line">+-----------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-
-<h2 id="테이블을-지정해서-데이터-출력"><a href="#테이블을-지정해서-데이터-출력" class="headerlink" title="테이블을 지정해서 데이터 출력"></a>테이블을 지정해서 데이터 출력</h2><p>city / country / countrylanguage 세 가지 테이블 중에서 하나를 골라 모든 데이터를 출력해보자</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM city;</span><br><span class="line">+------+------------------------------------+-------------+------------------------+------------+</span><br><span class="line">/////////////////////////////////////////////////////////////////////////////////////////////////</span><br><span class="line">| 4072 | Mutare                             | ZWE         | Manicaland             |     131367 |</span><br><span class="line">| 4073 | Gweru                              | ZWE         | Midlands               |     128037 |</span><br><span class="line">| 4074 | Gaza                               | PSE         | Gaza                   |     353632 |</span><br><span class="line">| 4075 | Khan Yunis                         | PSE         | Khan Yunis             |     123175 |</span><br><span class="line">| 4076 | Hebron                             | PSE         | Hebron                 |     119401 |</span><br><span class="line">| 4077 | Jabaliya                           | PSE         | North Gaza             |     113901 |</span><br><span class="line">| 4078 | Nablus                             | PSE         | Nablus                 |     100231 |</span><br><span class="line">| 4079 | Rafah                              | PSE         | Rafah                  |      92020 |</span><br><span class="line">+------+------------------------------------+-------------+------------------------+------------+</span><br><span class="line">4079 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</span><br></pre></td></tr></table></figure>
-
-<h2 id="조건-지정출력1"><a href="#조건-지정출력1" class="headerlink" title="조건 지정출력1"></a>조건 지정출력1</h2><p>WHERE 구문을 이용해 지정된 조건에만 충족하는 데이터들을 추려낼 수 있다. 아래의 예시코드는 한국의 도시 이름만 추려서 출력하고있다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span>;</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br><span class="line">| 2388 | Sangju     | KOR         | Kyongsangbuk  |     124116 |</span><br><span class="line">| 2389 | Poryong    | KOR         | Chungchongnam |     122604 |</span><br><span class="line">| 2390 | Kwang-yang | KOR         | Chollanam     |     122052 |</span><br><span class="line">| 2391 | Miryang    | KOR         | Kyongsangnam  |     121501 |</span><br><span class="line">| 2392 | Hanam      | KOR         | Kyonggi       |     115812 |</span><br><span class="line">| 2393 | Kimje      | KOR         | Chollabuk     |     115427 |</span><br><span class="line">| 2394 | Yongchon   | KOR         | Kyongsangbuk  |     113511 |</span><br><span class="line">| 2395 | Sachon     | KOR         | Kyongsangnam  |     113494 |</span><br><span class="line">| 2396 | Uiwang     | KOR         | Kyonggi       |     108788 |</span><br><span class="line">| 2397 | Naju       | KOR         | Chollanam     |     107831 |</span><br><span class="line">| 2398 | Namwon     | KOR         | Chollabuk     |     103544 |</span><br><span class="line">| 2399 | Tonghae    | KOR         | Kang-won      |      95472 |</span><br><span class="line">| 2400 | Mun-gyong  | KOR         | Kyongsangbuk  |      92239 |</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br><span class="line">70 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</span><br></pre></td></tr></table></figure>
-
-<h2 id="조건-지정출력2"><a href="#조건-지정출력2" class="headerlink" title="조건 지정출력2"></a>조건 지정출력2</h2><p>이번에는 전라남도에 속한 도시만을 추려보자!</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from city <span class="built_in">where</span> district=<span class="string">"chollanam"</span>;</span><br><span class="line">+------+------------+-------------+-----------+------------+</span><br><span class="line">| ID   | Name       | CountryCode | District  | Population |</span><br><span class="line">+------+------------+-------------+-----------+------------+</span><br><span class="line">| 2360 | Sunchon    | KOR         | Chollanam |     249263 |</span><br><span class="line">| 2361 | Mokpo      | KOR         | Chollanam |     247452 |</span><br><span class="line">| 2370 | Yosu       | KOR         | Chollanam |     183596 |</span><br><span class="line">| 2390 | Kwang-yang | KOR         | Chollanam |     122052 |</span><br><span class="line">| 2397 | Naju       | KOR         | Chollanam |     107831 |</span><br><span class="line">+------+------------+-------------+-----------+------------+</span><br><span class="line">5 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</span><br></pre></td></tr></table></figure>
-
-<h2 id="불필요한-열-제거하기"><a href="#불필요한-열-제거하기" class="headerlink" title="불필요한 열 제거하기"></a>불필요한 열 제거하기</h2><p>지금까지는 테이블에 있는 모든 열을 출력했지만 원하는 열만 보기위해 지정하여 출력할 수 있다. 다음의 예시는 Name과 Population 열만 출력하고 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select Name, Population from city <span class="built_in">where</span> district=<span class="string">"chollanam"</span>;</span><br><span class="line">+------------+------------+</span><br><span class="line">| Name       | Population |</span><br><span class="line">+------------+------------+</span><br><span class="line">| Sunchon    |     249263 |</span><br><span class="line">| Mokpo      |     247452 |</span><br><span class="line">| Yosu       |     183596 |</span><br><span class="line">| Kwang-yang |     122052 |</span><br><span class="line">| Naju       |     107831 |</span><br><span class="line">+------------+------------+</span><br><span class="line">5 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</span><br></pre></td></tr></table></figure>
-
-<h2 id="다양한-조건-추가1"><a href="#다양한-조건-추가1" class="headerlink" title="다양한 조건 추가1"></a>다양한 조건 추가1</h2><p>조건을 지정해 줄때 여러개도 가능하다. 전라남도에 속하면서 인구 수가 150000명이 넘는 도시를 출력했다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select Name, Population from city <span class="built_in">where</span> district=<span class="string">"chollanam"</span> and Population &gt; 150000;</span><br><span class="line">+---------+------------+</span><br><span class="line">| Name    | Population |</span><br><span class="line">+---------+------------+</span><br><span class="line">| Sunchon |     249263 |</span><br><span class="line">| Mokpo   |     247452 |</span><br><span class="line">| Yosu    |     183596 |</span><br><span class="line">+---------+------------+</span><br><span class="line">3 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-
-<h1 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h1><p>테이블을 보기 위해선 데이터베이스를 선택해야 한다. 1개의 데이터베이스에는 복수의 테이블이 저장되어 있기 때문이다.<br>데이터베이스의 목록을 보려면 <strong>show databases;</strong><br>데이터베이스를 지정하려면 <strong>use <db_name>;</db_name></strong><br>해당 데이터베이스의 테이블 목록을 보려면 <strong>show tables;</strong><br>명령을 사용하면 된다.</p>
-<blockquote>
-<p>주의<br>show 명령은 SQL의 명령어가 아니라 MySQL에서 제공하는 관리 명령이다</p>
-</blockquote>
-<h3 id="SELECT-문"><a href="#SELECT-문" class="headerlink" title="SELECT 문"></a>SELECT 문</h3><p><strong>SELECT 열 FROM 테이블명;</strong><br>select 뒤에 column명을 from 뒤에 table명을 적어주면 된다. <strong>select *</strong>처럼 column에 <em>(별표)를 적어주게 되면 테이블의 전체 열을 지정할 수 있고, 임의의 열을 콤마(,)로 구분해 복수로 지정하는 것도 가능하다. 또한 FROM의 테이블 명도 *</em>데이터베이스.테이블**과 같이 명시적으로 지정하는 것도 가능하다.</p>
-<h3 id="WHERE-조건"><a href="#WHERE-조건" class="headerlink" title="WHERE 조건"></a>WHERE 조건</h3><p>원하는 column의 조건만을 충족하는 데이터들(row)만을 추리기 위해서는 <strong>WHERE</strong>를 이용해 조건을 지정해주면 된다.<br><strong>SELECT 열명 FROM 테이블명 WHERE 조건;</strong></p>
-<h2 id="검색결과-정렬"><a href="#검색결과-정렬" class="headerlink" title="검색결과 정렬"></a>검색결과 정렬</h2><p>한국에 있는 도시들을 인구가 적은 순으로 나열(오름차순) 해보자. - 검색 결과의 정렬에는 <strong>ORDER BY</strong>를 사용한다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> order by population;</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br><span class="line">| ID   | Name       | CountryCode | District      | Population |</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br><span class="line">| 2400 | Mun-gyong  | KOR         | Kyongsangbuk  |      92239 |</span><br><span class="line">| 2399 | Tonghae    | KOR         | Kang-won      |      95472 |</span><br><span class="line">| 2398 | Namwon     | KOR         | Chollabuk     |     103544 |</span><br><span class="line">| 2397 | Naju       | KOR         | Chollanam     |     107831 |</span><br><span class="line">| 2396 | Uiwang     | KOR         | Kyonggi       |     108788 |</span><br><span class="line">| 2395 | Sachon     | KOR         | Kyongsangnam  |     113494 |</span><br><span class="line">| 2394 | Yongchon   | KOR         | Kyongsangbuk  |     113511 |</span><br><span class="line">| 2393 | Kimje      | KOR         | Chollabuk     |     115427 |</span><br><span class="line">| 2392 | Hanam      | KOR         | Kyonggi       |     115812 |</span><br><span class="line">| 2391 | Miryang    | KOR         | Kyongsangnam  |     121501 |</span><br><span class="line">| 2390 | Kwang-yang | KOR         | Chollanam     |     122052 |</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br></pre></td></tr></table></figure>
-
-<h2 id="테이블-집약"><a href="#테이블-집약" class="headerlink" title="테이블 집약"></a>테이블 집약</h2><p>행수를 카운트하려면 아래와 같이 한다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select count(*) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span>;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|       70 |</span><br><span class="line">+----------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</span><br></pre></td></tr></table></figure>
-<p>카운트 뿐만 아니라 최소(min) / 최대(max) / 합계(sum) / 평균(avg)을 구할 수 있다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 최소인구 / 최대인구 / 총 인구 / 평균 인구</span></span><br><span class="line">mysql&gt; select min(population), max(population), sum(population), avg(population) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span>;</span><br><span class="line">+-----------------+-----------------+-----------------+-----------------+</span><br><span class="line">| min(population) | max(population) | sum(population) | avg(population) |</span><br><span class="line">+-----------------+-----------------+-----------------+-----------------+</span><br><span class="line">|           92239 |         9981619 |        38999893 |     557141.3286 |</span><br><span class="line">+-----------------+-----------------+-----------------+-----------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</span><br></pre></td></tr></table></figure>
-<p>count처럼 행의 갯수를 세는 것과 sum / min 처럼 column의 집약도 가능하지만 <strong>문자열 집약</strong>도 할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select name from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> and district=<span class="string">"Chollabuk"</span>;</span><br><span class="line">+----------+</span><br><span class="line">| name     |</span><br><span class="line">+----------+</span><br><span class="line">| Chonju   |</span><br><span class="line">| Iksan    |</span><br><span class="line">| Kunsan   |</span><br><span class="line">| Chong-up |</span><br><span class="line">| Kimje    |</span><br><span class="line">| Namwon   |</span><br><span class="line">+----------+</span><br><span class="line">6 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>한 행으로 집약하려면 아래와 같이 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select group_concat(name) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> and district=<span class="string">"Chollabuk"</span>;</span><br><span class="line">+-------------------------------------------+</span><br><span class="line">| group_concat(name)                        |</span><br><span class="line">+-------------------------------------------+</span><br><span class="line">| Chonju,Iksan,Kunsan,Chong-up,Kimje,Namwon |</span><br><span class="line">+-------------------------------------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-
-<h2 id="group-by"><a href="#group-by" class="headerlink" title="group by"></a>group by</h2><p>그룹별로 나눌 수도 있다. - group by 이용</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ysql&gt; select district, count(*) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> group by district;</span><br><span class="line">+---------------+----------+</span><br><span class="line">| district      | count(*) |</span><br><span class="line">+---------------+----------+</span><br><span class="line">| Cheju         |        1 |</span><br><span class="line">| Chollabuk     |        6 |</span><br><span class="line">| Chollanam     |        5 |</span><br><span class="line">| Chungchongbuk |        3 |</span><br><span class="line">| Chungchongnam |        6 |</span><br><span class="line">| Inchon        |        1 |</span><br><span class="line">| Kang-won      |        4 |</span><br><span class="line">| Kwangju       |        1 |</span><br><span class="line">| Kyonggi       |       18 |</span><br><span class="line">| Kyongsangbuk  |       10 |</span><br><span class="line">| Kyongsangnam  |       11 |</span><br><span class="line">| Pusan         |        1 |</span><br><span class="line">| Seoul         |        1 |</span><br><span class="line">| Taegu         |        1 |</span><br><span class="line">| Taejon        |        1 |</span><br><span class="line">+---------------+----------+</span><br><span class="line">15 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>그룹지어서 결과를 보고자 할때 having 키워드를 이용해서 조건을 지정해 줄 수 있다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select district, count(*) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> group by district having count(*) = 1;</span><br><span class="line">+----------+----------+</span><br><span class="line">| district | count(*) |</span><br><span class="line">+----------+----------+</span><br><span class="line">| Cheju    |        1 |</span><br><span class="line">| Inchon   |        1 |</span><br><span class="line">| Kwangju  |        1 |</span><br><span class="line">| Pusan    |        1 |</span><br><span class="line">| Seoul    |        1 |</span><br><span class="line">| Taegu    |        1 |</span><br><span class="line">| Taejon   |        1 |</span><br><span class="line">+----------+----------+</span><br><span class="line">7 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-
-<h1 id="정리-1"><a href="#정리-1" class="headerlink" title="정리"></a>정리</h1><h2 id="검색결과-정렬-1"><a href="#검색결과-정렬-1" class="headerlink" title="검색결과 정렬"></a>검색결과 정렬</h2><p>보통 SELECT 문을 실행하면 열과 행으로 구성된 2차원 표로 표시된다. 행의 순서를 정렬하기 위해 <strong>ORDER BY</strong>를 사용해서 할 수 있으며 기본 값은 오름차순이고 값을 <strong>DESC</strong>로 줌으로써 내림차순 정렬도 할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> order by population desc;</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br><span class="line">| ID   | Name       | CountryCode | District      | Population |</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br><span class="line">| 2331 | Seoul      | KOR         | Seoul         |    9981619 |</span><br><span class="line">| 2332 | Pusan      | KOR         | Pusan         |    3804522 |</span><br><span class="line">| 2333 | Inchon     | KOR         | Inchon        |    2559424 |</span><br><span class="line">| 2334 | Taegu      | KOR         | Taegu         |    2548568 |</span><br><span class="line">| 2335 | Taejon     | KOR         | Taejon        |    1425835 |</span><br><span class="line">| 2336 | Kwangju    | KOR         | Kwangju       |    1368341 |</span><br><span class="line">| 2337 | Ulsan      | KOR         | Kyongsangnam  |    1084891 |</span><br><span class="line">| 2338 | Songnam    | KOR         | Kyonggi       |     869094 |</span><br><span class="line">| 2339 | Puchon     | KOR         | Kyonggi       |     779412 |</span><br><span class="line">| 2340 | Suwon      | KOR         | Kyonggi       |     755550 |</span><br><span class="line">| 2341 | Anyang     | KOR         | Kyonggi       |     591106 |</span><br><span class="line">| 2342 | Chonju     | KOR         | Chollabuk     |     563153 |</span><br></pre></td></tr></table></figure>
-
-<h2 id="정렬할-때에-주의할-점"><a href="#정렬할-때에-주의할-점" class="headerlink" title="정렬할 때에 주의할 점"></a>정렬할 때에 주의할 점</h2><p>order by로 정렬을 수행할 때 행의 순서를 확실히 같게 하려면 행의 정렬키의 값들이 각각 고유해야 한다. 다시 말하면, 정렬키가 같은 값의 행이 복수 개 존재한다면 그 행들의 순서는 일정하지 않을 수 있다는 것이다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> order by district;</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br><span class="line">| ID   | Name       | CountryCode | District      | Population |</span><br><span class="line">+------+------------+-------------+---------------+------------+</span><br><span class="line">| 2358 | Cheju      | KOR         | Cheju         |     258511 |</span><br><span class="line">| 2398 | Namwon     | KOR         | Chollabuk     |     103544 |</span><br><span class="line">| 2380 | Chong-up   | KOR         | Chollabuk     |     139111 |</span><br><span class="line">| 2342 | Chonju     | KOR         | Chollabuk     |     563153 |</span><br><span class="line">| 2397 | Naju       | KOR         | Chollanam     |     107831 |</span><br><span class="line">| 2370 | Yosu       | KOR         | Chollanam     |     183596 |</span><br><span class="line">| 2390 | Kwang-yang | KOR         | Chollanam     |     122052 |</span><br><span class="line">| 2361 | Mokpo      | KOR         | Chollanam     |     247452 |</span><br><span class="line">| 2360 | Sunchon    | KOR         | Chollanam     |     249263 |</span><br></pre></td></tr></table></figure>
-<p>위의 결과를 보면 district를 정렬키로 정렬했는데 전라남도는 5개의 행이 있는데 그 다섯 개 행 내의 순서는 일정하지 않게 된다.<br>일정한 순서로 정렬하기 위해서 name도 정렬키로 추가해주는 것이 좋다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> order by district, name;</span><br></pre></td></tr></table></figure>
-
-<h2 id="테이블-요약"><a href="#테이블-요약" class="headerlink" title="테이블 요약"></a>테이블 요약</h2><p>SQL에서 데이터에 대해 어떠한 ㅗ짝이나 계산을 수행하려면 <strong>함수</strong>를 사용한다. 함수는 크게 두 가지가 있는데</p>
-<ol>
-<li>복수 행(or 행의 값)에 대해 집계</li>
-<li>단일 행의 값에 대해 조작이나 계산<br>을 수행하는 역할을 한다.</li>
-</ol>
-<p>예를 들면 위에서 한번 살펴본 <strong>count 함수</strong>이다. 이런 집계용 함수를 <strong>집약함수(집계함수)</strong>라고 부른다. </p>
-<ul>
-<li>COUNT : 테이블의 행 수를 계산</li>
-<li>SUM : 테이블의 수치 데이터를 합계</li>
-<li>AVG : 테이블의 수치 데이터 평균을 구함</li>
-<li>MAX : 테이블의 임의열 데이터 중 최대값을 구함</li>
-<li>MIN : 테이블의 임의열 데이터 중 최소값을 구함</li>
-</ul>
-<p>기본적으로 집계함수는 NULL을 제외하고 계산한다. 하지만 <strong>COUNT함수는 예외인데 NULL을 포함한 조건으로 주어진 모든 행을 집계한다.</strong></p>
-<h2 id="문자열-집약"><a href="#문자열-집약" class="headerlink" title="문자열 집약"></a>문자열 집약</h2><p>문자열을 집약하는 함수로는 <strong>GROUP_CONCAT</strong>가 있다. 표준 SQL에는 없지만 MySQL에서 제공해주는 함수이다. SUM과 같은 함수는 수치에 대해서 집계를 해주지만 GROUP_CONCAT 함수는 문자열에 대한 집계를 문자열의 결합으로 수행한다. </p>
-<h2 id="중복제거"><a href="#중복제거" class="headerlink" title="중복제거"></a>중복제거</h2><p><strong>DISTINCT</strong> 키워드를 통해 중복을 제거할 수 있다. 또한 집약함수로도 이용할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select group_concat(district) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span>;</span><br><span class="line">| Seoul,Pusan,Inchon,Taegu,Taejon,Kwangju,Kyongsangnam,Kyonggi,Kyonggi,Kyonggi,Kyonggi,Chollabuk,Chungchongbuk,Kyonggi,Kyonggi,Kyongsangbuk,Kyongsangnam,Kyongsangnam,Kyonggi,Chungchongnam,Kyongsangnam,Chollabuk,Kyonggi,Kyongsangbuk,Kyonggi,Kyongsangbuk,Chollabuk,Cheju,Kyongsangnam,Chollanam,Chollanam,Kyonggi,Kang-won,Kyonggi,Kang-won,Kyonggi,Kang-won,Chungchongbuk,Kyongsangbuk,Chollanam,Kyongsangbuk,Kyonggi,Kyongsangnam,Kyonggi,Chungchongnam,Kyongsangnam,Kyongsangbuk,Chungchongnam,Kyonggi,Chollabuk,Chungchongbuk,Chungchongnam,Kyonggi,Kyongsangnam,Chungchongnam,Kyongsangbuk,Kyongsangnam,Kyongsangbuk,Chungchongnam,Chollanam,Kyongsangnam,Kyonggi,Chollabuk,Kyongsangbuk,Kyongsangnam,Kyonggi,Chollanam,Chollabuk,Kang-won,Kyongsangbuk |</span><br></pre></td></tr></table></figure>
-<p>위 와 같이 단순히 행정구역을 group_concat하게 되면 값이 여러번 나오게된다. 이때에 distinct를 추가하게 되면 중복이 없어지고 각 행정구역은 1회만 나오게 된다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select group_concat(distinct district) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span>;</span><br><span class="line">+------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| group_concat(distinct district)                                                                                                          |</span><br><span class="line">+------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| Seoul,Pusan,Inchon,Taegu,Taejon,Kwangju,Kyongsangnam,Kyonggi,Chollabuk,Chungchongbuk,Kyongsangbuk,Chungchongnam,Cheju,Chollanam,Kang-won |</span><br><span class="line">+------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-
-<h2 id="그룹핑-group-by"><a href="#그룹핑-group-by" class="headerlink" title="그룹핑(group_by)"></a>그룹핑(group_by)</h2><p>지금까지 한 집약함수와는 다르게 대상이 되는 데이터를 몇 개의 그룹으로 나누어서 집약하는 것도 가능하다. <strong>GROUP_BY</strong>를 이용하여 그룹을 나눌 때는 키가 되는 열을 지정해 주어야 한다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select count(*) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span>;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|       70 |</span><br><span class="line">+----------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mysql&gt; select district, count(*) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> group by district;</span><br><span class="line">+---------------+----------+</span><br><span class="line">| district      | count(*) |</span><br><span class="line">+---------------+----------+</span><br><span class="line">| Cheju         |        1 |</span><br><span class="line">| Chollabuk     |        6 |</span><br><span class="line">| Chollanam     |        5 |</span><br><span class="line">| Chungchongbuk |        3 |</span><br><span class="line">| Chungchongnam |        6 |</span><br><span class="line">| Inchon        |        1 |</span><br><span class="line">| Kang-won      |        4 |</span><br><span class="line">| Kwangju       |        1 |</span><br><span class="line">| Kyonggi       |       18 |</span><br><span class="line">| Kyongsangbuk  |       10 |</span><br><span class="line">| Kyongsangnam  |       11 |</span><br><span class="line">| Pusan         |        1 |</span><br><span class="line">| Seoul         |        1 |</span><br><span class="line">| Taegu         |        1 |</span><br><span class="line">| Taejon        |        1 |</span><br><span class="line">+---------------+----------+</span><br><span class="line">15 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-
-<p>그룹으로 나눈 후에 집약하기 위해서 조건을 추가해 줄 수 있다. 이전에 조건을 추가하기 위해서 where 구문을 사용한 적이 있는데 <strong>count 같은 집약 함수를 작성할 수 있는 경우는 SELECT와 ORDER BY 그리고 HAVING 밖에 없다.</strong> 따라서 집약한 결과에 조건을 지정하기 위해서는 <strong>HAVING</strong> 구문을 사용해야만 한다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select district, count(*) from city <span class="built_in">where</span> countrycode=<span class="string">"KOR"</span> group by district having count(*) = 6;</span><br><span class="line">+---------------+----------+</span><br><span class="line">| district      | count(*) |</span><br><span class="line">+---------------+----------+</span><br><span class="line">| Chollabuk     |        6 |</span><br><span class="line">| Chungchongnam |        6 |</span><br><span class="line">+---------------+----------+</span><br><span class="line">2 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>[참고]<br><a href="https://dev.mysql.com/doc/index-other.html" target="_blank" rel="external nofollow noopener noreferrer">https://dev.mysql.com/doc/index-other.html</a><br><a href="https://dev.mysql.com/doc/world-setup/en/world-setup-installation.html" target="_blank" rel="external nofollow noopener noreferrer">https://dev.mysql.com/doc/world-setup/en/world-setup-installation.html</a><br><a href="https://unagi44.wordpress.com/2015/09/16/mac-os-x%EC%97%90%EC%84%9C-mysql-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%8B%A4%ED%96%89/" target="_blank" rel="external nofollow noopener noreferrer">https://unagi44.wordpress.com/2015/09/16/mac-os-x%EC%97%90%EC%84%9C-mysql-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%8B%A4%ED%96%89/</a><br><a href="http://aspdotnet.tistory.com/1848" target="_blank" rel="external nofollow noopener noreferrer">http://aspdotnet.tistory.com/1848</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/04/17/mysql/basic-of-mysql/" data-id="ckadxpbxd006zbe756f4e4c8s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/06/04/docker/docker/" data-id="ckafeiu410034gs7512yo9ia9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -720,7 +705,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -730,6 +715,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -764,15 +758,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
                             <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-dns/" class="title">[DNS]DNS의 기초적인 작동방식</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

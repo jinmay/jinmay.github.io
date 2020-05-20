@@ -143,6 +143,179 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-docker/elk-with-docker" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/06/21/docker/elk-with-docker/">도커와 함께하는 엘라스틱서치</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/06/21/docker/elk-with-docker/">
+            <time datetime="2018-06-21T07:02:23.000Z" itemprop="datePublished">2018-06-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/docker/">docker</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a>, <a class="tag-link" href="/tags/elk/" rel="tag">elk</a>, <a class="tag-link" href="/tags/kibana/" rel="tag">kibana</a>, <a class="tag-link" href="/tags/logstash/" rel="tag">logstash</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="도커와-함께하는-엘라스틱서치"><a href="#도커와-함께하는-엘라스틱서치" class="headerlink" title="도커와 함께하는 엘라스틱서치"></a>도커와 함께하는 엘라스틱서치</h1><p>갑자기 visual하게 통계를 보고 싶어서 오픈소스를 알아보던 중 엘라스틱서치를 접하게 되었다. 그런데 엘라스틱서치에 대해서 문서를 보던중 ELK 스택에 대해서 보게 되었고 보통 이 세가지가 같이 사용된다고 한다. ELK가 의미하는 것들은 다음과 같다.</p>
+<ul>
+<li>E : ElasticSearch - 분산형 RESTful 검색 및 분석 엔진</li>
+<li>L : Logstash - 로그 수집도구</li>
+<li>K : Kibana - 시각화툴(Visualization)</li>
+</ul>
+<p>설치하는 법과 간단한 사용법들을 천천히 정리해보자</p>
+<h2 id="엘라스틱서치-설치"><a href="#엘라스틱서치-설치" class="headerlink" title="엘라스틱서치 설치"></a>엘라스틱서치 설치</h2><p>ELK 스택은 JVM 위에서 돌아가기 때문에 JDK를 필요로 한다. 때문에 자바를 우선 설치해주어야 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get update -y</span><br><span class="line">add-apt-repository -y ppa:webupd8team/java</span><br><span class="line">apt-get -y install oracle-java8-installer</span><br></pre></td></tr></table></figure>
+
+<p>만약 도커 컨테이너를 통해서 우분투를 설치하고 add-apt-repository 를 사용하려고 하면 해당 명령어가 없다고 할 것이다. 그럴땐 다음의 명령어를 실행해주고 재설치를 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">apt-get install software-properties-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># 다시 설치도전!</span></span><br><span class="line">add-apt-repository -y ppa:webupd8team/java</span><br><span class="line">apt-get update -y</span><br><span class="line">apt-get -y install oracle-java8-installer</span><br><span class="line">java -version <span class="comment"># 설치된 자바 버전 확인</span></span><br></pre></td></tr></table></figure>
+
+<p>자바를 설치했다면 이젠 엘라스틱서치를 설치하면된다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.1.deb</span><br><span class="line">dpkg -i elasticsearch-5.3.1.deb</span><br><span class="line">systemctl <span class="built_in">enable</span> elasticsearch.service <span class="comment"># (자동 재시작)</span></span><br></pre></td></tr></table></figure>
+<p>또한 관련 파일들의 경로는 아래와 같다.</p>
+<ul>
+<li>설치 경로 : /usr/share/elasticsearch</li>
+<li>설정파일 경로 : /etc/elasticsearch</li>
+<li>스크립트 파일 : /etc/init.d/elasticsearch</li>
+</ul>
+<p>앞으로 <strong>service elasticsearch start</strong> 명령어를 통해서 엘라스틱서치를 실행할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service elasticsearch start</span><br><span class="line">service elasticsearch stop</span><br><span class="line">service elasticsearch restart</span><br></pre></td></tr></table></figure>
+
+<p>설치후 정상적으로 작동한다면 curl 통해 제대로 동작하는지 본다</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">"localhost:9200"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 출력 화면</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span> : <span class="string">"StB5wZb"</span>,</span><br><span class="line">  <span class="string">"cluster_name"</span> : <span class="string">"elasticsearch"</span>,</span><br><span class="line">  <span class="string">"cluster_uuid"</span> : <span class="string">"BG-SG1nxS0y8TlGtF7ffsdafsdubow"</span>,</span><br><span class="line">  <span class="string">"version"</span> : &#123;</span><br><span class="line">    <span class="string">"number"</span> : <span class="string">"5.3.1"</span>,</span><br><span class="line">    <span class="string">"build_hash"</span> : <span class="string">"5f9cf58"</span>,</span><br><span class="line">    <span class="string">"build_date"</span> : <span class="string">"2017-04-17T15:52:53.846Z"</span>,</span><br><span class="line">    <span class="string">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"lucene_version"</span> : <span class="string">"6.4.2"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>만약 엘라스틱서치의 설정 내용들은 보고 싶다면 <strong>/etc/elasticsearch/elasticsearch.yml</strong> 를 참고하면 된다. 나의 경우 건드려본 설정은 network.host 밖에 없다.</p>
+<h2 id="키바나-설치"><a href="#키바나-설치" class="headerlink" title="키바나 설치"></a>키바나 설치</h2><p>다음으로 시각화 툴인 <strong>키바나</strong>를 설치해보자. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/kibana/kibana-5.3.1-amd64.deb</span><br><span class="line">dpkg -i kibana-5.3.1-amd64.deb</span><br></pre></td></tr></table></figure>
+
+<p>엘라스틱서치와 같이 사용하기 위해 <strong>elasticsearch.yml</strong>의 설정을 조금 건드려주어야 한다. 키바나 설정파일 경로는 <strong>/etc/kibana/kibana.yml</strong> 이다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/kibana/kibana.yml</span></span><br><span class="line">server.host: <span class="string">"localhost"</span></span><br><span class="line">elasticsearch.url: <span class="string">"http://localhost:9200"</span></span><br></pre></td></tr></table></figure>
+<p>위의 경우에는 로컬에서 실행하기 때문에 localhost로 해주었지만 서버를 사용하고 있다면 해당 서버의 주소를 설정해주어야 한다. </p>
+<p>마지막으로 키바나를 실행해보자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/kibana/bin/kibana</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="로그스태시-설치"><a href="#로그스태시-설치" class="headerlink" title="로그스태시 설치"></a>로그스태시 설치</h2><p>마지막으로 로그스태시도 설치해보자!!</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/logstash/logstash-6.3.0.deb <span class="comment"># 엘라스틱 다운로드 페이지에서 링크 주소 복사</span></span><br><span class="line">dpkg -i logstash-6.3.0.deb</span><br></pre></td></tr></table></figure>
+<p>설치 완료!! 그 다음에 설정을 해주어야 한다. 로그스태시 실행 파일이 <strong>/usr/share/logstash/bin</strong>에 있기때문에 해당경로로 들어간 후 설정파일과 함께 실행해주어야한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi logstash-simple.conf</span></span><br><span class="line">input &#123;</span><br><span class="line">  stdin &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  stdout &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>위 와 같이 간단하게 테스트를 위해 설정파일을 만들고 로그스태시를 실행한다</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./logstash -f logstash-simple.conf</span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/06/21/docker/elk-with-docker/" data-id="ckafeiu43003bgs751mbta2i5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-docker/delete-container-image" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -200,7 +373,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/06/19/docker/delete-container-image/" data-id="ckadxpbw8002sbe75aeqghl1g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/06/19/docker/delete-container-image/" data-id="ckafeiu40002wgs75998y75i8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -332,221 +505,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/06/19/linux/install-add-apt-repository/" data-id="ckadxpbwy005bbe756v4d5io8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-django/how-to-log-django" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/06/18/django/how-to-log-django/">Django(장고) 로깅 기초</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/06/18/django/how-to-log-django/">
-            <time datetime="2018-06-18T08:12:12.000Z" itemprop="datePublished">2018-06-18</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/django/">django</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link" href="/tags/log/" rel="tag">log</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="장고-로깅"><a href="#장고-로깅" class="headerlink" title="장고 로깅"></a>장고 로깅</h1><p>현재 운영하고 있는 식단알리미의 사용자들이 어떠한 버튼을 누르는지 분석하기 위해 방법을 찾던 도중 사용자 입력에 대한 로그를 남기는 게 좋을 것 같아서 장고의 로깅하는 법에 대해서 간략하게 정리해보려고한다.</p>
-<p>일단 장고의 로깅 시스템은 기본적으로 파이썬의 로깅 시스템을 그대로 따르면서 일부만 추가되었다고 한다. 파이썬의 로깅 모듈을 보면 <strong>logger, handler, filter, formatter</strong> 4가지의 컴포넌트를 정의하고 있다. 네 가지 로깅 컴포넌트들에 대해서 정리하자.</p>
-<h2 id="컴포넌트"><a href="#컴포넌트" class="headerlink" title="컴포넌트"></a>컴포넌트</h2><h3 id="logger"><a href="#logger" class="headerlink" title="logger"></a>logger</h3><p>logger는 로깅 시스템의 시작점이다. 로그 메세지를 처리하기 위해 메세지를 담아두는 저장소라고 생각할 수 있으며, 모든 로거는 이름을 가지고 있다. 또한 logger는 <strong>logger level</strong>을 갖고 있으며, 이는 로그 메세지의 중요도에 따라 자신이 어느 레벨 이상의 메세지를 처리할지에 대한 기준이 된다. 아래는 다섯 가지 log level 이다.</p>
-<ul>
-<li><strong>DEBUG</strong> : 디버그 용도로 사용되는 정보. 로그 레벨의 최하위 수준이다</li>
-<li><strong>INFO</strong> : 일반적이고 보편적인 정보(Django의 기본 로그 레벨값이다)</li>
-<li><strong>WARNING</strong> : 문제점 중에서 덜 중요한 문제점이 발생 시 이에 대한 정보</li>
-<li><strong>ERROR</strong> : 문제점 중에서 주요 문제점이 발생 시 이에 대한 정보</li>
-<li><strong>CRITICAL</strong> : 치명적인 문제점 발생 시 이에 대한 정보. 로그 레벨의 최상위 수준이다</li>
-</ul>
-<p>로거에 저장되는 메세지를 <strong>로그 레코드(log record)</strong>라고 부른다. 마찬가지로 <strong>로그 레코드도 로그 레벨을 가진다.</strong> </p>
-<p>메세지가 로거에 도착하면, 로그 레코드의 로그 레벨과 로거의 로그 레벨을 비교한다. 로그 레코드의 로그 레벨이 로거의 로거 레벨과 같거나 높으면 로거는 메세지 처리를 계속하게 된다. 만약 그렇지 않다면 해당 로그 메세지는 무시된다. 이와 같은 과정을 거쳐 로거는 로그 메세지를 핸들러에게 넘기게 된다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'loggers'</span>: &#123;</span><br><span class="line">        <span class="string">'board'</span>: &#123;</span><br><span class="line">            <span class="string">'handlers'</span>: [<span class="string">'console'</span>],</span><br><span class="line">            <span class="string">'level'</span>: <span class="string">'DEBUG'</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
-
-<h3 id="handler"><a href="#handler" class="headerlink" title="handler"></a>handler</h3><p>핸들러는 로거에 있는 로그 메세지에 어떠한 작업을 할지 결정하는 엔진이다. 로거로 부터 받은 메세지를 화면에 스트림으로 출력하거나 파일로 저장하거나 하는 등의 로그 동작을 의미한다. 핸들러도 로거와 마찬가지로 로그 레벨을 가지고 있다. 로그 레코드의 로그 레벨이 핸들러의 로그 레벨보다 더 낮으면 핸들러는 메세지를 무시하게 된다. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'handlers'</span>: &#123;</span><br><span class="line">        <span class="string">'console'</span>: &#123;</span><br><span class="line">            <span class="string">'level'</span>: <span class="string">'DEBUG'</span>,</span><br><span class="line">            <span class="string">'class'</span>: <span class="string">'logging.StreamHandler'</span>,</span><br><span class="line">            <span class="string">'formatter'</span>: <span class="string">'format2'</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
-
-<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p>로그 레코드가 로거에서 핸들러로 넘어갈 때, 필터를 사용해서 로그 레코드에 부가적인 제어를 할 수 있다. 기본 처리 방식은 로그 레벨을 지정하여 그 로그 레벨에 해당되면 관련 로그 메세지를 처리하는 것인데, 필터를 적용하게 되면 로그 처리 기준을 추가할 수 있다. 예를 들면, 로그 레벨이 ERROR인 로그 레코드 중에서 특정 소스로부터 오는 메세지만 핸들러로 넘길 수 있다. </p>
-<p>필터를 사용하면 로그 레코드를 보내기 전에 수정하는 것도 가능하다. 예를 들면, 어떤 조건에 맞으면 ERROR 로그 레코드를 WARNING 로그 레벨로 낮춰주는 필터를 만들 수도 있다. 필터는 로거와 핸들러 모두에게 적용할 수 있고, 여러 개의 필터를 체인 방식으로 동작시킬 수도 있다!</p>
-<h3 id="formatter"><a href="#formatter" class="headerlink" title="formatter"></a>formatter</h3><p>로그 레코드는 최종적으로 텍스트로 표현된다. 이 때, 포멧터의 역할은 텍스트로 표현 시 임의의 포맷을 지정해주는 것이다. 포맷터는 보통 파이썬의 포맷 스트링을 사용하지만, 사용자 정의 포맷터도 만들어 사용할 수 있다. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'formatters'</span>: &#123;</span><br><span class="line">        <span class="string">'format1'</span>: &#123;</span><br><span class="line">            <span class="string">'format'</span>: <span class="string">'[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s'</span>,</span><br><span class="line">            <span class="string">'datefmt'</span>: <span class="string">'%d/%b/%Y %H:%M:%S'</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">'format2'</span>: &#123;</span><br><span class="line">            <span class="string">'format'</span>: <span class="string">'[%(levelname)s] %(message)s'</span>,</span><br><span class="line">        &#125;,        </span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="로깅"><a href="#로깅" class="headerlink" title="로깅"></a>로깅</h2><p>로깅을 하기 위한 컴포넌트들이 준비되었다면 로그 메세지를 기록하기 위해 코드 내에서 로깅 메소드를 호출하면 된다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># logging 모듈 임포트</span></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="comment"># 로거 인스턴스 생성</span></span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span><br><span class="line">  logger.error(<span class="string">'Something went wrong!'</span>) <span class="comment"># ERROR 레벨 이상의 로그 레코드 로깅</span></span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
-<p>로거 인스턴스는 이름을 가진다. 명시적으로 적어주어도 되지만 <strong>name</strong> 특수 메소드를 통해서 명명해주는 것이 자주 사용되는 것 같다. 이와 같은 방법으로 로거 이름을 짓는다면 어떻게 출력이 될지 보고 싶을땐</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in views.py</span></span><br><span class="line"></span><br><span class="line">print(__name__) <span class="comment"># 해당 모듈명 출력 : app.views</span></span><br><span class="line">print(logger) <span class="comment"># 로거 이름 출력 : &lt;Logger app.views&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>다른 방식으로 로그 메세지를 계층화하고 싶으면 로거를 구분하는 이름을 도트(.)방식으로 명명해주면 된다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logger = logging.getLogger(<span class="string">'project.interesting.stuff'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>로거 객체(logger)는 각 로그 레벨별로 로깅 호출 메소드를 갖고 있다.</p>
-<ul>
-<li><strong>logger.debug()</strong></li>
-<li><strong>logger.info()</strong></li>
-<li><strong>logger.warning()</strong></li>
-<li><strong>logger.error()</strong></li>
-<li><strong>logger.critical()</strong></li>
-</ul>
-<p>각 메소드들은 해당 레벨의 로그 메세지를 생성한다. 또한 두 가지 로깅 메소드를 추가로 제공하고 있다</p>
-<ul>
-<li><strong>logger.log()</strong> : 원하는 로그 레벨을 정해서 로그 메세지를 생성한다</li>
-<li><strong>logger.exception()</strong> : 익셉션 스택 정보를 포함하는 ERROR 레벨의 로그 메세지 생성</li>
-</ul>
-<h2 id="로깅-설정"><a href="#로깅-설정" class="headerlink" title="로깅 설정"></a>로깅 설정</h2><p>네 가지 컴포넌트들(logger, filter, handler, formatter)을 설정해야 한다. 장고는 dictConfig 설정 방식을 기본으로 사용한다. 프로젝트의 <strong>settings.py</strong> 파일에 <strong>LOGGING</strong> 항목을 생성하여 설정을 하면 된다. LOGGING 속성을 정의하는 경우에 디폴트 로그 설정을 대체할 수도 있고, 디폴트 로그 설정과 병합할 수도 있다. 하는 방법은 LOGGING 설정에서 <strong>disable_existing_loggers</strong> 속성을 통해 지정하면 되는데 값이 True면 장고의 기본 로깅 설정을 대체(덮어쓰기)할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">LOGGING = &#123;</span><br><span class="line">  <span class="string">'version'</span>: <span class="number">1</span>, <span class="comment"># 버전</span></span><br><span class="line">  <span class="string">'disable_existing_loggers'</span>: <span class="literal">True</span>, <span class="comment"># 장고의 기본 로깅 설정 활성화</span></span><br><span class="line">  <span class="comment"># 포맷터</span></span><br><span class="line">  <span class="string">'formatters'</span>: &#123;</span><br><span class="line">      <span class="string">'format1'</span>: &#123;</span><br><span class="line">              <span class="string">'format'</span>: <span class="string">'[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s'</span>,</span><br><span class="line">              <span class="string">'datefmt'</span>: <span class="string">'%d/%b/%Y %H:%M:%S'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">'format2'</span>: &#123;</span><br><span class="line">              <span class="string">'format'</span>: <span class="string">'[%(levelname)s] %(message)s'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment"># 필터</span></span><br><span class="line">  <span class="string">'filters'</span>: &#123;</span><br><span class="line">      <span class="string">'special'</span>: &#123;</span><br><span class="line">        <span class="string">'()'</span>: <span class="string">'project.logging.SpecialFilter'</span>,</span><br><span class="line">        <span class="string">'foo'</span>: <span class="string">'bar'</span>,</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment"># 핸들러</span></span><br><span class="line">  <span class="string">'handlers'</span>: &#123;</span><br><span class="line">      <span class="string">'console'</span>: &#123; <span class="comment"># 콘솔에 스트림 출력</span></span><br><span class="line">          <span class="string">'level'</span>: <span class="string">'DEBUG'</span>,</span><br><span class="line">          <span class="string">'class'</span>: <span class="string">'logging.StreamHandler'</span>,</span><br><span class="line">          <span class="string">'formatter'</span>: <span class="string">'format1'</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment"># 로거</span></span><br><span class="line">  <span class="string">'loggers'</span>: &#123;</span><br><span class="line">      <span class="string">'board'</span>: &#123;</span><br><span class="line">          <span class="string">'handlers'</span>: [<span class="string">'console'</span>],</span><br><span class="line">          <span class="string">'level'</span>: <span class="string">'DEBUG'</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="장고에-추가된-컴포넌트"><a href="#장고에-추가된-컴포넌트" class="headerlink" title="장고에 추가된 컴포넌트"></a>장고에 추가된 컴포넌트</h2><h3 id="로거"><a href="#로거" class="headerlink" title="로거"></a>로거</h3><ol>
-<li><p><strong>django 로거</strong><br>모든 로그 레코드를 잡는 장고의 최상위 루트 로거이다. 이 루트 로거에 직접 로그 메세지를 보낼 수는 없다.</p>
-</li>
-<li><p><strong>django.request 로거</strong><br>http 요청 처리와 관련된 메세지를 기록한다. 5xx 응답은 ERROR / 4xx 응답은 WARNING 메세지로 발생한다. 이 로거에 담기는 메세지는 2개의 추가적인 메타 항목을 가진다. </p>
-<ul>
-<li>status_code : http 응답 코드</li>
-<li>request : 로그 메세지를 생성하는 request 객체</li>
-</ul>
-</li>
-<li><p><strong>django.db.backends 로거</strong><br>데이터베이스와 관련된 메세지를 기록한다. 애플리케이션에서 사용하는 모든 sql 문장들이 이 로거에 debug 레벨로 기록된다. 성능상의 이유로, sql 로깅은 settings.DEBUG 속성이 True일 경우에만 활성화된다.</p>
-<ul>
-<li>duration : sql 실행에 걸린 시간</li>
-<li>sql : 실행된 sql 문장</li>
-<li>params : sql 호출에 사용된 파라미터</li>
-</ul>
-</li>
-<li><p><strong>django.security.* 로거</strong><br>사용자가 보안에 해를 끼칠수 있는 동작을 했을 경우 메세지를 기록한다. </p>
-</li>
-<li><p><strong>django.db.backends.schema 로거</strong><br>데이터베이스의 스키마 변경 시 사용된 sql 쿼리를 기록한다.</p>
-</li>
-</ol>
-<h3 id="핸들러"><a href="#핸들러" class="headerlink" title="핸들러"></a>핸들러</h3><ol>
-<li><strong>AdminEmailHandler</strong><br>이 핸들러가 수신하는 모든 로그 메세지를 이메일로 사이트 관리자에게 전송</li>
-</ol>
-<h3 id="필터"><a href="#필터" class="headerlink" title="필터"></a>필터</h3><ol>
-<li><p><strong>CallBackFilter</strong><br>콜백 함수를 지정해서 필터를 통과하는 모든 메세지에 대해 콜백 함수를 호출해준다. 콜백 함수의 리턴값이 False면 메세지 로깅은 더 이상 처리하지 않는다.</p>
-</li>
-<li><p><strong>RequireDebugFalse</strong><br>settings.DEBUG 속성이 False인 경우만 메세지 처리</p>
-</li>
-<li><p><strong>RequireDebugTrue</strong><br>settings.DEBUG 속성이 True인 경우에만 메세지 처리</p>
-</li>
-</ol>
-<h3 id="장고-로깅-default"><a href="#장고-로깅-default" class="headerlink" title="장고 로깅 default"></a>장고 로깅 default</h3><ul>
-<li><p>django.request 로거<br>settings.DEBUG 속성이 False면 ERROR 또는 CRITICAL 레벨의 모든 메세지를 AdminEmailHandler 핸들러에게 보내주도록 되어있다</p>
-</li>
-<li><p>django 루트 로거<br>django 루트 로거에 오는 모든 메세지는 DEBUG 속성이 True인 경우 콘솔로 보내지고, DEBUG 속성이 False인 경우 NullHandler로 보내서 무시되도록 기본값이 정해져있다.</p>
-</li>
-</ul>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/06/18/django/how-to-log-django/" data-id="ckadxpbw9002wbe75334s0ie5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/06/19/linux/install-add-apt-repository/" data-id="ckafeiu4q0057gs753alqdrrk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -654,7 +613,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -664,6 +623,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -698,15 +666,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
                             <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-dns/" class="title">[DNS]DNS의 기초적인 작동방식</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

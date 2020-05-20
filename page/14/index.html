@@ -143,6 +143,162 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-react-native/android-settings-for-react-native-in-macos" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/12/28/react-native/android-settings-for-react-native-in-macos/">React Native를 위한 안드로이드 설정하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/12/28/react-native/android-settings-for-react-native-in-macos/">
+            <time datetime="2019-12-28T06:17:11.000Z" itemprop="datePublished">2019-12-28</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/react-native/">react-native</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><strong>맥북에서 안드로이드 스튜디오를 이용해 안드로이드 시뮬레이터를 열기까지의 과정을 정리한다.</strong></p>
+<h2 id="1-node와-watchman-설치"><a href="#1-node와-watchman-설치" class="headerlink" title="1. node와 watchman 설치"></a>1. node와 watchman 설치</h2><p>리액트 네이티브를 위해 노드가 필요하다. 또한 watchman은 페이스북에서 만든 파일시스템의 변경사항을 추적할 수 있는 툴이다. 더 나은 퍼포먼스를 위해서 설치하는 것은 매우 추천한다고 한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install node</span><br><span class="line">brew install watchman</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-JDK-설치"><a href="#2-JDK-설치" class="headerlink" title="2. JDK 설치"></a>2. JDK 설치</h2><p>맥을 사용한다면 brew를 통해 JDK를 설치할 수 있으며 오라클JDK 또는 OpenJDK를 설치하면 된다. 본 정리에서는 OpenJDK8을 설치한다.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew tap AdoptOpenJDK/openjdk</span><br><span class="line">brew cask install adoptopenjdk8</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>사실 먼저 9버전을 설치하고 시뮬레이터를 사용하려고 했는데 알 수 없는 에러로 인해서 실패했다. JDK 버전을 8로 내렸더니 문제 없이 사용할 수 있었다.</p>
+</blockquote>
+<h2 id="3-안드로이드-개발-환경-설정"><a href="#3-안드로이드-개발-환경-설정" class="headerlink" title="3. 안드로이드 개발 환경 설정"></a>3. 안드로이드 개발 환경 설정</h2><h3 id="3-1-안드로이드-스튜디오-설치"><a href="#3-1-안드로이드-스튜디오-설치" class="headerlink" title="3-1. 안드로이드 스튜디오 설치"></a>3-1. 안드로이드 스튜디오 설치</h3><p>안드로이드 스튜디오를 설치하고 SDK 및 AVD를 설치해주어야 한다. 안드로이드 스튜디오 설치 시에 custom 옵션을 통해 아래의 네 가지 옵션을 체크해주어야 한다.</p>
+<ul>
+<li>Android SDK</li>
+<li>Android SDK Platform</li>
+<li>Performance (Intel ® HAXM) (See here for AMD)</li>
+<li>Android Virtual Device</li>
+</ul>
+<h3 id="3-2-안드로이드-SDK-설치"><a href="#3-2-안드로이드-SDK-설치" class="headerlink" title="3-2. 안드로이드 SDK 설치"></a>3-2. 안드로이드 SDK 설치</h3><p>기본적으로 안드로이드 스튜디오를 설치할때 가장 최신 버전의 안드로이드 SDK를 설치하게 된다. 하지만 리액트 네이티브 앱을 빌드하기 위해서 안드로이드 9(Pie) 버전의 SDK가 필요하다. 다른 버전의 안드로이드 SDK가 필요하다면 SDK Manager를 통해 설치할 수 있다.</p>
+<p>아래의 SDK를 설치한다. 만약 Intel x86과 같은 옵션이 보이지 않는다면 <strong>Show Package Details</strong> 을 눌러서 디테일 페이지를 살펴보면 된다.</p>
+<ul>
+<li>Android SDK Platform 28</li>
+<li>Intel x86 Atom_64 System Image</li>
+</ul>
+<h3 id="3-3-ANDROID-HOME-경로-지정하기"><a href="#3-3-ANDROID-HOME-경로-지정하기" class="headerlink" title="3-3. ANDROID_HOME 경로 지정하기"></a>3-3. ANDROID_HOME 경로 지정하기</h3><p>안드로이드에 관련된 경로를 PATH에 추가해주어야 한다. 본인이 사용중인 쉘의 설정파일에 등록하자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export ANDROID_HOME&#x3D;$HOME&#x2F;Library&#x2F;Android&#x2F;sdk</span><br><span class="line">export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;emulator</span><br><span class="line">export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;tools</span><br><span class="line">export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;tools&#x2F;bin</span><br><span class="line">export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;platform-tools</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-시뮬레이터-설정"><a href="#3-4-시뮬레이터-설정" class="headerlink" title="3-4. 시뮬레이터 설정"></a>3-4. 시뮬레이터 설정</h3><p>시뮬레이터로 사용하고자 하는 디바이스를 추가한다.</p>
+<hr>
+<h2 id="4-마무리"><a href="#4-마무리" class="headerlink" title="4. 마무리"></a>4. 마무리</h2><p>새로운 리액트 네이티브 프로젝트를 생성하고 시뮬레이터를 사용할 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 리액트 네이티브 프로젝트 생성</span></span><br><span class="line">npx react-native-cli init sampleProj</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> sampleProj</span><br><span class="line">npx react-native run-android <span class="comment"># 안드로이드 오픈</span></span><br></pre></td></tr></table></figure>
+
+<p>[참고]<br><a href="https://facebook.github.io/react-native/docs/getting-started.html#android-development-environment" target="_blank" rel="external nofollow noopener noreferrer">https://facebook.github.io/react-native/docs/getting-started.html#android-development-environment</a><br><a href="https://findstar.pe.kr/2019/01/20/install-openjdk-by-homebrew/" target="_blank" rel="external nofollow noopener noreferrer">https://findstar.pe.kr/2019/01/20/install-openjdk-by-homebrew/</a><br><a href="https://dev-yakuza.github.io/ko/react-native/install-on-mac/#jdk-%EC%84%A4%EC%B9%98" target="_blank" rel="external nofollow noopener noreferrer">https://dev-yakuza.github.io/ko/react-native/install-on-mac/#jdk-%EC%84%A4%EC%B9%98</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/12/28/react-native/android-settings-for-react-native-in-macos/" data-id="ckafeiu6400aags754797cb6m" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/coroutine-brief" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -240,7 +396,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/12/05/python/coroutine-brief/" data-id="ckadxpbxq008dbe758h0weyfv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/12/05/python/coroutine-brief/" data-id="ckafeiu5k008egs754t5i9z2d" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -373,149 +529,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/12/03/python/python-callable/" data-id="ckadxpbxr008kbe750l1fdh7f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/python-caution-of-parameter" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/12/02/python/python-caution-of-parameter/">[파이썬]함수의 매개변수를 사용할때의 주의사항</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/12/02/python/python-caution-of-parameter/">
-            <time datetime="2019-12-02T13:30:52.000Z" itemprop="datePublished">2019-12-02</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>파이썬에서 함수 사용에 있어서 주의해야할 점들을 정리한다. 여기서 정리할 주의점들의 대부분은 <strong>가변형과 불변형 데이터라는 특징</strong>에 의해서 발생하는 것들이다. 즉, 파이썬 자료형의 특성들을 깊게 이해하고 있으면 발생하지 않을 문제라고 생각한다.</p>
-<h2 id="1-기본적인-함수의-매개변수-사용"><a href="#1-기본적인-함수의-매개변수-사용" class="headerlink" title="#1 기본적인 함수의 매개변수 사용"></a>#1 기본적인 함수의 매개변수 사용</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(a, b)</span>:</span></span><br><span class="line">  a += b</span><br><span class="line">  <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">a = <span class="number">1</span></span><br><span class="line">b = <span class="number">2</span></span><br><span class="line">print(sum(a, b)) <span class="comment"># 3</span></span><br><span class="line">print(a, b) <span class="comment"># 1 2</span></span><br></pre></td></tr></table></figure>
-
-<p>매우 기본적인 사용법이다.</p>
-<h2 id="2-가변형-데이터를-매개변수로-사용"><a href="#2-가변형-데이터를-매개변수로-사용" class="headerlink" title="#2 가변형 데이터를 매개변수로 사용"></a>#2 가변형 데이터를 매개변수로 사용</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(a, b)</span>:</span></span><br><span class="line">  a += b</span><br><span class="line">  <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">print(a) <span class="comment"># [1, 2]</span></span><br><span class="line">b = [<span class="string">'a'</span>, <span class="string">'b'</span>]</span><br><span class="line">print(sum(a, b)) <span class="comment"># [1, 2, 'a', 'b']</span></span><br><span class="line">a <span class="comment"># [1, 2, 'a', 'b']</span></span><br><span class="line">b <span class="comment"># ['a', 'b']</span></span><br></pre></td></tr></table></figure>
-
-<p>리스트는 더하기 연산을 지원하기 때문에 그에 맞은 연산 결과를 반환한다. 그리고 다시 a와 b 변수의 내용을 출력하면 a의 값이 변경된 것을 볼 수 있다.</p>
-<p><strong>변수 a가 변경된 이유는 값이 아닌 참조가 넘어갔기 때문이다.</strong> 이는 파이썬이 데이터를 효율적으로 사용하기 위한 조치이다. a의 데이터가 1억개 있다고 가정해보자. 함수 안에서 연산을 위해 1억개의 데이터를 모두 메모리에 올려놓고 사용한다면 리소스의 낭비가 심해질 것이다.</p>
-<h2 id="3-불변형-데이터를-매개변수로-사용"><a href="#3-불변형-데이터를-매개변수로-사용" class="headerlink" title="#3 불변형 데이터를 매개변수로 사용"></a>#3 불변형 데이터를 매개변수로 사용</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(a, b)</span>:</span></span><br><span class="line">  a += b</span><br><span class="line">  <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">a = (<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">b = (<span class="string">'a'</span>, <span class="string">'b'</span>)</span><br><span class="line"></span><br><span class="line">print(sum(a, b)) <span class="comment"># (1, 2, 'a', 'b')</span></span><br><span class="line">a <span class="comment"># (1, 2)</span></span><br><span class="line">b <span class="comment"># ('a', 'b')</span></span><br></pre></td></tr></table></figure>
-
-<p>리스트를 넘겼을때와 다르게 원본 a, b가 변하지 않았다. <strong>튜플같이 불변형 데이터를 함수의 인자로 줄 때에는 참조를 넘겨주는 것이 아니라 실제 값을 복사해서 넘겨주기 때문이다.</strong> 값을 복사해서 넘겨주기 때문에 데이터의 크기가 크다면 퍼포먼스에 영향을 줄 수 있으므로 상황에 맞는 자료형을 사용해야 한다.</p>
-<h2 id="4-참조를-반환하는-불변형"><a href="#4-참조를-반환하는-불변형" class="headerlink" title="#4 참조를 반환하는 불변형"></a>#4 참조를 반환하는 불변형</h2><p><strong>str / bytes / frozenset / tuple : 사본을 생성하지 않고 참조를 반환한다.</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">aa = tuple(a)</span><br><span class="line">aaa = a[:]</span><br><span class="line"></span><br><span class="line">print(a <span class="keyword">is</span> aa) <span class="comment"># True</span></span><br><span class="line">print(a <span class="keyword">is</span> aaa) <span class="comment"># True</span></span><br><span class="line">id(a), id(aa), id(aaa) <span class="comment"># (4592214160, 4592214160, 4592214160)</span></span><br><span class="line"></span><br><span class="line">b = <span class="string">'abcd'</span></span><br><span class="line">bb = <span class="string">'abcd'</span></span><br><span class="line"></span><br><span class="line">print(b <span class="keyword">is</span> bb) <span class="comment"># True</span></span><br><span class="line">id(b), id(bb) <span class="comment"># (4592243072, 4592243072)</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>불변형 자료형의 경우 값이 같을때 항상 같은 객체를 참조한다.</strong></p>
-<hr>
-<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><p>데이터 타입이 가변형 / 불변형인지에 따라 특성이 달라지기 때문에 유의해서 사용해야한다. 함수의 매개변수로써 리스트가 쓰이면 참조 주소가 넘어가기 때문에 원본에도 영향을 끼치며 불변형인 튜플이 쓰이면 값 그 자체를 넘기게 된다.</p>
-<p>[참고]<br>패스트캠퍼스 강의</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/12/02/python/python-caution-of-parameter/" data-id="ckadxpbxt008rbe75fruv3cnb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/12/03/python/python-callable/" data-id="ckafeiu5n008mgs758x5tejxf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -623,7 +637,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -633,6 +647,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -667,15 +690,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
                             <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-dns/" class="title">[DNS]DNS의 기초적인 작동방식</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

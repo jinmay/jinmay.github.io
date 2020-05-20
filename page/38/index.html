@@ -143,6 +143,143 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-javascript/from-method" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/08/23/javascript/from-method/">진짜 배열을 만들기위한 from 메소드</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/08/23/javascript/from-method/">
+            <time datetime="2018-08-23T08:58:57.000Z" itemprop="datePublished">2018-08-23</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/javascript/">javascript</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/es6/" rel="tag">es6</a>, <a class="tag-link" href="/tags/javascript/" rel="tag">javascript</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="Javascript의-from-메소드"><a href="#Javascript의-from-메소드" class="headerlink" title="Javascript의 from 메소드"></a>Javascript의 from 메소드</h1><h3 id="진짜-배열로-바꾸기-위해-from을-사용한다"><a href="#진짜-배열로-바꾸기-위해-from을-사용한다" class="headerlink" title="진짜 배열로 바꾸기 위해 from을 사용한다!!!"></a>진짜 배열로 바꾸기 위해 from을 사용한다!!!</h3><p>일단 실습을 위해 배열의 각 요소에 느낌표(!)를 더하는 함수를 만들어보자</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMark</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> newData = [];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;<span class="built_in">arguments</span>.length; i++) &#123;</span><br><span class="line">    newData.push(<span class="built_in">arguments</span>[i] + <span class="string">"i"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(newData);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">addMark(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>이 예제코드에는 처음보는 <strong>arguments</strong>라는 객체가 있다. arguments는 진짜 배열은 아니지만 마치 배열인 것 처럼 쓰인다. 위의 코드에서 addMark라는 함수를 생성할때 몇개의 인자를 필요로하는지 명시하지 않았다. 하지만 코드는 제대로 작동하게 되는데 <strong>arguments 객체가 내부적으로 특수한 변수를 만들어 사용했기 때문에 가변인자에 대해서 대응할 수 있었던 것이다.</strong></p>
+<p>arguments 객체를 배열처럼 사용할 수 있다면</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newData = <span class="built_in">arguments</span>.map(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> value + <span class="string">"!"</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>위와 같은 코드도 가능하다. <strong>하지만 실제로 위와 같이 바꾼다면 에러가 나게된다.</strong></p>
+<p>그 이유는 무엇일까?</p>
+<p><strong>arguments는 마치 배열처럼 행동할 뿐 진짜 배열은 아니기 때문이다.</strong> 그래서 진짜 배열로 바꾸어 주면 map 메소드가 제대로 실행되게 되는데 이 때에 <strong>from</strong> 메소드를 이용한다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newArray = <span class="built_in">Array</span>.from(<span class="built_in">arguments</span>);</span><br><span class="line"><span class="keyword">let</span> newData = newArray.map(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> value + <span class="string">"!"</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/08/23/javascript/from-method/" data-id="ckafeiu4h004fgs75b8jf47zi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-javascript/for-statement-es6" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -209,7 +346,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/08/23/javascript/for-statement-es6/" data-id="ckadxpbwm0049be75e4e14myv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/08/23/javascript/for-statement-es6/" data-id="ckafeiu4c0049gs753n3o64m5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -352,180 +489,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/06/22/linux/install-java-in-centos/" data-id="ckadxpbwz005ebe75gqc5hkz6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-docker/elk-with-docker" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/06/21/docker/elk-with-docker/">도커와 함께하는 엘라스틱서치</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/06/21/docker/elk-with-docker/">
-            <time datetime="2018-06-21T07:02:23.000Z" itemprop="datePublished">2018-06-21</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/docker/">docker</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a>, <a class="tag-link" href="/tags/elk/" rel="tag">elk</a>, <a class="tag-link" href="/tags/kibana/" rel="tag">kibana</a>, <a class="tag-link" href="/tags/logstash/" rel="tag">logstash</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="도커와-함께하는-엘라스틱서치"><a href="#도커와-함께하는-엘라스틱서치" class="headerlink" title="도커와 함께하는 엘라스틱서치"></a>도커와 함께하는 엘라스틱서치</h1><p>갑자기 visual하게 통계를 보고 싶어서 오픈소스를 알아보던 중 엘라스틱서치를 접하게 되었다. 그런데 엘라스틱서치에 대해서 문서를 보던중 ELK 스택에 대해서 보게 되었고 보통 이 세가지가 같이 사용된다고 한다. ELK가 의미하는 것들은 다음과 같다.</p>
-<ul>
-<li>E : ElasticSearch - 분산형 RESTful 검색 및 분석 엔진</li>
-<li>L : Logstash - 로그 수집도구</li>
-<li>K : Kibana - 시각화툴(Visualization)</li>
-</ul>
-<p>설치하는 법과 간단한 사용법들을 천천히 정리해보자</p>
-<h2 id="엘라스틱서치-설치"><a href="#엘라스틱서치-설치" class="headerlink" title="엘라스틱서치 설치"></a>엘라스틱서치 설치</h2><p>ELK 스택은 JVM 위에서 돌아가기 때문에 JDK를 필요로 한다. 때문에 자바를 우선 설치해주어야 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get update -y</span><br><span class="line">add-apt-repository -y ppa:webupd8team/java</span><br><span class="line">apt-get -y install oracle-java8-installer</span><br></pre></td></tr></table></figure>
-
-<p>만약 도커 컨테이너를 통해서 우분투를 설치하고 add-apt-repository 를 사용하려고 하면 해당 명령어가 없다고 할 것이다. 그럴땐 다음의 명령어를 실행해주고 재설치를 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">apt-get install software-properties-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># 다시 설치도전!</span></span><br><span class="line">add-apt-repository -y ppa:webupd8team/java</span><br><span class="line">apt-get update -y</span><br><span class="line">apt-get -y install oracle-java8-installer</span><br><span class="line">java -version <span class="comment"># 설치된 자바 버전 확인</span></span><br></pre></td></tr></table></figure>
-
-<p>자바를 설치했다면 이젠 엘라스틱서치를 설치하면된다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.1.deb</span><br><span class="line">dpkg -i elasticsearch-5.3.1.deb</span><br><span class="line">systemctl <span class="built_in">enable</span> elasticsearch.service <span class="comment"># (자동 재시작)</span></span><br></pre></td></tr></table></figure>
-<p>또한 관련 파일들의 경로는 아래와 같다.</p>
-<ul>
-<li>설치 경로 : /usr/share/elasticsearch</li>
-<li>설정파일 경로 : /etc/elasticsearch</li>
-<li>스크립트 파일 : /etc/init.d/elasticsearch</li>
-</ul>
-<p>앞으로 <strong>service elasticsearch start</strong> 명령어를 통해서 엘라스틱서치를 실행할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service elasticsearch start</span><br><span class="line">service elasticsearch stop</span><br><span class="line">service elasticsearch restart</span><br></pre></td></tr></table></figure>
-
-<p>설치후 정상적으로 작동한다면 curl 통해 제대로 동작하는지 본다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">"localhost:9200"</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 출력 화면</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span> : <span class="string">"StB5wZb"</span>,</span><br><span class="line">  <span class="string">"cluster_name"</span> : <span class="string">"elasticsearch"</span>,</span><br><span class="line">  <span class="string">"cluster_uuid"</span> : <span class="string">"BG-SG1nxS0y8TlGtF7ffsdafsdubow"</span>,</span><br><span class="line">  <span class="string">"version"</span> : &#123;</span><br><span class="line">    <span class="string">"number"</span> : <span class="string">"5.3.1"</span>,</span><br><span class="line">    <span class="string">"build_hash"</span> : <span class="string">"5f9cf58"</span>,</span><br><span class="line">    <span class="string">"build_date"</span> : <span class="string">"2017-04-17T15:52:53.846Z"</span>,</span><br><span class="line">    <span class="string">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"lucene_version"</span> : <span class="string">"6.4.2"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>만약 엘라스틱서치의 설정 내용들은 보고 싶다면 <strong>/etc/elasticsearch/elasticsearch.yml</strong> 를 참고하면 된다. 나의 경우 건드려본 설정은 network.host 밖에 없다.</p>
-<h2 id="키바나-설치"><a href="#키바나-설치" class="headerlink" title="키바나 설치"></a>키바나 설치</h2><p>다음으로 시각화 툴인 <strong>키바나</strong>를 설치해보자. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/kibana/kibana-5.3.1-amd64.deb</span><br><span class="line">dpkg -i kibana-5.3.1-amd64.deb</span><br></pre></td></tr></table></figure>
-
-<p>엘라스틱서치와 같이 사용하기 위해 <strong>elasticsearch.yml</strong>의 설정을 조금 건드려주어야 한다. 키바나 설정파일 경로는 <strong>/etc/kibana/kibana.yml</strong> 이다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/kibana/kibana.yml</span></span><br><span class="line">server.host: <span class="string">"localhost"</span></span><br><span class="line">elasticsearch.url: <span class="string">"http://localhost:9200"</span></span><br></pre></td></tr></table></figure>
-<p>위의 경우에는 로컬에서 실행하기 때문에 localhost로 해주었지만 서버를 사용하고 있다면 해당 서버의 주소를 설정해주어야 한다. </p>
-<p>마지막으로 키바나를 실행해보자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/kibana/bin/kibana</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="로그스태시-설치"><a href="#로그스태시-설치" class="headerlink" title="로그스태시 설치"></a>로그스태시 설치</h2><p>마지막으로 로그스태시도 설치해보자!!</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/logstash/logstash-6.3.0.deb <span class="comment"># 엘라스틱 다운로드 페이지에서 링크 주소 복사</span></span><br><span class="line">dpkg -i logstash-6.3.0.deb</span><br></pre></td></tr></table></figure>
-<p>설치 완료!! 그 다음에 설정을 해주어야 한다. 로그스태시 실행 파일이 <strong>/usr/share/logstash/bin</strong>에 있기때문에 해당경로로 들어간 후 설정파일과 함께 실행해주어야한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi logstash-simple.conf</span></span><br><span class="line">input &#123;</span><br><span class="line">  stdin &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  stdout &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>위 와 같이 간단하게 테스트를 위해 설정파일을 만들고 로그스태시를 실행한다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./logstash -f logstash-simple.conf</span><br></pre></td></tr></table></figure>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/06/21/docker/elk-with-docker/" data-id="ckadxpbwe003bbe7587zv4riv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/06/22/linux/install-java-in-centos/" data-id="ckafeiu4y005ygs75cm7q69m3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -633,7 +597,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -643,6 +607,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -677,15 +650,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
                             <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-dns/" class="title">[DNS]DNS의 기초적인 작동방식</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

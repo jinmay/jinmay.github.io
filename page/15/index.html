@@ -143,6 +143,148 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-python/python-caution-of-parameter" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/12/02/python/python-caution-of-parameter/">[파이썬]함수의 매개변수를 사용할때의 주의사항</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/12/02/python/python-caution-of-parameter/">
+            <time datetime="2019-12-02T13:30:52.000Z" itemprop="datePublished">2019-12-02</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>파이썬에서 함수 사용에 있어서 주의해야할 점들을 정리한다. 여기서 정리할 주의점들의 대부분은 <strong>가변형과 불변형 데이터라는 특징</strong>에 의해서 발생하는 것들이다. 즉, 파이썬 자료형의 특성들을 깊게 이해하고 있으면 발생하지 않을 문제라고 생각한다.</p>
+<h2 id="1-기본적인-함수의-매개변수-사용"><a href="#1-기본적인-함수의-매개변수-사용" class="headerlink" title="#1 기본적인 함수의 매개변수 사용"></a>#1 기본적인 함수의 매개변수 사용</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(a, b)</span>:</span></span><br><span class="line">  a += b</span><br><span class="line">  <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">a = <span class="number">1</span></span><br><span class="line">b = <span class="number">2</span></span><br><span class="line">print(sum(a, b)) <span class="comment"># 3</span></span><br><span class="line">print(a, b) <span class="comment"># 1 2</span></span><br></pre></td></tr></table></figure>
+
+<p>매우 기본적인 사용법이다.</p>
+<h2 id="2-가변형-데이터를-매개변수로-사용"><a href="#2-가변형-데이터를-매개변수로-사용" class="headerlink" title="#2 가변형 데이터를 매개변수로 사용"></a>#2 가변형 데이터를 매개변수로 사용</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(a, b)</span>:</span></span><br><span class="line">  a += b</span><br><span class="line">  <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">print(a) <span class="comment"># [1, 2]</span></span><br><span class="line">b = [<span class="string">'a'</span>, <span class="string">'b'</span>]</span><br><span class="line">print(sum(a, b)) <span class="comment"># [1, 2, 'a', 'b']</span></span><br><span class="line">a <span class="comment"># [1, 2, 'a', 'b']</span></span><br><span class="line">b <span class="comment"># ['a', 'b']</span></span><br></pre></td></tr></table></figure>
+
+<p>리스트는 더하기 연산을 지원하기 때문에 그에 맞은 연산 결과를 반환한다. 그리고 다시 a와 b 변수의 내용을 출력하면 a의 값이 변경된 것을 볼 수 있다.</p>
+<p><strong>변수 a가 변경된 이유는 값이 아닌 참조가 넘어갔기 때문이다.</strong> 이는 파이썬이 데이터를 효율적으로 사용하기 위한 조치이다. a의 데이터가 1억개 있다고 가정해보자. 함수 안에서 연산을 위해 1억개의 데이터를 모두 메모리에 올려놓고 사용한다면 리소스의 낭비가 심해질 것이다.</p>
+<h2 id="3-불변형-데이터를-매개변수로-사용"><a href="#3-불변형-데이터를-매개변수로-사용" class="headerlink" title="#3 불변형 데이터를 매개변수로 사용"></a>#3 불변형 데이터를 매개변수로 사용</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(a, b)</span>:</span></span><br><span class="line">  a += b</span><br><span class="line">  <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line">a = (<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">b = (<span class="string">'a'</span>, <span class="string">'b'</span>)</span><br><span class="line"></span><br><span class="line">print(sum(a, b)) <span class="comment"># (1, 2, 'a', 'b')</span></span><br><span class="line">a <span class="comment"># (1, 2)</span></span><br><span class="line">b <span class="comment"># ('a', 'b')</span></span><br></pre></td></tr></table></figure>
+
+<p>리스트를 넘겼을때와 다르게 원본 a, b가 변하지 않았다. <strong>튜플같이 불변형 데이터를 함수의 인자로 줄 때에는 참조를 넘겨주는 것이 아니라 실제 값을 복사해서 넘겨주기 때문이다.</strong> 값을 복사해서 넘겨주기 때문에 데이터의 크기가 크다면 퍼포먼스에 영향을 줄 수 있으므로 상황에 맞는 자료형을 사용해야 한다.</p>
+<h2 id="4-참조를-반환하는-불변형"><a href="#4-참조를-반환하는-불변형" class="headerlink" title="#4 참조를 반환하는 불변형"></a>#4 참조를 반환하는 불변형</h2><p><strong>str / bytes / frozenset / tuple : 사본을 생성하지 않고 참조를 반환한다.</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">aa = tuple(a)</span><br><span class="line">aaa = a[:]</span><br><span class="line"></span><br><span class="line">print(a <span class="keyword">is</span> aa) <span class="comment"># True</span></span><br><span class="line">print(a <span class="keyword">is</span> aaa) <span class="comment"># True</span></span><br><span class="line">id(a), id(aa), id(aaa) <span class="comment"># (4592214160, 4592214160, 4592214160)</span></span><br><span class="line"></span><br><span class="line">b = <span class="string">'abcd'</span></span><br><span class="line">bb = <span class="string">'abcd'</span></span><br><span class="line"></span><br><span class="line">print(b <span class="keyword">is</span> bb) <span class="comment"># True</span></span><br><span class="line">id(b), id(bb) <span class="comment"># (4592243072, 4592243072)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>불변형 자료형의 경우 값이 같을때 항상 같은 객체를 참조한다.</strong></p>
+<hr>
+<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><p>데이터 타입이 가변형 / 불변형인지에 따라 특성이 달라지기 때문에 유의해서 사용해야한다. 함수의 매개변수로써 리스트가 쓰이면 참조 주소가 넘어가기 때문에 원본에도 영향을 끼치며 불변형인 튜플이 쓰이면 값 그 자체를 넘기게 된다.</p>
+<p>[참고]<br>패스트캠퍼스 강의</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/12/02/python/python-caution-of-parameter/" data-id="ckafeiu5o008qgs75bom92ftb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/python-instance-slice" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -205,7 +347,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/26/python/python-instance-slice/" data-id="ckadxpbxz0098be7567y5akfp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/26/python/python-instance-slice/" data-id="ckafeiu5v009cgs75el8acg8l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -342,140 +484,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/25/python/python-class-slots/" data-id="ckadxpbxt008sbe754vw18r0o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/python-private-variable" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/11/24/python/python-private-variable/">[파이썬]private 변수(private 네임 맹글링)</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/11/24/python/python-private-variable/">
-            <time datetime="2019-11-24T08:35:38.000Z" itemprop="datePublished">2019-11-24</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>파이썬은 자바와 다르게 접근제어자가 없다. 사실 클래스 정의 외부에서 접근할 수 있도록 만드는 방법이 있긴한데 접근제어자처럼 완벽하게 통제할 수는 없다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Duck</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">    self.__name = name</span><br><span class="line"></span><br><span class="line">a = Duck(<span class="string">'son'</span>)</span><br><span class="line">print(a.__name)</span><br><span class="line"><span class="comment"># 'Duck' object has no attribute '__name'</span></span><br></pre></td></tr></table></figure>
-
-<p>더블 언더스코어를 붙여서 변수를 만들면 된다. 이때에 <strong>__name을 직접 접근할 수 없다!!</strong> 완벽한 private은 아니지만 외부 코드에서 발견할 수 없도록 이름을 맹글링(뭉게기 - mangling) 했다고 보면 된다. 완벽한 private 변수라고 말할 수 없는 이유는 네임 스페이스를 확인해보면 알 수 있을 것이다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(dir(a))</span><br><span class="line"><span class="comment"># a._Duck__name</span></span><br><span class="line"><span class="comment"># 기타 등등</span></span><br></pre></td></tr></table></figure>
-
-<p>아예 접근 불가능한 것이 아니라, <strong>접근할 수 있는 변수의 이름이 달라지는 것이라고 이해할 수 있다!!</strong></p>
-<hr>
-<p>[참고]<br>패스트 캠퍼스 강의</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/11/24/python/python-private-variable/" data-id="ckadxpby5009vbe752pc00vm4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/25/python/python-class-slots/" data-id="ckafeiu5p008xgs75cjt4fcid" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -583,7 +592,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -593,6 +602,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -627,15 +645,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
                             <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-dns/" class="title">[DNS]DNS의 기초적인 작동방식</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

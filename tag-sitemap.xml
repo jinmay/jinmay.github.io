@@ -150,13 +150,6 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/tags/datapusher/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/tags/harvest/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -165,6 +158,13 @@
 
     <url>
         <loc>https://jinmay.github.io/tags/harvesting/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/tags/datapusher/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -262,6 +262,13 @@
     </url>
 
     <url>
+        <loc>https://jinmay.github.io/tags/%25EC%259E%25A5%25EA%25B3%25A0-%25EB%25B0%25B0%25ED%258F%25AC/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jinmay.github.io/tags/nginx/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -283,20 +290,6 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/tags/%25EC%259E%25A5%25EA%25B3%25A0-%25EB%25B0%25B0%25ED%258F%25AC/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jinmay.github.io/tags/staticfiles/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/tags/service/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -305,6 +298,13 @@
 
     <url>
         <loc>https://jinmay.github.io/tags/wsgi/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/tags/staticfiles/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -423,13 +423,6 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/tags/hexo/</loc>
-        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/tags/javascript/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -438,6 +431,13 @@
 
     <url>
         <loc>https://jinmay.github.io/tags/es6/</loc>
+        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/tags/hexo/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -458,13 +458,6 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/tags/jquery/</loc>
-        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/tags/crontab/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -479,7 +472,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/tags/java/</loc>
+        <loc>https://jinmay.github.io/tags/jquery/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -529,6 +522,13 @@
 
     <url>
         <loc>https://jinmay.github.io/tags/command/</loc>
+        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/tags/java/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -612,13 +612,6 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/tags/postgresql/</loc>
-        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/tags/psql/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -626,14 +619,21 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/tags/db/</loc>
+        <loc>https://jinmay.github.io/tags/csv/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/tags/csv/</loc>
+        <loc>https://jinmay.github.io/tags/postgresql/</loc>
+        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/tags/db/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

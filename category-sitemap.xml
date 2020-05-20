@@ -85,7 +85,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/categories/git/</loc>
+        <loc>https://jinmay.github.io/categories/javascript/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -93,13 +93,6 @@
 
     <url>
         <loc>https://jinmay.github.io/categories/hexo/</loc>
-        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jinmay.github.io/categories/javascript/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -129,6 +122,13 @@
     <url>
         <loc>https://jinmay.github.io/categories/mysql/</loc>
         <lastmod>2020-05-19T12:56:19.091Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/categories/git/</loc>
+        <lastmod>2020-05-20T13:47:58.375Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

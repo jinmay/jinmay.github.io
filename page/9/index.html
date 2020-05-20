@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-git/how-to-check-diff-when-git-commit" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-git/github-action" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/git/how-to-check-diff-when-git-commit/">[git]commit할 때 변경된 내용(diff) 출력하기</a>
+            <a class="article-title" href="/2020/05/13/git/github-action/">[Github]깃허브 액션이란</a>
         </h1>
     
 
@@ -160,7 +160,7 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/git/how-to-check-diff-when-git-commit/">
+        <a href="/2020/05/13/git/github-action/">
             <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
@@ -181,12 +181,27 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>vi를 통해 커밋 메세지를 작성할 때, 어떤 변경점이 있는 지 보고 작성하고 싶을 때가 많았다. 그래서 staging 하기 전에 <em>git diff</em> 명령어를 통해 보고 메세지를 작성하곤 했는데 <em>git commit</em>의 옵션을 통해 처리할 수 있었다. 그 방법은 간단하게 나마 정리해본다.</p>
-<h2 id="git-commit-v"><a href="#git-commit-v" class="headerlink" title="git commit -v"></a>git commit -v</h2><p><strong>-v 옵션</strong>을 사용하면 커밋할 때 변경사항들을 출력해준다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -v</span><br></pre></td></tr></table></figure>
+            <p><img src="https://user-images.githubusercontent.com/13075035/73540557-98943900-4473-11ea-8839-82d2bb798645.png" alt="https://github.com/features/actions"></p>
+<p>Github에서 CI를 위한 툴인 Actions을 제공하고 있다. CI란 Continuous Integration의 약자로써 계속적 통합(?)이라고 번역되기도 하는데 각각의 개발자가 개발한 코드를 하나의 저장소에서 통합하는 과정을 말한다. <strong>하지만 단순히 코드의 통합만을 의미하진 않으며 정적 분석, 단위 테스트, 분석결과 리포팅, 배포 서버에 push 하는 등의 여러 작업들을 수행한다.</strong> 즉, 배포 전에 한 번에 모아서 통합하는 것이 아닌 조금씩 자주 계속해서 통합해 나가는 과정이라고 이해할 수 있을 것 같다.</p>
+<p>기존의 Circle CI / Travis CI / Jenkins CI와 같은 서비스 또는 설치형 CI처럼 Github에서도 Actions이라는 CI툴을 선보였으며 별다른 복잡한 절차 없이 Github를 통해 사용할 수 있다는 장점이 있다.</p>
+<h3 id="주요-개념"><a href="#주요-개념" class="headerlink" title="주요 개념"></a>주요 개념</h3><p>Github Actions에는 몇몇의 중요한 개념이 있다.</p>
+<ul>
+<li>workflow</li>
+<li>event</li>
+<li>job</li>
+<li>step</li>
+</ul>
+<h4 id="1-workflow"><a href="#1-workflow" class="headerlink" title="1. workflow"></a>1. workflow</h4><p>github repository에 대해 일련의 작업들을 수행하는 자동화된 프로세스이다. repository의 root에서 ./github/workflows/ 아래에 workflow에 대한 yml 형식의 설정 파일이 있어야한다.</p>
+<h4 id="2-event"><a href="#2-event" class="headerlink" title="2. event"></a>2. event</h4><p>workflow 실행되도록 만드는 trigger 역할을 담당한다. push와 pull request 같은 트리거가 있다.</p>
+<h4 id="3-job"><a href="#3-job" class="headerlink" title="3. job"></a>3. job</h4><p>job은 여러 개의 step으로 이루어질 수 있으며 단일한 가상 환경을 가진다.</p>
+<h4 id="4-step"><a href="#4-step" class="headerlink" title="4. step"></a>4. step</h4><p>job 안에서 순차적으로 실행되는 프로세스 단위이다.</p>
+<p>아래의 그림은 간단한 workflow의 예시이다.</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># workflow</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">TEST</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> <span class="comment"># event</span></span><br><span class="line">    <span class="attr">pull_request:</span></span><br><span class="line">        <span class="attr">branches:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">develop</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="comment"># job</span></span><br><span class="line">        <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">steps:</span> <span class="comment"># step</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Python</span> <span class="number">3.7</span></span><br><span class="line">                <span class="attr">uses:</span> <span class="string">actions/setup-python@v1</span></span><br><span class="line">                <span class="attr">with:</span></span><br><span class="line">                <span class="attr">python-version:</span> <span class="number">3.7</span></span><br></pre></td></tr></table></figure>
 
-<p><em>git diff –staged</em> 명령어를 통해서도 diff를 확인할 수 있다는 점을 알아두자. </p>
-<p><img src="https://user-images.githubusercontent.com/13075035/81502372-851d2780-9318-11ea-9bd2-2520a9bb3fae.png" alt></p>
+<p>Actions은 CI로서의 역할을 한다고 볼 수 있기 때문에 CD(Continuous Delivery) 작업을 함께하여 배포 파이프라인을 구축할 수 있다.<br><img src="https://user-images.githubusercontent.com/13075035/73540395-26235900-4473-11ea-83d2-9c480244639b.png" alt="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application"></p>
+<h3 id="마무리"><a href="#마무리" class="headerlink" title="마무리"></a>마무리</h3><p>Github에서 제공하는 CI Tool로서 Actions에 대해서 아주 간단히 정리했다. CI는 작업을 단위별로 나누어 조금씩 자주 통합하여 통합과정에서 발생할 수 있는 부담을 최소화하기 위해 사용한다. 또한 Actions의 중요 개념으로 workflow / event / job / step을 간단하게 정리했다.</p>
+<hr>
+<p>[참고]<br><a href="https://asfirstalways.tistory.com/303" target="_blank" rel="external nofollow noopener noreferrer">https://asfirstalways.tistory.com/303</a><br><a href="https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95" target="_blank" rel="external nofollow noopener noreferrer">https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95</a><br><a href="https://coffeewhale.com/cicd/github/2019/10/14/github-actions/" target="_blank" rel="external nofollow noopener noreferrer">https://coffeewhale.com/cicd/github/2019/10/14/github-actions/</a><br><a href="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application" target="_blank" rel="external nofollow noopener noreferrer">https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application</a></p>
 
         
         </div>
@@ -197,7 +212,139 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="ckadxpbwk003zbe754bay1ff8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action/" data-id="ckafeiu48003wgs7517520ha2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-git/how-to-amend-git-commit-author-info" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/git/how-to-amend-git-commit-author-info/">이미 커밋된 로그에서 작성자(author) 변경하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/git/how-to-amend-git-commit-author-info/">
+            <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/git/">git</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>이미 작성된 commit일지라도 커밋 메세지와 작성자를 모두 수정하는 방법이 있다. 이번 포스팅에서는 가장 최신 커밋의 작성자(author)를 변경하는 방법을 알아보자.</p>
+<h3 id="가장-최신-커밋의-author-정보-변경"><a href="#가장-최신-커밋의-author-정보-변경" class="headerlink" title="가장 최신 커밋의 author 정보 변경"></a>가장 최신 커밋의 author 정보 변경</h3><p>커밋 메세지를 수정하기 위해 <code>git commit --amend</code>를 사용할 수 있는데, 이 명령어를 응용하면 된다. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend --author=<span class="string">"Author Name &lt;email@address.com&gt;"</span></span><br></pre></td></tr></table></figure>
+
+<p>유의해야할 점으로는 <strong>가장 최신의 커밋만</strong>을 대상으로 작용한다는 것이다.  </p>
+<p><code>git rebase -i</code> 명령어를 사용하면 다수의 커밋을 대상으로 작업을 할 수 있는데 이는 추후에 다시 정리하자.</p>
+<hr>
+<p>[참고]<br><a href="https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit" target="_blank" rel="external nofollow noopener noreferrer">https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit</a>   </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/" data-id="ckafeiu49003zgs75e6897nn3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -389,138 +536,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action-syntax/" data-id="ckadxpbwh003obe75cpl79b5r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-docker/how-to-use-docker-command-without-sudo" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/docker/how-to-use-docker-command-without-sudo/">[Docker]sudo 없이 docker 명령어 사용하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/docker/how-to-use-docker-command-without-sudo/">
-            <time datetime="2020-05-13T09:09:40.047Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/docker/">docker</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>맥에서 docker를 사용할땐 sudo 없이 처음부터 사용할 수 있다. 하지만 배포를 위해 리눅스 환경에서 도커를 설치하고 사용하려고 하면 mac과는 다르게 sudo 권한을 수동으로 설정해야 하는데, 이는 꽤나 귀찮은 작업이므로 해결방법에 대해서 정리한다.</p>
-<h2 id="로그인된-사용자를-docker-그룹에-등록"><a href="#로그인된-사용자를-docker-그룹에-등록" class="headerlink" title="로그인된 사용자를 docker 그룹에 등록"></a>로그인된 사용자를 docker 그룹에 등록</h2><p>현재 시스템에 로그인된 사용자를 docker 그룹에 등록하면 sudo 명령어 없이 docker를 사용할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><p>docker 데몬은 root 권한으로 실행되기 때문에 다른 사용자가 사용하기 위해서는 항상 sudo를 붙이고 사용해야 하는 귀찮음이 존재한다. root 권한으로 변경하여 사용해도 되지만 root 권한을 무분별하게 사용하는 것은 권장되지 않기 때문에 현재 로그인된 유저를 docker 그룹에 추가하는 방법이 좋다.</p>
-<hr>
-<p>[참고]<br><a href="https://www.slipp.net/questions/485" target="_blank" rel="external nofollow noopener noreferrer">https://www.slipp.net/questions/485</a><br><a href="https://blusky10.tistory.com/359" target="_blank" rel="external nofollow noopener noreferrer">https://blusky10.tistory.com/359</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/docker/how-to-use-docker-command-without-sudo/" data-id="ckadxpbwe003dbe751am131ix" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action-syntax/" data-id="ckafeiu48003sgs759iildcoh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -628,7 +644,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -638,6 +654,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -672,15 +697,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
                             <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
                             <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/basic-of-dns/" class="title">[DNS]DNS의 기초적인 작동방식</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 
