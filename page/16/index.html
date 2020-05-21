@@ -143,6 +143,143 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-python/python-class-slots" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/11/25/python/python-class-slots/">[파이썬]클래스 인스턴스의 고정 속성:  __slots__</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/25/python/python-class-slots/">
+            <time datetime="2019-11-25T06:36:48.000Z" itemprop="datePublished">2019-11-25</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>클래스를 사용해보았다면 __dict__을 통해서 클래스의 인스턴스가 가진 모든 속성을 확인해본적이 있을 것이다. 딕셔너리는 메모리를 많이 잡아먹는 단점이 있는데, 만약 수 백만개의 인스턴스를 생성한다면 그 만큼 사용되는 메모리가 매우 크게 증가한다는 것을 의미한다. <strong>클래스가 가지는 속성을 제한함으로써 최적화를 할 수 있으며</strong> 이 때 필요한 __slot__이라는 키워드에 대해서 정리해보자.</p>
+<h2 id="slots-이란"><a href="#slots-이란" class="headerlink" title="__slots__ 이란?"></a>__slots__ 이란?</h2><p>slots은 클래스가 가진 속성을 제한할때 사용한다. 클래스의 __dict__ 속성을 최적화하는 데에 사용할 수 있는데 <strong>기존의 딕셔너리로 관리하는 속성을 집합 형태의 Set으로 바꿈</strong>으로써 동작한다. <strong>메모리를 절약할 수 있다는 장점이 있다.</strong></p>
+<h2 id="코드로-살펴보는-slots"><a href="#코드로-살펴보는-slots" class="headerlink" title="코드로 살펴보는 __slots__"></a>코드로 살펴보는 __slots__</h2><p>slots를 사용하는 클래스와 그렇지 않은 클래스를 정의하고 인스턴스까지 생성한 뒤 각 인스턴스의 네임 스페이스를 살펴보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SlotClass</span>:</span></span><br><span class="line">  __slots__ = (<span class="string">'name'</span>, )</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NoSlotClass</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">slot = SlotClass()</span><br><span class="line">no_slot = NoSlotClass()</span><br><span class="line">no_slot.name = <span class="string">'a'</span></span><br><span class="line"></span><br><span class="line">slot.__dict__ <span class="comment"># 에러 - slots은 dict을 가지고 있지 않기 때문에</span></span><br><span class="line">no_slot.__dict__</span><br></pre></td></tr></table></figure>
+
+<p><strong>slot 인스턴스는 slots을 사용하고있기 때문에 더 이상 네임 스페이스를 __dict__을 통해서 관리하지 않는다.</strong> 메모리 사용량에 있어서 얼마나 차이가 있는지 실험을 해보자.</p>
+<h2 id="slots-사용-여부에-따른-메모리-사용량-비교"><a href="#slots-사용-여부에-따른-메모리-사용량-비교" class="headerlink" title="slots 사용 여부에 따른 메모리 사용량 비교"></a>slots 사용 여부에 따른 메모리 사용량 비교</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> timeit</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_time</span><span class="params">(obj)</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">      obj.name = <span class="string">'hello'</span></span><br><span class="line">      <span class="keyword">del</span> obj.name</span><br><span class="line">  <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">min(timeit.repeat(check_time(slot), number=<span class="number">10000000</span>)) <span class="comment"># 1.6706519379999918</span></span><br><span class="line">min(timeit.repeat(check_time(no_slot), number=<span class="number">10000000</span>)) <span class="comment"># 2.139917491999995</span></span><br></pre></td></tr></table></figure>
+
+<p>timeit 모듈의 repeat 함수를 이용했다. 인스턴스의 name 속성에 hello라는 문자열을 저장하는 작업을 천만번 수행하도록 했고 그 중에서 가장 짧은 시간이 출력되도록 했다. 결과는 큰 차이가 발생하진 않았지만 <strong>slots를 사용하지 않았을때 시간이 더 걸리는 것으로 보아 작업량이 더 많아 메모리를 더 점유한다고 생각할 수 있겠다.</strong></p>
+<h1 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h1><p>파이썬 클래스가 가지는 딕셔너리 형태의 속성은 런타임에도 임의의 새로운 속성을 추가할 수 있다는 유연성을 제공해주지만 더 많은 메모리를 사용한다는 단점도 가지고 있다. 클래스 속성을 딕셔너리로 관리하는 대신에 slots을 사용하여 고정된 속성 집합을 사용하게 함으로써 메모리 사용량을 줄이고 최적화 할 수 있다.</p>
+<p>정말 많은 객체를 생성할 거라고 예상되는 클래스는 slots으로 속성을 관리하는 것을 추천한다!!</p>
+<hr>
+<p>[참고]<br>패스트캠퍼스 강의</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/25/python/python-class-slots/" data-id="ckagvzmq5008zpx757mx6hp8s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/python-private-variable" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -200,7 +337,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/24/python/python-private-variable/" data-id="ckafeiu61009xgs7503wa8hv9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/24/python/python-private-variable/" data-id="ckagvzmqn00a0px754t66hz0s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -348,153 +485,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/23/python/python-class-first/" data-id="ckafeiu5o008sgs751kklebr2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/python-high-order-function" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/11/22/python/python-high-order-function/">[파이썬]고차함수</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/11/22/python/python-high-order-function/">
-            <time datetime="2019-11-22T04:32:14.000Z" itemprop="datePublished">2019-11-22</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><strong>파이썬에서 모든 것은 객체다.</strong> 라는 유명한 설명이 있다. 파이썬은 일급 객체를 지원하는 언어이며 아래와 같은 특징을 갖는다.</p>
-<ul>
-<li>런타임에서 초기화 가능</li>
-<li>변수 등에 할당 가능</li>
-<li>함수의 인자로 전달 가능</li>
-<li>함수의 결과값으로 사용 가능</li>
-</ul>
-<p>위와 같은 일급 객체의 특징을 가진 함수가 있다면 그것을 <strong>고차함수(Higher Order Function)</strong>이라고 부를 수 있으며 좀 더 특징을 다듬어 보자면</p>
-<ul>
-<li><strong>다른 함수를 생산/소비 하는 함수</strong></li>
-<li><strong>다른 함수를 인자로 받거나, 결과로 함수를 반환하는 함수</strong></li>
-</ul>
-<p>라고 할 수 있다.</p>
-<h2 id="정말-모든-것은-객체일까"><a href="#정말-모든-것은-객체일까" class="headerlink" title="정말 모든 것은 객체일까?"></a>정말 모든 것은 객체일까?</h2><p>간단한 함수를 만들고 타입을 확인하자.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">print(type(func), type(A))</span><br><span class="line"><span class="comment"># &lt;class 'function'&gt; &lt;class 'type'&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>출력된 값을 보면 둘 다 객체라는 것을 알 수 있다.</p>
-<h2 id="고차함수-예시"><a href="#고차함수-예시" class="headerlink" title="고차함수 예시"></a>고차함수 예시</h2><p>파이썬 빌트인 함수 중에서 대표적인 고차함수로 map이 있다. map 함수는 인자로서 <strong>함수</strong>와 <strong>순회가능한 객체</strong>를 받는다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">number_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">result = list(map(<span class="keyword">lambda</span> x: x ** <span class="number">2</span>, number_list))</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br>AskDjango<br><a href="https://itholic.github.io/etc-higer-order-function/" target="_blank" rel="external nofollow noopener noreferrer">https://itholic.github.io/etc-higer-order-function/</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/11/22/python/python-high-order-function/" data-id="ckafeiu5u0098gs758k7p1r2e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/23/python/python-class-first/" data-id="ckagvzmq2008spx7590go5gmj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -571,7 +562,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/15/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/17/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/15/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/17/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -602,7 +593,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -612,6 +603,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -637,15 +637,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

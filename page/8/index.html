@@ -215,7 +215,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-substitute-text-in-vim/" data-id="ckafeiu4p0053gs757whphl68" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-substitute-text-in-vim/" data-id="ckagvzmoa005bpx75czn0f943" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -376,7 +376,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/linux/lets-encrypt-for-ssl/" data-id="ckafeiu4u005igs75hlqofqej" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/lets-encrypt-for-ssl/" data-id="ckagvzmom005ppx759eh623eh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -452,7 +452,7 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-git/how-to-check-diff-when-git-commit" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux/how-to-redirect-http-to-https" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -460,7 +460,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/git/how-to-check-diff-when-git-commit/">[git]commit할 때 변경된 내용(diff) 출력하기</a>
+            <a class="article-title" href="/2020/05/13/linux/how-to-redirect-http-to-https/">[Nginx]Nginx를 사용할때 HTTP를 HTTPS로 리다이렉션하기</a>
         </h1>
     
 
@@ -469,8 +469,8 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/git/how-to-check-diff-when-git-commit/">
-            <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
+        <a href="/2020/05/13/linux/how-to-redirect-http-to-https/">
+            <time datetime="2020-05-13T09:09:40.052Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
 
@@ -478,7 +478,7 @@ ga('send', 'pageview');
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/git/">git</a>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
     </div>
 
                         
@@ -490,12 +490,12 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>vi를 통해 커밋 메세지를 작성할 때, 어떤 변경점이 있는 지 보고 작성하고 싶을 때가 많았다. 그래서 staging 하기 전에 <em>git diff</em> 명령어를 통해 보고 메세지를 작성하곤 했는데 <em>git commit</em>의 옵션을 통해 처리할 수 있었다. 그 방법은 간단하게 나마 정리해본다.</p>
-<h2 id="git-commit-v"><a href="#git-commit-v" class="headerlink" title="git commit -v"></a>git commit -v</h2><p><strong>-v 옵션</strong>을 사용하면 커밋할 때 변경사항들을 출력해준다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -v</span><br></pre></td></tr></table></figure>
+            <p>웹 서버로 Nginx를 사용할때 HTTP로 들어오는 요청을 HTTPS로 리다이렉션하는 방법을 정리한다.</p>
+<h3 id="방법"><a href="#방법" class="headerlink" title="방법"></a>방법</h3><p>80번 포트로 요청이 들어올 경우 동일한 주소이지만 HTTPS로 301 redirect 할 수 있도록 하면된다. <strong>80번 포트일때 처리할 block은 물론 당연히 HTTPS 요청을 처리하는 block로 필요하다!</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    return 301 https:&#x2F;&#x2F;$host$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name example.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><em>git diff –staged</em> 명령어를 통해서도 diff를 확인할 수 있다는 점을 알아두자. </p>
-<p><img src="https://user-images.githubusercontent.com/13075035/81502372-851d2780-9318-11ea-9bd2-2520a9bb3fae.png" alt></p>
+<hr>
+<p>[참고]<br><a href="https://rsec.kr/?p=182" target="_blank" rel="external nofollow noopener noreferrer">https://rsec.kr/?p=182</a><br><a href="https://www.psychz.net/client/question/ko/nginx-redirect-http-to-https.html" target="_blank" rel="external nofollow noopener noreferrer">https://www.psychz.net/client/question/ko/nginx-redirect-http-to-https.html</a></p>
 
         
         </div>
@@ -506,7 +506,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="ckafeiu4b0046gs758gkxeudq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-redirect-http-to-https/" data-id="ckagvzmod005epx75eiyk3gc0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -583,7 +583,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/7/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/9/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/7/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/9/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -614,7 +614,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -624,6 +624,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -649,15 +658,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

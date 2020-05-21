@@ -143,6 +143,144 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-django/django-uwsgi-service-registraion" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/05/03/django/django-uwsgi-service-registraion/">ubuntu 16.04 LTS에 uwsgi 서비스 등록하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/05/03/django/django-uwsgi-service-registraion/">
+            <time datetime="2019-05-02T15:40:31.000Z" itemprop="datePublished">2019-05-03</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/django/">django</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link" href="/tags/service/" rel="tag">service</a>, <a class="tag-link" href="/tags/ubuntu/" rel="tag">ubuntu</a>, <a class="tag-link" href="/tags/uwsgi/" rel="tag">uwsgi</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="ubuntu-16-04-LTS에-uwsgi-서비스-등록하기"><a href="#ubuntu-16-04-LTS에-uwsgi-서비스-등록하기" class="headerlink" title="ubuntu 16.04 LTS에 uwsgi 서비스 등록하기"></a>ubuntu 16.04 LTS에 uwsgi 서비스 등록하기</h1><p>nginx + uwsgi + django를 배포하다보면 uwsgi를 수동으로 구동하곤한다. 단지 배포과정을 공부하는 입장에서는 이 정도면 충분하다고 생각했다. 하지만 문제점이 있었는데 서버를 재부팅하면 nginx는 저절로 구동되지만 uwsgi는 그렇지 않았다. 그리 복잡하지 않았기에 수동으로 돌려주고 터미널을 끄는 식으로 하곤했지만 현재 운영하고 있는 서비스의 안정성을 위해서 systemd에 등록하는 방법으로 변경했던 과정을 정리한다.</p>
+<h3 id="uWSGI-자동실행하기"><a href="#uWSGI-자동실행하기" class="headerlink" title="uWSGI 자동실행하기"></a>uWSGI 자동실행하기</h3><h4 id="uWSGI-서비스-설정파일-작성"><a href="#uWSGI-서비스-설정파일-작성" class="headerlink" title="uWSGI 서비스 설정파일 작성"></a>uWSGI 서비스 설정파일 작성</h4><p>리눅스 서비스에 등록하기 위해서는 서비스 파일을 작성해야한다. 파일 경로는 /etc/systemd/system/uwsgi.service 에 하면된다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;uWSGI</span><br><span class="line">After&#x3D;syslog.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart&#x3D;&#x2F;root&#x2F;uwsgi&#x2F;uwsgi --ini &#x2F;etc&#x2F;uwsgi&#x2F;sites&#x2F;myproject.ini # ini의 경로로 입력</span><br><span class="line"># Requires systemd version 211 or newer</span><br><span class="line">RuntimeDirectory&#x3D;uwsgi</span><br><span class="line">Restart&#x3D;always</span><br><span class="line">KillSignal&#x3D;SIGQUIT</span><br><span class="line">Type&#x3D;notify</span><br><span class="line">StandardError&#x3D;syslog</span><br><span class="line">NotifyAccess&#x3D;all</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+<p>uwsgi의 systemd 공식문서를 참고했다. uwsgi를 미리 만들어준 ini파일과 실행하는 부분에 집중하자. 쉘에서 uwsgi를 실행하기 위해 입력하는 명령어와 다른 점은 uwsgi의 경로를 절대경로로 적어준 것이다. 그냥 uwsgi로만 적게되면 absolute path가 아니라는 에러가 발생하게 되는데 이게 주된 이유인지는 확실하지 않다. <strong>어찌됐든 uwsgi가 설치된 절대경로를 통해 실행해야 한다는 것에 유의하자.</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uwsgi가 설치된 절대경로와 옵션으로 입력할 ini 파일의 절대경로에 주의하며 적자.</span></span><br><span class="line">ExecStart=/root/uwsgi/uwsgi --ini /etc/uwsgi/sites/myproject.ini</span><br></pre></td></tr></table></figure>
+
+<p>서비스 파일 작성을 마쳤다면 이 파일을 가지고 등록과정을 거치면 된다. 여러가지 방법이 있는 것 같은데 간단하게 등록할 수 있는 방법을 먼저 익혀보았다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start uwsgi.service <span class="comment"># uwsgi.serivce 실행</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> uwsgi <span class="comment"># 심볼릭 링크 생성</span></span><br></pre></td></tr></table></figure>
+<p>enable 명령은 심볼릭 링크를 생성해주며 서비스에 등록되어 시스템을 재부팅하게 될 경우 uwsgi.service를 다시 실행시켜주는 것 같다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/05/03/django/django-uwsgi-service-registraion/" data-id="ckagvzmni002kpx752qnt8pfp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-django/django-runserver-deployment" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -200,7 +338,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/05/02/django/django-runserver-deployment/" data-id="ckafeiu3p0021gs755pbcgeyc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/05/02/django/django-runserver-deployment/" data-id="ckagvzmnb001wpx756fdz2gai" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -371,179 +509,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/05/02/django/django-nginx-uwsgi/" data-id="ckafeiu3q0022gs756njd4gpk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-django/django-uwsgi-2" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/05/01/django/django-uwsgi-2/">uwsgi와 함께하는 Django 배포하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/05/01/django/django-uwsgi-2/">
-            <time datetime="2019-05-01T02:09:01.000Z" itemprop="datePublished">2019-05-01</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/django/">django</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link" href="/tags/uwsgi/" rel="tag">uwsgi</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="uWSGI는-무엇일까"><a href="#uWSGI는-무엇일까" class="headerlink" title="uWSGI는 무엇일까?"></a>uWSGI는 무엇일까?</h2><p>python으로 웹 개발을 하려고하면 WSGI라는 걸 마주치기 마련이다. uWSGI란 WSGI라는 규칙을 따라서 만들어진 소프트웨어이며 <strong>정적인 웹 서버(Apache / Nginx)와 python으로 작성된 Web Framework(Flask / Django) 사이의 통신을 도와주는 역할</strong>을한다. </p>
-<p>그렇다면 WSGI라는 규칙은 무엇일까? 기본적으로 웹 서버는 HTTP 형식의 요청을 받아서 처리한 뒤 응답해주는 기능을 한다. 이와 같은 처리은 1차적으로 nginx를 통해 이루어지며 서버에서 처리해야 할 작업이 있다면 Django와 같은 WAS(Web Application Server)가 필요하다. 하지만 Django는 python으로 이루어져있기 때문에 HTTP 요청을 이해할 수 없는데 이때에 uWSGI와 같은 소프트웨어가 필요한 것이다. <strong>즉, 파이썬 어플리케이션이 웹 서버와 통신하기 위한 명세라고 보면 된다.</strong> </p>
-<blockquote>
-<p>즉, 파이썬 어플리케이션이 웹 서버와 통신하기 위한 명세가 WSGI인 것이다. </p>
-</blockquote>
-<p>uWSGI는 일종의 어플리케이션 컨테이너(Application Container)로써 동작한다고 볼 수 있다. 적재한 어플리케이션(Django)을 실행만 시켜주는 역할을 하기 때문이다. </p>
-<p>최종적으로 Django가 돌아가는 환경을 그려보면 아래와 같을 것이다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Client &lt;-&gt; Nginx &lt;-&gt; uWSGI &lt;-&gt; Django</span><br></pre></td></tr></table></figure>
-
-
-
-<p>uWSGI와 WSGI에 대해서 알아봤으니 Django와 uWSGI를 연동하는 방법에 대해서 알아보자. </p>
-<h4 id="설치하기"><a href="#설치하기" class="headerlink" title="설치하기"></a>설치하기</h4><p>uwsgi를 설치해야 한다. 파이썬 패키지 관리자로 설치 할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
-
-<p>uwsgi를 입력했을때 실행되었다가 바로 종료된다면 제대로 설치된 것이다.</p>
-<h4 id="Django-설정"><a href="#Django-설정" class="headerlink" title="Django 설정"></a>Django 설정</h4><p>Django 프로젝트를 생성하고 설정을 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">django-admin startproject myproject</span><br><span class="line"></span><br><span class="line"><span class="comment"># vi myproject/settings.py</span></span><br><span class="line">ALLOWED_HOSTS=[<span class="string">"*"</span>]</span><br></pre></td></tr></table></figure>
-
-<p>Django 서버를 돌렸을때 접근가능한 호스트를 적어준다. 해당하는 IP를 명시적으로 적어도 되고 위와 같이 모든 주소를 받겠다는 표시를 해도 된다. runserver를 통해 제대로 동작하는지 확인한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="uWSGI-설정"><a href="#uWSGI-설정" class="headerlink" title="uWSGI 설정"></a>uWSGI 설정</h4><p>uWSGI를 실행하여 Django와 연동해보자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --http :8001 --<span class="built_in">chdir</span> /home/ubuntu/myproject --module myproject.wsgi</span><br></pre></td></tr></table></figure>
-
-<p><strong>–chdir</strong> 옵션에 manage.py가 있는 Django 프로젝트의 경로를 적어준다. <strong>–module</strong> 옵션은 wsgi 파일을 입력해주면 되는데 프로젝트 이름과 같은 이름으로 적는다. 마지막 <strong>–http</strong> 옵션은 접속할 포트 번호를 적는다. 즉, 위와 같은 명령을 실행하면 서버의 아이피주소에 8001번 포트를 붙여서 접속할 수 있게된다. </p>
-<p>하지만 가상환경을 사용 중이라면 추가적인 옵션이 필요하다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --http :8001 --virtualenv /home/ubuntu/.pyenv/versions/3.7.3/envs/myvenv --<span class="built_in">chdir</span> /home/ubuntu/myproject --module myproject.wsgi</span><br></pre></td></tr></table></figure>
-
-<p>나머지 옵션은 동일하며 <strong>–virtualenv</strong> 옵션이 추가되었다. 사용중인 가상환경을 입력하자. 위 예시의 가상환경이름은 myvenv이다. uwsgi를 구동하기 위해서는 항상 위와 같이 번거로운 작업을 해야할까? <strong>.ini 확장자의 설정파일을 만들어서 uwsgi 실행에 필요한 옵션들을 관리할 수 있다.</strong></p>
-<h4 id="uWSGI-설정파일-만들기"><a href="#uWSGI-설정파일-만들기" class="headerlink" title="uWSGI 설정파일 만들기"></a>uWSGI 설정파일 만들기</h4><p>확장자는 ini이다. 하나의 머신에 여러 프로젝트를 사용할 수 있으므로 uWSGI를 위한 디렉토리를 만들고 설정파일을 모아서 관리하도록 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /etc/uwsgi/sites</span><br><span class="line">touch /etc/uwsgi/sites/myproject.ini</span><br></pre></td></tr></table></figure>
-
-<p>apt와 같은 패키지 매니저로 소프트웨어를 설치하는 것처럼 /etc 디렉터리 하위에 폴더를 생성해 주고 설정파일을 만들었다. 보통 어떤이름으로 만드는지 모르겠지만 Django 프로젝트와 같은 이름으로 생성해주었다.</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/uwsgi/sites/myproject.ini</span></span><br><span class="line"><span class="section">[uwsgi]</span></span><br><span class="line"><span class="attr">virtualenv</span> = /home/ubuntu/.pyenv/versions/<span class="number">3.7</span>.<span class="number">3</span>/envs/myvenv</span><br><span class="line"><span class="attr">chdir</span> = /home/ubuntu/myproject</span><br><span class="line"><span class="attr">module</span> = myproject.wsgi</span><br><span class="line"><span class="attr">http</span> = :<span class="number">8001</span></span><br></pre></td></tr></table></figure>
-
-<p>CLI 상에서 나열했던 옵션을 설정파일에 정의했다. 그리고 uwsgi를 실행할때 위의 옵션을 이용하여 구동하게 하면된다.</p>
-<h4 id="uWSGI-구동"><a href="#uWSGI-구동" class="headerlink" title="uWSGI 구동"></a>uWSGI 구동</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi -i /etc/uwsgi/sites/myproject.ini</span><br></pre></td></tr></table></figure>
-
-<p><strong>-i</strong> 옵션은 <strong>–ini</strong>의 약자이며 이전에 만든 설정파일을 이용해 uwsgi를 구동할 수 있게 해준다. uwsgi가 바로 꺼지지 않았다면 제대로 동작하는 것이다. </p>
-<p>지금까지 uWSGI와 Django를 연동하는 법을 알아보았다. uWSGI를 단독으로 사용하는 경우는 없다고 하며 앞 단에 Nginx와 같은 웹 서버를 두는 것이 일반적인 구성이라고 생각하면 될 것 같다. 그리고 현재까지 진행했던 방법으로는 부족한 면이 없지않아 있는데 그 이유는 uWSGI를 수동으로 작동시켜야 하기 때문이다. 이 와 같은 문제를 해결하려면 uWSGI를 구동하는 서비스를 등록해 주어야하며 나중에 정리하기로 하자.</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/05/01/django/django-uwsgi-2/" data-id="ckafeiu3v002hgs75dpesfbio" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/05/02/django/django-nginx-uwsgi/" data-id="ckagvzmnb001xpx75e560e3j9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -620,7 +586,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/23/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/25/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/23/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/25/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -651,7 +617,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -661,6 +627,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -686,15 +661,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

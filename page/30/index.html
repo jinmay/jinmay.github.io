@@ -143,6 +143,149 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-javascript/javascript-arrow-function" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/01/21/javascript/javascript-arrow-function/">화살표 함수</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/01/21/javascript/javascript-arrow-function/">
+            <time datetime="2019-01-21T00:52:12.000Z" itemprop="datePublished">2019-01-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/javascript/">javascript</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/es6/" rel="tag">es6</a>, <a class="tag-link" href="/tags/javascript/" rel="tag">javascript</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="화살표-표기법-함수"><a href="#화살표-표기법-함수" class="headerlink" title="화살표 표기법 함수"></a>화살표 표기법 함수</h1><p>es6에서 새로 등장한 arrow function이다. function이라는 단어와 중괄호 갯수를 줄이려고 했으며 보이는 것 뿐만아니라 this context와 같은 내부적인 중요한 차이도 있다.</p>
+<h5 id="arrow-function"><a href="#arrow-function" class="headerlink" title="arrow function"></a>arrow function</h5><ul>
+<li>function 키워드 생략가능</li>
+<li>매개변수가 하나라면 괄호 생략 가능</li>
+<li>함수 body가 식(expression) 하나라면 중괄호와  return 생략 가능</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> f1 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> f1 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="string">'hello'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> f2 = <span class="function"><span class="keyword">function</span>(<span class="params">nickname</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`Hello~! <span class="subst">$&#123;nickname&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> f2 = <span class="function">(<span class="params">nickname</span>) =&gt;</span> <span class="string">`Hello~! <span class="subst">$&#123;nickname&#125;</span>`</span>;</span><br><span class="line"><span class="keyword">const</span> f2 = <span class="function"><span class="params">nickname</span> =&gt;</span> <span class="string">`Hello~! <span class="subst">$&#123;nickname&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> f3 = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> f3 = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b;</span><br></pre></td></tr></table></figure>
+
+<h5 id="arrow-function의-this"><a href="#arrow-function의-this" class="headerlink" title="arrow function의 this"></a>arrow function의 this</h5><p>화살표 함수가 나오기 이전의 this에 대해서 먼저 살펴보자. </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    register() &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span> === <span class="built_in">window</span>) <span class="comment">// true</span></span><br><span class="line">            <span class="keyword">this</span>.pprint();</span><br><span class="line">        &#125;, <span class="number">200</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    pprint() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'print @-hello world-@'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj.register(); <span class="comment">// TypeError: this.pprint is not a function</span></span><br></pre></td></tr></table></figure>
+
+<p>에러가 발생했다. <strong>그 이유는 this가 obj에 걸린 것이 아닌 window에 묶여있기 때문이다(this === window의 콘솔 결과를 보면 알 수 있다). 이 때 bind(this)를 사용하거나 화살표 함수를 통해서 obj에 lexical하게 this를 묶을 수 있다.</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .bind()</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    register() &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.pprint();</span><br><span class="line">        &#125;.bind(<span class="keyword">this</span>), <span class="number">200</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    pprint() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'print @-hello world-@'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.register(); <span class="comment">// print @-hello world-@</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 화살표 함수</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    register() &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.pprint();</span><br><span class="line">        &#125;, <span class="number">100</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    pprint() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'print @-hello world-@'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.register(); <span class="comment">// print @-hello world-@</span></span><br></pre></td></tr></table></figure>
+
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/01/21/javascript/javascript-arrow-function/" data-id="ckagvzmo1004lpx7546ajdb1o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-javascript/javascript-map-weakmap" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -217,7 +360,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/01/20/javascript/javascript-map-weakmap/" data-id="ckafeiu4k004qgs759ohp7slh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/01/20/javascript/javascript-map-weakmap/" data-id="ckagvzmo3004spx75dmpnd2rr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -374,166 +517,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/01/18/javascript/javascript-set-weakset/" data-id="ckafeiu4m004xgs753jd49ach" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-javascript/javascript-array" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/01/17/javascript/javascript-array/">Array와 반복문</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/01/17/javascript/javascript-array/">
-            <time datetime="2019-01-17T00:40:56.000Z" itemprop="datePublished">2019-01-17</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/javascript/">javascript</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/es6/" rel="tag">es6</a>, <a class="tag-link" href="/tags/javascript/" rel="tag">javascript</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="배열-Array"><a href="#배열-Array" class="headerlink" title="배열(Array)"></a>배열(Array)</h1><p>자바스크립트에서 배열을 반복하는 방법엔 여러가지가 있다.</p>
-<h5 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = [<span class="number">1</span>, <span class="number">2</span>, <span class="literal">undefined</span>, <span class="string">""</span>];</span><br><span class="line">data.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// undefined</span></span><br><span class="line"><span class="comment">// ""</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="for-…-in"><a href="#for-…-in" class="headerlink" title="for … in"></a>for … in</h5><p>객체를 순회할때 사용한다. 과거에는 객체 뿐만아니라 array에도 사용을 했으며 <strong>프로토타입에 걸려있는 함수 또는 변수도 출력하기 때문에 주의를 요구한다.</strong> 프로토타입에 추가적으로 정의된 게 없다면 문제없지만 프로토타입에 아무것도 없다는 것을 보장하기 힘들기 때문에 배열에는 사용하지 않는 편이다. 만약 <strong>배열에 반복문을 사용하고 싶다면 es6에서 새로 추가된 for … of 반복문을 사용하는 것이 좋다.</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = &#123;</span><br><span class="line">    <span class="string">'a'</span>: <span class="number">1</span>, </span><br><span class="line">    <span class="string">'b'</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">'c'</span>: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> data) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key, data[key]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>for … in 구문은 객체의 key를 사용한다.</strong> 따라서 객체의 key에 따른 value를 얻기 위해서는 data[key]의 형식으로 적어주어야 한다. 앞서 말한것처럼 객체가 아닌 Array에 for … in 구문을 사용하게 되면 생각지 못했던 값이 출력될 수 있다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'d'</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">Array</span>.prototype.testFunc = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> data) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data[key]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 출력 결과</span></span><br><span class="line"><span class="comment">// 'a'</span></span><br><span class="line"><span class="comment">// 'b'</span></span><br><span class="line"><span class="comment">// 'd'</span></span><br><span class="line"><span class="comment">// function()&#123;&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="for-…-of"><a href="#for-…-of" class="headerlink" title="for … of"></a>for … of</h5><p>es6에서 추가된 반복문이다. 컬렉션의 요소에 루프를 실행하기 위해서 사용한다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = [<span class="number">1</span>, <span class="number">2</span>, <span class="literal">undefined</span>, <span class="string">""</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> data) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><strong>for … in 반복문과는 다르게 컬렉션의 값을 직접 사용할 수 있다.</strong> 뿐만아니라 문자열에도 사용할 수 있다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> data = <span class="string">"hello world"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> v <span class="keyword">of</span> data) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="spread-operator"><a href="#spread-operator" class="headerlink" title="spread operator"></a>spread operator</h2><p>파이썬의 <strong>튜플 패킹 / 언패킹</strong>과 비슷하게 작동한다.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> first = [<span class="string">'snake'</span>, <span class="string">'pig'</span>, <span class="string">'hello'</span>];</span><br><span class="line"><span class="keyword">let</span> newData = [...first];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(first); <span class="comment">// ['snake', 'pig', 'hello']</span></span><br><span class="line"><span class="built_in">console</span>.log(newData); <span class="comment">// ['snake', 'pig', 'hello']</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 결과는 같지만 서로 다른 배열임</span></span><br><span class="line"><span class="comment">// 기존의 참조를 끊고 새로 연결함</span></span><br><span class="line"><span class="built_in">console</span>.log(first === newData);</span><br></pre></td></tr></table></figure>
-
-<h5 id="삽입하기"><a href="#삽입하기" class="headerlink" title="삽입하기"></a>삽입하기</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> test = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>];</span><br><span class="line"><span class="keyword">let</span> data = [<span class="number">1</span>, <span class="number">2</span>, ...test, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(data); <span class="comment">// [1, 2, "a", "b", "c", "d", 3, 4]</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="인자로-풀어넣기"><a href="#인자로-풀어넣기" class="headerlink" title="인자로 풀어넣기"></a>인자로 풀어넣기</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mysum</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b + c;  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="built_in">console</span>.log(mysum(...data));</span><br></pre></td></tr></table></figure>
-
-<h5 id="가변인자"><a href="#가변인자" class="headerlink" title="가변인자"></a>가변인자</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMark</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 첫 번재 방법 - for 반복문과 arguments 객체 이용</span></span><br><span class="line">	<span class="keyword">let</span> result = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> idx=<span class="number">0</span>; idx&lt;<span class="built_in">arguments</span>.length; idx++) &#123;</span><br><span class="line">        result.push(<span class="built_in">arguments</span>[idx] + <span class="string">"!!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 두 번재 방법 - from과 map 그리고 arguments 객체 이용</span></span><br><span class="line">    <span class="keyword">let</span> newArray = <span class="built_in">Array</span>.from(<span class="built_in">arguments</span>);</span><br><span class="line">	<span class="keyword">let</span> result = newArray.map(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value + <span class="string">"!!"</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">console</span>.log(result);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">addMark(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>arguments 객체는 모든 함수 내에서 이용 가능한 지역변수이다.</strong> 보통은 함수에 인자가 몇 개 들어올 지 예상할 수 없을때 사용한다. <strong>arguments 객체는 Array처럼 생기긴 했지만 length 메소드 빼고는 어떤 Array 속성도 가지고 있지 않다고 한다.</strong> </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> result = <span class="built_in">arguments</span>.map(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> value + <span class="string">"!"</span>; </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>만약 두 번재 방법에서 위와 같이 사용했다면 에러가 발생할 것이다. <strong>왜냐하면 arguments 객체는 배열처럼 보일뿐 실제로 배열은 아니기 때문이다.</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/01/17/javascript/javascript-array/" data-id="ckafeiu4i004hgs7537z0h1dx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/01/18/javascript/javascript-set-weakset/" data-id="ckagvzmo5004ypx759u94gre8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -610,7 +594,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/29/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/31/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/29/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/31/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -641,7 +625,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -651,6 +635,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -676,15 +669,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

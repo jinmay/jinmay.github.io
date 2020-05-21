@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-python/python-type-hint" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-web/basic-of-dns" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/python/python-type-hint/">[python]파이썬의 타입 힌트</a>
+            <a class="article-title" href="/2020/05/13/web/basic-of-dns/">[DNS]DNS의 기초적인 작동방식</a>
         </h1>
     
 
@@ -160,8 +160,8 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/python/python-type-hint/">
-            <time datetime="2020-05-13T09:09:40.060Z" itemprop="datePublished">2020-05-13</time>
+        <a href="/2020/05/13/web/basic-of-dns/">
+            <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
 
@@ -169,7 +169,7 @@ ga('send', 'pageview');
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
+        <a class="article-category-link" href="/categories/web/">web</a>
     </div>
 
                         
@@ -181,28 +181,31 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>파이썬은 동적 타이핑 언어로서 코드를 작성하는 시점이 아닌 프로그램이 진행될때 자료형이 정해진다. 파이썬 버전 3.5부터 도입되기 시작되었으며 타입 힌트를 적용할 수 있는 범위가 점진적으로 넓어지고 있다.</p>
-<h2 id="typing-패키지"><a href="#typing-패키지" class="headerlink" title="typing 패키지"></a>typing 패키지</h2><p>파이썬에서 타입 힌트를 사용하기 위해 typing 모듈을 임포트해야 한다. 물론 밑의 예시처럼 *를 써서 모든 기능을 가져오는 것은 좋지 않다. 실제 사용시에는 필요한 것만 임포트할 수 있도록 한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-변수에-사용하기"><a href="#1-변수에-사용하기" class="headerlink" title="1. 변수에 사용하기"></a>1. 변수에 사용하기</h2><p>타입 힌트가 등장했던 3.5 버전에서는 사용이 불가하다. 3.6 이상부터 사용할 수 있다. 변수명 뒤에 자료형을 적어준다. 어떻게 보면 golang과 비슷한거 같기도 하다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text: str = <span class="string">'Hello world!!'</span></span><br><span class="line">num: int = <span class="number">123</span></span><br></pre></td></tr></table></figure>
-
-<p>만약 사용자가 직접 만든 클래스가 있다면 클래스의 인스턴스를 생성할때에도 적용할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">ins_a: Test = Test()</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-함수의-인자에-사용하기"><a href="#2-함수의-인자에-사용하기" class="headerlink" title="2. 함수의 인자에 사용하기"></a>2. 함수의 인자에 사용하기</h2><p>함수의 인자와 리턴에 타입 힌트를 적용할 수 있다. 어떠한 자료형의 인자를 받고 함수의 리턴형을 유추할 수 있도록 돕는다. 아래의 예시는 문자열 인자 title과 숫자형 인자 num을 사용하며 이 함수의 리턴형은 str이어야한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func</span><span class="params">(title: str, num: int)</span> -&gt; str:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-
-<p>만약 특정한 반환값이 없는 함수라면 이렇게 할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func1</span><span class="params">(text: str)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">  print(text)</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-리스트-딕셔너리-튜플"><a href="#3-리스트-딕셔너리-튜플" class="headerlink" title="3. 리스트 / 딕셔너리 / 튜플"></a>3. 리스트 / 딕셔너리 / 튜플</h2><p>리스트 / 딕셔너리 / 튜플을 타입 힌트로 표현하는 방법은 아래와 같다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">num_list = List[int]</span><br><span class="line">test_dict = Dict[str, int]</span><br><span class="line">test_tuple = Tuple(int)</span><br></pre></td></tr></table></figure>
-
-<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>파이썬 3.5부터 등장한 타입 힌트에 대해서 아주 간단하게 정리했다. 함수와 변수에서 사용되는 타입 힌트에 대해서만 나열했지만 사실은 더 많은 기능들이 존재한다. 또한 mypy라는 툴을 pip로 설치하여 같이 사용하면 정적 타입 검사기로써 사용할 수 있어 타입 힌트를 사용하는 데에 도움을 줄 수 있을 것이다.</p>
+            <p>DNS는 Domain Name System의 줄임말로써 도메인을 관리하는 시스템이다. DNS의 기본적인 작동방식에 대해서 정리한다.</p>
+<h2 id="1-DNS-서버에-ip-등록"><a href="#1-DNS-서버에-ip-등록" class="headerlink" title="1. DNS 서버에 ip 등록"></a>1. DNS 서버에 ip 등록</h2><p><strong>서비스 제공자는 ip를 DNS 서버에 입력해달라고 요청한다.</strong> 즉, <strong>“도메인 example.com은 ip 93.184.216.34를 의미한다”라고 저장해달라고 요청</strong>한다. 그리고 DNS 서버는 해당 정보를 저장한다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75007854-b9234200-54b9-11ea-83ec-721b621e5d03.png" alt></p>
+<h2 id="2-DHCP를-통해-DNS-서버-주소-할당"><a href="#2-DHCP를-통해-DNS-서버-주소-할당" class="headerlink" title="2. DHCP를 통해 DNS 서버 주소 할당"></a>2. DHCP를 통해 DNS 서버 주소 할당</h2><p>DHCP를 통해 클라이언트는 ip 뿐만 아니라 DNS 서버의 주소 / 서브넷 마스크 / 기본 게이트워이 등의 네트워크 정보를 할당 받는다. <strong>DHCP는 컴퓨터가 네트워크에 연결되는 순간 바로 실행되어 네트워크의 정보를 할당 받게 되며, 따라서 어떤 DNS 서버를 사용해야 하는지도 알게 된다.</strong></p>
+<p><a href="http://www.ciokorea.com/tags/25731/DHCP/39337" target="_blank" rel="external nofollow noopener noreferrer">참고</a></p>
+<h2 id="3-DNS로-도메인에-해당하는-ip-요청"><a href="#3-DNS로-도메인에-해당하는-ip-요청" class="headerlink" title="3. DNS로 도메인에 해당하는 ip 요청"></a>3. DNS로 도메인에 해당하는 ip 요청</h2><p>DHCP를 통해 DNS 서버를 알고있기 때문에 접속할 도메인의 ip가 무엇인지 물어본다. 즉, DNS 서버는 example.com의 ip주소인 93.184.216.34를 클라이언트에게 알려준다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75008872-8d558b80-54bc-11ea-8650-7c41f1941ffa.png" alt></p>
+<p>example.com의 ip 주소를 알게된 클라이언트는 ip 주소를 통해 해당 서비스에 접속할 수 있다.</p>
+<p><img src="https://user-images.githubusercontent.com/13075035/75009128-34d2be00-54bd-11ea-8953-7cf9480cbf42.png" alt></p>
+<h2 id="DNS-이용의-장점"><a href="#DNS-이용의-장점" class="headerlink" title="DNS 이용의 장점"></a>DNS 이용의 장점</h2><ul>
+<li>hosts 파일을 관리하는 수고를 덜어준다.</li>
+<li>도메인의 ip 주소가 변경되어도 DNS 서버에서만 바꾸면된다.</li>
+</ul>
+<h2 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h2><ul>
+<li><p>클라이언트가 네트워크에 연결되는 순간 DHCP가 작동하여 ip를 물어볼 DNS 서버를 알게된다.</p>
+</li>
+<li><p>네이버에 접속하는 순간 다음의 두 과정을 거친다.</p>
+<ol>
+<li>DNS 서버에게 naver.com의 ip 주소를 물어본다.</li>
+<li>DNS 서버로부터 naver.com의 ip 주소를 받고 해당 ip로 접속한다.</li>
+</ol>
+</li>
+</ul>
 <hr>
-<p>[참고]<br><a href="https://item4.blog/2017-09-14/Python-Typing-with-mypy/" target="_blank" rel="external nofollow noopener noreferrer">https://item4.blog/2017-09-14/Python-Typing-with-mypy/</a><br><a href="https://minwook-shin.github.io/python-type-hint-typing-using-mypy/" target="_blank" rel="external nofollow noopener noreferrer">https://minwook-shin.github.io/python-type-hint-typing-using-mypy/</a><br><a href="https://lewisxyz000.tistory.com/35" target="_blank" rel="external nofollow noopener noreferrer">https://lewisxyz000.tistory.com/35</a></p>
+<p>[참고]<br><a href="https://www.youtube.com/watch?v=iM07I1X7qkg&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=6" target="_blank" rel="external nofollow noopener noreferrer">https://www.youtube.com/watch?v=iM07I1X7qkg&amp;list=PLuHgQVnccGMCI75J-rC8yZSVGZq3gYsFp&amp;index=6</a><br><a href="https://jwprogramming.tistory.com/35" target="_blank" rel="external nofollow noopener noreferrer">https://jwprogramming.tistory.com/35</a><br><a href="http://www.ciokorea.com/tags/25731/DHCP/39337" target="_blank" rel="external nofollow noopener noreferrer">http://www.ciokorea.com/tags/25731/DHCP/39337</a></p>
 
         
         </div>
@@ -213,7 +216,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/python/python-type-hint/" data-id="ckafeiu6200a0gs759x637zzo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/web/basic-of-dns/" data-id="ckagvzmqz00aupx7591tcdmxj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -349,7 +352,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/python/selenium-click-does-not-work/" data-id="ckafeiu6300a5gs75apaf7wy8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/python/selenium-click-does-not-work/" data-id="ckagvzmqr00a6px75cqyhhosc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -425,7 +428,7 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-python/python-abstract-class" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-python/python-type-hint" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -433,7 +436,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/python/python-abstract-class/">[파이썬]추상클래스</a>
+            <a class="article-title" href="/2020/05/13/python/python-type-hint/">[python]파이썬의 타입 힌트</a>
         </h1>
     
 
@@ -442,8 +445,8 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/python/python-abstract-class/">
-            <time datetime="2020-05-13T09:09:40.058Z" itemprop="datePublished">2020-05-13</time>
+        <a href="/2020/05/13/python/python-type-hint/">
+            <time datetime="2020-05-13T09:09:40.060Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
 
@@ -463,22 +466,28 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="추상클래스란"><a href="#추상클래스란" class="headerlink" title="추상클래스란?"></a>추상클래스란?</h2><p><del>추상화된 클래스이다.</del> 상속받을 서브 클래스를 위한 클래스이다. 공통된 속성(필드, 메소드)을 가지는 것은 일반적인 클래스와 같으며 아래와 같은 차이점(특징)이 있다.</p>
-<ul>
-<li>객체를 생성할 수 없다.</li>
-<li>서브클래스에서 메소드의 구현을 강제한다.</li>
-</ul>
-<h2 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h2><p>일반 abc 모듈이 필요하다(abc는 Abstract Base Class의 약자)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 추상클래스</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomMachine</span><span class="params">(abc.ABC)</span>:</span></span><br><span class="line"></span><br><span class="line"><span class="meta">  @abc.abstractmethod</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, iterable)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">  @abc.abstractmethod</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">pick</span><span class="params">(self, iterable)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inspect</span><span class="params">(self)</span>:</span></span><br><span class="line">    items = []</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            items.append(self.pick())</span><br><span class="line">        <span class="keyword">except</span> LookupError:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> tuple(sorted(items))</span><br><span class="line"></span><br><span class="line"><span class="comment"># a = RandomMachine()</span></span><br><span class="line"><span class="comment"># TypeError: Can't instantiate abstract class RandomMachine with abstract methods load, pick</span></span><br></pre></td></tr></table></figure>
+            <p>파이썬은 동적 타이핑 언어로서 코드를 작성하는 시점이 아닌 프로그램이 진행될때 자료형이 정해진다. 파이썬 버전 3.5부터 도입되기 시작되었으며 타입 힌트를 적용할 수 있는 범위가 점진적으로 넓어지고 있다.</p>
+<h2 id="typing-패키지"><a href="#typing-패키지" class="headerlink" title="typing 패키지"></a>typing 패키지</h2><p>파이썬에서 타입 힌트를 사용하기 위해 typing 모듈을 임포트해야 한다. 물론 밑의 예시처럼 *를 써서 모든 기능을 가져오는 것은 좋지 않다. 실제 사용시에는 필요한 것만 임포트할 수 있도록 한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
 
-<p>추상클래스를 만들기 위해서는 abc.ABC를 상속 받아야한다. 만약 파이썬 3.4 이전 버전을 사용 중이라면 아래와 같이 상속받아야 한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomMachine</span><span class="params">(metaclass=abcABCMeta)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h2 id="1-변수에-사용하기"><a href="#1-변수에-사용하기" class="headerlink" title="1. 변수에 사용하기"></a>1. 변수에 사용하기</h2><p>타입 힌트가 등장했던 3.5 버전에서는 사용이 불가하다. 3.6 이상부터 사용할 수 있다. 변수명 뒤에 자료형을 적어준다. 어떻게 보면 golang과 비슷한거 같기도 하다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text: str = <span class="string">'Hello world!!'</span></span><br><span class="line">num: int = <span class="number">123</span></span><br></pre></td></tr></table></figure>
 
-<p>@abc.abstractmethod 데코레이터를 통해서 서브클래스에서 강제할 메소드를 만들어 주었다. 만약 메소드를 생성하지 않았다면 객체를 생성하는 시점에서 에러가 발생할 것이다.</p>
-<p>이제 실제로 사용할 클래스를 생성해보자.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NumberMachine</span><span class="params">(RandomMachine)</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, items)</span>:</span></span><br><span class="line">    self._randomizer = random.SystemRandom()</span><br><span class="line">    self._items = []</span><br><span class="line">    self.load(items)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, items)</span>:</span></span><br><span class="line">    self._items.extend(items)</span><br><span class="line">    self._randomizer.shuffle(self._items)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">pick</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      <span class="keyword">return</span> self._items.pop()</span><br><span class="line">    <span class="keyword">except</span> IndexError:</span><br><span class="line">      <span class="keyword">raise</span> LookupError(<span class="string">'에러!!'</span>)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.pick()</span><br><span class="line"></span><br><span class="line">ins = NumberMachine(range(<span class="number">1</span>, <span class="number">101</span>))</span><br><span class="line">ins()</span><br></pre></td></tr></table></figure>
+<p>만약 사용자가 직접 만든 클래스가 있다면 클래스의 인스턴스를 생성할때에도 적용할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">ins_a: Test = Test()</span><br></pre></td></tr></table></figure>
 
-<p>NumberMachine 클래스를 정의했고 추상클래스에서 강제한 메소드를 구현했다. 만약 load와 pick 메소드 중에서 하나라도 구현이 되어 있지 않는다면 TypeError가 발생한다. 그리고 객체를 호출가능하게 만들기 위해 __call__ 특별 메소드도 구현했다.</p>
+<h2 id="2-함수의-인자에-사용하기"><a href="#2-함수의-인자에-사용하기" class="headerlink" title="2. 함수의 인자에 사용하기"></a>2. 함수의 인자에 사용하기</h2><p>함수의 인자와 리턴에 타입 힌트를 적용할 수 있다. 어떠한 자료형의 인자를 받고 함수의 리턴형을 유추할 수 있도록 돕는다. 아래의 예시는 문자열 인자 title과 숫자형 인자 num을 사용하며 이 함수의 리턴형은 str이어야한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func</span><span class="params">(title: str, num: int)</span> -&gt; str:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>만약 특정한 반환값이 없는 함수라면 이렇게 할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func1</span><span class="params">(text: str)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">  print(text)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-리스트-딕셔너리-튜플"><a href="#3-리스트-딕셔너리-튜플" class="headerlink" title="3. 리스트 / 딕셔너리 / 튜플"></a>3. 리스트 / 딕셔너리 / 튜플</h2><p>리스트 / 딕셔너리 / 튜플을 타입 힌트로 표현하는 방법은 아래와 같다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">num_list = List[int]</span><br><span class="line">test_dict = Dict[str, int]</span><br><span class="line">test_tuple = Tuple(int)</span><br></pre></td></tr></table></figure>
+
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>파이썬 3.5부터 등장한 타입 힌트에 대해서 아주 간단하게 정리했다. 함수와 변수에서 사용되는 타입 힌트에 대해서만 나열했지만 사실은 더 많은 기능들이 존재한다. 또한 mypy라는 툴을 pip로 설치하여 같이 사용하면 정적 타입 검사기로써 사용할 수 있어 타입 힌트를 사용하는 데에 도움을 줄 수 있을 것이다.</p>
+<hr>
+<p>[참고]<br><a href="https://item4.blog/2017-09-14/Python-Typing-with-mypy/" target="_blank" rel="external nofollow noopener noreferrer">https://item4.blog/2017-09-14/Python-Typing-with-mypy/</a><br><a href="https://minwook-shin.github.io/python-type-hint-typing-using-mypy/" target="_blank" rel="external nofollow noopener noreferrer">https://minwook-shin.github.io/python-type-hint-typing-using-mypy/</a><br><a href="https://lewisxyz000.tistory.com/35" target="_blank" rel="external nofollow noopener noreferrer">https://lewisxyz000.tistory.com/35</a></p>
 
         
         </div>
@@ -489,7 +498,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/python/python-abstract-class/" data-id="ckafeiu5m008kgs757i9c6fo0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/python/python-type-hint/" data-id="ckagvzmqp00a1px75b0x849ix" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -566,7 +575,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -597,7 +606,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -607,6 +616,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -632,15 +650,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

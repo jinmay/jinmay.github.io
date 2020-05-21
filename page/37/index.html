@@ -143,6 +143,155 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-ckan/sysadmin" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/10/04/ckan/sysadmin/">[CKAN]시스템 어드민 계정 생성 및 테스트</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/10/04/ckan/sysadmin/">
+            <time datetime="2018-10-04T01:41:44.000Z" itemprop="datePublished">2018-10-04</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/ckan/">ckan</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ckan/" rel="tag">ckan</a>, <a class="tag-link" href="/tags/sysadmin/" rel="tag">sysadmin</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h4 id="ckan의-시스템-어드민은-sysadmin-유저와-데이터셋을-관리하는-역할을-한다-대부분의-기능은-web-ui를-통해서-가능하지만-그렇지-않은-경우도-있다-ckan-페이지의-config-file-수정과-같은-일은-cli를-통해서-서버에-접속해야만-사용할-수-있다"><a href="#ckan의-시스템-어드민은-sysadmin-유저와-데이터셋을-관리하는-역할을-한다-대부분의-기능은-web-ui를-통해서-가능하지만-그렇지-않은-경우도-있다-ckan-페이지의-config-file-수정과-같은-일은-cli를-통해서-서버에-접속해야만-사용할-수-있다" class="headerlink" title="ckan의 시스템 어드민은(sysadmin) 유저와 데이터셋을 관리하는 역할을 한다. 대부분의 기능은 web ui를 통해서 가능하지만 그렇지 않은 경우도 있다. ckan 페이지의 config file 수정과 같은 일은 cli를 통해서 서버에 접속해야만 사용할 수 있다."></a>ckan의 시스템 어드민은(sysadmin) 유저와 데이터셋을 관리하는 역할을 한다. 대부분의 기능은 web ui를 통해서 가능하지만 그렇지 않은 경우도 있다. ckan 페이지의 config file 수정과 같은 일은 cli를 통해서 서버에 접속해야만 사용할 수 있다.</h4><blockquote>
+<p>시스템 어드민은 모든 조직에 접속할 수 있다. 유저의 정보도 확인 및 수정 가능하고 데이터셋 삭제도 가능하다. 때문에 sysadmin의 관리에 주의해야한다. </p>
+</blockquote>
+<h2 id="시스템-어드민-계정-생성하기"><a href="#시스템-어드민-계정-생성하기" class="headerlink" title="시스템 어드민 계정 생성하기"></a>시스템 어드민 계정 생성하기</h2><p>어드민 계정을 생성하는 방법에는 <strong>1. 새로운 어드민 계정 생성 2. 기존의 유저에 어드민 권한 부여</strong> 두 가지가 있다. </p>
+<blockquote>
+<p>paster 명령어를 사용하기 위해 가상환경을 activate 해야한다</p>
+<p>. /usr/lib/ckan/default/bin/activate</p>
+<p>cd /usr/lib/ckan/default/src/ckan</p>
+</blockquote>
+<p>어드민 유저를 생성하기 위해 아래와 같은 명령어를 입력한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster sysadmin add admin_test email=admin_test@example.com name=admin_test -c /etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
+
+<p>email과 name을 입력할 수 있는데 알아서 적어준다. 참고로 나중에 user page에서 수정할 수 있다. 계정을 생성할때 비밀번호를 적어야 하는데 총 두번 입력하면 된다. 만약 이미 사용중인 계정에 어드민 권한을 부여하고 싶다면 아래와 같이 한다 : </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster sysadmin add admin_test -c /etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
+
+<p>##</p>
+<h3 id="테스트-데이터-생성"><a href="#테스트-데이터-생성" class="headerlink" title="테스트 데이터 생성"></a>테스트 데이터 생성</h3><p>ckan이 잘 돌아가는 지 테스트 데이터 생성을 통해 알아볼 수 있다. 커맨드는 create-test-data 이다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster create-test-data -c /etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
+
+
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/10/04/ckan/sysadmin/" data-id="ckagvzmmz000spx754u8h9mwj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-ckan/datastore" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -267,7 +416,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/10/04/ckan/datastore/" data-id="ckafeiu38000lgs75gl88bmv5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/10/04/ckan/datastore/" data-id="ckagvzmmy000opx75e9ytdsev" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -527,150 +676,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/09/30/ckan/ckan/" data-id="ckafeiu37000igs759hw935k1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-javascript/nvm-install" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/08/26/javascript/nvm-install/">맥북에 nvm 설치하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/08/26/javascript/nvm-install/">
-            <time datetime="2018-08-26T08:09:30.000Z" itemprop="datePublished">2018-08-26</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/javascript/">javascript</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/es6/" rel="tag">es6</a>, <a class="tag-link" href="/tags/javascript/" rel="tag">javascript</a>, <a class="tag-link" href="/tags/nvm/" rel="tag">nvm</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="macOS에-nvm-노드-버전-매니저-설치하기"><a href="#macOS에-nvm-노드-버전-매니저-설치하기" class="headerlink" title="macOS에 nvm(노드 버전 매니저) 설치하기"></a>macOS에 nvm(노드 버전 매니저) 설치하기</h1><p>맥북에 node를 설치하려고 찾던중, 파이썬의 pyenv 처럼 노드 버전을 관리할 수 있는 툴이 있을 것 같아서 찾아보았다. nvm이 라는 툴이 있었고 brew를 이용하여 맥북에 설치하는 과정을 간단하게 정리해본다.</p>
-<ol>
-<li><p>brew 업데이트 및 nvm 설치<br>언제나 그렇듯이 homebrew를 사용하기 전에 앞서서 업데이트를 해주고 nvm을 설치한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br><span class="line">brew install nvm</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>설치과정<br>nvm을 설치하면 이것저것 뭘 하라는 안내가 나오는데 디렉토리 생성과 쉘 설정을 추가하라는 내용이다. nvm을 위한 working directory가 없으면 생성하고 bashrc나 zshrc와 같은 현재 사용중인 쉘의 설정파일에 내용을 추가하는 것이다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 디렉토리 생성</span></span><br><span class="line">mkdir ~/.nvm</span><br><span class="line"></span><br><span class="line"><span class="comment"># .zshrc 편집</span></span><br><span class="line"><span class="built_in">export</span> NVM_DIR=<span class="string">"<span class="variable">$HOME</span>/.nvm"</span></span><br><span class="line">. <span class="string">"/usr/local/opt/nvm/nvm.sh"</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>마무리<br>터미널을 종료하고 다시 실행하거나 쉘을 재시작해주고 nvm이 제대로 설치 되었는지 확인해 본다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shell 재시작</span></span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># nvm 설치확인</span></span><br><span class="line">nvm</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>지금까지 잘 따라왔다면 여러 노드환경을 사용하기 위한 준비는 끝났다. nvm의 기본 사용법에 대해서 알아보자.</p>
-<h2 id="nvm"><a href="#nvm" class="headerlink" title="nvm"></a>nvm</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 설치된 노드버전 출력</span></span><br><span class="line">nvm list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 노드 설치</span></span><br><span class="line"><span class="comment"># 원하는 노드 버전을 적어준다</span></span><br><span class="line">nvm install (node_version)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 노드 설치 - lts 버전</span></span><br><span class="line">nvm install --lts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 원하는 노드버전 사용</span></span><br><span class="line">nvm use (node_version)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 노드 사용 - lts 버전</span></span><br><span class="line">nvm use --lts</span><br></pre></td></tr></table></figure>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/08/26/javascript/nvm-install/" data-id="ckafeiu4o0052gs750iwhg6ef" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/09/30/ckan/ckan/" data-id="ckagvzmmw000ipx752vgl54ow" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -747,7 +753,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/36/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/38/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/36/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/38/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -778,7 +784,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -788,6 +794,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -813,15 +828,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

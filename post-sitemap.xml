@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://jinmay.github.io/2020/05/21/etc/vs-code-collapse-blocks/</loc>
+        <lastmod>2020-05-21T14:44:47.577Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jinmay.github.io/2020/05/20/git/how-to-amend-git-commit/</loc>
         <lastmod>2020-05-20T13:47:58.375Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -48,7 +56,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2020/05/13/git/github-action/</loc>
+        <loc>https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -56,7 +64,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/</loc>
+        <loc>https://jinmay.github.io/2020/05/13/git/github-action/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -72,7 +80,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/08/23/javascript/for-statement-es6/</loc>
+        <loc>https://jinmay.github.io/2018/01/05/hexo/settings-hexo/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -80,7 +88,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/01/05/hexo/settings-hexo/</loc>
+        <loc>https://jinmay.github.io/2018/08/23/javascript/for-statement-es6/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -96,7 +104,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/01/17/javascript/javascript-array/</loc>
+        <loc>https://jinmay.github.io/2019/01/21/javascript/javascript-arrow-function/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -104,7 +112,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/01/21/javascript/javascript-arrow-function/</loc>
+        <loc>https://jinmay.github.io/2019/01/17/javascript/javascript-array/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -152,23 +160,15 @@
     </url>
 
     <url>
+        <loc>https://jinmay.github.io/2019/01/09/jquery/jquery-wrapall/</loc>
+        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jinmay.github.io/2018/08/26/javascript/nvm-install/</loc>
-        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jinmay.github.io/2020/05/13/linux/how-to-substitute-text-in-vim/</loc>
-        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jinmay.github.io/2018/06/19/linux/install-add-apt-repository/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -184,7 +184,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/01/09/jquery/jquery-wrapall/</loc>
+        <loc>https://jinmay.github.io/2020/05/13/linux/how-to-substitute-text-in-vim/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -193,6 +193,22 @@
 
     <url>
         <loc>https://jinmay.github.io/2020/05/13/linux/how-to-redirect-http-to-https/</loc>
+        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/2018/06/19/linux/install-add-apt-repository/</loc>
+        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/2018/06/22/linux/install-java-in-centos/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -240,14 +256,6 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/06/22/linux/install-java-in-centos/</loc>
-        <lastmod>2020-05-13T09:59:30.103Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/2019/03/21/linux/linux-command-vi/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -256,7 +264,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/11/05/linux/linux-enable-rabbitmq-management/</loc>
+        <loc>https://jinmay.github.io/2019/03/06/linux/linux-commands-of-yum/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -264,7 +272,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/03/06/linux/linux-commands-of-yum/</loc>
+        <loc>https://jinmay.github.io/2019/11/05/linux/linux-enable-rabbitmq-management/</loc>
         <lastmod>2020-05-13T09:59:30.103Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -416,6 +424,14 @@
     </url>
 
     <url>
+        <loc>https://jinmay.github.io/2020/05/13/aws/where-is-aws-code-deploy-logs/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jinmay.github.io/2018/11/01/ckan/ckan-harvest-implement/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -425,14 +441,6 @@
 
     <url>
         <loc>https://jinmay.github.io/2018/10/26/ckan/ckan-datapusher/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jinmay.github.io/2020/05/13/aws/where-is-aws-code-deploy-logs/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -456,7 +464,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/10/04/ckan/datastore/</loc>
+        <loc>https://jinmay.github.io/2018/10/26/ckan/filestore/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -464,7 +472,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/10/26/ckan/filestore/</loc>
+        <loc>https://jinmay.github.io/2018/10/04/ckan/datastore/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -512,22 +520,6 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/11/13/django/django-form-is-valid-mechanism-brief/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jinmay.github.io/2019/10/10/django/django-macos-with-rabbitmq/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/2020/05/13/django/django-collectstatic-yes/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -536,7 +528,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2020/05/13/django/django-queryset-update/</loc>
+        <loc>https://jinmay.github.io/2019/10/10/django/django-macos-with-rabbitmq/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -560,6 +552,22 @@
     </url>
 
     <url>
+        <loc>https://jinmay.github.io/2019/11/13/django/django-form-is-valid-mechanism-brief/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/2020/05/13/django/django-queryset-update/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jinmay.github.io/2019/10/12/django/django-secret-key-management/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -569,6 +577,22 @@
 
     <url>
         <loc>https://jinmay.github.io/2019/11/09/django/django-select-prefetch-related/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/2019/03/11/django/django-static-file-serving-temp/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/2019/05/01/django/django-uwsgi-2/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -592,31 +616,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/05/01/django/django-uwsgi-2/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/2019/03/14/django/django-uwsgi/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jinmay.github.io/2019/03/11/django/django-static-file-serving-temp/</loc>
-        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jinmay.github.io/2018/06/18/django/how-to-log-django/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -632,7 +632,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/06/19/docker/delete-container-image/</loc>
+        <loc>https://jinmay.github.io/2018/06/18/django/how-to-log-django/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -641,6 +641,14 @@
 
     <url>
         <loc>https://jinmay.github.io/2019/10/17/docker/docker-dockerfile-build/</loc>
+        <lastmod>2020-05-13T09:59:30.102Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jinmay.github.io/2018/06/19/docker/delete-container-image/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -672,7 +680,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2020/05/13/docker/how-to-use-docker-command-without-sudo/</loc>
+        <loc>https://jinmay.github.io/2018/01/04/etc/welcome-xD/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -680,7 +688,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/01/04/etc/welcome-xD/</loc>
+        <loc>https://jinmay.github.io/2020/05/13/docker/how-to-use-docker-command-without-sudo/</loc>
         <lastmod>2020-05-13T09:59:30.102Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -704,7 +712,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2020/05/13/web/cookies-and-session/</loc>
+        <loc>https://jinmay.github.io/2020/05/13/web/hosts-file/</loc>
         <lastmod>2020-05-13T09:09:40.062Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -712,7 +720,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2020/05/13/web/hosts-file/</loc>
+        <loc>https://jinmay.github.io/2020/05/13/web/cookies-and-session/</loc>
         <lastmod>2020-05-13T09:09:40.062Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -856,7 +864,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/11/19/python/python-closure-decorator/</loc>
+        <loc>https://jinmay.github.io/2019/11/21/python/python-copy-deepcopy/</loc>
         <lastmod>2020-05-13T09:09:40.059Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -864,7 +872,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/11/21/python/python-copy-deepcopy/</loc>
+        <loc>https://jinmay.github.io/2019/11/19/python/python-closure-decorator/</loc>
         <lastmod>2020-05-13T09:09:40.059Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -952,7 +960,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/12/02/python/python-caution-of-parameter/</loc>
+        <loc>https://jinmay.github.io/2019/11/23/python/python-class-first/</loc>
         <lastmod>2020-05-13T09:09:40.058Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -960,7 +968,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2019/11/23/python/python-class-first/</loc>
+        <loc>https://jinmay.github.io/2019/12/02/python/python-caution-of-parameter/</loc>
         <lastmod>2020-05-13T09:09:40.058Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -976,7 +984,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/</loc>
+        <loc>https://jinmay.github.io/2018/12/11/network/daily-network-third-layer/</loc>
         <lastmod>2020-05-13T09:09:40.057Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -984,7 +992,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/12/11/network/daily-network-third-layer/</loc>
+        <loc>https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/</loc>
         <lastmod>2020-05-13T09:09:40.057Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -1008,14 +1016,6 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2020/01/09/data-structure/python-queue/</loc>
-        <lastmod>2020-05-13T09:09:40.056Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://jinmay.github.io/2020/01/10/data-structure/python-stack/</loc>
         <lastmod>2020-05-13T09:09:40.056Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -1024,7 +1024,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/04/10/network/basic-of-network/</loc>
+        <loc>https://jinmay.github.io/2020/01/09/data-structure/python-queue/</loc>
         <lastmod>2020-05-13T09:09:40.056Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -1040,6 +1040,14 @@
     </url>
 
     <url>
+        <loc>https://jinmay.github.io/2018/04/10/network/basic-of-network/</loc>
+        <lastmod>2020-05-13T09:09:40.056Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jinmay.github.io/2018/11/30/network/daily-network-basic/</loc>
         <lastmod>2020-05-13T09:09:40.056Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -1048,7 +1056,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/12/07/network/daily-network-basic2/</loc>
+        <loc>https://jinmay.github.io/2018/12/09/network/daily-network-first-layer/</loc>
         <lastmod>2020-05-13T09:09:40.056Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -1056,7 +1064,7 @@
     </url>
 
     <url>
-        <loc>https://jinmay.github.io/2018/12/09/network/daily-network-first-layer/</loc>
+        <loc>https://jinmay.github.io/2018/12/07/network/daily-network-basic2/</loc>
         <lastmod>2020-05-13T09:09:40.056Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>

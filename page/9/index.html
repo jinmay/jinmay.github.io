@@ -212,7 +212,137 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action/" data-id="ckafeiu48003wgs7517520ha2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action/" data-id="ckagvzmnx0046px754dqn8ht8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-git/how-to-check-diff-when-git-commit" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/git/how-to-check-diff-when-git-commit/">[git]commit할 때 변경된 내용(diff) 출력하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/git/how-to-check-diff-when-git-commit/">
+            <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/git/">git</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>vi를 통해 커밋 메세지를 작성할 때, 어떤 변경점이 있는 지 보고 작성하고 싶을 때가 많았다. 그래서 staging 하기 전에 <em>git diff</em> 명령어를 통해 보고 메세지를 작성하곤 했는데 <em>git commit</em>의 옵션을 통해 처리할 수 있었다. 그 방법은 간단하게 나마 정리해본다.</p>
+<h2 id="git-commit-v"><a href="#git-commit-v" class="headerlink" title="git commit -v"></a>git commit -v</h2><p><strong>-v 옵션</strong>을 사용하면 커밋할 때 변경사항들을 출력해준다. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -v</span><br></pre></td></tr></table></figure>
+
+<p><em>git diff –staged</em> 명령어를 통해서도 diff를 확인할 수 있다는 점을 알아두자. </p>
+<p><img src="https://user-images.githubusercontent.com/13075035/81502372-851d2780-9318-11ea-9bd2-2520a9bb3fae.png" alt></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="ckagvzmny0049px759k4ea0fz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -344,199 +474,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/" data-id="ckafeiu49003zgs75e6897nn3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-git/github-action-syntax" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/git/github-action-syntax/">[Github]깃허브의 CI툴인 Actions의 문법 간단 정리</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/git/github-action-syntax/">
-            <time datetime="2020-05-13T09:09:40.048Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/git/">git</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>GitHub Actions의 Workflow syntax에 대해서 정리한다.</p>
-<h3 id="workflow-예시-전체-코드"><a href="#workflow-예시-전체-코드" class="headerlink" title="workflow 예시 전체 코드"></a>workflow 예시 전체 코드</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># https://help.github.com/en/actions/automating-your-workflow-with-github-actions/configuring-a-workflow</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">Greet</span> <span class="string">Everyone</span></span><br><span class="line"><span class="attr">on:</span> <span class="string">[push]</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">Greeting</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Hello</span> <span class="string">world</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/hello-world-javascript-action@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">who-to-greet:</span> <span class="string">'Mona the Octocat'</span></span><br><span class="line">        <span class="attr">id:</span> <span class="string">hello</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Echo</span> <span class="string">the</span> <span class="string">greeting's</span> <span class="string">time</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">'The time was $<span class="template-variable">&#123;&#123; steps.hello.outputs.time &#125;&#125;</span>.'</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="name"><a href="#name" class="headerlink" title="name"></a>name</h3><p>필수 필드 아님.</p>
-<p>workflow의 이름을 지정할 수 있다. 이 workflow의 이름은 actions의 페이지에 나타난다. name을 지정하지 않으면 workflow 파일이 저장된 경로 이름으로 자동으로 지정된다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Greet</span> <span class="string">Everyone</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="on"><a href="#on" class="headerlink" title="on"></a>on</h3><p>필수필드. workflow을 수행하게하는 github 내의 이벤트를 지정해야한다. 간단하게는 문자열로 시작해서 array의 형태로 지정할 수 있다. 사용가능한 이벤트의 종류는 <a href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows" target="_blank" rel="external nofollow noopener noreferrer">여기</a>서 확인할 수 있다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># push일 때 수행</span></span><br><span class="line"><span class="attr">on:</span> <span class="string">push</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># push / PR일 때 수행</span></span><br><span class="line"><span class="attr">on:</span> <span class="string">[push,</span> <span class="string">pull_request]</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="1-on-lt-push-pull-request-gt-lt-branches-tags-gt"><a href="#1-on-lt-push-pull-request-gt-lt-branches-tags-gt" class="headerlink" title="1. on.&lt;push|pull_request&gt;.&lt;branches|tags&gt;"></a>1. on.&lt;push|pull_request&gt;.&lt;branches|tags&gt;</h4><p>특정한 브랜치일때만 수행할 수 있도록 설정도 가능하다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># master 브랜치에 push할 때</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># master 브랜치로 PR 할 때</span></span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-
-<p>push / PR 이벤트를 사용할때, 특정한 브랜치 또는 태그에 대해서만 workflow를 실행하도록 설정할 수 있다. branches / branches-ignore / tags / tags-ignore를 event의 glob pattern(글롭 패턴) 또한 사용할 수 있다. 자세한 필터 설정은 <a href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet" target="_blank" rel="external nofollow noopener noreferrer">여기</a>를 참고.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'mona/octocat'</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'releases/**'</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">tags:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">v1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">v1.*</span></span><br></pre></td></tr></table></figure>
-
-<p>주의해야할 점으로는 branches / branches-ignore를 같이 쓸 수 없다. 마찬가지로 tags / tags-ignore도 같이 사용할 수 없다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches-ignore:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'mona/octocat'</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'releases/**-alpha'</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">tags-ignore:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">v1.*</span></span><br></pre></td></tr></table></figure>
-
-<p>포함시켜야 하는 것과 그렇지 않은 것을 조건으로서 함께 사용하려면 느낌표(!)를 사용해야 한다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'releases/**'</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'!releases/**-alpha'</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-on-lt-push-pull-request-gt-paths"><a href="#2-on-lt-push-pull-request-gt-paths" class="headerlink" title="2. on.&lt;push|pull_request&gt;.paths"></a>2. on.&lt;push|pull_request&gt;.paths</h4><p>업데이트된 파일 경로를 이벤트 트리거로서 지정할 수도 있다. 아래의 예시는 docs/ 폴더 아래의 파일들에 대해서 작업을하고 push를 하면 workflow를 수행하지 않는다. <strong>docs/ 폴더 밖에서 적어도 하나의 파일이 수정되었을때 push 했을 경우 workflow가 수행된다.</strong></p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">paths-ignore:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'docs/**'</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="3-on-schedule"><a href="#3-on-schedule" class="headerlink" title="3. on.schedule"></a>3. on.schedule</h4><p>crontab 처럼 POSIX unix time을 활용하여 스케쥴링 할 수 있다. 스케쥴링 가능한 최소 인터벌 시간은 5분이다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 매 15분 마다 워크플로우 수행</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">schedule:</span></span><br><span class="line">    <span class="comment"># yml 파일에서 *는 특수 문자이기 때문에 꼭 따옴표로 감싸주어야 함</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">cron:</span> <span class="string">'*/15 * * * *'</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="env"><a href="#env" class="headerlink" title="env"></a>env</h3><p><strong>job과 step에서 사용가능한 환경변수의 map이다.</strong> 모든 job과 step에 공통적으로 사용가능한 환경 변수를 지정할 수 있으며 각각의 job / step에서만 사용할 수 있는 환경 변수 설정도 가능하다(jobs.<job_id>.env과 jobs.<job_id>.step.env).</job_id></job_id></p>
-<p>전역 / job / step의 환경 변수를 설정할 수 있는데, 일반적인 프로그래밍처럼 환경 변수의 이름이 같다면 더 작은 범위의 환경변수를 사용하게 된다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="attr">SERVER:</span> <span class="string">production</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="job"><a href="#job" class="headerlink" title="job"></a>job</h3><p>워크플로우는 하나 이상의 job으로 이루어져있다. <strong>job은 기본적으로 병렬적으로 수행되기 때문에 여러개의 job이 순차적으로 실행되지 않는 점에 유의해야 한다.</strong></p>
-<h4 id="1-jobs"><a href="#1-jobs" class="headerlink" title="1. jobs."></a>1. jobs.<job_id></job_id></h4><p>모든 job은 job_id를 가지고 있다. job_id는 문자열이어야 한다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">my_first_job:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">My</span> <span class="string">first</span> <span class="string">job</span></span><br><span class="line">  <span class="attr">my_second_job:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">My</span> <span class="string">second</span> <span class="string">job</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-jobs-name"><a href="#2-jobs-name" class="headerlink" title="2. jobs..name"></a>2. jobs.<job_id>.name</job_id></h4><p>Github에 표시되는 job 이름이다.</p>
-<h4 id="3-jobs-needs"><a href="#3-jobs-needs" class="headerlink" title="3. jobs..needs"></a>3. jobs.<job_id>.needs</job_id></h4><p>job은 병렬적으로 실행되기 때문에 동기적으로 실행해야 한다면 needs 조건을 주어야 한다. 문자열 또는 문자열의 array타입이 값으로 사용된다. 만약 조건이 되는 job이 실패하면 그 job을 필요로하는 모든 job은 실행되지 않는다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">job1:</span></span><br><span class="line">  <span class="attr">job2:</span></span><br><span class="line">    <span class="attr">needs:</span> <span class="string">job1</span></span><br><span class="line">  <span class="attr">job3:</span></span><br><span class="line">    <span class="attr">needs:</span> <span class="string">[job1,</span> <span class="string">job2]</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="4-jobs-runs-on"><a href="#4-jobs-runs-on" class="headerlink" title="4. jobs..runs-on"></a>4. jobs.<job_id>.runs-on</job_id></h4><p><strong>필수필드이다.</strong> job이 실행될 머신의 타입을 의미한다. 머신의 타입에는 GitHub-hosted runner와 self-hosted runner 두 가지 타입이 있다. GitHub-hosted runner를 사용하면 아래의 가상환경을 사용할 수 있다. 중요한 점으로 각각의 job은 독립된 가상환경으로 구분되어 있다는 것이다. 즉, job1과 job2는 서로 다른 도커 컨테이너에서 구동된다고 생각하면 된다.</p>
-<p><img src="https://user-images.githubusercontent.com/13075035/73546396-82d94080-4480-11ea-87a9-9ccb0e134513.png" alt="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idruns-on"></p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="5-jobs-env"><a href="#5-jobs-env" class="headerlink" title="5. jobs..env"></a>5. jobs.<job_id>.env</job_id></h4><p>job_id에서 사용할 환경 변수이다. job 아래의 모든 step에서 사용가능하고 전역적으로 선언된 env를 오버라이딩한다.</p>
-<h4 id="6-jobs-if"><a href="#6-jobs-if" class="headerlink" title="6. jobs..if"></a>6. jobs.<job_id>.if</job_id></h4><p>job을 수행하는 조건을 지정한다. Actions에서 사용되는 표현식은 <a href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/contexts-and-expression-syntax-for-github-actions" target="_blank" rel="external nofollow noopener noreferrer">여기</a>에서 참고하자.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">github.base_ref</span> <span class="string">==</span> <span class="string">'master'</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="7-jobs-steps"><a href="#7-jobs-steps" class="headerlink" title="7. jobs..steps"></a>7. jobs.<job_id>.steps</job_id></h4><p>job은 step이라고 불리는 일련의 작업들을 가진다. step은 리눅스 명령어를 실행할 수 있을 뿐만 아니라 다른 action 등을 실행할 수 있다. step은 자체 프로세스 안에서 수행되기 때문에 각 step 사이에서의 환경 변수의 변화는 유지되지 않는다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Greeting</span> <span class="string">from</span> <span class="string">Mona</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> <span class="string">push</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">my-job:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">My</span> <span class="string">Job</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Print</span> <span class="string">a</span> <span class="string">greeting</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">MY_VAR:</span> <span class="string">Hi</span> <span class="string">there!</span> <span class="string">My</span> <span class="string">name</span> <span class="string">is</span></span><br><span class="line">          <span class="attr">FIRST_NAME:</span> <span class="string">Mona</span></span><br><span class="line">          <span class="attr">MIDDLE_NAME:</span> <span class="string">The</span></span><br><span class="line">          <span class="attr">LAST_NAME:</span> <span class="string">Octocat</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">$MY_VAR</span> <span class="string">$FIRST_NAME</span> <span class="string">$MIDDLE_NAME</span> <span class="string">$LAST_NAME.</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="8-jobs-steps-if"><a href="#8-jobs-steps-if" class="headerlink" title="8. jobs..steps.if"></a>8. jobs.<job_id>.steps.if</job_id></h4><p>각 step은 job 처럼 실행 조건을 가질 수 있다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">steps:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">My</span> <span class="string">first</span> <span class="string">step</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">github.event_name</span> <span class="string">==</span> <span class="string">'pull_request'</span> <span class="string">&amp;&amp;</span> <span class="string">github.event.action</span> <span class="string">==</span> <span class="string">'unassigned'</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">echo</span> <span class="string">This</span> <span class="string">event</span> <span class="string">is</span> <span class="string">a</span> <span class="string">pull</span> <span class="string">request</span> <span class="string">that</span> <span class="string">had</span> <span class="string">an</span> <span class="string">assignee</span> <span class="string">removed.</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="9-jobs-steps-run"><a href="#9-jobs-steps-run" class="headerlink" title="9. jobs..steps.run"></a>9. jobs.<job_id>.steps.run</job_id></h4><p>os의 shell을 통해 커맨드라인 명령어를 실행한다. step의 name을 명시하지 않았다면 run 의 내용이 자동으로 step의 이름으로 지정된다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># single line</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">  <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># multi line</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Clean</span> <span class="string">install</span> <span class="string">dependencies</span> <span class="string">and</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">    <span class="string">npm</span> <span class="string">ci</span></span><br><span class="line">    <span class="string">npm</span> <span class="string">run</span> <span class="string">build</span></span><br></pre></td></tr></table></figure>
-
-<p>working-directory 키워드를 사용해서 쉘 명령어가 실행될 디렉토리도 지정 가능하다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Clean</span> <span class="string">temp</span> <span class="string">directory</span></span><br><span class="line">  <span class="attr">run:</span> <span class="string">rm</span> <span class="string">-rf</span> <span class="string">*</span></span><br><span class="line">  <span class="attr">working-directory:</span> <span class="string">./temp</span></span><br></pre></td></tr></table></figure>
-
-<p>쉘을 변경할 수 있다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">steps:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Display</span> <span class="string">the</span> <span class="string">path</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">echo</span> <span class="string">$PATH</span></span><br><span class="line">    <span class="attr">shell:</span> <span class="string">bash</span></span><br><span class="line">    <span class="comment"># python / pwsh / cmd / powershell</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="10-jobs-steps-env"><a href="#10-jobs-steps-env" class="headerlink" title="10. jobs..steps.env"></a>10. jobs.<job_id>.steps.env</job_id></h4><p>step안에서 사용할 환경 변수를 만든다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">steps:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">My</span> <span class="string">first</span> <span class="string">action</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">      <span class="attr">GITHUB_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">      <span class="attr">FIRST_NAME:</span> <span class="string">Mona</span></span><br><span class="line">      <span class="attr">LAST_NAME:</span> <span class="string">Octocat</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#name" target="_blank" rel="external nofollow noopener noreferrer">https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#name</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action-syntax/" data-id="ckafeiu48003sgs759iildcoh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/" data-id="ckagvzmnw0043px75gcii5veg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -613,7 +551,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -644,7 +582,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -654,6 +592,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -679,15 +626,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

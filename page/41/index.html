@@ -143,6 +143,167 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-docker/docker" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/06/04/docker/docker/">기초적인 Docker 사용법</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/06/04/docker/docker/">
+            <time datetime="2018-06-03T16:01:55.000Z" itemprop="datePublished">2018-06-04</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/docker/">docker</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/container/" rel="tag">container</a>, <a class="tag-link" href="/tags/docker/" rel="tag">docker</a>, <a class="tag-link" href="/tags/virtualization/" rel="tag">virtualization</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="docker-기본"><a href="#docker-기본" class="headerlink" title="docker 기본"></a>docker 기본</h1><p>도커는 컨테이너 기반의 오픈소스 가상화 플랫폼이다. 기존의 가상화 방식인 OS 가상화가 아닌 프로세스를 격리하는 방식이다. OS 가상화와 같은 전/반 가상화 방식은 추가적인 운영체제를 설치해야하기 때문에 성능상의 손실이 크게 발생한다. 그러나 도커의 경우 기존에 리눅스에 존재하던 cgroup과 lxc를 개량하여 프로세스를 격리하는 방식을 취하기 때문에 성능상의 손실이 전가상화 보다 적은 편이다.</p>
+<p>위에서 언급한 장점과 또 다른 여러 장점들을 포함해 DevOps개념이 퍼지게 되면서 도커의 대중성이 커지게 되었다고 생각한다.</p>
+<h2 id="명령어"><a href="#명령어" class="headerlink" title="명령어"></a>명령어</h2><h3 id="이미지-목록-삭제"><a href="#이미지-목록-삭제" class="headerlink" title="이미지 목록 / 삭제"></a>이미지 목록 / 삭제</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br><span class="line">docker rmi &lt;image_name&gt;</span><br></pre></td></tr></table></figure>
+<p>현재 도커에 설치되어 있는 이미지들을 확인할 수 있다. 또한 <strong>rmi 명령어를 통해 이미지를 삭제할 수 있다.</strong></p>
+<h3 id="이미지-검색"><a href="#이미지-검색" class="headerlink" title="이미지 검색"></a>이미지 검색</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search &lt;iamge_name&gt;</span><br></pre></td></tr></table></figure>
+<p>docker hub에 있는 이미지들을 검색한다.</p>
+<h3 id="컨테이너-생성"><a href="#컨테이너-생성" class="headerlink" title="컨테이너 생성"></a>컨테이너 생성</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker create -it --name &lt;container_name&gt; &lt;image_name&gt;</span><br></pre></td></tr></table></figure>
+<p>컨테이너를 생성하는 방법에는 생성과 동시에 실행하는 docker 명령어와 <strong>컨테이너를 생성만 하는 docker create 명령어가 있다.</strong> 단지 컨테이너를 만들기만 할뿐 실행을 하지는 않기 때문에 demon으로 돌리는 -d 옵션은 존재하지 않는다.</p>
+<h3 id="컨테이너-출력"><a href="#컨테이너-출력" class="headerlink" title="컨테이너 출력"></a>컨테이너 출력</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+<p>현재 실행중인 이미지들을 출력한다. 옵션으로 <strong>-a</strong>을 주게되면 죽어있는 프로세스도 볼 수 있다.</p>
+<h3 id="컨테이너-실행"><a href="#컨테이너-실행" class="headerlink" title="컨테이너 실행"></a>컨테이너 실행</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run </span><br><span class="line">docker run -dit --name &lt;alias_name&gt;</span><br></pre></td></tr></table></figure>
+<p>도커 이미지를 실행한다. 첫 번째줄과 같이 실행을 하게 되면 실행과 동시에 프로세스가 죽게되며 <strong>docker ps -a</strong>명령어를 통해 확인할 수 있다. 옵션을 하나씩 살펴보면 <strong>d</strong>는 데몬으로 실행함을 의미하며 <strong>i</strong>는 인터렉티브 모드로 실행함을 <strong>t</strong>는 tty를 실행할 것임을 의미힌다. 또한 뒤의 <strong>–name</strong>는 alias 처럼 별칭을 주는 역할을 한다. </p>
+<p>-d 옵션을 주면 백그라운드에서 데몬이 돌기 때문에 docker run -dit로 실행하게 되면 bash를 실행해도 바로 shell이 뜨지 않는다. <strong>run</strong>과 <strong>create</strong> 명령어의 차이를 알아보자.</p>
+<ol>
+<li><p>create<br>docker pull(이미지가 없을때) &gt; docker create<br>docker create 명령어는 도커 이미지를 pull한 뒤에 컨테이너를 생성만 할뿐 start / attach 를 실행하지 않는다. 보통 컨테이너를 생성함과 동시에 시작하기 때문에 run 명령어를 더 자주 사용한다.</p>
+</li>
+<li><p>run<br>docker pull(이미지가 없을때) &gt; docker create &gt; docker start &gt; docker attach -it<br>docker run 명령어는 컨테이너를 생성과 동시에 실행하고 attach 하기 때문에(-it 옵션) 컨테이너 내부로 들어간다.</p>
+</li>
+</ol>
+<h3 id="컨테이너-접속"><a href="#컨테이너-접속" class="headerlink" title="컨테이너 접속"></a>컨테이너 접속</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker attach &lt;name&gt;</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p>생성한 컨테이너 안으로 들어간다. <name>에 해당하는 부분에는 위에서 지어준 별칭을 통해서도 접근이 가능하다. 접속한 컨테이너로 부터 나오고 싶으면 <strong>exit</strong>를 입력하면 된다. 여기서 알고 넘어가야 할 것은 <strong>attach를 통해 컨테이너에 접속후 exit를 입력해서 컨테이너를 빠져 나오게되면 프로세스가 자동으로 죽는 다는 것이다.</strong> 그리고 docker ps를 통해 상태를 확인해보면 COMMAND 항목이 있는데 attach로 컨테이너에 들어갔을때 실행되는 환경이다. <strong>예를 들면 nodejs를 pull 해올 경우 COMMAND가 /bin/bash가 아니라 node환경이기 때문에 docker attach 명령어를 통해 컨테이터에 접속할 경우 bash창이 아닌 js를 실행할 수 있는 nodejs 환경을 볼 수 있을 것이다.</strong> </name></p>
+<h3 id="컨테이너-접속-2"><a href="#컨테이너-접속-2" class="headerlink" title="컨테이너 접속(2)"></a>컨테이너 접속(2)</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker start &lt;name&gt;</span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;name&gt; bash</span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;name&gt; <span class="built_in">echo</span> hello world <span class="comment"># hello world 출력</span></span><br></pre></td></tr></table></figure>
+<p>보통 컨테이너에 접속하게 될 때, <strong>attach 보다는 start를 이용하는 편이라고 한다.</strong> 우선 start 명령어를 통해 도커 컨테이너를 실행시켜 놓고 <strong>exec 명령어로 interactive / tty 옵션을 주어서 bash 쉘로 접속하는 방법이다. exec 명령어를 통해 컨테이너에 접속을 하게되면 exit로 나갈경우에도 컨테이너가 종료되지 않고 계속해서 남아있다.</strong> exec 명령어는 단순히 말 그대로 적혀있는 명령어를 한 번 실행할 뿐이다. 보통 bash 쉘을 접속하기 위해 bash를 적는 편이지만 계속해서 실행할 필요없이 한 번의 커맨드만 필요로 한다면 exec를 사용하면 된다.</p>
+<h3 id="컨테이너-검사"><a href="#컨테이너-검사" class="headerlink" title="컨테이너 검사"></a>컨테이너 검사</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect &lt;name&gt;</span><br></pre></td></tr></table></figure>
+<p>해당 컨테이너의 설정(path, ip) 값들을 확인할 수 있다. </p>
+<h3 id="이미지-생성"><a href="#이미지-생성" class="headerlink" title="이미지 생성"></a>이미지 생성</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit &lt;from_container&gt; &lt;to_image_name&gt;</span><br></pre></td></tr></table></figure>
+<p>나만의 도커 이미지를 생성할 수 있다. </p>
+<h3 id="컨테이너-실행-중지"><a href="#컨테이너-실행-중지" class="headerlink" title="컨테이너 실행 / 중지"></a>컨테이너 실행 / 중지</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker start &lt;container_name&gt;</span><br><span class="line">docker stop &lt;container_name&gt;</span><br></pre></td></tr></table></figure>
+<p>이미지로 생성된 도커의 컨테이너를 실행하고 중지한다. stop으로 중지시킨 컨테이너는 일반적인 ps 명령어를 통해 볼 수 없으며 <strong>docker ps -a</strong> 통해 출력할 수 있다. </p>
+<h3 id="컨테이너-삭제"><a href="#컨테이너-삭제" class="headerlink" title="컨테이너 삭제"></a>컨테이너 삭제</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm &lt;container_name&gt;</span><br></pre></td></tr></table></figure>
+<p>생성된 컨테이너를 삭제한다. 다만, 컨테이너가 실행되지 않은 상태에서만 일반적으로 사용 가능하며 강제로 지우는 방법은 따로 존재한다. </p>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p>Dockerfile은 도커 이미지를 생성하기 위한 설정 파일이다. Dockerfile에 설정한대로 이미지를 편리하게 생성하는 데 도움을 준다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/06/04/docker/docker/" data-id="ckagvzmnn0034px75cm6tempv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-mysql/basic-of-mysql" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -296,7 +457,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/04/17/mysql/basic-of-mysql/" data-id="ckafeiu580070gs753s2013u4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/04/17/mysql/basic-of-mysql/" data-id="ckagvzmpa0075px758vex216k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -473,197 +634,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/" data-id="ckafeiu5f007sgs750vx8f6sk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-network/transport-layer-of-tcp-ip" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/12/network/transport-layer-of-tcp-ip/">TCP/IP 4계층 - 트랜스포트 계층</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/04/12/network/transport-layer-of-tcp-ip/">
-            <time datetime="2018-04-12T03:17:26.000Z" itemprop="datePublished">2018-04-12</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/network/">network</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="트랜스포트-계층"><a href="#트랜스포트-계층" class="headerlink" title="트랜스포트 계층"></a>트랜스포트 계층</h1><p>컴퓨터 안까지 들어온 데이터를 각 애플리케이션까지 전달하는 것이 트랜스포트 계층의 역할이다. 여러 컴퓨터로부터 받은 데이터들은 트랜스포트 계층에서 포트번호에 의해 분류되고 각 포트번호에 맞는 애플리케이션으로 전달된다. </p>
-<h2 id="트랜스포트-계층-프로토콜"><a href="#트랜스포트-계층-프로토콜" class="headerlink" title="트랜스포트 계층 프로토콜"></a>트랜스포트 계층 프로토콜</h2><p>두 가지의 대표 프로토콜이 있다.</p>
-<ol>
-<li><p>TCP</p>
-<ul>
-<li>웹이나 이메일같이 데이터가 정확하게 전달되어야 하는 통신에 사용된다. </li>
-<li>Transmission Control Protocol</li>
-<li>수신지의 통신 상태를 확인하고 제대로 전송이 안됐을 경우 재전송하는 기능도 한다.</li>
-<li>높은 신뢰성 - 패킷 전송여부 확인</li>
-</ul>
-</li>
-<li><p>UDP</p>
-<ul>
-<li>VoIP나 동영상 스트리밍처럼 전송 속도가 중요한 통신에 사용된다.</li>
-<li>User Datagram Protocol</li>
-<li>낮은 신뢰성 - 패킷 전송여부 미확인</li>
-</ul>
-</li>
-</ol>
-<h1 id="역할"><a href="#역할" class="headerlink" title="역할"></a>역할</h1><ol>
-<li><p>애플리케이션에 데이터를 전달한다.<br>인터넷 계층과의 차이점을 알아두어야 할 것 같다. <strong>트랜스포트 계층</strong>은 컴퓨터가 받은 데이터를 애플리케이션에 전달하는 역할을 가지며, <strong>인터넷 계층</strong>은 데이터를 수신지 컴퓨터까지 전달하는 것이다. </p>
-</li>
-<li><p>포트번호로 애플리케이션을 구분한다.<br>인터넷 계층을 통해 들어온 데이터를 애플리케이션에 전달해야 하는데 이때에 포트번호를 이용해서 각 애플리케이션을 구분한다. 인터넷 계층에서 프로토콜 번호가 6번이면 TCP로, 17번이면 UDP를 통해 트랜스포트 계층으로 전달되고 각 애플리케이션의 포트번호를 가지고 어떠한 애플리케이션으로 데이터를 전달할지 구분한다.</p>
-</li>
-</ol>
-<h1 id="포트번호"><a href="#포트번호" class="headerlink" title="포트번호"></a>포트번호</h1><ul>
-<li><p>포트 번호는 컴퓨터 내부의 수신지를 표현한다.<br>인터넷 계층이 전달한 여러 종류의 패킷이 트랜스포트 계층으로 전될되는데 해당하는 어플리케이션에 다시 전달하기 위해서 포트번호를 사용한다.</p>
-<blockquote>
-<p>ip_addr/post-no.</p>
-</blockquote>
-</li>
-<li><p>포트 번호의 범위<br>포트 번호는 0 ~ 65535번 까지 사용할 수 있으며 세 종류로 나누기도 한다.</p>
-<ol>
-<li>well-known ports : 서버 프로그램이 수신 대기할때 사용하는 포트번호</li>
-<li>registered ports : 벤더가 할당받아 사용하는 포트번호</li>
-<li>dynamic ports : 클라이언트 프로그램이 동적으로 할당받아 사용하는 포트번호. 때문에 미리 알수 없는 특징이 있다.</li>
-</ol>
-</li>
-</ul>
-<h2 id="클라이언트-서버-접속-과정"><a href="#클라이언트-서버-접속-과정" class="headerlink" title="클라이언트 - 서버 접속 과정"></a>클라이언트 - 서버 접속 과정</h2><p>클라이언트 - 서버가 서로 통신하는 과정은 다음과 같다.</p>
-<ol>
-<li><p>클라이언트가 사용할 포트를 먼저 정한다</p>
-<ul>
-<li>이때에 사용되는 포트구분은 dynamic 포트이다</li>
-</ul>
-</li>
-<li><p>서버의 포트에 접속한다.</p>
-<ul>
-<li>HTTP의 경우 80번 포트로 대기중인데 클라이언트가 동적으로 할당받은 포트번호를 가지고 서버에 접속을 요청하게 된다.</li>
-</ul>
-</li>
-<li><p>접속 완료</p>
-<ul>
-<li>웹 서버가 접속을 허용하면 통신 가능한 상태가 되고 통신이 종료되면 클라이언트는 할당 받은 포트를 반납한다.</li>
-</ul>
-</li>
-</ol>
-<p>또한 서버는 IP주소와 포트 번호로 요청하는 상대방을 식별한다. 서버는 수신 대기를 위해 고정된 포트 번호를 사용하지만, 접속을 요청한 클라이언트들은 각기 다른 포트번호를 사용한다. 이때에 서버는 서로 다른 클라이언트들을 구분하기 위해 IP주소와 포트번호를 사용하여 혼선없이 통신한다.</p>
-<h1 id="TCP-Transmission-Control-Protocol"><a href="#TCP-Transmission-Control-Protocol" class="headerlink" title="TCP(Transmission Control Protocol)"></a>TCP(Transmission Control Protocol)</h1><p>데이터 전송에 신뢰성을 더하기 위해 데이터를 세그먼트(segment) 단위로 분할하고, 전송 속도를 조정하며, 데이터가 제대로 전달되지 않았을 경우 재전송을 한다. </p>
-<p>커넥션을 맺는 과정으로 3단계가 있다. 3방향 핸드셰이크(3-way handshake)라고 부르며, 커넥션이 맺어지면 데이터를 전송할 수 있는 상태가 되고, 데이터 전송이 끝나면 커넥션을 끊는다.(SYN / ACK / FIN)</p>
-<h1 id="UDP-User-Datagram-Protocol"><a href="#UDP-User-Datagram-Protocol" class="headerlink" title="UDP(User Datagram Protocol)"></a>UDP(User Datagram Protocol)</h1><p>통신 과정에서 데이터의 손실이 발생할 수 있는데, VoIP와 같은 음성 서비스나 동영상 스트리밍 서비스는 일부 데이터가 누락되거나 왜곡되더라도 큰 문제가 없기 때문에 UDP를 주로 사용한다.</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/04/12/network/transport-layer-of-tcp-ip/" data-id="ckafeiu5g007xgs753y90bdmo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/" data-id="ckagvzmpq007xpx758ksggsbe" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -740,7 +711,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/40/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/42/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/40/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/42/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -771,7 +742,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -781,6 +752,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -806,15 +786,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

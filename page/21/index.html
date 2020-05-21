@@ -143,6 +143,192 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-linux/linux-how-to-install-erlang-on-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/10/11/linux/linux-how-to-install-erlang-on-ubuntu/">우분투에 Erlang 설치하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/10/11/linux/linux-how-to-install-erlang-on-ubuntu/">
+            <time datetime="2019-10-10T15:32:19.000Z" itemprop="datePublished">2019-10-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="우분투에-Erlang-설치하기"><a href="#우분투에-Erlang-설치하기" class="headerlink" title="우분투에 Erlang 설치하기"></a>우분투에 Erlang 설치하기</h1><blockquote>
+<p>우분투 16.04</p>
+</blockquote>
+<p>우분투 16.04 버전에 Erlang 설치하는 과정을 정리해보자. Erlang을 사용하진 않지만 RabbitMQ가 erlang으로 되어있기 때문에 필수적으로 설치를 선행해야한다.</p>
+<h3 id="Install-Erlang-from-an-Apt-Repostory-on-Bintray"><a href="#Install-Erlang-from-an-Apt-Repostory-on-Bintray" class="headerlink" title="Install Erlang from an Apt Repostory on Bintray"></a>Install Erlang from an Apt Repostory on Bintray</h3><p>기존의 우분투 apt repo가 제공하는 Erlang/OTP은 최신 버전을 제공하지 않는 경향이 많기 때문에, RabbitMQ 팀이 지원하는 apt repo를 이용하여 설치하는 것을 추천한다. </p>
+<p>아래의 리눅스 배포판에서 사용할 수 있다.</p>
+<ul>
+<li>Ubuntu 18.04 (Bionic)</li>
+<li>Ubuntu 16.04 (Xenial)</li>
+<li>Debian Buster</li>
+<li>Debian Stretch</li>
+</ul>
+<p>또한 이 apt repo는 아래의 Erlang 버전을 제공한다.</p>
+<ul>
+<li>22.x</li>
+<li>21.x</li>
+<li>20.3.x</li>
+<li>19.3.x</li>
+<li>master (23.x)</li>
+<li>R16B03 (16.x)</li>
+</ul>
+<p>RabbitMQ 팀이 제공하는 apt repo를 사용하는 방법은 크게 아래의 네 가지 절차를 거친 후에 사용할 수 있다.</p>
+<ol>
+<li>repository signing key를 임포트 함으로써 설치하는동안 apt가 package signatures를 확인한다</li>
+<li>새로운 repo를 위한 source list 추가</li>
+<li>패키지 메타데이터 업데이트</li>
+<li>Erlang 설치</li>
+</ol>
+<h3 id="본격적인-설치"><a href="#본격적인-설치" class="headerlink" title="본격적인 설치"></a>본격적인 설치</h3><blockquote>
+<p>필요하다면 sudo 권한을 이용해서 설치를 진행하자</p>
+</blockquote>
+<p>현재의 apt repo를 업데이트 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update -y</span><br></pre></td></tr></table></figure>
+
+<p>설치에 필요한 소프트웨어를 설치한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install curl gnupg -y</span><br></pre></td></tr></table></figure>
+
+<p>RabbitMQ Signing Key를 설치한다</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+
+<p>apt HTTPS transport를 설치한다</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https</span><br></pre></td></tr></table></figure>
+
+<p>Bintray repositories를 추가한다</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/apt/sources.list.d/bintray.rabbitmq.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># bintray.rabbitmq.list 파일 안에 추가</span></span><br><span class="line"><span class="comment"># 사용중인 리눅스 배포판과 설치하려는 Erlang 버전을 뒤에 적는다</span></span><br><span class="line"><span class="comment"># deb https://dl.bintray.com/rabbitmq-erlang/debian $distribution $component</span></span><br><span class="line"><span class="comment"># deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang-22.x</span></span><br><span class="line">deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang <span class="comment"># 최신의 안정화 버전을 설치한다</span></span><br></pre></td></tr></table></figure>
+
+<p>참고로 $distribution과 $component는 자신의 환경에 맞게 설정하면 된다. </p>
+<ul>
+<li>bionic for Ubuntu 18.04</li>
+<li>xenial for Ubuntu 16.04</li>
+<li>buster for Debian Buster</li>
+<li>stretch for Debian Stretch</li>
+</ul>
+<p>추가된 apt repo를 반영하기 위해 apt update</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update -y</span><br></pre></td></tr></table></figure>
+
+<p>Erlang을 설치한다</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y erlang-base \</span><br><span class="line">                        erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \</span><br><span class="line">                        erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \</span><br><span class="line">                        erlang-runtime-tools erlang-snmp erlang-ssl \</span><br><span class="line">                        erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl</span><br><span class="line"></span><br><span class="line"><span class="comment"># rabbitmq-server와 의존성 패키지 설치</span></span><br><span class="line">sudo apt-get install rabbitmq-server -y --fix-missing</span><br></pre></td></tr></table></figure>
+
+<p>에러없이 여기까지 왔다면 설치는 무사히 끝난다. </p>
+<hr>
+<p>[참고]<br><a href="https://www.rabbitmq.com/install-debian.html#apt-bintray-erlang" target="_blank" rel="external nofollow noopener noreferrer">https://www.rabbitmq.com/install-debian.html#apt-bintray-erlang</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/10/11/linux/linux-how-to-install-erlang-on-ubuntu/" data-id="ckagvzmoy006bpx7541n26x3s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-django/django-macos-with-rabbitmq" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -209,7 +395,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/10/10/django/django-macos-with-rabbitmq/" data-id="ckafeiu3m001rgs753m9663tf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/10/10/django/django-macos-with-rabbitmq/" data-id="ckagvzmna001rpx7512h93xjp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -352,153 +538,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/08/03/linux/linux-command-head-tail/" data-id="ckafeiu4w005rgs75hw1y5s8q" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-django/django-admin-save-model" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/08/01/django/django-admin-save-model/">어드민 패널의 save_model 오버라이드</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/08/01/django/django-admin-save-model/">
-            <time datetime="2019-08-01T08:52:51.000Z" itemprop="datePublished">2019-08-01</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/django/">django</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link" href="/tags/django-admin/" rel="tag">django admin</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="admin-app의-save-model-메소드"><a href="#admin-app의-save-model-메소드" class="headerlink" title="admin app의 save_model 메소드"></a>admin app의 save_model 메소드</h1><p>어드민 패널의 save_model 메소드는 모델을 저장하는 작업의 전, 후에 영향을 미칠 수 있다. ModelForm을 사용중이라면 admin.py에 form 클래스는 따로 명시해주지 않았을때 기본적으로 생성해서 사용하지만, form 클래스를 만들어서 어드민 패널에서만 사용할 수 있도록 할 수 있다.</p>
-<p>나의 경우 이미 앱에서 사용 중인 모델 폼이 있었는데, 이 모델 폼을 어드민 패널에서 사용하기에는 조금 안맞는 부분이 있어서 어드민에서만 사용할 폼을 생성해서 admin.py에 명시하여 수정하는 방법을 사용했다.</p>
-<p>어드민에서 모델 인스턴스를 저장할때 save_model 메소드를 오버라이딩해서 로직을 수정할 수 있다.</p>
-<blockquote>
-<p>ModelAdmin.save_model(request, obj, form, change)</p>
-</blockquote>
-<p>네 개의 인자를 받는다.</p>
-<ul>
-<li>request</li>
-<li>모델 인스턴스(model instance)</li>
-<li>모델 폼 인스턴스(modelform instance)</li>
-<li>생성인지 수정인지 나누는 부울 값(True / False)</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArticleAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save_model</span><span class="params">(self, request, obj, form, change)</span>:</span></span><br><span class="line">        obj.user = request.user</span><br><span class="line">        super().save_model(request, obj, form, change)</span><br></pre></td></tr></table></figure>
-
-<p>장고 공식페이지의 예제이다. Article 모델의 어드민 관련 코드이며 save_model 메소드를 오버라이드 하고 있다.</p>
-<p>모델 코드를 보지 않고서라도 Article 모델에 user라는 일대일 관계를 가진 필드가 있음을 알 수 있다. 현재 어드민에 로그인한 유저를 Article 모델 인스턴스의 user 필드에 저장을 하기 위한 코드인 것 같다.</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/08/01/django/django-admin-save-model/" data-id="ckafeiu3i001egs7504lk8e0l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/08/03/linux/linux-command-head-tail/" data-id="ckagvzmor005ypx75fbog8iiz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -575,7 +615,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/20/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/22/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/20/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/22/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -606,7 +646,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -616,6 +656,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
+                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
+                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -641,15 +690,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/hosts-file/" class="title">[DNS]ip 주소와 hosts 파일</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 
