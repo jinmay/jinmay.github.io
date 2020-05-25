@@ -143,6 +143,154 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-postgresql/psql-csv-import" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/11/15/postgresql/psql-csv-import/">PostgreSQL에 CSV 파일 임포트하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/11/15/postgresql/psql-csv-import/">
+            <time datetime="2018-11-15T02:41:43.000Z" itemprop="datePublished">2018-11-15</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/postgresql/">postgresql</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/csv/" rel="tag">csv</a>, <a class="tag-link" href="/tags/postgresql/" rel="tag">postgresql</a>, <a class="tag-link" href="/tags/psql/" rel="tag">psql</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="psql에-csv파일-임포트하기"><a href="#psql에-csv파일-임포트하기" class="headerlink" title="psql에 csv파일 임포트하기"></a>psql에 csv파일 임포트하기</h1><p>갑자기 psql에 데이터를 업로드할 일이 생겼다. 간단할 것이라고 생각했으나 <strong>local / remote</strong>에 따라 해야하는 것도 달랐고 신경써야 할 부분이 있었다. <del>물론 처음 해보는 것이라서 그랬을 것 같단 생각…</del></p>
+<h3 id="기본-명령어"><a href="#기본-명령어" class="headerlink" title="기본 명령어"></a>기본 명령어</h3><p>일단, local 환경이던 remote 환경이던 신경쓰지 않고 기본적인 file import  명령어를 보자.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">COPY &lt;table_name&gt;</span><br><span class="line">FROM &lt;file_path&gt;</span><br><span class="line"><span class="keyword">WITH</span> DELIMITER <span class="string">','</span> csv HEADER</span><br></pre></td></tr></table></figure>
+
+<p>위와 같은 방법으로 사용했다.</p>
+<p><strong>DELIMITER</strong>는 CSV파일 내에서 어떠한 구분자가 쓰였는지 적어준다. 또한 <strong>HEADER</strong>은 CSV 파일 맨 윗줄은 데이터가 아닌 column 이라고 명시해 주는 것이다.</p>
+<h3 id="동일-머신"><a href="#동일-머신" class="headerlink" title="동일 머신"></a>동일 머신</h3><p>같은 머신 내에서는 <strong>기본 명령어</strong>에서 하듯이 똑같이 하면 된다. 하지만 문제는 서로 다른 머신에 있을때에 있다.</p>
+<h3 id="다른-머신"><a href="#다른-머신" class="headerlink" title="다른 머신"></a>다른 머신</h3><p>이번에 겪었던 문제는 다음과 같은 어려움이 있었다.</p>
+<blockquote>
+<p>CSV 파일은 로컬환경에 있다.</p>
+<p>데이터를 통채로 올리는 것이 아닌 CSV 파일로부터 읽어서 한 줄 한 줄씩 삽입하는 것.</p>
+<p>클라이언트 프로그램인 pgAdmin4를 처음 사용해보는 것.</p>
+</blockquote>
+<p>COPY 명령어를 pgAdmin4와 psql 콘솔에서 실행해 보았지만 여러 크고 작은 문제들로 인해서 잘 되지않았다. NULL값이 문자열로 인식되는 경우도 있었고 인코딩 문제도 있었다. </p>
+<p>어찌되었던간에, </p>
+<p>문제는 다음과 같이 해결했다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in shell console</span></span><br><span class="line"><span class="comment"># 파일이 저장되어 있는 로컬환경</span></span><br><span class="line">psql -U &lt;username&gt; </span><br><span class="line">	-d &lt;db_name&gt;</span><br><span class="line">	-h &lt;remote_addr&gt;</span><br><span class="line">	-c <span class="string">"\copy &lt;table_name&gt; FROM &lt;file_path&gt; WITH DELIMITER ',' csv HEADER;"</span></span><br></pre></td></tr></table></figure>
+
+<p>-c 옵션을 통해서 psql 콘솔 접속 시, 입력된 명령어를 실행하게 했다. 또한 로컬에서 원격으로 접속하는 것이기 때문에 -h 옵션으로 psql이 설치된 서버의 주소를 적어주었다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/11/15/postgresql/psql-csv-import/" data-id="ckalwcom60086gl75gwag3lx4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/virtualenvwrapper" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -249,7 +397,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/11/12/python/virtualenvwrapper/" data-id="ckagvzmqs00aapx757yc32m97" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/11/12/python/virtualenvwrapper/" data-id="ckalwcomv00acgl7551zc81h7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -402,174 +550,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/11/11/postgresql/psql-user/" data-id="ckagvzmpv0088px75h17nhnnz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-ckan/ckan-harvest-implement" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/11/01/ckan/ckan-harvest-implement/">[CKAN]harvest 실행하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/11/01/ckan/ckan-harvest-implement/">
-            <time datetime="2018-11-01T03:08:29.000Z" itemprop="datePublished">2018-11-01</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/ckan/">ckan</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ckan/" rel="tag">ckan</a>, <a class="tag-link" href="/tags/harvest/" rel="tag">harvest</a>, <a class="tag-link" href="/tags/harvesting/" rel="tag">harvesting</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><del>약 3일간 삽질끝에 어떻게 돌리는 지는 알게된것 같다.</del> </p>
-<p>CKAN 2.8 버전을 설치하고 ckanext-harvest 익스텐션을 인스톨하게 되면 구축한 CKAN 포털 페이지를 통해서 harvest dataset을 추가할 수 있게 된다. http://<ckan_url>/harvest의 주소로 접속하면 <strong>Add Harvest Source</strong> 라는 걸 볼 수 있다. </ckan_url></p>
-<p>Create Harvest Source의 페이지를 보게 되면, Source type이란 항목을 볼 수 있는데, 처음에는 CKAN밖에 없을 것이다. 구글링을 통해 CKAN의 harvest에 대해서 찾다보면 ckan instance 뿐만 아니라 CSW Server / DCAT JSON Harvester와 같은 source type을 보곤 하는데 활성화 하기 위해서 extension을 설치하고 플러그인을 활성화해야 한다. </p>
-<p>harvesting할 url과 다른 항목들을 적어주고 넘어가게 되면 admin의 manage에 들어가서 <strong>Restart harvest</strong> 를 해주어야 한다.</p>
-<h2 id="harvesting-인터페이스"><a href="#harvesting-인터페이스" class="headerlink" title="harvesting 인터페이스"></a>harvesting 인터페이스</h2><p>harvester interface를 구현하여 harvest 작업을 실행할 수 있다. harvest 과정은 세 단계로 구성되어 있다. 아래의 모든 작업은 CKAN의 virtualenv이 실행된 상태에서 실행되어야 한다!</p>
-<ul>
-<li>gather</li>
-</ul>
-<p>두 번째 단계에서 fetch될 모든 리소스 identifier들을 컴파일 하는 과정이다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster --plugin=ckanext-harvest harvester gather_consumer --config=/etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>fetch</li>
-</ul>
-<p>리모트 서버로부터 실제 객체 자료를 가져오거나 데이터 베이스에 저장하는 작업이다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster --plugin=ckanext-harvest harvester fetch_consumer --config=/etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>import</li>
-</ul>
-<p>두 번째 단계에서 fetched된 리소스들에 대해서 필요한 모든 작업을 수행한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster --plugin=ckanext-harvest harvester run --config=/etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
-
-<p>gather - fetch - import 세 단계는 서로 다른 터미널을 켜놓고 하는 것을 추천한다.  </p>
-<p>실습할 때는, </p>
-<ul>
-<li>gather</li>
-<li>fetch</li>
-</ul>
-<p>를 우선 실행해놓고 CKAN의 harvest를 실행하게 되면 알아서 인식해서 진행하게되는데 아직까진 이해를 못한 상태인 듯 싶다.</p>
-<hr>
-
-<reference>
-
-<p><a href="https://confluence.csiro.au/display/seegrid/CKAN+Harvesting+User+Guide" target="_blank" rel="external nofollow noopener noreferrer">https://confluence.csiro.au/display/seegrid/CKAN+Harvesting+User+Guide</a></p>
-<p><a href="https://guidance.data.gov.uk/harvesting.html" target="_blank" rel="external nofollow noopener noreferrer">https://guidance.data.gov.uk/harvesting.html</a></p>
-<p><a href="https://doc.arcgis.com/ko/hub/data/federating-with-ckan.htm" target="_blank" rel="external nofollow noopener noreferrer">https://doc.arcgis.com/ko/hub/data/federating-with-ckan.htm</a></p>
-<p><a href="https://stackoverflow.com/questions/51701375/ckan-harvester-is-not-working/51726696#51726696" target="_blank" rel="external nofollow noopener noreferrer">https://stackoverflow.com/questions/51701375/ckan-harvester-is-not-working/51726696#51726696</a></p>
-</reference>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/11/01/ckan/ckan-harvest-implement/" data-id="ckagvzmmt000apx755lmqejkb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/11/11/postgresql/psql-user/" data-id="ckalwcom70088gl753xwuhlgc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -677,7 +658,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -687,6 +668,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -721,15 +711,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

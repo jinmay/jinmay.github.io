@@ -143,6 +143,161 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-docker/dockerfile" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/06/07/docker/dockerfile/">dockerfile의 기본</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/06/07/docker/dockerfile/">
+            <time datetime="2018-06-07T00:31:44.000Z" itemprop="datePublished">2018-06-07</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/docker/">docker</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/dockerfile/" rel="tag">dockerfile</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h1><p>Dockerfile은 도커 이미지를 생성할때 실행할 일련의 명령어들을 적어놓은 파일이다. 쉽게 말하자면 Docker 이미지 설정 파일이다. 여러가지 명령을 토대로 기본 이미지에서 개발환경을 셋팅한 이미지를 생성하는 데에 큰 도움을 받을 수 있을 것 같다. </p>
+<p>보통 이렇게들 많이 사용하는 거 같다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FROM  ubuntu</span><br><span class="line"></span><br><span class="line">RUN apt-get update -y &amp;&amp; apt-get install -y \</span><br><span class="line">    vim</span><br><span class="line">    curl</span><br><span class="line">    git</span><br><span class="line"></span><br><span class="line">CMD [<span class="string">"/bin/bash"</span>]</span><br></pre></td></tr></table></figure>
+<p>간략하게 설명하자면 <strong>어떠한 기본 이미지로부터 생성할 것인지를 FROM을 통해 적어준다. 그리고 어떠한 명령어를 실행할 지 RUN에 명시한다.</strong></p>
+<p>그렇다면 자주 사용되는 Dockerfile의 커맨드에 대해서 알아보자.</p>
+<ul>
+<li><p>FROM<br>사용할 기본 이미지를 적어준다. ubuntu:tags 처럼 태그가 표기된 버전도 사용 가능하다. 태그를 생력하면 latest를 사용한 것으로 간주하며 Dockerfile의 첫 번째 설정으로 명시되어야 한다.</p>
+</li>
+<li><p>MAINTAINER<br>문자열을 “Author” 메타데이터로 설정한다. 이미지의 maintainer 이름, 연락처와 같은 성세 정보들을 설정하는 데 사용한다. 꼭 입력할 필요는 없지만 Docker hub등에 이미지 공개를 염두한다면 적어주는 것이 좋다.</p>
+</li>
+<li><p>RUN<br>이미지 내부에서 수행될 쉘 커맨드를 작성한다. </p>
+</li>
+<li><p>ENV<br>이미지 내부의 환경 변수들을 설정한다. </p>
+</li>
+<li><p>USER<br>기본적으로 도커는 컨테이너 내에서 모든 프로세스를 root 계정으로 실행한다. 하지만 USER 라인을 통해서 바꿔줄 수 있다.</p>
+</li>
+<li><p>ENTRYPOINT<br>컨테이너의 작동이 시작되었을때 (docker run / docker start) 지정된 스크립트 또는 명령을 실행한다. Dockerfile에서 딱 한번만 사용할 수 있다. 주어진 모든 인자들을 해석하기 전에 변수와 서비스들을 초기화하는 “시작 스크립트”를 제공하기 위해 사용하곤 한다. </p>
+</li>
+<li><p>CMD - 데몬 실행<br>컨테이너가 시작되는 시점에 실행할 스크립트 혹은 명령어를 작성한다. <strong>만약 ENTRYPOINT가 Dockerfile에 정의되어 있다면 CMD는 Dockerfile의 ENTRYPOINT의 인자로 해석된다.</strong> 또한 docker run의 이미지 이름 다음에 오는 인자의 의해서 재정의된다.(마지막 CMD 설정만이 유효하며 이전의 모든 CMD 설정들은 모두 재정의된다.)</p>
+</li>
+<li><p>VOLUME<br>볼륨으로 마운트할 특정 파일이나 디렉토리를 정의한다. 컨테이너가 시작도리 때 볼륨으로 해당 파일이나 디렉터리가 복사된다. 만약 여러 개의 인자가 들어갔다면 여러 개의 불륨으로 인식한다. </p>
+</li>
+<li><p>WORKDIR<br>RUN / CMD / ENTRYPOINT / ADD / COPY 설정에서 사용할 디렉터리를 의미한다. 상대경로도 사용 가능하다. </p>
+</li>
+</ul>
+<h2 id="Dockerfile을-통한-이미지-생성"><a href="#Dockerfile을-통한-이미지-생성" class="headerlink" title="Dockerfile을 통한 이미지 생성"></a>Dockerfile을 통한 이미지 생성</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t [new_image_name] [Dockerfile_path]</span><br><span class="line">docker build -t <span class="built_in">test</span>-dockerfile-image . <span class="comment"># 해당 경로에 자동으로 Dockerfile을 찾아준다</span></span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/06/07/docker/dockerfile/" data-id="ckalwcokh003agl75h4kwh2da" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-docker/docker" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -228,7 +383,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/06/04/docker/docker/" data-id="ckagvzmnn0034px75cm6tempv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/06/04/docker/docker/" data-id="ckalwcokg0036gl75ckr2d8rk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -457,184 +612,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/04/17/mysql/basic-of-mysql/" data-id="ckagvzmpa0075px758vex216k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-network/internet-layer-of-tcp-ip" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/13/network/internet-layer-of-tcp-ip/">TCP/IP 4계층 - 인터넷 계층</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/04/13/network/internet-layer-of-tcp-ip/">
-            <time datetime="2018-04-13T07:15:29.000Z" itemprop="datePublished">2018-04-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/network/">network</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="인터넷-계층"><a href="#인터넷-계층" class="headerlink" title="인터넷 계층"></a>인터넷 계층</h1><h2 id="IP-주소"><a href="#IP-주소" class="headerlink" title="IP 주소"></a>IP 주소</h2><p>인터넷 계층의 역할은 송신지 컴퓨터의 데이터를 수신지 컴퓨터까지 전달하는 것이다. 수신지 컴퓨터를 찾아내기 위해 식별할 수 있는 고유한 정보가 필요하고 이때에 사용되는 식별자가 바로 IP 주소이다. 흔히 IP 주소를 우편번호로 비유하곤 하는데, 자세히 들여다보면 중요한 차이가 존재한다. 우편번호는 지역정보를 포함하고 있는 것과 달리 IP 주소는 지리적인 위치와는 상관없이 네트워크 단위로 할당된다. 따라서 IP 주소를 통해 그 컴퓨터가 어느 위치에 존재하는 지 알기 힘들며 <strong>어느 네트워크에 속해있는 지와 소속된 네트워크의 규모를 짐작할 수 있을 뿐이다.</strong></p>
-<h2 id="라우터"><a href="#라우터" class="headerlink" title="라우터"></a>라우터</h2><p>IP 주소는 지리적인 위치 정보를 포함하고 있지 않기 때문에 수신자를 찾기 위해서는 다른 방법을 이용해야 한다. <strong>라우터(router)</strong>라는 네트워크 장비는 서로 다른 네트워크 간의 연결 정보를 관리한다. IP 주소를 보면 소속된 네트워크가 어디인지 알 수 있는데, 해당 네트워크에 연결된 라우터를 추적하다 보면 그 장비가 최종적으로는 목표로 한 수신지 컴퓨터를 찾게되고 송신지에서 수신지까지 연결되는 통신 경로를 만들 수 있게 된다. 이와 같은 과정을 <strong>라우팅(routing)</strong> 이라고 한다.</p>
-<h2 id="공인-IP-사설-IP"><a href="#공인-IP-사설-IP" class="headerlink" title="공인 IP / 사설 IP"></a>공인 IP / 사설 IP</h2><p>급속한 인터넷의 보급으로 사용 가능한 IP 주소가 점점 줄어들고있다. 이와 같은 현상을 피하기위한 방안으로 <strong>사설 IP / 공인 IP</strong>를 구분하는 기법을 사용한다. 또한 근본적인 방법으로 고갈되어져 가는 IPv4 주소체계를 IPv6로 확장하고 있다.</p>
-<ul>
-<li><p>공인 IP<br>Public IP라고 불린다. 인터넷에서 사용가능한 IP 주소를 말하며, 외부에서도 접근이 가능한 주소를 의미한다.</p>
-</li>
-<li><p>사설 IP<br>Private IP라고 불린다. 사무실이나 가정 내에서만 사용 가능한 IP이며, 외부에서 접근할 수 없는 주소이다. </p>
-</li>
-</ul>
-<h2 id="IPv4-와-IPv6"><a href="#IPv4-와-IPv6" class="headerlink" title="IPv4 와 IPv6"></a>IPv4 와 IPv6</h2><p>인터넷 계층에서 사용되는 프로토콜이다. IP 주소를 결정할 때 사용하는 비트의 길이가 다르다. IP 주소는 유통기한을 가지고 있는데, 패킷이 제대로 전달되지 않는 경우 네트워크 안을 계속해서 떠도는 걸 방지하기 위함이다. 제대로 전달되지 않은채 네트워크 안을 떠돌게되는 패킷이 많아지면 자연스레 네트워크는 복잡해져 다른 패킷들에게도 영향을 미치게 되는데 이러한 부작용을 방지하기 위해 <strong>IPv4 헤더에는 생존기간(TTL - Time To Live) 정보가 담겨져있다.</strong> TTL이 0인 패킷이 발견된다면 그 패킷을 소멸시키도록 규정하고 있다.</p>
-<ol>
-<li><p>IPv4<br>32비트 주소 체계이다. 32비트 문자열은 사람이 알아보기 어렵기 때문에 8비트씩 4개 단위로 끊은 후에 10진수로 변환하여 표현한다.</p>
-</li>
-<li><p>IPv6<br>128비트 주소 체계이다. 급격한 인터넷의 성장으로 IPv4의 주소가 고갈되어가자 피해를 방지하기 위해 만들어졌다.</p>
-<blockquote>
-<p>인터넷 계층에서 사용되는 장비에만 IP 주소가 할당된다.</p>
-</blockquote>
-</li>
-</ol>
-<p>한 번에 전송할 수 있는 데이터의 크기를  **MTU(Maximum Transmission Unit)라고 한다. 통신 상태에 따라 달라지게 되는데, 예를 들어 경로 상태가 좋지 않으면 값이 줄어들게 되고 라우터는 이 MTU 값에 따라 패킷을 분할해서 수신지로 전송하게 된다. 라우터가 데이터를 송신하기 전에 통신 경로 전체의 MTU를 살펴보고 처음부터 MTU보다 작은 크기의 패킷을 전송하게 된다. 수신지의 컴퓨터에서는 도착한 분할된 패킷들을 복원하여 수신한다!</p>
-<h2 id="네트워크-부와-호스트-부"><a href="#네트워크-부와-호스트-부" class="headerlink" title="네트워크 부와 호스트 부"></a>네트워크 부와 호스트 부</h2><p>IP 주소는 네트워크 부와 호스트 부로 나누어 진다. 라우터는 IP 주소의 네트워크 부를 보고 데이터를 전송할 목적지가 같은 네트워크에 있는지 다른네트워크에 있는지 판단한다.</p>
-<h2 id="어드레스-클래스"><a href="#어드레스-클래스" class="headerlink" title="어드레스 클래스"></a>어드레스 클래스</h2><p>하나의 IP 주소에서 어디까지가 네트워크 부이고 호스트 부인지 표현하기 위해 어드레스 클래스를 이용한다. 총 네 가지의 어드레스 클래스가 있다.</p>
-<ul>
-<li>클래스 A<ul>
-<li>네트워크 부 : 8비트 - 126개 네트워크</li>
-<li>호스트 부 : 24비트 - 약 1677만개 호스트</li>
-</ul>
-</li>
-<li>클래스 B<ul>
-<li>네트워크 부 : 16비트 - 약 1만 6천개 네트워크</li>
-<li>호스트 부 : 16비트 - 약 6만 5천개 호스트</li>
-</ul>
-</li>
-<li>클래스 C<ul>
-<li>네트워크 부 : 24비트 - 약 209만개 네트워크</li>
-<li>호스트부 : 8비트 - 254개 호스트</li>
-</ul>
-</li>
-<li>클래스 D (특수 클래스) : 멀티캐스트 그룹<ul>
-<li>네트워크 부 : 32비트</li>
-</ul>
-</li>
-</ul>
-<p>클래스 A를 보면 한 개의 네트워크당 1677만개의 호스트를 할당할 수 있는데, 실제로 단일 네트워크에 이렇게 많은 호스트를 필요로 하는 경우는 없다. 이런 경우 호스트 낭비가 심하게 되는데 효율적으로 주소를 할당하고자 나온 방법이 <strong>서브넷 마스크</strong>이다.</p>
-<h2 id="서브넷-마스크"><a href="#서브넷-마스크" class="headerlink" title="서브넷 마스크"></a>서브넷 마스크</h2><p><strong>어드레스 클래스의 경우 네트워크 부의 길이가 미리 정해져있다.</strong> 어드레스 클래스와 다르게 네트워크 부의 길이를 가변적으로 사용하기 위해 <strong>서브넷 마스크</strong>를 사용하며, 비트 단위로 유연하게 늘려서 쓰는 것이 가능해진다.</p>
-<blockquote>
-<p>네트워크 부를 1비트 단위로 변경할 수 있다!!<br>IP 주소를 할당하는 방법은 IPv4를 기준으로 전체 32비트 중 네트워크 부를 제외한 호스트 부분을 자유롭게 할당하여 사용하는 것이다.</p>
-</blockquote>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/04/13/network/internet-layer-of-tcp-ip/" data-id="ckagvzmpq007xpx758ksggsbe" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/04/17/mysql/basic-of-mysql/" data-id="ckalwcolu0078gl75anw75q8n" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -742,7 +720,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -752,6 +730,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -786,15 +773,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

@@ -143,6 +143,161 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-python/python-closure-decorator" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/11/19/python/python-closure-decorator/">파이썬의 클로저</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/19/python/python-closure-decorator/">
+            <time datetime="2019-11-19T05:59:32.000Z" itemprop="datePublished">2019-11-19</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>함수 안에 함수를 정의하는 내부함수를 통해 클로저를 구현할 수 있다. 파이썬이 함수를 일급 객체로 취급하기 때문에 가능하다. 클로저의 <strong>간단한 사전적 의미로는 “일급 객체를 지원하는 언어에서 유효 범위 이름을 바인딩하는 기술”</strong> 이라고 하는데 이해하기 복잡하니 내부함수를 반환하는 함수라고 (간단하게) 생각해도 될 것 같다.</p>
+<p>클로저를 살펴보기에 앞서 변수의 스코프에 대해 먼저 알아보자.</p>
+<h2 id="클로저-이해에-필요한-스코프"><a href="#클로저-이해에-필요한-스코프" class="headerlink" title="클로저 이해에 필요한 스코프"></a>클로저 이해에 필요한 스코프</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line"></span><br><span class="line">func1(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>너무 간단하다. b의 값이 없기 때문에 에러가 발생한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">123</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line"></span><br><span class="line">func2(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>함수 안에는 b 변수에 대한 값이 없으며 전역으로 선언된 b = 123을 사용하기 때문에 에러없이 함수를 호출할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">123</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func3</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line">  b = <span class="number">321</span></span><br><span class="line"></span><br><span class="line">func3(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>이번 예제는 주의해서 봐야한다. 일단 에러가 발생한다. 함수 안에서 변수 b를 출력하려고 하는데 값이 초기화 되기 전에 사용했기 때문에 UnboundedError가 일어난 것이다.  </p>
+<p>조금 더 설명하자면,<br>func3이 실행될때 런타임 상에서 변수의 존재를 체크한다. 함수 내에 변수 b가 있기 때문에 변수의 존재는 알고 있게되며 값이 할당되기 전에 출력을 먼저 하려고 해서 에러가 발생하게 된 것이다.</p>
+<h2 id="클로저"><a href="#클로저" class="headerlink" title="클로저"></a>클로저</h2><p>위의 스코프를 이해했다면 클로저의 동작 방식을 이해하는 데에도 큰 도움이 된다. 자유 변수(free variable)가 무엇인지 보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="comment"># free variable 영역</span></span><br><span class="line">  <span class="comment"># 클로저 영역</span></span><br><span class="line">  number_list = []</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(v)</span>:</span></span><br><span class="line">    number_list.append(v)</span><br><span class="line">    print(sum(number_list))</span><br><span class="line">  <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">func = outer() <span class="comment"># inner 함수 리턴 후 outer 함수 종료</span></span><br><span class="line">func(<span class="number">1</span>) <span class="comment"># 1</span></span><br><span class="line">func(<span class="number">2</span>) <span class="comment"># 3</span></span><br><span class="line">func(<span class="number">3</span>) <span class="comment"># 6</span></span><br></pre></td></tr></table></figure>
+
+<p>함수 실행의 결과는 인자로 들어간 값들이 누적된 합이 출력된다. outer 함수는 inner 함수를 리턴하고 종료가 되었는데 어떻게 inner 함수는 outer 함수 영역에 존재하는 변수를 계속해서 사용할 수 있는 것일까?</p>
+<p><strong>number_list 변수가 자유 변수 영역에 있기 때문이다.</strong> 내부함수 입장에서 자기가 선언하지 않은 변수를 자유 변수라고 이해하면 쉬울 것 같다. 외부함수의 변수를 계속 참조할 수 있어서 값을 계속 사용할 수 있다는 장점이 있지만 남용하게 되면 메모리를 낭비할 수도 있다는 단점도 있다.</p>
+<h2 id="자유변수-확인하기"><a href="#자유변수-확인하기" class="headerlink" title="자유변수 확인하기"></a>자유변수 확인하기</h2><p>dir 함수를 사용한다면 객체가 가진 내부정보를 볼 수 있다. 자유 변수로 사용되는 변수가 무엇인지 확인하려면 아래와 같이 하면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(func.__code__.co_freevars)</span><br><span class="line"><span class="comment"># ('number_list',)</span></span><br></pre></td></tr></table></figure>
+
+<p>자유 변수로서 사용되는 변수를 출력한다. 변수의 값을 확인하려면 이렇게 하면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(func.__closure__[<span class="number">0</span>].cell_contents)</span><br><span class="line"><span class="comment"># [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="클로저-사용시-주의사항"><a href="#클로저-사용시-주의사항" class="headerlink" title="클로저 사용시 주의사항"></a>클로저 사용시 주의사항</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></span><br><span class="line">  count = <span class="number">0</span></span><br><span class="line">  total = <span class="number">0</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(v)</span>:</span></span><br><span class="line">    <span class="comment"># nonlocal count, total # 문제 해결</span></span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line">    total += v</span><br><span class="line">    print(total / count)</span><br><span class="line">  <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">func = outer()</span><br><span class="line">func(<span class="number">1</span>) </span><br><span class="line"><span class="comment"># UnboundLocalError: local variable 'count' referenced before assignment</span></span><br></pre></td></tr></table></figure>
+
+<p>count 변수를 값이 할당 되기 전에 사용했기 때문에 에러가 발생한다. <strong>여기서 중요한 점은 밖의 변수들과 inner의 변수들이 이름이 같을지라도 다른 변수라는 것이다.</strong> 문제를 해결하기 위해서 nonlocal 키워드를 사용해주어야 한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">nonlocal</span> count, total</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<p>[참고]<br><a href="https://itholic.github.io/python-closure/" target="_blank" rel="external nofollow noopener noreferrer">https://itholic.github.io/python-closure/</a><br><a href="http://schoolofweb.net/blog/posts/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%ED%81%B4%EB%A1%9C%EC%A0%80-closure/" target="_blank" rel="external nofollow noopener noreferrer">http://schoolofweb.net/blog/posts/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%ED%81%B4%EB%A1%9C%EC%A0%80-closure/</a>  </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/19/python/python-closure-decorator/" data-id="ckalwcomf0091gl753jix5t1q" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-django/django-form-is-valid-mechanism-brief" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -244,7 +399,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/13/django/django-form-is-valid-mechanism-brief/" data-id="ckagvzmnc0021px75a8uf3yxo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/13/django/django-form-is-valid-mechanism-brief/" data-id="ckalwcok0001tgl75h0w68nxr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -392,160 +547,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/11/django/django-celery-conf-systemd/" data-id="ckagvzmn8001lpx75e06b4dvb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-django/django-select-prefetch-related" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/11/09/django/django-select-prefetch-related/">장고 쿼리셋의 select_related</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/11/09/django/django-select-prefetch-related/">
-            <time datetime="2019-11-09T14:37:05.000Z" itemprop="datePublished">2019-11-09</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/django/">django</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <blockquote>
-<p>debug_toolbar를 설치해서 SQL 항목을 보기 전까지 select_related와 prefetch_related는 아직은 필요하지 않은 것들이라고 생각했다. 데이터가 많지 않아 드라마틱한 속도는 볼 수 없었지만 duplicated를 보지 않는 것만으로도 효과는 충분히 보았다고 생각한다.</p>
-</blockquote>
-<p>장고 ORM을 사용할 수 있다는 것은 정말 큰 장점이 되는 것 같다. 물론 이 ORM이 어떻게 동작하는 지 이해하고 쓴다면 더할 나위 없이 좋겠지만 차차 알아보기로 하고 지금은 select_related에 대해서 정리해 보려고 한다.</p>
-<p>일단 아래와 같은 모델이 있다고 가정하고 시작해보자.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 게시글</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    title = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">    author = models.ForeignKey(<span class="string">'user'</span>, on_delete=models.CASCADE)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 글쓴이</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="select-related"><a href="#select-related" class="headerlink" title="select_related"></a>select_related</h2><p>모든 게시글에 대해서 글쓴이를 순회하는 출력하는 HTML 코드가 있다면 아래와 같을 것이다.</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> post <span class="keyword">in</span> post_list %&#125;</span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>글쓴이 : </span><span class="template-variable">&#123;&#123; post.author &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>정말 흔하게 작성하는 코드이기 때문에 큰 의문이 들지 않을 수도 있지만, 장고의 QuerySet의 특성 한 가지를 이해한다면 비효율적으로 실행되는 것을 이해할 수 있게된다.</p>
-<p>여기서 필요한 쿼리셋의 특성 한 가지는</p>
-<ul>
-<li>QuerySet은 기본적으로 지연평가(Lazy Evaluation)를 한다는 것</li>
-</ul>
-<p>이다.</p>
-<h3 id="지연평가란"><a href="#지연평가란" class="headerlink" title="지연평가란?"></a>지연평가란?</h3><p><strong>파이썬 코드 상에서 QuerySet을 만드는 작업은 DB에 아무런 작업을 수행하지 않는 다는 것이다.</strong> 즉, all() / filter() 과 같이 QuerySet을 생성하는 작업들은 DB에 접근하는 작업이 아니며 실제 값을 뽑는 - 연산 - 과정이 실행되기 전까지 DB query가 일어나지 않는다.</p>
-<p>이러한 지연평가로 인해서 views.py에서 쿼리셋을 생성하는 작업들을 반복해서 수행해도 DB 호출을 최소화 할 수 있다는 장점을 가질 수 있다. 하지만 템플릿 상에서 반복문을 통해 외래키를 참조하는 쿼리셋을 평가하는 작업을 반복하게 된다면 SQL문의 중복이 발생할 수 있다는 단점도 있다.</p>
-<p>다시 코드로 돌아와서..<br>쿼리셋의 지연평가를 이해하면</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> post <span class="keyword">in</span> post_list %&#125;</span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>글쓴이 : </span><span class="template-variable">&#123;&#123; post.author &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong></strong> 부분이 모든 post 객체에 대해서 실행되기 때문에 post 객체의 개수 만큼 쿼리가 중복 발생하는 것을 파악할 수 있다.</p>
-<p>문제를 해결하기 위해선 views.py 에서 post_list를 구할때 <strong>select_related</strong>를 사용하면 된다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_list = Post.object.select_related(<span class="string">'user'</span>).all()</span><br></pre></td></tr></table></figure>
-
-<p>post 객체를 만들때 외래키 관계에 있는 객체를 한 번에 다 가져온다. HTML 상에서 지연평가를 하지 않고 DB상에서 Inner join을 통해 한 번의 접근만으로 필요한 정보를 가져오게 되는 셈이다.</p>
-<p>지금까지 select_related에 대해서 의식의 흐름대로 정리해 보았다. 이제 막 찾아보고 처음으로 사용했던 지라 제대로 소화하지 못한 것 같아서 prefetch_related 정리할 때 다시 해야겠다.</p>
-<hr>
-<p>[참고]<br><a href="https://wayhome25.github.io/django/2017/06/20/selected_related_prefetch_related/" target="_blank" rel="external nofollow noopener noreferrer">https://wayhome25.github.io/django/2017/06/20/selected_related_prefetch_related/</a><br><a href="https://tech.peoplefund.co.kr/2017/11/03/django-db-optimization.html" target="_blank" rel="external nofollow noopener noreferrer">https://tech.peoplefund.co.kr/2017/11/03/django-db-optimization.html</a><br><a href="https://blog.leop0ld.org/posts/database-access-optimization/" target="_blank" rel="external nofollow noopener noreferrer">https://blog.leop0ld.org/posts/database-access-optimization/</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/11/09/django/django-select-prefetch-related/" data-id="ckagvzmne0027px75fm0a9hcq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/11/django/django-celery-conf-systemd/" data-id="ckalwcojv001kgl756hwi54kh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -653,7 +655,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -663,6 +665,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -697,15 +708,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

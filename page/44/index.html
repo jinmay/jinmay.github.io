@@ -143,6 +143,165 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-git/git-server-within-synology-nas" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/03/13/git/git-server-within-synology-nas/">시놀로지 나스와 함께하는 git server</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/03/13/git/git-server-within-synology-nas/">
+            <time datetime="2018-03-13T08:22:30.000Z" itemprop="datePublished">2018-03-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/git/">git</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/git/" rel="tag">git</a>, <a class="tag-link" href="/tags/git-server/" rel="tag">git server</a>, <a class="tag-link" href="/tags/synology/" rel="tag">synology</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>시놀로지 4베이짜리 나스에 git server를 설치해보고자 한다!</p>
+</blockquote>
+<h2 id="시놀로지와-함께하는-깃-서버"><a href="#시놀로지와-함께하는-깃-서버" class="headerlink" title="시놀로지와 함께하는 깃 서버"></a>시놀로지와 함께하는 깃 서버</h2><p>갑자기 시놀로지 나스에 git server를 설치하게됐다. 평소 깃허브는 자주 사용해왔지만 이번기회에 조금 더 알아보기로 했다.</p>
+<p>비슷한 서비스로는 <strong>git</strong>과 <strong>github</strong> 그리고 <strong>gitlab</strong>이 있다. 모두 저장소를 public 하게 사용한다면 무료로 사용할 수 있고, gitlab의 경우에는 저장소당 1GB의 제한이 있다.</p>
+<p>본격적으로 시작해보자</p>
+<h3 id="1-시놀로지에-git-server-패키지-설치"><a href="#1-시놀로지에-git-server-패키지-설치" class="headerlink" title="1. 시놀로지에 git server 패키지 설치"></a>1. 시놀로지에 git server 패키지 설치</h3><p>패키지 센터를 통해서 설치하면 된다. </p>
+<h3 id="2-SSH-서비스-활성화"><a href="#2-SSH-서비스-활성화" class="headerlink" title="2. SSH 서비스 활성화"></a>2. SSH 서비스 활성화</h3><p>이동경로: 제어판 &gt; 터미널 및 SNMP &gt; SSH 서비스 활성화<br><strong>SSH 서비스 활성화</strong>를 체크해 활성화한다. 아마도 기본적으로 22번 포트로 설정되어 있을텐데 <del>취향에 따라</del> 고르면된다.</p>
+<h3 id="3-사용자-홈-서비스-활성화"><a href="#3-사용자-홈-서비스-활성화" class="headerlink" title="3. 사용자 홈 서비스 활성화"></a>3. 사용자 홈 서비스 활성화</h3><p>이동경로: 제어판 &gt; 사용자 &gt; 고급 &gt; 사용자 홈 서비스 활성화<br>2번과 마찬가지로 체크하여 <strong>사용자 홈 서비스</strong> 활성화 해준다.</p>
+<h3 id="4-git-server-접근-허용"><a href="#4-git-server-접근-허용" class="headerlink" title="4. git server 접근 허용"></a>4. git server 접근 허용</h3><p>깃 서버를 설치했다면 바탕화면에 아이콘이 있을 것이다. git을 사용할 수 있는 사용자를 설정할 수 있는데 해당하는 계정을 체크해준다.</p>
+<h3 id="5-시놀로지-접속"><a href="#5-시놀로지-접속" class="headerlink" title="5. 시놀로지 접속"></a>5. 시놀로지 접속</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p PORT USERNAME@ADDRESS</span><br></pre></td></tr></table></figure>
+<p>로그인 할 유저네임과 나스 주소를 입력하여 접속한다.<br>나스에 접속하여 원하는 폴더로 이동한 후 원격저장소를 만들어주면 된다. <em>나의 경우 원격 저장소를 만드는 것과 테스트하기 위해 로컬에서 git remote add 하는 것에 어려움을 겪었다.</em></p>
+<h2 id="구성"><a href="#구성" class="headerlink" title="구성"></a>구성</h2><p>시놀로지 나스에 git server를 설치하고 이용할때 다음과 같은 구성으로 사용하는 게 일반적인듯 샆다.</p>
+<h3 id="계정-생성"><a href="#계정-생성" class="headerlink" title="계정 생성"></a>계정 생성</h3><ol>
+<li>git-admin<ul>
+<li>git user 관리</li>
+<li>저장소별 권한 관리</li>
+</ul>
+</li>
+<li>git-repo<ul>
+<li>git 저장소 관리</li>
+</ul>
+</li>
+</ol>
+<p>git server에 각 각의 아이디로 로그인하려면 다음과 같이 한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh &lt;USERNAME&gt;@&lt;IP_ADDRESS&gt;</span><br></pre></td></tr></table></figure>
+<p>서버에 ssh로 로그인 후 여러 프로젝트를 관리할 <strong>디렉터리(repos)</strong>를 원하는 경로에 생성한다.</p>
+<p>repos 디렉터리 안에 저장소를 생성한다. 일반적으로 저장소의 이름은 <strong>PROJECT_NAME.git</strong> 으로 작성한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># repos/</span></span><br><span class="line">mkdir test.git</span><br></pre></td></tr></table></figure>
+<p><strong>원격(remote) 저장소는 워킹 디렉터리(working directory)가 없다.</strong><br>일반적인 로컬 저장소를 생성하는 명령어(git init)에 <strong>--bare</strong> 옵션을 줌으로써 워킹 디렉터리가 없는 원격 저장소를 생성한다.<br>이때에 --shared 옵션을 주면 자동으로 그룹 쓰기 권한을 추가해준다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/03/13/git/git-server-within-synology-nas/" data-id="ckalwcokn003vgl75gbny59h8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/python-with-postgresql" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -275,7 +434,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/01/11/python/python-with-postgresql/" data-id="ckagvzmqq00a5px75ehcdfz1g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/01/11/python/python-with-postgresql/" data-id="ckalwcomt00a7gl75497y2x31" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -443,212 +602,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/01/09/python/python-package-pyowm/" data-id="ckagvzmqh009qpx755dlwfr3l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-linux/basic-of-crontab" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/01/07/linux/basic-of-crontab/">리눅스 크론탭 기본(Basic of crontab)</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/01/07/linux/basic-of-crontab/">
-            <time datetime="2018-01-07T06:03:21.000Z" itemprop="datePublished">2018-01-07</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/linux/">linux</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/crontab/" rel="tag">crontab</a>, <a class="tag-link" href="/tags/path/" rel="tag">path</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="Crontab"><a href="#Crontab" class="headerlink" title="Crontab !?"></a>Crontab !?</h3><p>유닉스 계열의 시간기반 잡 스케줄러이다. 서버를 운영하다 보면 관리의 편의성을 위해 쉘 스크립트를 일정한 주기로 실행하는 등의 고정된 작업을 필요로할때가 있다. 주로 로그를 남기기 위해 사용하는 듯 싶고 나의 경우 운영하고 있는 서비스때문에 주기적으로 크롤링을 해야돼서 크론탭을 이용하고있다. </p>
-<p><strong>작업을 고정된 시간, 날짜, 간격에 주기적으로 실행할 수 있도록 스케줄링하기 위해 사용한다</strong><br>각각의 사용자들은 개인별로 자신들만의 crontab을 가질 수 있으며 관리자가 직접 작업들을 공통으로 지정하기도 한다.</p>
-<h3 id="파일-위치"><a href="#파일-위치" class="headerlink" title="파일 위치"></a>파일 위치</h3><h3 id="etc-crontab"><a href="#etc-crontab" class="headerlink" title="/etc/crontab"></a>/etc/crontab</h3><p>주로 시스템 관련 작업들을 등록할때 사용하는 경로이다.</p>
-<h3 id="var-spool-cron"><a href="#var-spool-cron" class="headerlink" title="/var/spool/cron"></a>/var/spool/cron</h3><p>시스템 개별사용자들이 등록해놓은 crontab이 위치해있는 경로이다. 일반적으로 root계정용 하나와 각 계정당 1개의 파일을 가진다. </p>
-<h3 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h3><p>기본 형태와 예시를 살펴보자.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ┌───────────── min (0 - 59) </span></span><br><span class="line"><span class="comment"># │ ┌────────────── hour (0 - 23)</span></span><br><span class="line"><span class="comment"># │ │ ┌─────────────── day of month (1 - 31)</span></span><br><span class="line"><span class="comment"># │ │ │ ┌──────────────── month (1 - 12)</span></span><br><span class="line"><span class="comment"># │ │ │ │ ┌───────────────── day of week (0 - 6) (0 to 6 are Sunday to Saturday, or use names; 7 is Sunday, the same as 0)</span></span><br><span class="line"><span class="comment"># │ │ │ │ │</span></span><br><span class="line"><span class="comment"># │ │ │ │ │</span></span><br><span class="line"><span class="comment"># * * * * *  command to execute</span></span><br></pre></td></tr></table></figure>
-
-<p>예시</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 매일 20시 (오후 8시)에 export_dump.sh라는 쉘 프로그램을 실행</span></span><br><span class="line">0 20 * * * /home/oracle/scripts/export_dump.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 매주 일요일 0시 1분에 for_crawling.sh 쉘 프로그램을 실행</span></span><br><span class="line">0 1 * * 0 /home/test_user/scripts/for_crawling.sh</span><br></pre></td></tr></table></figure>
-
-<h3 id="관련명령어"><a href="#관련명령어" class="headerlink" title="관련명령어"></a>관련명령어</h3><ul>
-<li><p>예약작업 생성 및 수정</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>예약된 작업 삭제</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -r</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>crontab 작업 리스트 출력</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -l</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>시스템 사용자의 crontab 편집</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -u &lt;user_name&gt;</span><br></pre></td></tr></table></figure>
-<p>root 사용자는 개인 사용자의 crontab을 수정하거나 삭제할 수 있다.</p>
-</li>
-<li><p>크론탭 재시작</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service crond restart</span><br></pre></td></tr></table></figure>
-<p>크론탭을 생성하거나 수정했다면 혹시모르니 꼭 재시작을 해주자!!</p>
-</li>
-</ul>
-<p>간단한 쉘 스크립트를 주기적으로 실행하기위해 이용했던 crontab은 큰 무리없이 지금까지 사용해왔다. 하지만 코드를 조금 변경하면서 파이썬 스크립트를 추가하면서 문제가 발생했고 해결과정을 정리하고자 한다.</p>
-<h3 id="crontab-사용시-주의점"><a href="#crontab-사용시-주의점" class="headerlink" title="crontab 사용시 주의점!!"></a>crontab 사용시 주의점!!</h3><p>crontab의 규칙에 맞게 설정을 했음에도 불구하고 동작하는 않은 경우가 발생했다. 인터넷을 찾아보니 두세가지 정도의 이유가 있었다.</p>
-<h3 id="1-환경변수"><a href="#1-환경변수" class="headerlink" title="1. 환경변수"></a>1. 환경변수</h3><p>크론탭은 네 가지 환경변수를 가지고 있다. =&gt; <strong>SHELL / PATH / MAILTO / HOME</strong></p>
-<ul>
-<li><p>SHELL<br>등록된 작업을 실행시킨 쉘을 지정한다<strong>(크론탭은 실행시에 별도로 쉘을 띄운다)</strong>. 지정하지 않을시 <strong>기본값으로 /bin/sh로 지정</strong>된다. </p>
-</li>
-<li><p>PATH<br>쉘을 별도로 띄워서 실행하는 특성때문에, 쉘에서 프로그램을 찾기위한 PATH도 별도로 지정해줄 필요가 있다. 로그인해서 쉘을 실행시키는 것이 아니기 때문에 PATH변수를 이용할 수 없기 때문이다.</p>
-</li>
-<li><p>MATILTO<br>(크게 중요하진 않은것 같다)크론이 수행한 결과를 메일로 보내준다. 기본값으로 <strong>작업을 실행한 주체</strong>에게 전송하게 되어있다.</p>
-</li>
-<li><p>HOME<br>crontab의 home 디렉토리(:12)경로를 설정한다. 기본적으로는 crontab의 실행유저의 홈디렉토리로 /etc/passwd에 설정된 경로를 따른다. </p>
-</li>
-</ul>
-<h4 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line"></span><br><span class="line">SHELL=/usr/bin/zsh</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line"></span><br><span class="line">* * * * * sample.sh</span><br></pre></td></tr></table></figure>
-<p>매분마다 sample.sh을 실행하며 프로그램이 작동할 쉘과 경로를 지정해주었다.</p>
-<h3 id="2-권한문제"><a href="#2-권한문제" class="headerlink" title="2. 권한문제"></a>2. 권한문제</h3><p>크론탭을 설정하는 방법에는 <strong>crontab -e</strong> 명령어를 통한 작성과 <strong>직접 /etc/crontab</strong>을 편집하는 두 가지 방법이 있다. 두 번째 방법처럼 vi /etc/crontab을 통해 직접 수정을 했을 경우 root 권한 명령을 실행하려면 root권한을 명시해 주어야 한다. </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line">* * * * * example.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># vi /etc/crontab</span></span><br><span class="line">* * * * * root example.sh</span><br></pre></td></tr></table></figure>
-<p>  두 번째 처럼 root 권한을 명시해야 한다!!</p>
-<h3 id="3-절대경로-상대경로"><a href="#3-절대경로-상대경로" class="headerlink" title="3. 절대경로 / 상대경로"></a>3. 절대경로 / 상대경로</h3><p>절대경로로 작성하는 것을 추천한다 @.@</p>
-<h3 id="4-최소-반복-시간"><a href="#4-최소-반복-시간" class="headerlink" title="4. 최소 반복 시간"></a>4. 최소 반복 시간</h3><p>크론탭의 <strong>최소 반복시간은 1분</strong>이다. 명심하자.</p>
-<hr>
-<h4 id="내가-겪은-문제"><a href="#내가-겪은-문제" class="headerlink" title="내가 겪은 문제"></a>내가 겪은 문제</h4><p>파이썬으로 웹 페이지를 크롤링하는 코드를 작성하였고 간단한 설명을 위해 한글로 주석을 달아놓았다. 또한 virtualenv를 사용하고 있었기 때문에 크론이 돌아가는 쉘이 가상환경 경로를 모르는 듯 했다.</p>
-<p>약 두 세시간 삽질끝에 이유를 위와 같이 알 수 있었고 <del>정석대로 해결을 못해서</del> 한글주석을 지웠다… 그리고 path설정을 하니 정상작동했다.</p>
-<ul>
-<li><p>path 설정<br>파이썬 가상환경을 사용하고 있다면, 패키지들과 어떤 파이썬으로 실행되는지 path로 설정해줄 필요가 있다고 한다. 그래서 구동되는 파이썬의 path를 보기위해 다음과 같이 했다.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python3 <span class="comment"># 파이썬 실행</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; import sys <span class="comment"># sys모듈 임포트</span></span><br><span class="line">&gt;&gt;&gt; sys.path <span class="comment"># path 출력(리스트 형태)</span></span><br></pre></td></tr></table></figure>
-<p>sys.path를 실행해서 출력된 path값들을 crontab의 PATH에 추가해 주었다.</p>
-</li>
-<li><p>가상환경 경로 입력<br>스크립트를 실행하는 명령을 입력하기 전에 파이썬 가상환경을 활성화하는 명령을 입력해 보았다.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line"></span><br><span class="line">* * * * * <span class="built_in">source</span> /path/to/virtualenv/bin/activate &amp;&amp; python3 /path/to/file/example.py</span><br></pre></td></tr></table></figure>
-<p>위와 같이 했더니 가상환경을 정상적으로 활성화하고 파이썬 스크립트를 실행했다.</p>
-</li>
-<li><p>파이썬 경로 입력<br>파이썬 인터프리터에게 어떤 파이썬을 사용할 지 알려주는 것이다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/home/my/virtualenv/bin/python</span></span><br></pre></td></tr></table></figure>
-<p>스크립트 맨위에 주석을 달아준다.</p>
-</li>
-<li><p>SHELL 경로 지정<br>주로 zsh을 설치하여 사용하고 있기 때문에 경로를 바꿔보았다</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line">SHELL=/usr/bin/zsh</span><br></pre></td></tr></table></figure>
-<p>이렇게 했더니 웬걸… python을 찾을 수 없다고 한다. 그래서 sys.path을 통해 파이썬 경로를 알아내어 PATH설정도 해주었는데 그래도 작동하지 않았다..</p>
-</li>
-<li><p>한글주석 삭제<br>한글주석을 지워보았더니 non-ascii 문제가 사라졌다. 그 다음에 path설정을 해주었더니 올바르게 동작…</p>
-</li>
-</ul>
-<hr>
-<h4 id="추가-팁"><a href="#추가-팁" class="headerlink" title="추가 팁?"></a>추가 팁?</h4><p><del>귀차니즘으로 인해 아직 해보지는 않았지만</del> 실행할 명령어를 크론탭에서 바로 작성하는 것이 아니라 따로 .sh을 만들고 크론에서 그 .sh을 실행하는 방법이다. 왜 이렇게하면 잘 작동하는 가에 대한 이유를 찾아보려고 했으나 아직까진 발견하지 못했다.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi example.sh</span></span><br><span class="line">python /path/to/test.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># crontab -e</span></span><br><span class="line">* * * * * /path/example.sh</span><br></pre></td></tr></table></figure>
-<p>  바로 파이썬 스크립트를 입력하지 말고 한번 .sh로 감싼다음에 그 .sh 스크립트를 실행한다는 것이다. 꼭 한번 시도해보자.</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/01/07/linux/basic-of-crontab/" data-id="ckagvzmo90058px75gfq270rr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/01/09/python/python-package-pyowm/" data-id="ckalwcomn009qgl754noy2ggt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -756,7 +710,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -766,6 +720,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -800,15 +763,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

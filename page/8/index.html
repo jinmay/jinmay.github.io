@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-linux/how-to-substitute-text-in-vim" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux/small-tips-of-cli-command" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/linux/how-to-substitute-text-in-vim/">[vim]문자열 치환하기</a>
+            <a class="article-title" href="/2020/05/13/linux/small-tips-of-cli-command/">유닉스 명령어 미세팁 정리</a>
         </h1>
     
 
@@ -160,8 +160,8 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/linux/how-to-substitute-text-in-vim/">
-            <time datetime="2020-05-13T09:09:40.052Z" itemprop="datePublished">2020-05-13</time>
+        <a href="/2020/05/13/linux/small-tips-of-cli-command/">
+            <time datetime="2020-05-13T09:09:40.054Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
 
@@ -181,31 +181,21 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>한 번에 문자열을 치환할 수 있는 방법을 정리한다.  </p>
-<h2 id="문자열-치환"><a href="#문자열-치환" class="headerlink" title="문자열 치환"></a>문자열 치환</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:%s/&lt;변경대상 문자열&gt;/&lt;변경할 문자열&gt;</span><br><span class="line">:%s/&lt;변경대상 문자열&gt;/&lt;변경할 문자열&gt;/&lt;옵션&gt;</span><br></pre></td></tr></table></figure>
+            <p>유닉스 명령어 미세팁 정리.  </p>
+<h2 id="cd"><a href="#cd" class="headerlink" title="cd -"></a>cd -</h2><p><strong>바로 직전에 있던 경로로 한 번에 이동한다.</strong>  </p>
+<p>예를 들어 <code>/home/ubuntu/desktop</code>에 있다가 <code>cd</code>명령어를 통해 <code>/home/ubuntu/documents</code> 경로로 옮겨 왔다고 가정해보자. 조금 전에 있던 경로인 <code>/home/ubuntu/desktop</code>로 이동하려면 <code>cd -</code> 명령어를 입력하자</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> -</span><br></pre></td></tr></table></figure>
 
-<p><strong>Tip: %s의 s는 <em>치환하다</em>라는 뜻을 가진 substitute를 의미한다고 생각하면 기억하기 쉬울 것 같다.</strong></p>
-<p>예를 들어 문서에 <em>pick</em>이라는 문자열을 <em>edit</em>변경 하고자 한다면 아래와 같이 할 수 있다.</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/pick/<span class="keyword">edit</span></span><br></pre></td></tr></table></figure>
+<h2 id="ls-ld"><a href="#ls-ld" class="headerlink" title="ls -ld"></a>ls -ld</h2><p><strong>디렉터리의 자세한 정보를 출력한다.</strong>  </p>
+<p>보통 <code>ls</code> 명령어는 디렉터리의 내용을 출력하기 위해 사용하지만, <code>-d</code> 옵션을 통해 내용이 아닌 디렉터리 자체의 정보를 출력할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -ld &lt;directory_name&gt;</span><br></pre></td></tr></table></figure>
 
-<h2 id="옵션"><a href="#옵션" class="headerlink" title="옵션"></a>옵션</h2><ul>
-<li>g: global - 파일 전체를 대상으로 한다.</li>
-<li>i: ignore case - 대소문자를 구분하지 않는다.</li>
-<li>c: confirm - 검색된 문자열에 대해서 치환할지 말지 물어본다.</li>
-</ul>
-<h3 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h3><ol>
-<li>문서 전체에서 <em>pick</em>를 <em>edit</em>으로 변경</li>
-</ol>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%s/pick/<span class="keyword">edit</span>/g</span><br></pre></td></tr></table></figure>
+<h2 id="mv-i-cp-i"><a href="#mv-i-cp-i" class="headerlink" title="mv -i | cp -i"></a>mv -i | cp -i</h2><p><strong><code>-i</code> 옵션을 통해 덮어쓰기를 방지할 수 있다.</strong></p>
+<figure class="highlight plain"><figcaption><span>명령어를 사용하면 파일 또는 디렉터리의 이름을 변경하거나 경로를 이동시킬 수 있는데, 목적지에 같은 이름의 파일이 있다면 덮어쓰기를 자동으로 수행한다. ```-i``` 옵션은 interactive의 약자로 이름의 중복이 발생할 경우 사용자에게 작업을 계속해서 수행할지 물어본다. 따라서, 묻지마 덮어쓰기를 방지할 수 있을 것이다.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;sh</span><br><span class="line">mv -i &lt;file&gt; &lt;destination&gt;</span><br><span class="line">cp -i &lt;file&gt; &lt;destination&gt;</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>문서 전체에서 <em>pick</em>를 <em>edit</em>으로 변경하는데, 각 문자열이 검색될 때마다 변경할 건지 묻기</li>
-</ol>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%s/pick/<span class="keyword">edit</span>/gc</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://overegoz.tistory.com/659" target="_blank" rel="external nofollow noopener noreferrer">https://overegoz.tistory.com/659</a><br><a href="http://gypark.pe.kr/wiki/Vi%EB%A1%9C%EB%AC%B8%EC%9E%90%EC%97%B4%EC%B9%98%ED%99%98%ED%95%98%EA%B8%B0" target="_blank" rel="external nofollow noopener noreferrer">http://gypark.pe.kr/wiki/Vi%EB%A1%9C%EB%AC%B8%EC%9E%90%EC%97%B4%EC%B9%98%ED%99%98%ED%95%98%EA%B8%B0</a>  </p>
-
+<h2 id="이름에-공백이-있을-경우"><a href="#이름에-공백이-있을-경우" class="headerlink" title="이름에 공백이 있을 경우"></a>이름에 공백이 있을 경우</h2><p>대게 명령어의 인자 구분은 공백을 사용해서 하기 마련이다. 즉, <code>mkdir hello world</code>라는 명령어는 <strong>hello world</strong> 라는 디렉터리를 만들지 않고 <strong>hello</strong>와 <strong>world</strong>라는 두 개의 디렉터리를 생성한다.  </p>
+<p><strong>이름에 공백이 필요할 경우 따옴표를 사용해 주어야 한다.</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir <span class="string">'hello world'</span></span><br></pre></td></tr></table></figure>
         
         </div>
         <footer class="article-footer">
@@ -215,7 +205,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-substitute-text-in-vim/" data-id="ckagvzmoa005bpx75czn0f943" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/small-tips-of-cli-command/" data-id="ckalwcolq006wgl755vluds0f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -291,7 +281,7 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-linux/lets-encrypt-for-ssl" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux/how-to-substitute-text-in-vim" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -299,7 +289,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/linux/lets-encrypt-for-ssl/">HTTPS를 위한 let&#39;s encrypt 무료 인증서 적용하기</a>
+            <a class="article-title" href="/2020/05/13/linux/how-to-substitute-text-in-vim/">[vim]문자열 치환하기</a>
         </h1>
     
 
@@ -308,7 +298,7 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/linux/lets-encrypt-for-ssl/">
+        <a href="/2020/05/13/linux/how-to-substitute-text-in-vim/">
             <time datetime="2020-05-13T09:09:40.052Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
@@ -329,43 +319,30 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>플레이 스토어와 앱 스토어에 어플리케이션을 등록하기 위해서 충족해야 하는 몇가지 사항들이 있는데 그 중에서 가장 쉬운 방법은 백엔드 서버에 SSL을 적용하는 것이다. 우분투 서버에 let’s encrypt의 무료 인증서를 적용하여 HTTPS을 사용하도록 하는 방법에 대해서 정리힌다.</p>
-<blockquote>
-<p>참고로 SSL을 적용하는 방법에는 두 가지가 있는 것 같다. 첫 번째, webroot 플러그인을 사용하는 방법. 두 번째, certbot 사용하는 방법인데, 두 번째 방법인 certbot을 이용하는 것이 훨씬 간단하다.</p>
-</blockquote>
-<h2 id="1-certbot-설치"><a href="#1-certbot-설치" class="headerlink" title="1. certbot 설치"></a>1. certbot 설치</h2><p>사용하는 리눅스 배포판에 따라 certbot을 설치하면 된다. apt에 certbot 저장소를 아래와 같이 추가한다. 저장소 추가 후 apt 업데이트를 해주어 반영시킨다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:certbot/certbot</span><br><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+            <p>한 번에 문자열을 치환할 수 있는 방법을 정리한다.  </p>
+<h2 id="문자열-치환"><a href="#문자열-치환" class="headerlink" title="문자열 치환"></a>문자열 치환</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:%s/&lt;변경대상 문자열&gt;/&lt;변경할 문자열&gt;</span><br><span class="line">:%s/&lt;변경대상 문자열&gt;/&lt;변경할 문자열&gt;/&lt;옵션&gt;</span><br></pre></td></tr></table></figure>
 
-<p>certbot을 설치한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-certbot-nginx</span><br></pre></td></tr></table></figure>
+<p><strong>Tip: %s의 s는 <em>치환하다</em>라는 뜻을 가진 substitute를 의미한다고 생각하면 기억하기 쉬울 것 같다.</strong></p>
+<p>예를 들어 문서에 <em>pick</em>이라는 문자열을 <em>edit</em>변경 하고자 한다면 아래와 같이 할 수 있다.</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/pick/<span class="keyword">edit</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="2-nginx-설정"><a href="#2-nginx-설정" class="headerlink" title="2. nginx 설정"></a>2. nginx 설정</h2><p>사용할 환경에 따라 nginx 설정을 해준다. certbot을 이용해 인증서를 발급받을때 해당 도메인의 80번 포트로 접속이 가능한지 보기 때문에 <strong>80번 포트</strong>와 <strong>server_name</strong>을 설정해주어야 한다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name domain-example.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="옵션"><a href="#옵션" class="headerlink" title="옵션"></a>옵션</h2><ul>
+<li>g: global - 파일 전체를 대상으로 한다.</li>
+<li>i: ignore case - 대소문자를 구분하지 않는다.</li>
+<li>c: confirm - 검색된 문자열에 대해서 치환할지 말지 물어본다.</li>
+</ul>
+<h3 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h3><ol>
+<li>문서 전체에서 <em>pick</em>를 <em>edit</em>으로 변경</li>
+</ol>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%s/pick/<span class="keyword">edit</span>/g</span><br></pre></td></tr></table></figure>
 
-<p>nginx 설정이 잘 되어있는지 확인하고 재시작하자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-SSL-인증서-발급-받기"><a href="#3-SSL-인증서-발급-받기" class="headerlink" title="3. SSL 인증서 발급 받기"></a>3. SSL 인증서 발급 받기</h2><p>이전에 설치한 certbot을 이용해 ssl 인증서를 받자. <strong>SSL 인증서를 이용할 도메인 주소 하나가 꼭 필요하다.</strong></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot --nginx -d domain-example.com</span><br></pre></td></tr></table></figure>
-
-<p>위의 커맨드를 실행하면 이것 저것 물어보는 것이 있는데 Accept / Yes를 하면 문제없이 진행할 수 있다.</p>
-<p><strong>인증서 경로는 아래와 같다.</strong></p>
-<p><strong>fullchain</strong> -&gt; /etc/letsencrypt/live/도메인 주소/fullchain.pem<br><strong>privkey</strong> -&gt; /etc/letsencrypt/live/도메인 주소/privkey.pem</p>
-<h2 id="4-certbot-관련-기초-명령어"><a href="#4-certbot-관련-기초-명령어" class="headerlink" title="4. certbot 관련 기초 명령어"></a>4. certbot 관련 기초 명령어</h2><p>letsencrypt의 SSL 인증서의 유효기간은 90일이다. 따라서 90일 이후에는 갱신을 해주어야 하는데 certbot에는 갱신을 자동으로 해주는 기능도 있다.</p>
-<p>자동 갱신이 제대로 되는지 테스트 하기 위해 아래의 명령어를 입력하자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot renew --dry-run</span><br></pre></td></tr></table></figure>
-
-<p>실제 인증서를 갱신하는 명령어는 다음과 같다. crontab을 통해 갱신을 하게 되는데 <strong>크론탭의 경로는 /etc/cron.d/certbot</strong>이다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot renew</span><br></pre></td></tr></table></figure>
-
-<p>또한 인증서의 만료일을 확인하고 싶다면 아래와 같이 확인하자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot certificates</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-nginx에-인증서-적용"><a href="#5-nginx에-인증서-적용" class="headerlink" title="5. nginx에 인증서 적용"></a>5. nginx에 인증서 적용</h2><p>지금까지 SSL 인증서를 발급하는 과정에 에러없이 진행해왔다면 nginx에 적용할 차례이다. nginx의 세팅을 수정하자. nginx를 재시작하면 HTTPS로 접근이 가능해 질 것이다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name domain-example.com;</span><br><span class="line"></span><br><span class="line">    listen 443 ssl default_server;</span><br><span class="line">    listen [::]:443 ssl default_server;</span><br><span class="line"></span><br><span class="line">    ssl_certificate &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;domain-example.com&#x2F;fullchain.pem; # managed by Certbot</span><br><span class="line">    ssl_certificate_key &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;domain-example.com&#x2F;privkey.pem; # managed by Certbot</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_ciphers HIGH:!aNULL:MD5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>문서 전체에서 <em>pick</em>를 <em>edit</em>으로 변경하는데, 각 문자열이 검색될 때마다 변경할 건지 묻기</li>
+</ol>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%s/pick/<span class="keyword">edit</span>/gc</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>[참고]<br><a href="https://twpower.github.io/44-set-free-https-by-using-letsencrypt" target="_blank" rel="external nofollow noopener noreferrer">https://twpower.github.io/44-set-free-https-by-using-letsencrypt</a><br><a href="https://devlog.jwgo.kr/2019/04/16/how-to-lets-encrypt-ssl-renew/" target="_blank" rel="external nofollow noopener noreferrer">https://devlog.jwgo.kr/2019/04/16/how-to-lets-encrypt-ssl-renew/</a></p>
+<p>[참고]<br><a href="https://overegoz.tistory.com/659" target="_blank" rel="external nofollow noopener noreferrer">https://overegoz.tistory.com/659</a><br><a href="http://gypark.pe.kr/wiki/Vi%EB%A1%9C%EB%AC%B8%EC%9E%90%EC%97%B4%EC%B9%98%ED%99%98%ED%95%98%EA%B8%B0" target="_blank" rel="external nofollow noopener noreferrer">http://gypark.pe.kr/wiki/Vi%EB%A1%9C%EB%AC%B8%EC%9E%90%EC%97%B4%EC%B9%98%ED%99%98%ED%95%98%EA%B8%B0</a>  </p>
 
         
         </div>
@@ -376,7 +353,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/linux/lets-encrypt-for-ssl/" data-id="ckagvzmom005ppx759eh623eh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-substitute-text-in-vim/" data-id="ckalwcol7005hgl7588wy4yc0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -506,7 +483,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-redirect-http-to-https/" data-id="ckagvzmod005epx75eiyk3gc0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-redirect-http-to-https/" data-id="ckalwcol7005egl75baseb1rf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -614,7 +591,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -624,6 +601,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -658,15 +644,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

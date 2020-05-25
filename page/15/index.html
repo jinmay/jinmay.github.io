@@ -143,6 +143,179 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-python/coroutine-brief" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/12/05/python/coroutine-brief/">[파이썬]제너레이터와 코루틴</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/12/05/python/coroutine-brief/">
+            <time datetime="2019-12-05T12:53:10.000Z" itemprop="datePublished">2019-12-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>코루틴은 제너레이터를 이용해서 만들 수 있기 때문에 제너레이터와 매우 유사하다. 큰 차이점으로는, </p>
+<ul>
+<li>제너레이터는 데이터를 생산</li>
+<li>코루틴은 생산과 소비 둘 다 가능 </li>
+</ul>
+<p>하다는 것이다.</p>
+<h2 id="특징"><a href="#특징" class="headerlink" title="특징"></a>특징</h2><p><strong>코루틴은 싱글 스레드 안에서 동시성을 구현</strong>하기 위해 사용된다고 한다. 그렇기 때문에 <strong>CPU의 컨텍스트 스위칭이 일어나지 않으며 코루틴 스케쥴링 작업의 스케쥴링 오버헤드가 매우 적다.</strong></p>
+<p>asycio와 같이 동시성을 필요로하는 파이썬 패키지들에서 많이 사용되고 있다고 한다. </p>
+<p>코루틴의 간단한 예제를 보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">coroutine1</span><span class="params">()</span>:</span></span><br><span class="line">  print(<span class="string">'coroutine start'</span>)</span><br><span class="line">  num = <span class="keyword">yield</span></span><br><span class="line">  print(<span class="string">'coroutine end, value:'</span>, num)</span><br></pre></td></tr></table></figure>
+
+<p>제너레이터에서 봐왔던 패턴이랑은 조금 다른 것을 알 수 있다. <strong>num 변수는 외부로부터 들어오는 값</strong>이고 아래의 print를 이용해 값을 출력했다. 만약 외부에 값을 생성하고 외부로부터 값을 받고 싶다면 아래와 같이 하면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">coroutine2</span><span class="params">()</span>:</span></span><br><span class="line">  print(<span class="string">'coroutine start'</span>)</span><br><span class="line">  num = <span class="keyword">yield</span> <span class="string">'Coroutine!!!'</span></span><br><span class="line">  print(<span class="string">'coroutine end, value:'</span>, num)</span><br></pre></td></tr></table></figure>
+
+<p>먼저 외부로 값을 생성하고, 다음 루틴을 기다린다. 즉, ‘Coroutine!!!’ 이라는 문자열을 외부로 먼저 생성한 뒤 값이 num으로 들어 오기를 기다린다는 것이다. 외부에서 코루틴으로 값을 보내고 싶다면 아래와 같이 한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = coroutine2()</span><br><span class="line">next(a)</span><br><span class="line">a.send(<span class="number">123</span>) <span class="comment"># 메인 루틴에서 코루틴으로 값 주입하기</span></span><br></pre></td></tr></table></figure>
+
+<p>두 번째 줄에서 볼 수 있듯이 코루틴을 생성하고나서 바로 시작할 수는 없다. <strong>yield 문에서 실행될 수 있도록 next() 함수를 꼭 실행해 주어야 한다.</strong></p>
+<h2 id="코루틴에-값-주입하기"><a href="#코루틴에-값-주입하기" class="headerlink" title="코루틴에 값 주입하기"></a>코루틴에 값 주입하기</h2><p>send함수를 통해서 코루틴에 값을 넣을 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.send(<span class="number">123</span>)</span><br><span class="line">a.send(<span class="number">456</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="StopIteration"><a href="#StopIteration" class="headerlink" title="StopIteration"></a>StopIteration</h2><p>더이상 반복할 yield가 없다면 StopIteration 예외를 발생시킨다. </p>
+<h2 id="코루틴의-현재-상태-알아보기"><a href="#코루틴의-현재-상태-알아보기" class="headerlink" title="코루틴의 현재 상태 알아보기"></a>코루틴의 현재 상태 알아보기</h2><p>inspect 모듈의 getgeneratorstate 함수를 통해 현재 어떠한 상태일 지 알아볼 수 있다. 아래의 네 단계로 나누어진다.</p>
+<ul>
+<li>GEN_CREATED - 처음 대기 상태</li>
+<li>GEN_RUNNING - 실행 상태</li>
+<li>GEN_SUSPENDED - yield 대기 상태</li>
+<li>GEN_CLOSED - 실행 완료 상태</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> inspect <span class="keyword">import</span> getgeneratorstate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">co3</span><span class="params">()</span>:</span></span><br><span class="line">  a = <span class="keyword">yield</span></span><br><span class="line">  b = <span class="keyword">yield</span></span><br><span class="line"></span><br><span class="line">test = co3()</span><br><span class="line">print(getgeneratorstate(test)) <span class="comment"># GEN_CREATED</span></span><br><span class="line">next(test)</span><br><span class="line">print(getgeneratorstate(test)) <span class="comment"># GEN_SUSPENDED</span></span><br><span class="line">test.send(<span class="number">1</span>)</span><br><span class="line">print(getgeneratorstate(test)) <span class="comment"># GEN_SUSPENDED</span></span><br><span class="line">test.send(<span class="number">2</span>) <span class="comment"># StopIteration 예외 발생</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="예외-처리-및-종료"><a href="#예외-처리-및-종료" class="headerlink" title="예외 처리 및 종료"></a>예외 처리 및 종료</h2><p>throw() 함수로 예외를 던질 수 있다. 그리고 close() 함수로 코루틴을 종료할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.throw(Exception)</span><br><span class="line">a.close() <span class="comment"># GEN_CLOSED</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="데코레이터로-만들기"><a href="#데코레이터로-만들기" class="headerlink" title="데코레이터로 만들기"></a>데코레이터로 만들기</h2><p>먼저 한 번 실행해야 한다는 불편함을 해소하기 위해 데코레이터로 만들 수 있다. 코루틴을 생성하고 next()를 한 번 해주는 데코레이터를 만들어보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">coroutine</span><span class="params">(func)</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    cr = func(*args, **kwargs)</span><br><span class="line">    next(cr)</span><br><span class="line">    <span class="keyword">return</span> cr</span><br><span class="line">  <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"><span class="meta">@coroutine</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_co</span><span class="params">()</span>:</span></span><br><span class="line">  print(<span class="string">'start'</span>)</span><br><span class="line">  num = <span class="keyword">yield</span> <span class="string">'Coroutine!!!'</span></span><br><span class="line">  print(<span class="string">'end'</span>, num)</span><br><span class="line"></span><br><span class="line">a = test_co()</span><br><span class="line">a.send(<span class="number">123</span>)</span><br></pre></td></tr></table></figure>
+
+<p>맨 위에서 작성했던 코드와 똑같이 동작한다. <strong>차이점은 a를 생성 후 next()로 한 번 실행하지 않아도 바로 코루틴을 사용할 수 있다는 것이다.</strong></p>
+<h2 id="yield-from-키워드"><a href="#yield-from-키워드" class="headerlink" title="yield from 키워드"></a>yield from 키워드</h2><p>파이썬 3.3 버전부터 yield from 이라는 키워드를 사용할 수 있다. <strong>다른 제너레이터에게 작업을 위임할때 사용</strong>하며 흐름을 넘겨받을 다른 제너레이터가 필요하다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func_a</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">for</span> item <span class="keyword">in</span> [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]:</span><br><span class="line">    <span class="keyword">yield</span> item</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func_b</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">yield</span> <span class="keyword">from</span> func_a()</span><br><span class="line"></span><br><span class="line">aa = func_b()</span><br><span class="line">next(aa)</span><br><span class="line">next(aa)</span><br><span class="line">next(aa)</span><br><span class="line">next(aa) <span class="comment"># StopIteration</span></span><br></pre></td></tr></table></figure>
+
+<p>func_b 제너레이터는 func_a 제너레이터에게 작업을 위임했다. func_a는 리스트를 순회하면서 상위 제너레이터에게 값을 전해준다. 상위 제너레이터인 func_b에 next 함수가 없다는 것이 특징이다. </p>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><ul>
+<li>제너레이터와 다르게 값을 생성하고 소비할 수 있다. -&gt; 그래서 동시성 프로그래밍에 사용될 수 있다.</li>
+<li>값을 입력 받을 수 있는 제너레이터 -&gt; 코루틴</li>
+</ul>
+<p>제너레이터는 yield 키워드를 통해 값을 메인 루틴으로 생성해 줄 수 있지만, 코루틴은 메인루틴으로 값을 생성할 뿐만 아니라 메인 루틴으로 부터 받은 값을 소비할 수 있다는 큰 차이점이 있다. 그리고 이러한 차이로 인해서 동시성 프로그래밍을 할 수 있다는 것을 알아두자!!</p>
+<hr>
+<p>[참고]<br><a href="https://hamait.tistory.com/830" target="_blank" rel="external nofollow noopener noreferrer">https://hamait.tistory.com/830</a><br><a href="https://ddanggle.gitbooks.io/interpy-kr/ch22-Coroutines.html" target="_blank" rel="external nofollow noopener noreferrer">https://ddanggle.gitbooks.io/interpy-kr/ch22-Coroutines.html</a><br><a href="https://github.com/Gyubin/TIL/blob/master/Python/coroutine.md" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Gyubin/TIL/blob/master/Python/coroutine.md</a><br><a href="https://sjquant.tistory.com/13" target="_blank" rel="external nofollow noopener noreferrer">https://sjquant.tistory.com/13</a><br><a href="https://sjquant.tistory.com/14" target="_blank" rel="external nofollow noopener noreferrer">https://sjquant.tistory.com/14</a><br><a href="https://poppy-leni.tistory.com/entry/%EB%8F%99%EC%8B%9C%EC%84%B1-vs-%EB%B3%91%EB%A0%AC%EC%84%B1" target="_blank" rel="external nofollow noopener noreferrer">https://poppy-leni.tistory.com/entry/%EB%8F%99%EC%8B%9C%EC%84%B1-vs-%EB%B3%91%EB%A0%AC%EC%84%B1</a><br><a href="https://umbum.tistory.com/445" target="_blank" rel="external nofollow noopener noreferrer">https://umbum.tistory.com/445</a>  </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/12/05/python/coroutine-brief/" data-id="ckalwcoma008hgl75ar3qfn9v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/python-callable" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -200,7 +373,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/12/03/python/python-callable/" data-id="ckagvzmq1008qpx75cc1j60ru" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/12/03/python/python-callable/" data-id="ckalwcomd008rgl75bv0q9755" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -342,145 +515,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/12/02/python/python-caution-of-parameter/" data-id="ckagvzmq4008xpx753d908ma2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/python-instance-slice" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/11/26/python/python-instance-slice/">[파이썬]객체 슬라이싱과 __getitem__</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/11/26/python/python-instance-slice/">
-            <time datetime="2019-11-26T03:53:02.000Z" itemprop="datePublished">2019-11-26</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>파이썬의 리스트와 튜플에 <a href="대괄호"></a>를 이용해서 슬라이싱을 해보았을 것이다. 뿐만 아니라 리스트처럼 클래스의 인스턴스 자체도 슬라이싱을 할 수 있도록 만들 수 있다. 이때에 필요한 속성이 __getitem__이라는 속성이며 슬라이싱을 구현하는 방법에 대해서 정리해보자.</p>
-<h2 id="getitem"><a href="#getitem" class="headerlink" title="__getitem__"></a>__getitem__</h2><p>두개의 밑줄로 시작하는 파이썬의 특별 메소드 중 하나이다. <strong>슬라이싱을 구현할 수 있도록 도우며 리스트에서 슬라이싱을 하게되면 내부적으로 __getitem__ 메소드를 실행한다는 점</strong>이 중요하다. 따라서 객체에서도 <strong>슬라이싱을 하기 위해서는 __getitem__ 메소드가 필수적</strong>이다.</p>
-<h2 id="코드로-살펴보는-getitem"><a href="#코드로-살펴보는-getitem" class="headerlink" title="코드로 살펴보는 __getitem__"></a>코드로 살펴보는 __getitem__</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomNumbers</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">    self._numbers = [n <span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>)]</span><br><span class="line"></span><br><span class="line">a = CustomNumbers()</span><br></pre></td></tr></table></figure>
-
-<p>위의 클래스를 통해 a는 1부터 10까지 저장되어 있는 리스트를 속성으로 가진다. 만약 현재의 상태에서 리스트 슬라이싱을 하고 싶다면 _numbers 속성에 직접 접근해서 사용해야할 것이다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a._numbers[<span class="number">2</span>:<span class="number">5</span>]</span><br><span class="line"><span class="comment"># [3, 4, 5]</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>인스턴스 변수에 직접 접근하지 말고 객체 자체를 통해서 슬라이싱을 구현하기 위해서는 **getitem</strong> 특별 메소드를 정의해야한다.** 그리고 이 함수는 인덱스를 인수로 받아야 한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomNumbers</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">    self._numbers = [n <span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>)]</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, idx)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self._numbers[idx]</span><br><span class="line"></span><br><span class="line">a = CustomNumbers()</span><br><span class="line">a[<span class="number">2</span>:<span class="number">7</span>]</span><br><span class="line"><span class="comment"># [3, 4, 5, 6, 7]</span></span><br></pre></td></tr></table></figure>
-
-<p>구현 내용은 굉장히 간단하다. 슬라이싱을 사용할 속성에 idx만 적어주면 알아서 해결해준다.</p>
-<h1 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h1><p>슬라이싱을 구현하기 위해서 필요한 것은 __getitem__라는 특별 메소드임을 잊지말자!</p>
-<hr>
-<p>[정리]<br>패스트캠퍼스 강의</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/11/26/python/python-instance-slice/" data-id="ckagvzmqe009fpx75bcx21f9u" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/12/02/python/python-caution-of-parameter/" data-id="ckalwcome008vgl75g48r1y8a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -588,7 +623,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -598,6 +633,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -632,15 +676,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 

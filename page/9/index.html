@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-git/github-action" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux/lets-encrypt-for-ssl" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/git/github-action/">[Github]깃허브 액션이란</a>
+            <a class="article-title" href="/2020/05/13/linux/lets-encrypt-for-ssl/">HTTPS를 위한 let&#39;s encrypt 무료 인증서 적용하기</a>
         </h1>
     
 
@@ -160,8 +160,8 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/git/github-action/">
-            <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
+        <a href="/2020/05/13/linux/lets-encrypt-for-ssl/">
+            <time datetime="2020-05-13T09:09:40.052Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
 
@@ -169,7 +169,7 @@ ga('send', 'pageview');
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/git/">git</a>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
     </div>
 
                         
@@ -181,27 +181,43 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><img src="https://user-images.githubusercontent.com/13075035/73540557-98943900-4473-11ea-8839-82d2bb798645.png" alt="https://github.com/features/actions"></p>
-<p>Github에서 CI를 위한 툴인 Actions을 제공하고 있다. CI란 Continuous Integration의 약자로써 계속적 통합(?)이라고 번역되기도 하는데 각각의 개발자가 개발한 코드를 하나의 저장소에서 통합하는 과정을 말한다. <strong>하지만 단순히 코드의 통합만을 의미하진 않으며 정적 분석, 단위 테스트, 분석결과 리포팅, 배포 서버에 push 하는 등의 여러 작업들을 수행한다.</strong> 즉, 배포 전에 한 번에 모아서 통합하는 것이 아닌 조금씩 자주 계속해서 통합해 나가는 과정이라고 이해할 수 있을 것 같다.</p>
-<p>기존의 Circle CI / Travis CI / Jenkins CI와 같은 서비스 또는 설치형 CI처럼 Github에서도 Actions이라는 CI툴을 선보였으며 별다른 복잡한 절차 없이 Github를 통해 사용할 수 있다는 장점이 있다.</p>
-<h3 id="주요-개념"><a href="#주요-개념" class="headerlink" title="주요 개념"></a>주요 개념</h3><p>Github Actions에는 몇몇의 중요한 개념이 있다.</p>
-<ul>
-<li>workflow</li>
-<li>event</li>
-<li>job</li>
-<li>step</li>
-</ul>
-<h4 id="1-workflow"><a href="#1-workflow" class="headerlink" title="1. workflow"></a>1. workflow</h4><p>github repository에 대해 일련의 작업들을 수행하는 자동화된 프로세스이다. repository의 root에서 ./github/workflows/ 아래에 workflow에 대한 yml 형식의 설정 파일이 있어야한다.</p>
-<h4 id="2-event"><a href="#2-event" class="headerlink" title="2. event"></a>2. event</h4><p>workflow 실행되도록 만드는 trigger 역할을 담당한다. push와 pull request 같은 트리거가 있다.</p>
-<h4 id="3-job"><a href="#3-job" class="headerlink" title="3. job"></a>3. job</h4><p>job은 여러 개의 step으로 이루어질 수 있으며 단일한 가상 환경을 가진다.</p>
-<h4 id="4-step"><a href="#4-step" class="headerlink" title="4. step"></a>4. step</h4><p>job 안에서 순차적으로 실행되는 프로세스 단위이다.</p>
-<p>아래의 그림은 간단한 workflow의 예시이다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># workflow</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">TEST</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> <span class="comment"># event</span></span><br><span class="line">    <span class="attr">pull_request:</span></span><br><span class="line">        <span class="attr">branches:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">develop</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="comment"># job</span></span><br><span class="line">        <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">steps:</span> <span class="comment"># step</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Python</span> <span class="number">3.7</span></span><br><span class="line">                <span class="attr">uses:</span> <span class="string">actions/setup-python@v1</span></span><br><span class="line">                <span class="attr">with:</span></span><br><span class="line">                <span class="attr">python-version:</span> <span class="number">3.7</span></span><br></pre></td></tr></table></figure>
+            <p>플레이 스토어와 앱 스토어에 어플리케이션을 등록하기 위해서 충족해야 하는 몇가지 사항들이 있는데 그 중에서 가장 쉬운 방법은 백엔드 서버에 SSL을 적용하는 것이다. 우분투 서버에 let’s encrypt의 무료 인증서를 적용하여 HTTPS을 사용하도록 하는 방법에 대해서 정리힌다.</p>
+<blockquote>
+<p>참고로 SSL을 적용하는 방법에는 두 가지가 있는 것 같다. 첫 번째, webroot 플러그인을 사용하는 방법. 두 번째, certbot 사용하는 방법인데, 두 번째 방법인 certbot을 이용하는 것이 훨씬 간단하다.</p>
+</blockquote>
+<h2 id="1-certbot-설치"><a href="#1-certbot-설치" class="headerlink" title="1. certbot 설치"></a>1. certbot 설치</h2><p>사용하는 리눅스 배포판에 따라 certbot을 설치하면 된다. apt에 certbot 저장소를 아래와 같이 추가한다. 저장소 추가 후 apt 업데이트를 해주어 반영시킨다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:certbot/certbot</span><br><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
 
-<p>Actions은 CI로서의 역할을 한다고 볼 수 있기 때문에 CD(Continuous Delivery) 작업을 함께하여 배포 파이프라인을 구축할 수 있다.<br><img src="https://user-images.githubusercontent.com/13075035/73540395-26235900-4473-11ea-83d2-9c480244639b.png" alt="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application"></p>
-<h3 id="마무리"><a href="#마무리" class="headerlink" title="마무리"></a>마무리</h3><p>Github에서 제공하는 CI Tool로서 Actions에 대해서 아주 간단히 정리했다. CI는 작업을 단위별로 나누어 조금씩 자주 통합하여 통합과정에서 발생할 수 있는 부담을 최소화하기 위해 사용한다. 또한 Actions의 중요 개념으로 workflow / event / job / step을 간단하게 정리했다.</p>
+<p>certbot을 설치한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-certbot-nginx</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-nginx-설정"><a href="#2-nginx-설정" class="headerlink" title="2. nginx 설정"></a>2. nginx 설정</h2><p>사용할 환경에 따라 nginx 설정을 해준다. certbot을 이용해 인증서를 발급받을때 해당 도메인의 80번 포트로 접속이 가능한지 보기 때문에 <strong>80번 포트</strong>와 <strong>server_name</strong>을 설정해주어야 한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name domain-example.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>nginx 설정이 잘 되어있는지 확인하고 재시작하자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-SSL-인증서-발급-받기"><a href="#3-SSL-인증서-발급-받기" class="headerlink" title="3. SSL 인증서 발급 받기"></a>3. SSL 인증서 발급 받기</h2><p>이전에 설치한 certbot을 이용해 ssl 인증서를 받자. <strong>SSL 인증서를 이용할 도메인 주소 하나가 꼭 필요하다.</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot --nginx -d domain-example.com</span><br></pre></td></tr></table></figure>
+
+<p>위의 커맨드를 실행하면 이것 저것 물어보는 것이 있는데 Accept / Yes를 하면 문제없이 진행할 수 있다.</p>
+<p><strong>인증서 경로는 아래와 같다.</strong></p>
+<p><strong>fullchain</strong> -&gt; /etc/letsencrypt/live/도메인 주소/fullchain.pem<br><strong>privkey</strong> -&gt; /etc/letsencrypt/live/도메인 주소/privkey.pem</p>
+<h2 id="4-certbot-관련-기초-명령어"><a href="#4-certbot-관련-기초-명령어" class="headerlink" title="4. certbot 관련 기초 명령어"></a>4. certbot 관련 기초 명령어</h2><p>letsencrypt의 SSL 인증서의 유효기간은 90일이다. 따라서 90일 이후에는 갱신을 해주어야 하는데 certbot에는 갱신을 자동으로 해주는 기능도 있다.</p>
+<p>자동 갱신이 제대로 되는지 테스트 하기 위해 아래의 명령어를 입력하자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot renew --dry-run</span><br></pre></td></tr></table></figure>
+
+<p>실제 인증서를 갱신하는 명령어는 다음과 같다. crontab을 통해 갱신을 하게 되는데 <strong>크론탭의 경로는 /etc/cron.d/certbot</strong>이다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot renew</span><br></pre></td></tr></table></figure>
+
+<p>또한 인증서의 만료일을 확인하고 싶다면 아래와 같이 확인하자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot certificates</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-nginx에-인증서-적용"><a href="#5-nginx에-인증서-적용" class="headerlink" title="5. nginx에 인증서 적용"></a>5. nginx에 인증서 적용</h2><p>지금까지 SSL 인증서를 발급하는 과정에 에러없이 진행해왔다면 nginx에 적용할 차례이다. nginx의 세팅을 수정하자. nginx를 재시작하면 HTTPS로 접근이 가능해 질 것이다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name domain-example.com;</span><br><span class="line"></span><br><span class="line">    listen 443 ssl default_server;</span><br><span class="line">    listen [::]:443 ssl default_server;</span><br><span class="line"></span><br><span class="line">    ssl_certificate &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;domain-example.com&#x2F;fullchain.pem; # managed by Certbot</span><br><span class="line">    ssl_certificate_key &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;domain-example.com&#x2F;privkey.pem; # managed by Certbot</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_ciphers HIGH:!aNULL:MD5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
-<p>[참고]<br><a href="https://asfirstalways.tistory.com/303" target="_blank" rel="external nofollow noopener noreferrer">https://asfirstalways.tistory.com/303</a><br><a href="https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95" target="_blank" rel="external nofollow noopener noreferrer">https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95</a><br><a href="https://coffeewhale.com/cicd/github/2019/10/14/github-actions/" target="_blank" rel="external nofollow noopener noreferrer">https://coffeewhale.com/cicd/github/2019/10/14/github-actions/</a><br><a href="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application" target="_blank" rel="external nofollow noopener noreferrer">https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application</a></p>
+<p>[참고]<br><a href="https://twpower.github.io/44-set-free-https-by-using-letsencrypt" target="_blank" rel="external nofollow noopener noreferrer">https://twpower.github.io/44-set-free-https-by-using-letsencrypt</a><br><a href="https://devlog.jwgo.kr/2019/04/16/how-to-lets-encrypt-ssl-renew/" target="_blank" rel="external nofollow noopener noreferrer">https://devlog.jwgo.kr/2019/04/16/how-to-lets-encrypt-ssl-renew/</a></p>
 
         
         </div>
@@ -212,7 +228,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action/" data-id="ckagvzmnx0046px754dqn8ht8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/lets-encrypt-for-ssl/" data-id="ckalwcolb005pgl75djyc1gp8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -342,7 +358,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="ckagvzmny0049px759k4ea0fz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="ckalwcoku004agl750jj965ms" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -474,7 +490,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/" data-id="ckagvzmnw0043px75gcii5veg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/" data-id="ckalwcokp0042gl7551t8gcdu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -582,7 +598,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -592,6 +608,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -626,15 +651,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
                             <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/web/">web</a></p>
-                            <p class="item-title"><a href="/2020/05/13/web/cookies-and-session/" class="title">[Web]쿠키와 세션</a></p>
-                            <p class="item-date"><time datetime="2020-05-13T09:09:40.062Z" itemprop="datePublished">2020-05-13</time></p>
                         </div>
                     </li>
                 
