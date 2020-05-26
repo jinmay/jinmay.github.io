@@ -143,6 +143,201 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-network/daily-network-basic" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/11/30/network/daily-network-basic/">네트워크 기초 지식1</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/11/30/network/daily-network-basic/">
+            <time datetime="2018-11-30T06:40:57.000Z" itemprop="datePublished">2018-11-30</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>Computer Science 공부하기 첫 번째 - Network </p>
+<p>올해 초에 도서관에서 책을 빌려 약 한 달동안 네트워크를 간단하게나마 공부를 해 보았다. 네트워크가 어떻게 돌아가는지 모르고 웹 개발을 해오고 있었는데 알게 모르게 도움이 많이 됐던 것 같았다. 그래서 이번엔 조금 더 천천히 그리고 진지하게 공부해 보려고 한다. </p>
+<p>시작..!</p>
+</blockquote>
+<h1 id="네트워크"><a href="#네트워크" class="headerlink" title="네트워크"></a>네트워크</h1><p>네트워크란 무엇일까? A와 B가 연결되어 있는 것이라고 생각한다. 조금 더 자세하게 말하자면 <strong>무언가와 무언가가 무언가에 의해 연결되어 있는 것</strong> 이라고 한다. </p>
+<p>여러가지 네트워크가 있겠지만, 그 중에서도 <strong>컴퓨터 네트워크</strong>에 대해서 정리해보려고 한다.</p>
+<hr>
+
+<h3 id="네트워크의-구성"><a href="#네트워크의-구성" class="headerlink" title="네트워크의 구성"></a>네트워크의 구성</h3><p>컴퓨터 네트워크는 <strong>노드(Node)</strong>와 <strong>링크(Link)</strong> 로 구성되어있다. 다시 표현하자면 노드와 노드가 링크로 연결되어 있다고 할 수 있다. 하지만 이러한 네트워크의 구성에는 어떤 움직임도 없는데, 이 네트워크가 하려는 것은 무엇일까? </p>
+<p><strong>노드(컴퓨터)와 노드(컴퓨터)를 링크(통신 매체)로 연결하여 데이터(정보)를 주고 받는 것이 컴퓨터 네트워크가 하는 일이고 컴퓨터나 사용자가 가진 리소스를 공유하기 위해 존재한다</strong> </p>
+<h3 id="프로토콜"><a href="#프로토콜" class="headerlink" title="프로토콜"></a>프로토콜</h3><p>데이터를 주고 받기 위해서 규칙을 정할 필요가 있다. 이러한 데이터 통신에 대한 규칙을 <strong>프로토콜(protocol)</strong>이라고 하며 데이터를 보내는 쪽하고 받는 쪽하고 같은 프로토콜을 사용해야한다. </p>
+<blockquote>
+<p>같은 규칙을 가지고 데이터를 주고 받아야 한다</p>
+</blockquote>
+<p>프로토콜에는 데이터를 다루는 법 뿐만 아니라 주고 받는 순서, 데이터 내용 등등 많은 것 들을 포함하고 있다. 지금은 같은 규칙을 가져야 한다는 것만 이해하고 넘어가도록 하자.</p>
+<h3 id="네트워크-전달방식"><a href="#네트워크-전달방식" class="headerlink" title="네트워크 전달방식"></a>네트워크 전달방식</h3><p>네트워크 전달 방식에는 <strong>패킷 교환 방식</strong>과 <strong>회선 교환 방식</strong>이 있다. 컴퓨터 네트워크에서는 데이터를 <strong>패킷(Packet)</strong>으로 분할한 후 주고 받는다. 이때에 패킷은 어디로 전달되야하는지 알 수 있도록 <strong>주소(address)</strong>정보를 가지고 있다.</p>
+<ol>
+<li><p>회선 교환 방식</p>
+<ul>
+<li>아날로그 방식의 유선전화 또는 3G 휴대전화가 사용했다</li>
+<li>통신하려는 양쪽 디바이스가 하나의 통신 경로를 점유하는 방식이다</li>
+<li>때문에 일대일 통신을 기본으로 한다</li>
+<li>통신 속도가 안정적이라는 장점이 있다</li>
+</ul>
+</li>
+<li><p>패킷 교환 방식</p>
+<ul>
+<li>주고받을 데이터는 작게 쪼갠 후 주고받는다</li>
+<li>다른 데이터 조각들과 섞여서 주고 받곤한다</li>
+<li>통신 경로를 공유하며 전달하기 때문에 여러 상대와 통신할때 효과적이다</li>
+<li>주고받는 패킷이 증가하면 전송 속도가 느려지는 단점이 있다</li>
+</ul>
+</li>
+</ol>
+<p>회선 교환 방식의 경우 동시 통화에 필요한 수 만큼 회선이 필요하기 때문에 교환기 사이의 회선의 수가 엄청 많아야한다. 이런 단점을 해소하기 위해 패킷 교환 방식이 등장하게 되었다. </p>
+<p>하나의 연결이 회선을 점유하는 방식이 아니기 때문에 패킷과 패킷사이에 여러 다른 패킷이 들어갈 수 있다. 즉 서로 다른 복수의 패킷이 하나의 회선을 통해 지나갈 수 있다는 것이다.(목적지를 명확히 해야하기 때문에 각 패킷에는 수신처를 명시해야 한다). 패킷 교환기의 역할은 회선 교환기와 비교했을 때 다음과 같은 특징을 가져야 한다.</p>
+<blockquote>
+<ol>
+<li>수신처가 연결되어 있는 회선을 골라서 패킷을 송신하는 역할</li>
+<li>사용하려고 한 회선이 사용중일 경우 일시적으로 저장했다가 회선이 비는 것을 기다리는 역할</li>
+</ol>
+</blockquote>
+<h3 id="네트워크의-구조"><a href="#네트워크의-구조" class="headerlink" title="네트워크의 구조"></a>네트워크의 구조</h3><p>컴퓨터 네트워크의 통신에 필요한 기기들을 정리해보자. </p>
+<ol>
+<li>컴퓨터(노드)</li>
+<li>통신 매체(링크)</li>
+<li>인터페이스(Interface)</li>
+<li><strong>라우터(패킷 교환기)</strong></li>
+</ol>
+<p>컴퓨터와 통신 매체의 사이에는 인터페이스 라는게 존재하지만 나중에 얘기하기로 하고 <strong>라우터</strong>에 대해서 정리해 보도록 하자. </p>
+<p>지금까지 얘기했던 패킷 교환기는 실제 네트워크에서 <strong>라우터(router)</strong>라는 이름으로 사용한다. 하지만 라우터 없이 통신이 가능한 구간이 존재하는 데 이러한 범위를 <strong>세그먼트(Segment)</strong>라고 한다. </p>
+<blockquote>
+<p>세그먼트(segment)</p>
+<p>케이블 분배기 또는 허브(Hub)로 연결되는 범위 -&gt; 패킷 교환없이 직접 데이터를 송수신 할 수 있다</p>
+</blockquote>
+<h3 id="네트워크의-범위"><a href="#네트워크의-범위" class="headerlink" title="네트워크의 범위"></a>네트워크의 범위</h3><p>네트워크를 규모 측면에서 나누면 <strong>LAN(Local Area Network)</strong> 와 <strong>WAN(Wide Area Network)</strong> 가 있다. </p>
+<p><strong>첫 번째</strong>, LAN은 좁은 범위의 네트워크를 의미한다. 좀 더 구체적으로 <strong>구내에 설치된 네트워크</strong> 라고 말할 수 있겠다. LAN은 기본적으로 사용하는 쪽에서 책임지고 케이블 설치랑 라우터 배치 등을 해서 네트워크를 만든다.</p>
+<blockquote>
+<p>LAN은 지역적으로 좁은 범위에서 본인이 책임지고 구축하는 네트워크</p>
+</blockquote>
+<p><strong>두 번째</strong>, WAN은 떨어져 있는 지역의 LAN끼리 통신사업자의 통신 케이블을 빌려서 연결한 네트워크라고 말할 수 있다. 통신사업자란 통신용 케이블을 소유하고 있는 회사인데 우리나라의 경우 KT / SKT / LG 라고 보면 된다. </p>
+<blockquote>
+<p>WAN은 통신사가 소유한 통신망에 데이터를 전송할 권리를 구입해서 구축하는 네트워크</p>
+</blockquote>
+<p>정리해보면, LAN은 자기가 만들고 WAN은 통신사업자에게 빌려서 만드는 네트워크이다. 그리고 대표적인 WAN은 <strong>인터넷</strong>이 있다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/11/30/network/daily-network-basic/" data-id="ckan6l1mt007r3t7549ac8hqb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-postgresql/psql-csv-import" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -215,7 +410,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/11/15/postgresql/psql-csv-import/" data-id="ckalwcom60086gl75gwag3lx4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/11/15/postgresql/psql-csv-import/" data-id="ckan6l1n0008j3t75ffhx5fnd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -397,160 +592,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/11/12/python/virtualenvwrapper/" data-id="ckalwcomv00acgl7551zc81h7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-postgresql/psql-user" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/11/11/postgresql/psql-user/">PostgreSQL의 사용자 관련 명령어</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/11/11/postgresql/psql-user/">
-            <time datetime="2018-11-11T08:52:40.000Z" itemprop="datePublished">2018-11-11</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/postgresql/">postgresql</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/db/" rel="tag">db</a>, <a class="tag-link" href="/tags/postgresql/" rel="tag">postgresql</a>, <a class="tag-link" href="/tags/psql/" rel="tag">psql</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="postgresql-사용자-관리"><a href="#postgresql-사용자-관리" class="headerlink" title="postgresql 사용자 관리"></a>postgresql 사용자 관리</h1><p>psql에서 사용자 관리에 대한 명령어에 관해서 알아보자. </p>
-<blockquote>
-<p>아래의 모든 명령어는 psql에 접속한 상태여야 한다.</p>
-</blockquote>
-<h3 id="사용자-생성"><a href="#사용자-생성" class="headerlink" title="사용자 생성"></a>사용자 생성</h3><figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> &lt;생성할 유저 이름&gt; <span class="keyword">password</span> <span class="string">'&lt;패스워드&gt;'</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="사용자-역할-role-또는-비밀번호-변경"><a href="#사용자-역할-role-또는-비밀번호-변경" class="headerlink" title="사용자 역할(role) 또는 비밀번호 변경"></a>사용자 역할(role) 또는 비밀번호 변경</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &lt;유저 이름&gt; with password &#39;&lt;패스워드&gt;&#39;;</span><br><span class="line">ALTER USER &lt;유저 이름&gt; with superuser;</span><br><span class="line">ALTER USER &lt;유저 이름&gt; with createrole;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="사용자-권한-주기"><a href="#사용자-권한-주기" class="headerlink" title="사용자 권한 주기"></a>사용자 권한 주기</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT all privilege on database &lt;데이터베이스명&gt; to &lt;사용자명&gt;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="현재-사용자-조회"><a href="#현재-사용자-조회" class="headerlink" title="현재 사용자 조회"></a>현재 사용자 조회</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT current_user;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="모든-사용자-조회"><a href="#모든-사용자-조회" class="headerlink" title="모든 사용자 조회"></a>모든 사용자 조회</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\du</span><br><span class="line">\du+ # description까지 출력</span><br></pre></td></tr></table></figure>
-
-
-
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/11/11/postgresql/psql-user/" data-id="ckalwcom70088gl753xwuhlgc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/11/12/python/virtualenvwrapper/" data-id="ckan6l1nl00ak3t75h58wgfnq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -658,7 +700,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -668,6 +710,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -702,15 +753,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
                             <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

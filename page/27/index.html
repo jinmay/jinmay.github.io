@@ -143,6 +143,141 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-linux/linux-command-vi" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/03/21/linux/linux-command-vi/">vim에서 붙여넣기 할때 계단현상 방지하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/03/21/linux/linux-command-vi/">
+            <time datetime="2019-03-21T11:44:59.000Z" itemprop="datePublished">2019-03-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="vim에서-붙여넣기-할때-계단현상-방지하기"><a href="#vim에서-붙여넣기-할때-계단현상-방지하기" class="headerlink" title="vim에서 붙여넣기 할때 계단현상 방지하기"></a>vim에서 붙여넣기 할때 계단현상 방지하기</h2><p>가끔씩 vim에서 붙여넣기를 하려고 하면 들여쓰기가 적용되지 않고 계단식으로 될때가 있다. 해결방법을 정리해보자.</p>
+<h5 id="임시방편"><a href="#임시방편" class="headerlink" title="임시방편"></a>임시방편</h5><p>붙여넣기를 하기 직전에 vi의 세팅을 변경해준다. 명령모드에서 설정값을 바꾸는 방법이다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="built_in">set</span> paste</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="vimrc-변경"><a href="#vimrc-변경" class="headerlink" title="vimrc 변경"></a>vimrc 변경</h5><p>~/.vimrc에서 설정한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi ~/.vimrc</span></span><br><span class="line"><span class="built_in">set</span> paste <span class="comment"># 를 추가한다</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/03/21/linux/linux-command-vi/" data-id="ckan6l1mg006c3t750nlh5x3i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/ubuntu-install-zsh" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -219,7 +354,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/03/17/linux/ubuntu-install-zsh/" data-id="ckalwcols0071gl754bmldlyb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/03/17/linux/ubuntu-install-zsh/" data-id="ckan6l1mp00793t75fvcf5ppm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -385,201 +520,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/03/16/linux/ubuntu-install-pyenv-1/" data-id="ckalwcolp006ugl75gbtfdtcr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-django/django-uwsgi" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/03/14/django/django-uwsgi/">django와 uwsgi 연동하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/03/14/django/django-uwsgi/">
-            <time datetime="2019-03-14T05:53:35.000Z" itemprop="datePublished">2019-03-14</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/django/">django</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link" href="/tags/uwsgi/" rel="tag">uwsgi</a>, <a class="tag-link" href="/tags/wsgi/" rel="tag">wsgi</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="uwsgi-사용해보기"><a href="#uwsgi-사용해보기" class="headerlink" title="uwsgi 사용해보기"></a>uwsgi 사용해보기</h2><p>nginx - uwsgi - django를 연동해서 배포하는 걸 AWS EC2를 통해 연습하고 있다. 그 중에서 어플레케이션 컨테이너라는 uWSGI를 사용하여 일단 nginx 없이 배포하는 걸 정리해보려고 한다.</p>
-<p>uWSGI는 이름에서 보이듯이 WSGI라는 Web Server Gateway Interface의 역할을 한다. <strong>웹 서버(Nginx, Apache)와  웹 어플리케이션 서버(WAS)의 사이를 연결해주는 것이다.</strong> django는 python으로 만들어진 프레임워크이기 때문에 nginx에서 들어오는 요청을 그대로 받아들일 수 없으며 uwsgi가 웹 서버와 WAS 사이에서 소통을 도와주는 것이다. </p>
-<blockquote>
-<p>uWSGI는 WSGI 규격으로 만들어진 서버 중에 하나이며 Django와 자주사용되지만 <strong>gunicorn</strong>이라는 것도 있으니 참고하도록 하자.</p>
-</blockquote>
-<h3 id="uWSGI-사용하기"><a href="#uWSGI-사용하기" class="headerlink" title="uWSGI 사용하기"></a>uWSGI 사용하기</h3><p>uwsgi를 꼭 django와 같은 웹 프레임워크와 사용해야만 하는 것은 아니며 일반 python 파일을 통해서도 테스트를 해볼 수 있다.</p>
-<h4 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h4><p>pip를 통해 설치한다. 만약 시스템에 파이썬이 여러개 설치되어 있다면 파이썬 버전을 유의해서 살펴보자.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="테스트-with-python-file"><a href="#테스트-with-python-file" class="headerlink" title="테스트(with python file)"></a>테스트(with python file)</h5><p>django와 연동하기 전에 python 파일과 연동해서 테스트를 해보자</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi test.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">application</span><span class="params">(env, start_response)</span>:</span></span><br><span class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>,<span class="string">'text/html'</span>)])</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">b"Hello World"</span>] <span class="comment"># python3</span></span><br></pre></td></tr></table></figure>
-
-<p>위와 같이 test.py 파일을 생성한다. 그리고 uwsgi를 실행하기 위해 아래와 같이 쉘에 입력하자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --http :8001 --wsgi-file test.py</span><br></pre></td></tr></table></figure>
-
-<p>물론 test.py 파일이 있는 경로에 따라 알맞게 작성해주어야 한다. 두 가지 옵션을 넣었으며</p>
-<blockquote>
-<p>–http :8001 =&gt; 8001번 포트로 연결</p>
-<p>–wsgi-file =&gt; test.py 파일과 연결</p>
-</blockquote>
-<p>와 같은 의미로 해석되어 작업을 수행한다. 현재 작업을 위해 연결되어 있는 컴포넌트들을 정리하면 아래와 같다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">web client &lt;-&gt; uwsgi &lt;-&gt; Django</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="Django과-연결"><a href="#Django과-연결" class="headerlink" title="Django과 연결"></a>Django과 연결</h5><p>python 파일 말고 django 웹 서버와 연결하려면 기본적으로 제공해주는 wsgi.py를 이용하면 된다. 이 때에 옵션은 –wsgi-file이 아닌 –module을 주면 된다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uwsgi --http :&lt;포트번호&gt; --module &lt;프로젝트명&gt;.wsgi</span></span><br><span class="line">uwsgi --http :8001 --module myproject.wsgi</span><br></pre></td></tr></table></figure>
-
-<p>웹 브라우저로 8001번 포트에 접속해서 제대로 동작하는 지 살펴보자. 제대로 동작하고 있다면 아래와 같은 순서로 통신을 하고 있는 것이다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">web clien &lt;-&gt; uwsgi &lt;-&gt; django</span><br></pre></td></tr></table></figure>
-
-
-
-<p>지금까지 가상환경을 실행하지 않은 상태에서 uwsgi를 쓰는 법을 알아보았다. 가상환경을 사용한다고해서 크게 바뀌는 부분은 없지만 다른 유용한 옵션에 대해서 알아보자.</p>
-<h5 id="uwsgi의-유용한-옵션들"><a href="#uwsgi의-유용한-옵션들" class="headerlink" title="uwsgi의 유용한 옵션들"></a>uwsgi의 유용한 옵션들</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --http :8001 --home /home/test_user/virtualenv/<span class="built_in">test</span> --<span class="built_in">chdir</span> /home/test_user/myproject --module myproject.wsgi</span><br></pre></td></tr></table></figure>
-
-<p>–home과 –chdir 옵션이 추가되었다. 각 옵션들의 의미는 다음과 같다.</p>
-<blockquote>
-<p>–http: 포트 번호 지정</p>
-<p>–home: 가상환경 디렉토리 지정</p>
-<p>–chdir: django 프로젝트의 경로</p>
-<p>–module: django 프로젝트의 wsgi 지정</p>
-</blockquote>
-<p>직접 쉘에서 uwsgi 명령어에 옵션을 추가해 주면서 실행하는 방법을 살펴봤는데 쉘에 길에 적어야 한다는 불편함이 존재한다. wsgi의 옵션들을 정리해 놓은 ini파일을 만들어서 실습해보자.</p>
-<h5 id="uwsgi를-위한-설정파일"><a href="#uwsgi를-위한-설정파일" class="headerlink" title="uwsgi를 위한 설정파일"></a>uwsgi를 위한 설정파일</h5><p>하나의 서버에 여러 프로젝트를 실행할 수 있으므로 uwsgi를 위한 디렉토리를 생성한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /etc/uwsgi/sites</span><br></pre></td></tr></table></figure>
-
-<p>그리고 프로젝트 이름과 동일하게 설정파일을 추가하자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd /etc/uwsgi/sites</span></span><br><span class="line"><span class="comment"># vi myproject.ini</span></span><br><span class="line">[uwsgi]</span><br><span class="line">home = /usr/bin/python3 <span class="comment"># 가상환경을 사용하고 있다면 가상환경의 경로를 적어준다.</span></span><br><span class="line">						<span class="comment"># home 옵션을 따로 적어주지 않으면 시스템에 깔려있는 파이썬을 사용한다</span></span><br><span class="line"><span class="built_in">chdir</span> = /home/test_user/myproject <span class="comment"># Django 프로젝트의 경로</span></span><br><span class="line">module = myproject.wsgi <span class="comment"># Django 프로젝트를 생성하면 같은 이름으로 wsgi 모듈을 생성하기 때문에 </span></span><br><span class="line">						<span class="comment"># 프로젝트 이름과 동일하게 적어주면 된다.</span></span><br><span class="line">http = :8001</span><br><span class="line"></span><br><span class="line">socket = /home/test_user/myproject/myproject.sock <span class="comment"># 소켓 파일이 저장될 경로와 이름 지정</span></span><br><span class="line">chown-socket = test_user:test_user</span><br><span class="line">chmod-socket = 660</span><br><span class="line">vaccum = <span class="literal">true</span> <span class="comment"># uwsgi 정지시에 자동으로 소켓 파일 삭제</span></span><br><span class="line"></span><br><span class="line">master = <span class="literal">true</span></span><br><span class="line">processes = 1</span><br></pre></td></tr></table></figure>
-
-<p>정상적으로 저장이 되었다면 /etc/uwsgi/sites 폴더 아래에 myproject.ini 파일이 생성되었을 것이다. 이 설정파일로 uwsgi를 실행하자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi -i /etc/uwsgi/sites/myproject.ini</span><br></pre></td></tr></table></figure>
-
-<p>8001번 포트로 접속해서 제대로 동작하는 지 확인하자!!</p>
-<hr>
-<참고>
-https://wikidocs.net/6611
-https://wayhome25.github.io/django/2018/03/04/django-deploy-04-uwsgi/
-https://cjh5414.github.io/how-to-deploy-django-uwsgi-nginx-in-ubuntu/
-https://github.com/Tirrilee/TechTalk/wiki/Django-%EB%B0%B0%ED%8F%AC-(ubuntu16-uwsgi-nginx)
-http://recordingbetter.com/django/2017/06/29/Django-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%A5%BC-AWS%EC%97%90-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0-(%EC%A0%84%EC%B2%B4)
-https://wangin9.tistory.com/entry/centos7djangonginxuwsgi
-https://rainsound-k.github.io/deploy/2018/05/02/instance-setting-and-django-deploy-part2.html
-https://jaha01.tistory.com/12</참고>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/03/14/django/django-uwsgi/" data-id="ckalwcokc002sgl75b9u15rbz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/03/16/linux/ubuntu-install-pyenv-1/" data-id="ckan6l1mm00723t759br04p04" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -687,7 +628,7 @@ https://jaha01.tistory.com/12</참고>
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -697,6 +638,15 @@ https://jaha01.tistory.com/12</참고>
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -731,15 +681,6 @@ https://jaha01.tistory.com/12</참고>
                             <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
                             <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

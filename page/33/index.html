@@ -143,6 +143,168 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-linux/ubuntu-install-pyenv" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/12/27/linux/ubuntu-install-pyenv/">ubuntu에서 pyenv 설치하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/12/27/linux/ubuntu-install-pyenv/">
+            <time datetime="2018-12-27T05:47:22.000Z" itemprop="datePublished">2018-12-27</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/pyenv/" rel="tag">pyenv</a>, <a class="tag-link" href="/tags/ubuntu/" rel="tag">ubuntu</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="pyenv-설치하기"><a href="#pyenv-설치하기" class="headerlink" title="pyenv 설치하기"></a>pyenv 설치하기</h1><p>동일한 파이썬 버전아래서 virtualenv를 통해 가상환경만 격리하는 방식을 사용해왔다. 하지만 파이썬 3.7 버전이 나온 이후로 파이썬 버전도 관리해야 할 필요성을 느껴서 pyenv를 설치하고 사용하고 있는 중이다. pyenv 설치가 어려운 편은 아니지만 설치 과정을 남겨본다.</p>
+<h3 id="pyenv-설치"><a href="#pyenv-설치" class="headerlink" title="pyenv 설치"></a>pyenv 설치</h3><p>git을 통해서 설치할 수 있다. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://pyenv.run | bash</span><br></pre></td></tr></table></figure>
+
+<h3 id="환경변수-설정"><a href="#환경변수-설정" class="headerlink" title="환경변수 설정"></a>환경변수 설정</h3><p>shell에서 pyenv 명령어를 바로 사용할 수 있게 환경변수를 세팅해주는 것이 편하다. 각자 사용하는 shell에 따라서 설정해주어야 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># bash shell</span></span><br><span class="line">vi ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># z shell</span></span><br><span class="line">vi ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="string">"~/.pyenv/bin:<span class="variable">$PATH</span>"</span></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pyenv init -)</span>"</span></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pyenv virtualenv-init -)</span>"</span></span><br></pre></td></tr></table></figure>
+
+<p>여기까지 문제 없이 했다면 pyenv 명령어를 사용할 수 있다. 하지만 pyenv를 통해 python을 설치하려면 몇가지 패키지 들이 필요한데 우분투를 사용한다고 가정하고 shell에서 다음의 명령어를 수행해준다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \</span><br><span class="line">libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \</span><br><span class="line">xz-utils tk-dev</span><br></pre></td></tr></table></figure>
+
+<p>지금까지 우분투에 pyenv를 설치하는 과정을 알아보았다. 설치과정만큼 사용하는 법도 어렵지 않으며 같이 정리해 보기로 한다.</p>
+<hr>
+
+<h1 id="pyenv-사용법"><a href="#pyenv-사용법" class="headerlink" title="pyenv 사용법"></a>pyenv 사용법</h1><h3 id="설치가능한-파이썬-출력"><a href="#설치가능한-파이썬-출력" class="headerlink" title="설치가능한 파이썬 출력"></a>설치가능한 파이썬 출력</h3><p>거의 모든 버전을 지원하고 있다. pure python 뿐만 아니라 miniconda / anaconda 와 같은 파이썬도 지원함을 알 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install -list</span><br></pre></td></tr></table></figure>
+
+<h3 id="파이썬-설치"><a href="#파이썬-설치" class="headerlink" title="파이썬 설치"></a>파이썬 설치</h3><p>install 뒤에 버전을 입력해서 원하는 버전의 파이썬을 설치할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install &lt;python_version&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="설치된-목록-확인"><a href="#설치된-목록-확인" class="headerlink" title="설치된 목록 확인"></a>설치된 목록 확인</h3><p>현재 시스템에 어떤 파이썬들이 설치되어있는지 확인할 수 있다. system으로 라벨링 되어있는 건 현재 시스템이 default로 사용하고 있는 파이썬을 의미한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv versions</span><br></pre></td></tr></table></figure>
+
+<h3 id="파이썬-버전-선택"><a href="#파이썬-버전-선택" class="headerlink" title="파이썬 버전 선택"></a>파이썬 버전 선택</h3><p>시스템에 설치된 파이썬 중에서 하나를 선택하여 사용하려고 할때 두 가지의 방법이 있다. *<em>하나는 global하게 전역적으로 사용하며 다른 하나는 local로서 지정된 폴더에서만 사용하는 방법이다. *</em></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># system global</span></span><br><span class="line">pyenv global &lt;python_version&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># locally</span></span><br><span class="line">pyenv <span class="built_in">local</span> &lt;python_version&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+
+<p>참고</p>
+<p><a href="http://blog.jeonghwan.net/2016/08/11/pyenv.html" target="_blank" rel="external nofollow noopener noreferrer">http://blog.jeonghwan.net/2016/08/11/pyenv.html</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/12/27/linux/ubuntu-install-pyenv/" data-id="ckan6l1mn00733t758ur0bsh8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-aws/aws-eb-createservicelinkedrole-error" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -205,7 +367,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/12/26/aws/aws-eb-createservicelinkedrole-error/" data-id="ckalwcojb0005gl75a51ecqbu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/12/26/aws/aws-eb-createservicelinkedrole-error/" data-id="ckan6l1km00073t75c0zb7q1b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -447,258 +609,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/12/11/network/daily-network-third-layer/" data-id="ckalwcom4007zgl75aer2f5qz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-network/daily-network-second-layer" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/12/10/network/daily-network-second-layer/">신호의 전송과 충돌(2계층 - 데이터링크계층)</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/12/10/network/daily-network-second-layer/">
-            <time datetime="2018-12-10T07:01:35.000Z" itemprop="datePublished">2018-12-10</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/network/">network</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="2계층-데이터링크계층"><a href="#2계층-데이터링크계층" class="headerlink" title="2계층 - 데이터링크계층"></a>2계층 - 데이터링크계층</h1><blockquote>
-<p>1계층은 <strong>케이블이 연결되어 있는 기기에 대한 신호 전달</strong>을 수행하는 계층이라고 공부했다.</p>
-<p><strong>비트 &lt;-&gt; 신호</strong></p>
-</blockquote>
-<p>1계층을 통해 신호가 수신처로 도착한 이후를 다루는 계층이 <strong>2계층 - 데이터링크계층</strong>이다. 1계층의 허브를 이용하여 신호를 송신하면 플러딩으로 인해서 허브에 연결된(동일 세그먼트 내) 모든 기기들이 해당 신호를 수신하게 되는 문제점이 발생한다고 했었다. 그렇기 때문에 동시에 송신하게되면 충돌이 발생하기도 하는데 이러한 문제를 해결하기 위해서 2계층에서 수행해야하는 것들이있다. </p>
-<blockquote>
-<p>충돌을 막기 위해서는 <strong>송신하는 타이밍을 엇갈리게 해야 한다.</strong></p>
-</blockquote>
-<p>송신하는 타이밍을 엇갈리게 하는 방법은 <strong>신호를 보내기 전에 해당</strong>하는 것이며, 마찬가지로 <strong>신호가 도착한 뒤에도 생각해야할 것</strong>이 있다. 즉, <strong>신호의 송신 전후로 바르게 데이터를 송수신하는 순서가 필요한 것이다.</strong> 2계층부터는 데이터를 보내기 전과 후에 어떤 일들을 할지 규정하는 계층인데, 위에서 잠깐 나왔듯이 <strong>신호가 닿는 범위(세그먼트)에서의 데이터 전송에 관한 규정</strong>이라고 생각하면 된다. </p>
-<blockquote>
-<p>세그먼트 범위: 신호가 닿는 범위</p>
-<p>즉, 멀티엑세스 네트워크라면 허브로 연결되어 있는 모든 기기 / 포인트 투 포인트 네트워크에서는 서로 연결되어 있는 두 기기를 말한다.</p>
-</blockquote>
-<h3 id="프레이밍"><a href="#프레이밍" class="headerlink" title="프레이밍"></a>프레이밍</h3><blockquote>
-<p>1계층에서는 신호를 전달하는 것을 생각 / <strong>2계층에서는 세그먼트 범위에서 데이터를 어떻게 송수신할지 생각</strong></p>
-</blockquote>
-<p>1계층에서 다루는 신호와 케이블에 따라서 2계층의 규격이 달라진다. 그러니까 1계층의 조건에 따라서 2계층도 달라지게 된다는 것이다. 간단히 LAN용과 WAN용이 있을 수 있는데, LAN에서의 사실표준인 <strong>이더넷(Ethernet)</strong>에 대해서 살펴보자.(3계층 이상에서는 LAN / WAN 구별할 것 없이 동일한 규칙을 사용한다) </p>
-<p><strong>프레이밍이란 1계층에서 주고받은 신호를 비트화해 의미를 갖게 만드는 것이다.</strong> 프레이밍(framing)은 프레임(frame)에서 따온 말인데 2계층의 PDU가 바로 프레임이다. 프레이밍을 통해서 비로소 신호가 데이터로 바뀌는 것이다. 제일 먼저 <strong>프리엠블(preamble)</strong>을 송신한다. 프리엠블은 <strong>지금부터 프레임이 시작된다는 신호</strong>를 주는 것이고 수신측에서 이 프리엠블을 받으면 <strong>“이제부터 프레임 신호가 오겠군”</strong>이라고 판단할 수 있는 것이다. </p>
-<blockquote>
-<p>프레이밍(framing): 송수신되는 비트열에 프레임 포멧을 적용시켜서 데이터로 취급할 수 있게 해준다. = 프레임화</p>
-</blockquote>
-<p>항상 동기적으로 신호를 기다릴수는 없기때문에 프리엠블을 사용한다고 보면된다. 클럭(clock)을 통해 프리엠블을 사용하기 않고 동기적으로 통신할 수 있지만 항상 신호를 보내는 수고스러움이 있기때문에 별로 사용하지는 않는다고 한다.</p>
-<blockquote>
-<p>패킷 교환 방식에서는 데이터 통신 직전에 프리엠블을 보내 통신 타이밍을 비동기적으로 맞춘다고 생각하면 될 것 같다!</p>
-</blockquote>
-<h3 id="2계층-주소와-이더넷"><a href="#2계층-주소와-이더넷" class="headerlink" title="2계층 주소와 이더넷"></a>2계층 주소와 이더넷</h3><blockquote>
-<p>2계층은 <strong>세그먼트</strong>라는 범위에서 어떻게 데이터를 송수신할지 판단하는 계층이다.</p>
-</blockquote>
-<p>데이터를 주고 받으려면 송신자와 수신자가 필요한데 이때 목적지를 구분해주기 위해서 <strong>주소(address)</strong>라는 걸 사용한다. 현실세계에서 우리가 택배를 보내기위해 <strong>보내는 사람과 받는 사람</strong>을 명시해주는 것과 똑같은 것이다. 하지만 이러한 주소는 <strong>데이터 전송 방법에 따라 세 가지로 나뉘는데 1. 유니캐스트 2. 브로드캐스트 3. 멀티캐스트</strong>가 있다. </p>
-<ul>
-<li>유니캐스트(Unicast) : <strong>보편적인 일대일 통신</strong>이다. </li>
-<li>브로드캐스트(Broadcast) : <strong>1대 전체</strong> 통신이며, 연결되어있는 모든 기기들에게 송신하는 방법이다.</li>
-<li>멀티캐스트(Multicast) : <strong>1대 다수</strong> 통신이며, 지정된 복수의 기기로 메세지를 보내는 데이터 통신 방법이다.</li>
-</ul>
-<p><strong>모든 기기는 유니캐스트 주소를 적어도 한 개를 갖고 있어야한다.</strong> 적어도 1개이기 때문에 2개 이상을 가진 기기도 있을 수 있으며, 라우터와 같이 복수의 인터페이스를 가진 기기가 해당된다. 그리고 <strong>유니캐스트 주소는 유일해야 한다(unique).</strong> 유니캐스트 주소가 중복되면 수신처를 분별할 수 없기 때문이다. </p>
-<p>반면에 <strong>멀티캐스트 주소는 중복을 허용</strong>한다. <strong>같은 멀티캐스트 주소를 가지고 있는 기기는 동일한 그룹 번호를 같는 것</strong>과 마찬가지이며 멀티캐스트에 보내고 싶은 경우에는 수신처를 그룹으로 하면 되기때문에 중복되어도 된다. 만약에 멀티캐스트 그룹에 속한 기기가 있다면 그 기기는 <strong>멀티캐스트 주소와 유니캐스트 주소</strong> 두 가지를 갖고 있는 것이다. </p>
-<p>이더넷에서 사용하는 주소는 <strong>MAC 주소(Media Access Control Address)</strong>라고 부르며, 이 주소는 <strong>인터페이스에 지정된 고정 주소</strong>이다. 컴퓨터 자체가 아닌 인터페이스에 고정된 주소이기 때문에 인터페이스가 변하면 주소도 변한다. MAC 주소는 48비트 값으로 4비트마다 16진수로 표현한다. <strong>앞의 24비트는 벤더코드로서 인터페이스의 제조사의 번호</strong>이고, <strong>뒤의 24비트는 제조사가 붙인 번호(벤더 할당 코드)</strong>이다. 이렇게 표현하는 <strong>이유는 MAC 주소의 유일성 때문</strong>이다.</p>
-<h3 id="이더넷-Ethernet"><a href="#이더넷-Ethernet" class="headerlink" title="이더넷(Ethernet)"></a>이더넷(Ethernet)</h3><blockquote>
-<p>LAN의 2계층에서는 이더넷 규칙을 사용한다고 했다. 또한 이 규칙에서 사용하는 주소는 MAC 주소이고 고유해야 한다는 것도 알고있다.</p>
-</blockquote>
-<p>2계층의 PDU, 즉 프레임을 생각해보자. 이더넷에서는 <strong>이더넷 헤더(ethernet header)</strong>와 <strong>이더넷 트레일러(ethernet trailer)</strong>를 붙여서 <strong>이더넷 프레임(ethernet frame)</strong>으로 캡슐화한다. 그리고 이더넷 프레임은 1계층에서 신호가되어 케이블을 통해 움직인다. 표를 통해 간략하게 그려보자.</p>
-<ul>
-<li>이더넷 프레임</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center"></th>
-<th align="center"></th>
-<th align="center"></th>
-<th align="center"></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">수신처 MAC 주소</td>
-<td align="center">송신처 MAC 주소</td>
-<td align="center">타입</td>
-<td align="center">페이로드</td>
-<td align="center">FCS</td>
-</tr>
-<tr>
-<td align="center">48비트</td>
-<td align="center">48비트</td>
-<td align="center">16비트</td>
-<td align="center">368 ~ 12000비트</td>
-<td align="center">32비트</td>
-</tr>
-</tbody></table>
-<p>타입은 페이로드의 내용을 식별할때 사용한다. <strong>FCS는 Frame Check Sequence의 약자로서 에러를 체크하는 데에 사용</strong>된다(순회부호방식이라고 불리는 에러 체크 데이터이다). 하지만 FCS가 있다고 한들 <strong>통신 도중에는 에러를 고칠 수 없다</strong>. 그래서 <strong>에러가 있었던 프레임은 파기</strong>를 해야하고 파기했다는 사실은 송신측에 알리지 않는다.</p>
-<p>이제 이더넷이 어떻게 데이터를 송수신하는지 보자. 허브에 연결된 기기들은 모두 다음과 같은 특징을 가질 수 밖에 없다.</p>
-<ol>
-<li>플러딩(수신 포트를 포함 모든 포트에 신호를 송신)</li>
-<li>충돌 : 플러딩으로 인해 충돌이 발생</li>
-</ol>
-<p><strong>이더넷에서는 수신처 MAC 주소를 보고 자기에게 온 것만 받고 다른 프레임은 파기한다.</strong> 중요하니까 다시 한번.</p>
-<blockquote>
-<p><strong>이더넷에서는 수신처 MAC 주소를 보고 자기에게 온 것만 받고 다른 프레임은 파기한다.</strong></p>
-<p>(멀티캐스트의 경우 그룹 번호가 들어가있기 때문에 자신이 속한 그룹 번호로 수신처가 적혀있다면 수신하게 된다.)</p>
-</blockquote>
-<p>위의 내용은 플러딩과 관련된 이더넷의 동작이고, 다음으로는 <strong>충돌</strong>에 관한 것이다. 멀티엑세스 네트워크의 경우 동시에 송신을 하게 되면 충돌이 발생하는데, <strong>이더넷에서는 신호를 보내는 타이밍을 겹치지 않게하기 위해 CSMA/CD(Carrier Sense Multi Access/Collision Detection)</strong>이라는 <strong>엑세스 제어</strong>를 시행한다. 더 정확히 얘기하면 <strong>되도록 충돌이 발생하지 않도록 노력하는 것이다.(CSMA/CD를 통해 충돌을 100% 방지할 수는 없다.)</strong> </p>
-<p>인터페이스에 연결되어 있는 케이블에 신호를 보내는 엑세스 활동을 제어하는 것을 의미한다. </p>
-<ul>
-<li>CS : 신호 감지</li>
-<li>MA : 멀티 엑세스</li>
-<li>CD : 충돌 검사</li>
-</ul>
-<p><strong>신호를 감지하여(CS) 누군가 송신 중이라면 송신하지 않고, 아무도 송신하고 있지 않다면 송신할 수 있다(MA).</strong> <strong>만약 송신 후 충돌이 일어나면 다시 재수행한다(CD).</strong> 언뜻 보면, 신호를 감지하고 송신하기 때문에 충돌을 피해갈 수 있을것이라고 생각할 수 있다. <strong>하지만 두 대 이상의 기기가 동시에 신호를 감지한다면 어떻게 될까?</strong> 두 대 모두 동시에 아무도 송신을 하고있지 않다고 판단하여 동시에 송신을 하게 될 것이고 충돌이 발생할 것이다. 그래서 위에서 정리한 것처럼 CSMA/CD라고 해도 100% 충돌을 피할 수는 없으며, 단지 충돌을 방지하기 위해 노력하는 것일 뿐이다. </p>
-<h3 id="스위치"><a href="#스위치" class="headerlink" title="스위치"></a>스위치</h3><blockquote>
-<ul>
-<li>짚고 넘어가기</li>
-</ul>
-<p>충돌 도메인 내의 기기 수가 많으면 CSMA/CD로 제어한들 충돌이 발생할 확률은 높아지게 된다.</p>
-</blockquote>
-<p>CSMA/CD를 통해 제어를 하다보면 <strong>송신 -&gt; 충돌 -&gt; 재송신 -&gt; 충돌 -&gt; 재송신 …</strong>과 같은 비효율적인 일이 발생할 수 있다. 이러한 방법은 충돌을 피하기 위한 <strong>신호를 보내는 타이밍을 겹치지 않게 하는 방법</strong>이며 또 다른 방안으로는 <strong>신호가 지나는 길을 나누는 방법</strong>이 있다. <strong>스위치라는 기기를 사용하며 허브 대용으로 많이 이용한다.</strong></p>
-<blockquote>
-<ul>
-<li>충돌 방지</li>
-</ul>
-<ol>
-<li>신호를 보내는 타이밍을 나눔 - CSMA/CD</li>
-<li>신호가 지나는 길을 나눔 - 스위치 </li>
-</ol>
-</blockquote>
-<p>허브가 여러 대의 기기를 연결하여 하나의 세그먼트 범위를 만드는 것 처럼 <strong>스위치도 동일한 역할을 한다.</strong> 그렇다면 <strong>허브와 스위치의 차이는 어디에서 오는 것일까?</strong> 그 포인트는 케이블을 살펴보면 나온다. </p>
-<p>요즘 LAN에서 사용하고 있는 <strong>광 섬유나 UTP 케이블은 송신 신호와 수신 신호가 따로 있다</strong>. 즉, <strong>케이블 상에서는 내가 송신한 신호와 받는 수신한 신호가 동시에 들어가도 충돌은 발생하지 않는다는 것이다.</strong> <strong>충돌은 케이블이 아닌 허브에서 발생</strong>하고 두 개 이상의 신호를 수신하면 나누어서 보낼 수 없기때문에 그런것이다.  </p>
-<p>그래서 *<em>수신한 프레임을 따로따로 보낼 수 있도록 해서 충돌을 막는 방법이 스위치를 사용하는 것이다. *</em> 스위치를 이용하여 충돌을 방지하는 방법은 아래의 두 가지를 모두 수행하는 것이다.</p>
-<ol>
-<li><strong>MAC 주소 필터링</strong> : 학습 + 스위칭</li>
-<li><strong>버퍼링</strong></li>
-</ol>
-<p>먼저 MAC 주소 필터링은 <strong>학습과 스위칭</strong>으로 나뉜다. 학습은 <strong>송신처 MAC 주소를 기록하는 동작</strong>이다. 이를 통해 <strong>수신한 스위치의 포트와 발신처 MAC 주소의 테이블을 만든다.</strong> 다음 동작은 스위칭으로서 말 그대로 스위칭을 한다. 아무튼 학습 과정을 통해서 스위치는 각 포트에 연결되어 있는 컴퓨터의 MAC 주소를 기억<strong>(Address table)</strong>하게 되며 다음 스위칭 동작때 사용하게 된다. </p>
-<blockquote>
-<p>학습으로 매핑된 <strong>어드레스 테이블</strong>을 이용해서 <strong>프레임의 수신처 MAC 주소를 보고, 그 MAC 주소가 있는 포트로만 프레임을 송신</strong>하는 방법으로 충돌을 방지한다!!</p>
-<p>(만약 허브였다면 두 신호가 모든 포트로 송신하려는 플러딩 동작때문에 충돌이 났을것이다!!)</p>
-</blockquote>
-<p>스위치의 충돌 방지 두 번째 동작은 <strong>버퍼링</strong>은 <strong>수신처가 같은 프레임이 동시에 도착한 경우</strong> 때문에 필요로 한다. 버퍼링은 버퍼(buffer)라는 말에서 나온 것인데 <strong>버퍼란 일시적으로 데이터를 저장할 수 있는 메모리</strong>를 말한다. 수신처가 같은 두 개의 프레임이 스위치에 도착했을때 다시 충돌이 발생할 수 있는데 이때는 <strong>버퍼를 사용하여 방지하면 된다.</strong> 하지만 여기에도 문제점이 있는데, 바로 버퍼의 용량이다. 버퍼의 용량은 유한하며 버퍼가 가득 찰 경우에는 <strong>백 프레셔(Back Pressure) 또는 IEEE802.3x</strong> 라는 규격을 사용해서 송신을 조정한다.</p>
-<blockquote>
-<p>버퍼가 차면 송신을 중지시킨다!</p>
-</blockquote>
-<p>백 프레셔와 IEEE는 스위치가 대응하는 이더넷 종류에 따라 갈라진다. <strong>전이중 이더넷에 대응하면 IEEE를 사용하고 그렇지 않으면 백 프레셔 방식을 사용하게 된다.</strong>  </p>
-<p>전이중 통신(Full-Duplex)은 스위치를 사용하는 경우로써 충돌을 고려할 필요가 없는 통신 방식이다. 하지만 반이중 통신(Half-Duplex)은 CSMA/CD가 동작하는 방식이며 이는 동시에 송신과 수신을 할 수 없는 구조로서 효율적이지 못한 통신을 제공해준다. </p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/12/10/network/daily-network-second-layer/" data-id="ckalwcom2007ugl754z5q1nhi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/12/11/network/daily-network-third-layer/" data-id="ckan6l1mx00853t756pk42kfm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -806,7 +717,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -816,6 +727,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -850,15 +770,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
                             <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

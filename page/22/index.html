@@ -143,6 +143,148 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-django/django-macos-with-rabbitmq" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/10/10/django/django-macos-with-rabbitmq/">macOS에 RabbitMQ 설치하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/10/10/django/django-macos-with-rabbitmq/">
+            <time datetime="2019-10-10T14:02:31.000Z" itemprop="datePublished">2019-10-10</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/django/">django</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="macOS에-RabbitMQ-설치하기"><a href="#macOS에-RabbitMQ-설치하기" class="headerlink" title="macOS에 RabbitMQ 설치하기"></a>macOS에 RabbitMQ 설치하기</h1><p>맥북에 RabbitMQ를 설치하는 과정을 정리해본다. 이미 웹상에 많은 자료가 있지만 시간이 조금 지난 문서들인 것 같아서 현재 최신 버전인 3.8을 기준으로 작성하려고 한다.</p>
+<p>일단 RabbitMQ라는 소프트웨어는 <strong>AMQP 프로토콜을 구현한 메세지 큐</strong>이다. ‘큐’라는 단어에서 알수있듯이 무언가를 순차적으로 저장하는 역할을 한다. 이렇게 저장된 메세지를 다른 시스템에게 순서대로 전달해주는 일을 하며 이러한 역할을 하는 소프트웨어를 메세지 큐 또는 메세지 브로커라고 한다.</p>
+<p>보통, <strong>웹 환경에서 보다 나은 사용자 경험을 위해서 비동기 작업 또는 백그라운드 작업을 해야할 때 이용하며 Redis와 함께 자주사용되는 메세지 브로커 소프트웨어 중 하나이다.</strong></p>
+<blockquote>
+<p>웹 환경에서 메세지 브로커를 사용하는 예제를 보면 RabbitMQ와 Redis에 대한 자료가 가장 많을 것이다.</p>
+</blockquote>
+<h4 id="설치하기"><a href="#설치하기" class="headerlink" title="설치하기"></a>설치하기</h4><p>일단 맥북의 homebrew를 업데이트 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br></pre></td></tr></table></figure>
+
+<p>그리고 바로 rabbitmq를 설치해주면 된다. RabbitMQ는 Erlang이라는 언어로 작성되어 있는 오픈소스 소프웨어인데 인스톨하는 과정에서 Erlang 설치와 의존성 패키지들을 설치할 것이다. (보통의 brew와는 다르게 설치 시간이 좀 걸린다)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>rabbitmq와 관련한 CLI tools을 사용하기 위해서 환경변수를 설정해주어야 하는데, 바로 이 부분이 과거와 비교했을때 바뀐 부분일 것이다. <strong>rabbitmq 서버 스크립트와 관련 커맨드라인 툴은 /usr/local/Cellar/rabbitmq 디렉토리의 sbin 폴더에 설치가 되는데 /usr/local/opt/rabbitmq/sbin 의 경로를 통해 사용할 수 있다고 한다.</strong> 이 경로가 PATH에 잡혀있지 않기 때문에 따로 명시해주어야 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/opt/rabbitmq/sbin</span><br></pre></td></tr></table></figure>
+
+<p>터미널을 재시작하거나 사용중인 쉘 설정파일을 source 해주면 rabbitmq-server로 시작하는 명령어를 사용할 수 있다.</p>
+<hr>
+<p>[참고]<br><a href="https://www.rabbitmq.com/install-homebrew.html" target="_blank" rel="external nofollow noopener noreferrer">https://www.rabbitmq.com/install-homebrew.html</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/10/10/django/django-macos-with-rabbitmq/" data-id="ckan6l1l700233t753x7lf7d7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/linux-command-head-tail" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -210,7 +352,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/08/03/linux/linux-command-head-tail/" data-id="ckalwcolf0060gl7586qmf2wh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/08/03/linux/linux-command-head-tail/" data-id="ckan6l1me00673t753c2betqh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -356,140 +498,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/08/01/django/django-admin-save-model/" data-id="ckalwcojt001fgl754ekxgfc0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/python-print-function" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/07/01/python/python-print-function/">파이썬의 print() 함수</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/07/01/python/python-print-function/">
-            <time datetime="2019-07-01T07:15:43.000Z" itemprop="datePublished">2019-07-01</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="파이썬의-print-함수"><a href="#파이썬의-print-함수" class="headerlink" title="파이썬의 print() 함수"></a>파이썬의 print() 함수</h1><p>가장 간단한 함수이지만 유용한 옵션들이 있어서 정리해 보려고한다.</p>
-<h4 id="sep"><a href="#sep" class="headerlink" title="sep"></a>sep</h4><p>separator의 역할을 한다. 기본값으로 print()함수는 sep가 ‘ ‘이다. 즉, 하나의 스페이스를 넣어주는 것이다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 기본값</span></span><br><span class="line">print(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>) <span class="comment"># 'a b c d'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># sep를 ''로 변경했을 경우</span></span><br><span class="line">print(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, sep=<span class="string">''</span>) <span class="comment"># 'abcd'</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'example'</span>, <span class="string">'gmail.com'</span>, sep=<span class="string">'@'</span>) <span class="comment"># example@gmail.com</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="end"><a href="#end" class="headerlink" title="end"></a>end</h4><p>기본값은 \n으로써 print() 함수를 사용했을때 개행이 되는 이유이다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 한 줄에 결과가 출력 되는 것이 아닌 두 줄에 표현이 된다</span></span><br><span class="line">print(<span class="string">'hello'</span>)</span><br><span class="line">print(<span class="string">'hi'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># end=' '로 변경</span></span><br><span class="line">print(<span class="string">'hello'</span>, end=<span class="string">' '</span>)</span><br><span class="line">print(<span class="string">'hi'</span>)</span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line"><span class="comment"># hello hi</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="formatting"><a href="#formatting" class="headerlink" title="formatting"></a>formatting</h4><p>포매팅. 파이썬3에서 새로 생긴 format을 사용할 수 있다. 인자의 위치를 사용할수도 있고 dict처럼 key, value와 같이 사용할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'&#123;&#125; but &#123;&#125;'</span>.format(<span class="string">'first'</span>, <span class="number">2</span>)) <span class="comment"># first but 2</span></span><br><span class="line">print(<span class="string">'&#123;0&#125; but &#123;1&#125; and &#123;0&#125;'</span>.format(<span class="string">'first'</span>, <span class="number">2</span>)) <span class="comment"># first but 2 and first</span></span><br><span class="line">print(<span class="string">'&#123;a&#125; but &#123;b&#125;'</span>.format(a=<span class="string">'first'</span>, b=<span class="number">2</span>)) <span class="comment"># first but 2</span></span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/07/01/python/python-print-function/" data-id="ckalwcomq00a1gl756tw499j7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/08/01/django/django-admin-save-model/" data-id="ckan6l1l0001h3t755wjwca9k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -597,7 +606,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -607,6 +616,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -641,15 +659,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
                             <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

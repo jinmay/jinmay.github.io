@@ -143,6 +143,152 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-python/python-type-hint" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/python/python-type-hint/">[python]파이썬의 타입 힌트</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/python/python-type-hint/">
+            <time datetime="2020-05-13T09:09:40.060Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>파이썬은 동적 타이핑 언어로서 코드를 작성하는 시점이 아닌 프로그램이 진행될때 자료형이 정해진다. 파이썬 버전 3.5부터 도입되기 시작되었으며 타입 힌트를 적용할 수 있는 범위가 점진적으로 넓어지고 있다.</p>
+<h2 id="typing-패키지"><a href="#typing-패키지" class="headerlink" title="typing 패키지"></a>typing 패키지</h2><p>파이썬에서 타입 힌트를 사용하기 위해 typing 모듈을 임포트해야 한다. 물론 밑의 예시처럼 *를 써서 모든 기능을 가져오는 것은 좋지 않다. 실제 사용시에는 필요한 것만 임포트할 수 있도록 한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-변수에-사용하기"><a href="#1-변수에-사용하기" class="headerlink" title="1. 변수에 사용하기"></a>1. 변수에 사용하기</h2><p>타입 힌트가 등장했던 3.5 버전에서는 사용이 불가하다. 3.6 이상부터 사용할 수 있다. 변수명 뒤에 자료형을 적어준다. 어떻게 보면 golang과 비슷한거 같기도 하다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text: str = <span class="string">'Hello world!!'</span></span><br><span class="line">num: int = <span class="number">123</span></span><br></pre></td></tr></table></figure>
+
+<p>만약 사용자가 직접 만든 클래스가 있다면 클래스의 인스턴스를 생성할때에도 적용할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">ins_a: Test = Test()</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-함수의-인자에-사용하기"><a href="#2-함수의-인자에-사용하기" class="headerlink" title="2. 함수의 인자에 사용하기"></a>2. 함수의 인자에 사용하기</h2><p>함수의 인자와 리턴에 타입 힌트를 적용할 수 있다. 어떠한 자료형의 인자를 받고 함수의 리턴형을 유추할 수 있도록 돕는다. 아래의 예시는 문자열 인자 title과 숫자형 인자 num을 사용하며 이 함수의 리턴형은 str이어야한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func</span><span class="params">(title: str, num: int)</span> -&gt; str:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>만약 특정한 반환값이 없는 함수라면 이렇게 할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_func1</span><span class="params">(text: str)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">  print(text)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-리스트-딕셔너리-튜플"><a href="#3-리스트-딕셔너리-튜플" class="headerlink" title="3. 리스트 / 딕셔너리 / 튜플"></a>3. 리스트 / 딕셔너리 / 튜플</h2><p>리스트 / 딕셔너리 / 튜플을 타입 힌트로 표현하는 방법은 아래와 같다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">num_list = List[int]</span><br><span class="line">test_dict = Dict[str, int]</span><br><span class="line">test_tuple = Tuple(int)</span><br></pre></td></tr></table></figure>
+
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>파이썬 3.5부터 등장한 타입 힌트에 대해서 아주 간단하게 정리했다. 함수와 변수에서 사용되는 타입 힌트에 대해서만 나열했지만 사실은 더 많은 기능들이 존재한다. 또한 mypy라는 툴을 pip로 설치하여 같이 사용하면 정적 타입 검사기로써 사용할 수 있어 타입 힌트를 사용하는 데에 도움을 줄 수 있을 것이다.</p>
+<hr>
+<p>[참고]<br><a href="https://item4.blog/2017-09-14/Python-Typing-with-mypy/" target="_blank" rel="external nofollow noopener noreferrer">https://item4.blog/2017-09-14/Python-Typing-with-mypy/</a><br><a href="https://minwook-shin.github.io/python-type-hint-typing-using-mypy/" target="_blank" rel="external nofollow noopener noreferrer">https://minwook-shin.github.io/python-type-hint-typing-using-mypy/</a><br><a href="https://lewisxyz000.tistory.com/35" target="_blank" rel="external nofollow noopener noreferrer">https://lewisxyz000.tistory.com/35</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/python/python-type-hint/" data-id="ckan6l1nj00ac3t75h6dphtrz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/selenium-click-does-not-work" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -203,7 +349,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/python/selenium-click-does-not-work/" data-id="ckalwcomu00aagl75g4twgisj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/python/selenium-click-does-not-work/" data-id="ckan6l1nm00an3t759nlq22cp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -343,149 +489,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/python/python-abstract-class/" data-id="ckalwcomc008ogl75fc2gh2h5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-mysql/how-to-install-mysql-in-mac" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/mysql/how-to-install-mysql-in-mac/">[MySQL]맥북에서 mysql 설치하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/mysql/how-to-install-mysql-in-mac/">
-            <time datetime="2020-05-13T09:09:40.055Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/mysql/">mysql</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>맥북에서 mysql을 설치하는 방법을 정리한다.</p>
-<h2 id="Homebrew를-통한-설치"><a href="#Homebrew를-통한-설치" class="headerlink" title="Homebrew를 통한 설치"></a>Homebrew를 통한 설치</h2><h3 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h3><p>brew 업데이트를 하고 설치를 진행한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br><span class="line">brew install mysql</span><br></pre></td></tr></table></figure>
-
-<h3 id="서버-시작"><a href="#서버-시작" class="headerlink" title="서버 시작"></a>서버 시작</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql.server start</span><br></pre></td></tr></table></figure>
-
-<h3 id="서버-정지"><a href="#서버-정지" class="headerlink" title="서버 정지"></a>서버 정지</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql.server stop</span><br></pre></td></tr></table></figure>
-
-<h3 id="root-비밀번호-설정"><a href="#root-비밀번호-설정" class="headerlink" title="root 비밀번호 설정"></a>root 비밀번호 설정</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
-
-<p>root 비밀번호를 설정하기 위해 위의 명령어를 입력하게 되면 몇몇의 질문을 받게 된다. 질문에 대한 내용은 다음과 같다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># root 비밀번호 입력</span></span><br><span class="line">Enter password <span class="keyword">for</span> user root:</span><br><span class="line"></span><br><span class="line"><span class="comment"># 비밀번호 보안을 위한 컴포넌트 사용 여부</span></span><br><span class="line">VALIDATE PASSWORD COMPONENT can be used to <span class="built_in">test</span> passwords</span><br><span class="line">and improve security. It checks the strength of password</span><br><span class="line">and allows the users to <span class="built_in">set</span> only those passwords <span class="built_in">which</span> are</span><br><span class="line">secure enough. Would you like to setup VALIDATE PASSWORD component?</span><br><span class="line"></span><br><span class="line"><span class="comment"># 기존에 root 패스워드를 만들었다면 변경할 것인지</span></span><br><span class="line">Change the password <span class="keyword">for</span> root ? ((Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br><span class="line"></span><br><span class="line"><span class="comment"># 익명 사용자를 사용할 것인지 여부.</span></span><br><span class="line"><span class="comment"># no를 입력하면 익명사용자를 그대로 두며 mysql 명령어만으로 접속 가능</span></span><br><span class="line">By default, a MySQL installation has an anonymous user,</span><br><span class="line">allowing anyone to <span class="built_in">log</span> into MySQL without having to have</span><br><span class="line">a user account created <span class="keyword">for</span> them. This is intended only <span class="keyword">for</span></span><br><span class="line">testing, and to make the installation go a bit smoother.</span><br><span class="line">You should remove them before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line">Remove anonymous users? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br><span class="line"></span><br><span class="line"><span class="comment"># localhost 이외의 주소에서 root 사용자로 접속 가능한지 여부</span></span><br><span class="line"><span class="comment"># yes를 입력하면 외부에서 root 사용자로 접속 불가</span></span><br><span class="line">Normally, root should only be allowed to connect from</span><br><span class="line"><span class="string">'localhost'</span>. This ensures that someone cannot guess at</span><br><span class="line">the root password from the network.</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br><span class="line"></span><br><span class="line"><span class="comment"># 테스트 DB 삭제 여부</span></span><br><span class="line">By default, MySQL comes with a database named <span class="string">'test'</span> that</span><br><span class="line">anyone can access. This is also intended only <span class="keyword">for</span> testing,</span><br><span class="line">and should be removed before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line">Remove <span class="built_in">test</span> database and access to it? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br><span class="line"></span><br><span class="line"><span class="comment"># 권한관련 테이블 리로딩 여부</span></span><br><span class="line"><span class="comment"># 권한 변경을 수행했다면 yes를 입력</span></span><br><span class="line">Reloading the privilege tables will ensure that all changes</span><br><span class="line">made so far will take effect immediately.</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br></pre></td></tr></table></figure>
-
-<h3 id="charset-확인"><a href="#charset-확인" class="headerlink" title="charset 확인"></a>charset 확인</h3><p>utf8을 사용하는 게 정신적으로 이로움으로 꼭 확인해본다. <strong>mysql 접속 후 명령어 실행!</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">status;</span><br><span class="line"></span><br><span class="line">Server characterset:	utf8mb4</span><br><span class="line">Db     characterset:	utf8mb4</span><br><span class="line">Client characterset:	utf8mb4</span><br><span class="line">Conn.  characterset:	utf8mb4</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://github.com/helloheesu/SecretlyGreatly/wiki/%EB%A7%A5%EC%97%90%EC%84%9C-mysql-%EC%84%A4%EC%B9%98-%ED%9B%84-%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/helloheesu/SecretlyGreatly/wiki/%EB%A7%A5%EC%97%90%EC%84%9C-mysql-%EC%84%A4%EC%B9%98-%ED%9B%84-%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/mysql/how-to-install-mysql-in-mac/" data-id="ckalwcolw007dgl7512glb9nk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/python/python-abstract-class/" data-id="ckan6l1n4008u3t752ow53819" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -593,7 +597,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -603,6 +607,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -637,15 +650,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
                             <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

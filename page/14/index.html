@@ -143,6 +143,157 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-data-structure/python-stack" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/01/10/data-structure/python-stack/">파이썬으로 알아보는 자료구조 - stack</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/01/10/data-structure/python-stack/">
+            <time datetime="2020-01-10T04:33:32.000Z" itemprop="datePublished">2020-01-10</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/data-structure/">data-structure</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h2><ul>
+<li>자료의 입력과 출력이 한 쪽 끝으로 제한됨</li>
+<li>나중에 들어간 데이터가 먼저 나옴(LIFO - Last In First Out)</li>
+<li>후입선출</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/13075035/72049492-62471c00-3302-11ea-961f-9aea3b5d98df.png" alt="image"></p>
+<h2 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h2><ul>
+<li>프로세스의 메모리 구조의 스택 영역</li>
+</ul>
+<h2 id="용어"><a href="#용어" class="headerlink" title="용어"></a>용어</h2><ul>
+<li>push : 데이터를 스택에 넣음</li>
+<li>pop : 데이터를 스택에서 꺼냄</li>
+<li>top : 데이터의 입출력이 일어나는 끝 부분</li>
+</ul>
+<h2 id="장단점"><a href="#장단점" class="headerlink" title="장단점"></a>장단점</h2><h3 id="장점"><a href="#장점" class="headerlink" title="장점"></a>장점</h3><ul>
+<li>구조가 단순하다</li>
+</ul>
+<h3 id="단점"><a href="#단점" class="headerlink" title="단점"></a>단점</h3><ul>
+<li>데이터의 최대 개수를 설정해야한다.</li>
+<li>메모리의 낭비가 발생할 수 있다(최대 개수만큼 저장 공간을 확보해야하기 때문).</li>
+</ul>
+<h2 id="연습"><a href="#연습" class="headerlink" title="연습"></a>연습</h2><h3 id="1-파이썬의-리스트를-통해-스택-맛보기"><a href="#1-파이썬의-리스트를-통해-스택-맛보기" class="headerlink" title="1. 파이썬의 리스트를 통해 스택 맛보기"></a>1. 파이썬의 리스트를 통해 스택 맛보기</h3><p>리스트의 append 함수와 pop 함수를 사용하면 손쉽게 스택을 구현할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">s_list = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># push</span></span><br><span class="line">s_list.append(<span class="number">1</span>)</span><br><span class="line">s_list.append(<span class="number">2</span>)</span><br><span class="line">s_list.append(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">print(s_list) <span class="comment"># [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># pop</span></span><br><span class="line">s_list.pop() <span class="comment"># 3</span></span><br><span class="line">s_list.pop() <span class="comment"># 2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-push-pop-함수-구현"><a href="#2-push-pop-함수-구현" class="headerlink" title="2. push / pop 함수 구현"></a>2. push / pop 함수 구현</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">s_list = []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(data)</span>:</span></span><br><span class="line">    s_list.append(data)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">()</span>:</span></span><br><span class="line">    _res = s_list[<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">del</span> s_list[<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">return</span> _res</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    push(i)</span><br><span class="line"></span><br><span class="line">pop()</span><br><span class="line">pop()</span><br><span class="line">pop()</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-클래스를-이용한-구현"><a href="#3-클래스를-이용한-구현" class="headerlink" title="3. 클래스를 이용한 구현"></a>3. 클래스를 이용한 구현</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomStack</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.s_list = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        self.s_list.append(data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span>:</span></span><br><span class="line">        _res = self.s_list[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">del</span> self.s_list[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">return</span> _res</span><br><span class="line"></span><br><span class="line">st = CustomStack()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    st.push(i)</span><br><span class="line"></span><br><span class="line">st.pop()</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/01/10/data-structure/python-stack/" data-id="ckan6l1kz001a3t75dsade2g9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-data-structure/python-queue" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -208,7 +359,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/01/09/data-structure/python-queue/" data-id="ckalwcojq0014gl756a4jcr95" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/01/09/data-structure/python-queue/" data-id="ckan6l1kz001e3t756hcqa7y4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -346,163 +497,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/01/07/python/python-for-else/" data-id="ckalwcomi009agl756gvz0oxu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-react-native/android-settings-for-react-native-in-macos" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/12/28/react-native/android-settings-for-react-native-in-macos/">React Native를 위한 안드로이드 설정하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/12/28/react-native/android-settings-for-react-native-in-macos/">
-            <time datetime="2019-12-28T06:17:11.000Z" itemprop="datePublished">2019-12-28</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/react-native/">react-native</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><strong>맥북에서 안드로이드 스튜디오를 이용해 안드로이드 시뮬레이터를 열기까지의 과정을 정리한다.</strong></p>
-<h2 id="1-node와-watchman-설치"><a href="#1-node와-watchman-설치" class="headerlink" title="1. node와 watchman 설치"></a>1. node와 watchman 설치</h2><p>리액트 네이티브를 위해 노드가 필요하다. 또한 watchman은 페이스북에서 만든 파일시스템의 변경사항을 추적할 수 있는 툴이다. 더 나은 퍼포먼스를 위해서 설치하는 것은 매우 추천한다고 한다.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install node</span><br><span class="line">brew install watchman</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-JDK-설치"><a href="#2-JDK-설치" class="headerlink" title="2. JDK 설치"></a>2. JDK 설치</h2><p>맥을 사용한다면 brew를 통해 JDK를 설치할 수 있으며 오라클JDK 또는 OpenJDK를 설치하면 된다. 본 정리에서는 OpenJDK8을 설치한다.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew tap AdoptOpenJDK/openjdk</span><br><span class="line">brew cask install adoptopenjdk8</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>사실 먼저 9버전을 설치하고 시뮬레이터를 사용하려고 했는데 알 수 없는 에러로 인해서 실패했다. JDK 버전을 8로 내렸더니 문제 없이 사용할 수 있었다.</p>
-</blockquote>
-<h2 id="3-안드로이드-개발-환경-설정"><a href="#3-안드로이드-개발-환경-설정" class="headerlink" title="3. 안드로이드 개발 환경 설정"></a>3. 안드로이드 개발 환경 설정</h2><h3 id="3-1-안드로이드-스튜디오-설치"><a href="#3-1-안드로이드-스튜디오-설치" class="headerlink" title="3-1. 안드로이드 스튜디오 설치"></a>3-1. 안드로이드 스튜디오 설치</h3><p>안드로이드 스튜디오를 설치하고 SDK 및 AVD를 설치해주어야 한다. 안드로이드 스튜디오 설치 시에 custom 옵션을 통해 아래의 네 가지 옵션을 체크해주어야 한다.</p>
-<ul>
-<li>Android SDK</li>
-<li>Android SDK Platform</li>
-<li>Performance (Intel ® HAXM) (See here for AMD)</li>
-<li>Android Virtual Device</li>
-</ul>
-<h3 id="3-2-안드로이드-SDK-설치"><a href="#3-2-안드로이드-SDK-설치" class="headerlink" title="3-2. 안드로이드 SDK 설치"></a>3-2. 안드로이드 SDK 설치</h3><p>기본적으로 안드로이드 스튜디오를 설치할때 가장 최신 버전의 안드로이드 SDK를 설치하게 된다. 하지만 리액트 네이티브 앱을 빌드하기 위해서 안드로이드 9(Pie) 버전의 SDK가 필요하다. 다른 버전의 안드로이드 SDK가 필요하다면 SDK Manager를 통해 설치할 수 있다.</p>
-<p>아래의 SDK를 설치한다. 만약 Intel x86과 같은 옵션이 보이지 않는다면 <strong>Show Package Details</strong> 을 눌러서 디테일 페이지를 살펴보면 된다.</p>
-<ul>
-<li>Android SDK Platform 28</li>
-<li>Intel x86 Atom_64 System Image</li>
-</ul>
-<h3 id="3-3-ANDROID-HOME-경로-지정하기"><a href="#3-3-ANDROID-HOME-경로-지정하기" class="headerlink" title="3-3. ANDROID_HOME 경로 지정하기"></a>3-3. ANDROID_HOME 경로 지정하기</h3><p>안드로이드에 관련된 경로를 PATH에 추가해주어야 한다. 본인이 사용중인 쉘의 설정파일에 등록하자.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export ANDROID_HOME&#x3D;$HOME&#x2F;Library&#x2F;Android&#x2F;sdk</span><br><span class="line">export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;emulator</span><br><span class="line">export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;tools</span><br><span class="line">export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;tools&#x2F;bin</span><br><span class="line">export PATH&#x3D;$PATH:$ANDROID_HOME&#x2F;platform-tools</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-4-시뮬레이터-설정"><a href="#3-4-시뮬레이터-설정" class="headerlink" title="3-4. 시뮬레이터 설정"></a>3-4. 시뮬레이터 설정</h3><p>시뮬레이터로 사용하고자 하는 디바이스를 추가한다.</p>
-<hr>
-<h2 id="4-마무리"><a href="#4-마무리" class="headerlink" title="4. 마무리"></a>4. 마무리</h2><p>새로운 리액트 네이티브 프로젝트를 생성하고 시뮬레이터를 사용할 수 있다.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 리액트 네이티브 프로젝트 생성</span></span><br><span class="line">npx react-native-cli init sampleProj</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> sampleProj</span><br><span class="line">npx react-native run-android <span class="comment"># 안드로이드 오픈</span></span><br></pre></td></tr></table></figure>
-
-<p>[참고]<br><a href="https://facebook.github.io/react-native/docs/getting-started.html#android-development-environment" target="_blank" rel="external nofollow noopener noreferrer">https://facebook.github.io/react-native/docs/getting-started.html#android-development-environment</a><br><a href="https://findstar.pe.kr/2019/01/20/install-openjdk-by-homebrew/" target="_blank" rel="external nofollow noopener noreferrer">https://findstar.pe.kr/2019/01/20/install-openjdk-by-homebrew/</a><br><a href="https://dev-yakuza.github.io/ko/react-native/install-on-mac/#jdk-%EC%84%A4%EC%B9%98" target="_blank" rel="external nofollow noopener noreferrer">https://dev-yakuza.github.io/ko/react-native/install-on-mac/#jdk-%EC%84%A4%EC%B9%98</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/12/28/react-native/android-settings-for-react-native-in-macos/" data-id="ckalwcomy00algl754ifs2v5b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/01/07/python/python-for-else/" data-id="ckan6l1nb009j3t753sbybtel" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -610,7 +605,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -620,6 +615,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -654,15 +658,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
                             <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

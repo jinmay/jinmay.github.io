@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-aws/where-is-aws-code-deploy-logs" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-aws/how-to-install-code-deploy-agent-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/aws/where-is-aws-code-deploy-logs/">[CodeDeploy]CodeDeploy EC2/온프레미스 배포에 대한 로그 데이터 위치</a>
+            <a class="article-title" href="/2020/05/13/aws/how-to-install-code-deploy-agent-ubuntu/">[CodeDeploy]EC2 우분투 인스턴스에 CodeDeploy Agent 설치하기</a>
         </h1>
     
 
@@ -160,7 +160,7 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/aws/where-is-aws-code-deploy-logs/">
+        <a href="/2020/05/13/aws/how-to-install-code-deploy-agent-ubuntu/">
             <time datetime="2020-05-13T09:09:40.040Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
@@ -181,19 +181,23 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <blockquote>
-<p>참고: AWS Lambda 또는 Amazon ECS 배포에는 로그가 지원되지 않는다.</p>
-</blockquote>
-<p>개별 인스턴스에 대한 <strong>CodeDeploy 배포 로그 데이터를 보려면 아래의 경로를 참고</strong>한다. Windows Server를 제외한 Amazon Linux, RHEL, Ubuntu Server 인스턴스에서 확인할 수 있다.</p>
-<p><strong>경로: /opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log</strong></p>
-<p>CodeDeploy가 설치되어 있는 인스턴스에서 CodeDeploy Agent의 로그를 확인하려면 아래의 경로를 확인한다.</p>
-<p><strong>경로: /var/log/aws/codedeploy-agent</strong></p>
-<p>참고로 CodeDeploy Agent가 설치되어 있는 경로는 /opt/codedeploy-agent 이다.</p>
-<p>아래의 명령어를 통해 agent의 상태를 확인할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service codedeploy-agent status</span><br></pre></td></tr></table></figure>
+            <p>배포할 서버에 접속하여 최초 한 번만 설치해주면 된다.</p>
+<h3 id="1-apt-저장소-업데이트"><a href="#1-apt-저장소-업데이트" class="headerlink" title="1. apt 저장소 업데이트"></a>1. apt 저장소 업데이트</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-ruby-설치"><a href="#2-ruby-설치" class="headerlink" title="2. ruby 설치"></a>2. ruby 설치</h3><p>CodeDeploy Agent는 ruby라는 프로그래밍 언어로 작성되어있다. 따라서 ruby를 설치해주어야 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ubuntu 16.04</span></span><br><span class="line">sudo apt-get install ruby</span><br><span class="line"></span><br><span class="line"><span class="comment"># ubuntu 14.04</span></span><br><span class="line">sudo apt-get install ruby2.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-wget-설치"><a href="#3-wget-설치" class="headerlink" title="3. wget 설치"></a>3. wget 설치</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install wget</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-Agent-설치"><a href="#4-Agent-설치" class="headerlink" title="4. Agent 설치"></a>4. Agent 설치</h3><p>wget으로 Agent의 설치파일을 다운받는 과정에 bucket-name과 region-identifier를 적절히 적어주어야 한다. <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/resource-kit.html#resource-kit-bucket-names" target="_blank" rel="external nofollow noopener noreferrer">여기</a>를 참고해서 원하를 region으로 설정하면 된다.</p>
+<p>한국 리전을 사용하려면<br><strong>wget <a href="https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install" target="_blank" rel="external nofollow noopener noreferrer">https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install</a></strong><br>로 설치하면 된다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># install 파일 경로는 원하는 대로 가능</span></span><br><span class="line"><span class="built_in">cd</span> /home/ubuntu</span><br><span class="line"></span><br><span class="line"><span class="comment"># bucket-name과 region-identifier를 각자의 상황에 맞게 변경</span></span><br><span class="line"><span class="comment"># wget https://&lt;bucket-name&gt;.s3.&lt;region-identifier&gt;.amazonaws.com/latest/install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Seoul region</span></span><br><span class="line">wget https://aws-codedeploy-ap-northeast-2.s3.ap-northeast-2.amazonaws.com/latest/install</span><br><span class="line"></span><br><span class="line">chmod +x ./install</span><br><span class="line">sudo ./install auto</span><br></pre></td></tr></table></figure>
+
+<p>현재까지 에러가 발생하지 않았다면 문제 없이 Agent 설치에 성공한 것이다. 아래의 명령어는 Agent의 상태확인과 서비스를 실행시켜준다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># codedeploy-agent 상태 확인</span></span><br><span class="line">sudo service codedeploy-agent status</span><br><span class="line"></span><br><span class="line"><span class="comment"># codedeploy-agent 서비스 시작</span></span><br><span class="line">sudo service codedeploy-agent start</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>[참고]<br><a href="https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance-unix" target="_blank" rel="external nofollow noopener noreferrer">https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance-unix</a><br><a href="https://americanopeople.tistory.com/284" target="_blank" rel="external nofollow noopener noreferrer">https://americanopeople.tistory.com/284</a></p>
+<p>[참고]<br><a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html" target="_blank" rel="external nofollow noopener noreferrer">https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html</a><br><a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/resource-kit.html#resource-kit-bucket-names" target="_blank" rel="external nofollow noopener noreferrer">https://docs.aws.amazon.com/codedeploy/latest/userguide/resource-kit.html#resource-kit-bucket-names</a></p>
 
         
         </div>
@@ -204,7 +208,138 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/aws/where-is-aws-code-deploy-logs/" data-id="ckalwcojd0008gl75f8cc5bxg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/how-to-install-code-deploy-agent-ubuntu/" data-id="ckan6l1kk00053t758q5d66jj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-aws/run-shell-script-aws-code-deploy" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/aws/run-shell-script-aws-code-deploy/">[CodeDeploy]AWS CodeDeploy 배포 후 bash script 실행하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/aws/run-shell-script-aws-code-deploy/">
+            <time datetime="2020-05-13T09:09:40.040Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/aws/">aws</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>AWS의 codeDeploy로 서버에 코드 배포 후 shell script 실행하는 법을 정리한다.</p>
+<p><em>appspec.yml</em> 파일로 codeDeploy의 설정을 할 수 있다. hooks 섹션에 적어주어야 하며 codeDeploy를 통해 app을 설치하기 전 / 후로 작업을 수행할 수 있다. hooks 섹션에는 여러 개의 실행 순서가 있는데 <a href="https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html" target="_blank" rel="external nofollow noopener noreferrer">여기</a>를 참고하자.</p>
+<p>주의해야 할 점으로는 실행할 쉘 스크립트는 EC2가 아닌 배포하려는 프로젝트 안에 존재해야 한다는 것이다.</p>
+<h2 id="appspec-yml-예시"><a href="#appspec-yml-예시" class="headerlink" title="appspec.yml 예시"></a>appspec.yml 예시</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="number">0.0</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">files:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">source:</span> <span class="string">/</span></span><br><span class="line">    <span class="attr">destination:</span> <span class="string">/srv/app</span></span><br><span class="line"></span><br><span class="line"><span class="attr">hooks:</span></span><br><span class="line">  <span class="attr">AfterInstall:</span></span><br><span class="line">    <span class="comment"># EC2경로가 아니라 배포할 소스 코드에 shell script가 있어야 함에 유의!!</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">location:</span> <span class="string">scripts/after_deploy.sh</span></span><br><span class="line">      <span class="attr">runas:</span> <span class="string">root</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>[참고]<br><a href="https://suwoni-codelab.com/aws/2018/03/24/aws-after-script/" target="_blank" rel="external nofollow noopener noreferrer">https://suwoni-codelab.com/aws/2018/03/24/aws-after-script/</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/run-shell-script-aws-code-deploy/" data-id="ckan6l1km00083t75efzkdivo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -358,158 +493,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/aws/aws-cli-install-and-configuration/" data-id="ckalwcoj90002gl75dp7t695y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-data-structure/python-stack" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/01/10/data-structure/python-stack/">파이썬으로 알아보는 자료구조 - stack</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/01/10/data-structure/python-stack/">
-            <time datetime="2020-01-10T04:33:32.000Z" itemprop="datePublished">2020-01-10</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/data-structure/">data-structure</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h2><ul>
-<li>자료의 입력과 출력이 한 쪽 끝으로 제한됨</li>
-<li>나중에 들어간 데이터가 먼저 나옴(LIFO - Last In First Out)</li>
-<li>후입선출</li>
-</ul>
-<p><img src="https://user-images.githubusercontent.com/13075035/72049492-62471c00-3302-11ea-961f-9aea3b5d98df.png" alt="image"></p>
-<h2 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h2><ul>
-<li>프로세스의 메모리 구조의 스택 영역</li>
-</ul>
-<h2 id="용어"><a href="#용어" class="headerlink" title="용어"></a>용어</h2><ul>
-<li>push : 데이터를 스택에 넣음</li>
-<li>pop : 데이터를 스택에서 꺼냄</li>
-<li>top : 데이터의 입출력이 일어나는 끝 부분</li>
-</ul>
-<h2 id="장단점"><a href="#장단점" class="headerlink" title="장단점"></a>장단점</h2><h3 id="장점"><a href="#장점" class="headerlink" title="장점"></a>장점</h3><ul>
-<li>구조가 단순하다</li>
-</ul>
-<h3 id="단점"><a href="#단점" class="headerlink" title="단점"></a>단점</h3><ul>
-<li>데이터의 최대 개수를 설정해야한다.</li>
-<li>메모리의 낭비가 발생할 수 있다(최대 개수만큼 저장 공간을 확보해야하기 때문).</li>
-</ul>
-<h2 id="연습"><a href="#연습" class="headerlink" title="연습"></a>연습</h2><h3 id="1-파이썬의-리스트를-통해-스택-맛보기"><a href="#1-파이썬의-리스트를-통해-스택-맛보기" class="headerlink" title="1. 파이썬의 리스트를 통해 스택 맛보기"></a>1. 파이썬의 리스트를 통해 스택 맛보기</h3><p>리스트의 append 함수와 pop 함수를 사용하면 손쉽게 스택을 구현할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">s_list = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># push</span></span><br><span class="line">s_list.append(<span class="number">1</span>)</span><br><span class="line">s_list.append(<span class="number">2</span>)</span><br><span class="line">s_list.append(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">print(s_list) <span class="comment"># [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># pop</span></span><br><span class="line">s_list.pop() <span class="comment"># 3</span></span><br><span class="line">s_list.pop() <span class="comment"># 2</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-push-pop-함수-구현"><a href="#2-push-pop-함수-구현" class="headerlink" title="2. push / pop 함수 구현"></a>2. push / pop 함수 구현</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">s_list = []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(data)</span>:</span></span><br><span class="line">    s_list.append(data)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">()</span>:</span></span><br><span class="line">    _res = s_list[<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">del</span> s_list[<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">return</span> _res</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    push(i)</span><br><span class="line"></span><br><span class="line">pop()</span><br><span class="line">pop()</span><br><span class="line">pop()</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-클래스를-이용한-구현"><a href="#3-클래스를-이용한-구현" class="headerlink" title="3. 클래스를 이용한 구현"></a>3. 클래스를 이용한 구현</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomStack</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.s_list = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        self.s_list.append(data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span>:</span></span><br><span class="line">        _res = self.s_list[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">del</span> self.s_list[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">return</span> _res</span><br><span class="line"></span><br><span class="line">st = CustomStack()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    st.push(i)</span><br><span class="line"></span><br><span class="line">st.pop()</span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/01/10/data-structure/python-stack/" data-id="ckalwcojs001cgl752gwj7gc8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/aws-cli-install-and-configuration/" data-id="ckan6l1kj00043t75fg8eexe5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -617,7 +601,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -627,6 +611,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -661,15 +654,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
                             <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
                             <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/linux/">linux</a></p>
-                            <p class="item-title"><a href="/2020/05/18/linux/vimrc-to-nvimrc/" class="title">[vim] nvim 사용시 vimrc를 통해 설정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:30:35.433Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 
