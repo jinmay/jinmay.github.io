@@ -143,6 +143,174 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-docker/docker-dockerfile-build" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/10/17/docker/docker-dockerfile-build/">Dockerfile을 통해서 나만의 이미지 만들기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/10/17/docker/docker-dockerfile-build/">
+            <time datetime="2019-10-17T06:22:03.000Z" itemprop="datePublished">2019-10-17</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/docker/">docker</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="Dockerfile을-통해서-나만의-이미지-만들기"><a href="#Dockerfile을-통해서-나만의-이미지-만들기" class="headerlink" title="Dockerfile을 통해서 나만의 이미지 만들기"></a>Dockerfile을 통해서 나만의 이미지 만들기</h1><p><strong>Dockerfile이라는 이름으로 파일을 만들고 빌드하면 나만의 이미지를 생성할 수 있다.</strong> Dockerfile을 만들때 자주 사용되는 옵션들과 빌드할때의 옵션들을 정리해본다.</p>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p>별다른 확장자없이 이름을 Dockerfile이라고 짓고 파일을 만들어준다. 원하는 편집기를 통해 작성하면된다. python3 이미지를 기반으로 작성할 것이며 간단한 Django 프로젝트를 실행하는 이미지를 만들것이다.</p>
+<h3 id="From"><a href="#From" class="headerlink" title="From"></a>From</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> 이미지:태그</span><br><span class="line"><span class="keyword">FROM</span> python:<span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>베이스 이미지를 지정한다. 반드시 베이스 이미지를 지정해야하고 태그는 필수적이지 않다. 하지만 본인이 사용할 버전을 명시적으로 적어두는 걸 추천한다.</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get -y install libpq-dev</span></span><br></pre></td></tr></table></figure>
+
+<p>명령어를 실행한다. 내부적으로 /bin/sh -c 뒤에 명령어를 실행한다. </p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> [<span class="string">"/bin/bash"</span>, <span class="string">"-c"</span>, <span class="string">"echo hello"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>만약 sh쉘이 아닌 다른 쉘을 사용하고 싶다면 직접 변경해주어야 한다.</p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"python"</span>, <span class="string">"manage.py"</span>, <span class="string">"runserver"</span>, <span class="string">"0:8000"</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 형태</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"executable"</span>,<span class="string">"param1"</span>,<span class="string">"param2"</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"param1"</span>,<span class="string">"param2"</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> <span class="built_in">command</span> param1 param2</span></span><br></pre></td></tr></table></figure>
+
+<p>도커 컨테이너가 실행되었을 때 실행할 명령어이다. 주의해야 할 점으로 이미지를 빌드할때 실행하는 것이 아니라 <strong>빌드된 이미지로 부터 생성된 컨테이너가 실행될때 마지막으로 실행한다는 것</strong>이다. 그리고 <strong>만약에 한 개 이상의 CMD 명령어가 있다면 가장 마지막의 CMD가 실행된다.</strong></p>
+<h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8000</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span> <span class="number">443</span></span><br></pre></td></tr></table></figure>
+
+<p>도커 컨테이너가 사용할 포트를 지정한다. 여러개를 사용할 수 있으며 띄어쓰기로 나누어 표현하면 된다.</p>
+<h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> &lt;key&gt; &lt;value&gt;</span><br><span class="line"><span class="keyword">ENV</span> &lt;key&gt;=&lt;value&gt;</span><br></pre></td></tr></table></figure>
+
+<p>컨테이너 내부에서 사용할 환경변수를 지정한다. 주의할 점으로는 컨테이너를 생성할때 -e 옵션을 지정해 준다면 기존값을 오버라이딩 할 수 있다는 것이다. </p>
+<h3 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD</span><span class="bash"> ./requirements.txt /app/</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . /app</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> ./manage.py /app/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> &lt;src&gt; &lt;container_src&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>파일 또는 폴더를 컨테이너 안으로 추가한다. <strong>로컬의 src를 컨테이너의 src로 복사한다고 생각하면 될 것 같다.</strong> 파일 또는 폴더만 가능한 것이 아니라 URL도 입력 가능하다.</p>
+<h3 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="bash"> &lt;src&gt;... &lt;container_src&gt;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /app</span></span><br></pre></td></tr></table></figure>
+
+<p>ADD와 매우 비슷하다. 만약 명시한 container_src 폴더가 없다면 자동으로 생성한다.</p>
+<h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /path/to/workdir</span></span><br></pre></td></tr></table></figure>
+
+<p>명령어들이 실행될 디렉터리를 지정한다. 각 명령어가 실행될 디렉터리가 초기화 되기 때문에 사용한다. 즉, RUN / CMD / ADD와 같은 Dockerfile 명령어들은 매 실행때마다 실행 위치가 초기화되며, 계속해서 같은 디렉터리에서 작업하기 위해 WORKDIR을 사용한다고 보면 된다.</p>
+<p>나중에 docker-compose 부분에서 한 번 더 정리할 거지만, <strong>도커 명령어가 실행될 context라는 게 매우 중요한 것 같다.</strong></p>
+<h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/data"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>다른 컨테이너 또는 호스트로부터 마운트 포인트를 만든다.</p>
+<p>지금까지 Dockerfile에서 자주 사용되는 명령어들에 대해서 간단하게 정리해보았다. 더 많은 명령어들이 있지만 아직은 이정도 까지만 자주 사용하는 정도이며, 다른 내용이 필요하다면 아래의 참고를 확인하자.</p>
+<h2 id="빌드하기"><a href="#빌드하기" class="headerlink" title="빌드하기"></a>빌드하기</h2><p>Dockerfile을 만들었다면 실제로 이미지를 만들기 위해 빌드하는 과정이 필요하다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker build [OPTIONS] PATH | URL | -</span><br><span class="line">docker build 옵션 경로</span><br><span class="line"></span><br><span class="line">docker build . -t my-image</span><br><span class="line">docker build . -f compose/django/Dockerfile-dev -t my-image-dev</span><br></pre></td></tr></table></figure>
+
+<p>-t : 이미지 이름 지정<br>-f : (현재 폴더의 Dockerfile을 사용하지 않는다면) Dockerfile의 경로를 지정</p>
+<p>맨 처음에는 다른 폴더에 있는 Dockerfile을 빌드하기 위해 -f을 사용하고 .(현재 경로)을 지정해 주지 않았다. <strong>.(현재 경로)을 명시해주는 이유를 Dockerfile의 경로로 이해하고 사용했기 때문인데 아마 이게 아니라 도커 명령어를 실행하는 context였던거 같다.</strong></p>
+<p>개발 / 배포 환경에 따른 Dockerfile 만들고 build를 하는 과정에서 많은 어려움이 있었다. 기본적으로 build 명령어는 .(현재 경로)의 Dockerfile을 참고하는데 -f 옵션을 몰라서 많은 시행착오를 겪었다.</p>
+<hr>
+[참고]
+
+<p><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external nofollow noopener noreferrer">https://docs.docker.com/engine/reference/builder/</a><br><a href="https://docs.docker.com/engine/reference/commandline/build/" target="_blank" rel="external nofollow noopener noreferrer">https://docs.docker.com/engine/reference/commandline/build/</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/10/17/docker/docker-dockerfile-build/" data-id="ckaoqnaak003cac75ckpm09m0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-django/django-secret-key-management" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -227,7 +395,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/10/12/django/django-secret-key-management/" data-id="ckan6l1la002c3t75fc2ce077" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/10/12/django/django-secret-key-management/" data-id="ckaoqnaa90028ac757ix02g1t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -369,193 +537,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/10/11/linux/linux-how-to-install-rabbitmq-on-ubuntu/" data-id="ckan6l1mj006p3t757jes7v61" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-linux/linux-how-to-install-erlang-on-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/10/11/linux/linux-how-to-install-erlang-on-ubuntu/">우분투에 Erlang 설치하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/10/11/linux/linux-how-to-install-erlang-on-ubuntu/">
-            <time datetime="2019-10-10T15:32:19.000Z" itemprop="datePublished">2019-10-11</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/linux/">linux</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="우분투에-Erlang-설치하기"><a href="#우분투에-Erlang-설치하기" class="headerlink" title="우분투에 Erlang 설치하기"></a>우분투에 Erlang 설치하기</h1><blockquote>
-<p>우분투 16.04</p>
-</blockquote>
-<p>우분투 16.04 버전에 Erlang 설치하는 과정을 정리해보자. Erlang을 사용하진 않지만 RabbitMQ가 erlang으로 되어있기 때문에 필수적으로 설치를 선행해야한다.</p>
-<h3 id="Install-Erlang-from-an-Apt-Repostory-on-Bintray"><a href="#Install-Erlang-from-an-Apt-Repostory-on-Bintray" class="headerlink" title="Install Erlang from an Apt Repostory on Bintray"></a>Install Erlang from an Apt Repostory on Bintray</h3><p>기존의 우분투 apt repo가 제공하는 Erlang/OTP은 최신 버전을 제공하지 않는 경향이 많기 때문에, RabbitMQ 팀이 지원하는 apt repo를 이용하여 설치하는 것을 추천한다. </p>
-<p>아래의 리눅스 배포판에서 사용할 수 있다.</p>
-<ul>
-<li>Ubuntu 18.04 (Bionic)</li>
-<li>Ubuntu 16.04 (Xenial)</li>
-<li>Debian Buster</li>
-<li>Debian Stretch</li>
-</ul>
-<p>또한 이 apt repo는 아래의 Erlang 버전을 제공한다.</p>
-<ul>
-<li>22.x</li>
-<li>21.x</li>
-<li>20.3.x</li>
-<li>19.3.x</li>
-<li>master (23.x)</li>
-<li>R16B03 (16.x)</li>
-</ul>
-<p>RabbitMQ 팀이 제공하는 apt repo를 사용하는 방법은 크게 아래의 네 가지 절차를 거친 후에 사용할 수 있다.</p>
-<ol>
-<li>repository signing key를 임포트 함으로써 설치하는동안 apt가 package signatures를 확인한다</li>
-<li>새로운 repo를 위한 source list 추가</li>
-<li>패키지 메타데이터 업데이트</li>
-<li>Erlang 설치</li>
-</ol>
-<h3 id="본격적인-설치"><a href="#본격적인-설치" class="headerlink" title="본격적인 설치"></a>본격적인 설치</h3><blockquote>
-<p>필요하다면 sudo 권한을 이용해서 설치를 진행하자</p>
-</blockquote>
-<p>현재의 apt repo를 업데이트 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update -y</span><br></pre></td></tr></table></figure>
-
-<p>설치에 필요한 소프트웨어를 설치한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install curl gnupg -y</span><br></pre></td></tr></table></figure>
-
-<p>RabbitMQ Signing Key를 설치한다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-
-<p>apt HTTPS transport를 설치한다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https</span><br></pre></td></tr></table></figure>
-
-<p>Bintray repositories를 추가한다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/apt/sources.list.d/bintray.rabbitmq.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># bintray.rabbitmq.list 파일 안에 추가</span></span><br><span class="line"><span class="comment"># 사용중인 리눅스 배포판과 설치하려는 Erlang 버전을 뒤에 적는다</span></span><br><span class="line"><span class="comment"># deb https://dl.bintray.com/rabbitmq-erlang/debian $distribution $component</span></span><br><span class="line"><span class="comment"># deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang-22.x</span></span><br><span class="line">deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang <span class="comment"># 최신의 안정화 버전을 설치한다</span></span><br></pre></td></tr></table></figure>
-
-<p>참고로 $distribution과 $component는 자신의 환경에 맞게 설정하면 된다. </p>
-<ul>
-<li>bionic for Ubuntu 18.04</li>
-<li>xenial for Ubuntu 16.04</li>
-<li>buster for Debian Buster</li>
-<li>stretch for Debian Stretch</li>
-</ul>
-<p>추가된 apt repo를 반영하기 위해 apt update</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update -y</span><br></pre></td></tr></table></figure>
-
-<p>Erlang을 설치한다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y erlang-base \</span><br><span class="line">                        erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \</span><br><span class="line">                        erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \</span><br><span class="line">                        erlang-runtime-tools erlang-snmp erlang-ssl \</span><br><span class="line">                        erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl</span><br><span class="line"></span><br><span class="line"><span class="comment"># rabbitmq-server와 의존성 패키지 설치</span></span><br><span class="line">sudo apt-get install rabbitmq-server -y --fix-missing</span><br></pre></td></tr></table></figure>
-
-<p>에러없이 여기까지 왔다면 설치는 무사히 끝난다. </p>
-<hr>
-<p>[참고]<br><a href="https://www.rabbitmq.com/install-debian.html#apt-bintray-erlang" target="_blank" rel="external nofollow noopener noreferrer">https://www.rabbitmq.com/install-debian.html#apt-bintray-erlang</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/10/11/linux/linux-how-to-install-erlang-on-ubuntu/" data-id="ckan6l1mi006n3t75067v0nub" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/10/11/linux/linux-how-to-install-rabbitmq-on-ubuntu/" data-id="ckaoqnabj006sac7500mk8p6y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -632,7 +614,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/20/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/22/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/20/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/22/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -663,7 +645,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -680,6 +662,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -707,15 +698,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

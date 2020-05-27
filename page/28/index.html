@@ -143,6 +143,172 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-linux/ubuntu-install-pyenv-1" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/03/16/linux/ubuntu-install-pyenv-1/">ubuntu에서 pyenv 설치하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/03/16/linux/ubuntu-install-pyenv-1/">
+            <time datetime="2019-03-15T15:04:44.000Z" itemprop="datePublished">2019-03-16</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/autoenv/" rel="tag">autoenv</a>, <a class="tag-link" href="/tags/pyenv/" rel="tag">pyenv</a>, <a class="tag-link" href="/tags/pyenv-virtualenv/" rel="tag">pyenv-virtualenv</a>, <a class="tag-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link" href="/tags/ubuntu/" rel="tag">ubuntu</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="ubuntu에서-pyenv-설치하기"><a href="#ubuntu에서-pyenv-설치하기" class="headerlink" title="ubuntu에서 pyenv 설치하기"></a>ubuntu에서 pyenv 설치하기</h2><p>AWS를 통해서 ubuntu 16.04를 설치했는데 python3.4 버전이 깔려있었다. 패키지 버전 뿐만 아니라 파이썬 버전도 여러개를 사용하여 관리하기 위해서 pyenv를 설치하려고 한다. </p>
+<h5 id="사전-준비하기"><a href="#사전-준비하기" class="headerlink" title="사전 준비하기"></a>사전 준비하기</h5><p>ubuntu를 포함한 여려가지 리눅스 배포판에서 패키지 설치를 위해 거치는 build 과정에 발생하는 문제를 방지하고자 필요한 패키지들을 설치하자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \</span><br><span class="line">libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \</span><br><span class="line">xz-utils tk-dev</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="pyenv-설치"><a href="#pyenv-설치" class="headerlink" title="pyenv 설치"></a>pyenv 설치</h5><p>pyenv를 설치하기 위해 git clone을 해준다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/pyenv/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure>
+
+<p>그리고 쉘 설정파일에 적어주어야 하는 것이 있다. 각자 사용하고 있는 쉘의 종류에 따라 zshrc 또는 bashrc에 입력해주면 된다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi ~/.zshrc</span></span><br><span class="line"><span class="built_in">export</span> PYENV_ROOT=<span class="string">"<span class="variable">$HOME</span>/.pyenv</span></span><br><span class="line"><span class="string">export PATH="</span><span class="variable">$PYENV_ROOT</span>/bin:<span class="variable">$PATH</span><span class="string">"</span></span><br><span class="line"><span class="string">eval "</span>$(pyenv init -)<span class="string">"</span></span><br></pre></td></tr></table></figure>
+
+<p>변경된 zshrc를 반영하기 위해 source를 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="pyenv를-이용해-python-설치"><a href="#pyenv를-이용해-python-설치" class="headerlink" title="pyenv를 이용해 python 설치"></a>pyenv를 이용해 python 설치</h5><p>본격적으로 파이썬 설치를 해보자. pyenv를 이용하여 설치할 수 있는 파이썬의 리스트는 아래와 같이 확인할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 설치 가능한 버전 리스트 출력</span></span><br><span class="line">pyenv install --list</span><br><span class="line"></span><br><span class="line"><span class="comment"># python 3.7.2 설치</span></span><br><span class="line">pyenv install 3.7.2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 시스템에 설치된 파이썬 출력</span></span><br><span class="line">pyenv versions</span><br><span class="line"></span><br><span class="line"><span class="comment"># 시스템 전역적으로 3.7.2 버전 사용</span></span><br><span class="line">pyenv global 3.7.2</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="pyenv-virtualenv-사용하기"><a href="#pyenv-virtualenv-사용하기" class="headerlink" title="pyenv-virtualenv 사용하기"></a>pyenv-virtualenv 사용하기</h5><p>pyenv를 이용하여 여러 버전의 파이썬을 사용할 수 있게되었다. 가상환경도 사용하기 위해 pyenv-virtualenv로 사용해보자.</p>
+<p>pyenv-virtualenv를 설치하기 위해서 다음의 순서로 작업을 진행한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv</span><br></pre></td></tr></table></figure>
+
+<p>bashrc 또는 zshrc에 추가하고 source까지한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(pyenv virtualenv-init -)</span>"</span></span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<p>pyevn-virtualenv로 가상환경을 새로 만들기 위해서 아래와 같이 입력해준다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pyenv virtualenv &lt;python_version&gt; &lt;virtualenv_name&gt;</span></span><br><span class="line">pyenv virtualenv 3.7.2 <span class="built_in">test</span>-venv</span><br></pre></td></tr></table></figure>
+
+<p>파이썬 3.7.2 버전을 사용하는 가상환경 test-venv가 생성되었을 것이다. pyenv versions 명령어를 이용해서 현재 설치된 파이썬 뿐만 아니라 생성한 가상환경도 볼 수 있을 것이다.</p>
+<h5 id="autoenv-사용하기"><a href="#autoenv-사용하기" class="headerlink" title="autoenv 사용하기"></a>autoenv 사용하기</h5><p>autoenv를 이용하게 되면 프로젝트 폴더로 진입했을때 가상환경을 수동으로 activate할 필요 없이 자동으로 해준다. 방법은 아래와 같다. 일단 프로젝트에 사용할 가상환경이 만들어져 있어야 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd myproject</span></span><br><span class="line">pyenv <span class="built_in">local</span> <span class="built_in">test</span>-venv</span><br></pre></td></tr></table></figure>
+
+<p>프로젝트 폴더에 들어가서 위 와 같은 명령어를 입력하게 되면 가상환경이 활성화되고 폴더를 빠져나오게 되면 자동으로 deactivate까지 된다. </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/03/16/linux/ubuntu-install-pyenv-1/" data-id="ckaoqnabn0075ac75fyo3bhyg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-django/django-uwsgi" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -261,7 +427,7 @@ https://jaha01.tistory.com/12</참고>
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/03/14/django/django-uwsgi/" data-id="ckan6l1lf002t3t75bxqdesaf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/03/14/django/django-uwsgi/" data-id="ckaoqnaaf002rac758kfm8o0b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -404,178 +570,7 @@ https://jaha01.tistory.com/12</참고>
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/03/11/django/django-static-file-serving-temp/" data-id="ckan6l1la002a3t757j82flqn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-linux/linux-commands-of-yum" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/03/06/linux/linux-commands-of-yum/">CentOS의 yum 명령어 간단하게 알아보기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/03/06/linux/linux-commands-of-yum/">
-            <time datetime="2019-03-06T07:37:00.000Z" itemprop="datePublished">2019-03-06</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/linux/">linux</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/centos/" rel="tag">centos</a>, <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/yum/" rel="tag">yum</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="yum-명령어-정리"><a href="#yum-명령어-정리" class="headerlink" title="yum 명령어 정리"></a>yum 명령어 정리</h2><p><strong>레드햇 계열 리눅스인 CentOS는 패키지를 관리하기 위해 yum이라는 명령어를 사용한다.</strong> yum은 Yellow-dog Updater Modified의 줄임말이며 RPM(Redhat Package Manager)을 통한 패키지 설치를 개선하기 위해 개발되었다.</p>
-<p>yum에 대한 설정은 <strong>/etc/yum.conf</strong>에서 하고 있으며, <strong>/etc/yum.repos.d/ 디렉토리</strong>에 있는 파일에 지정된 서버주소로부터 패키지들을 설치하고 관리할 수 있다.</p>
-<blockquote>
-<ul>
-<li><p>설정파일 경로 : /etc/yum.conf</p>
-</li>
-<li><p>yum 레포지터리 파일 경로 : /etc/yum.repos.d/</p>
-<ul>
-<li>위의 디렉토리에 있는 각 파일은 yum 명령어를 실행했을때 해당 패키지를 검색하는 네트워크 주소가 있다.</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<p>또한 RPM보다 편리하게 의존성 관리를 할 수 있다.</p>
-<h2 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h2><h5 id="기본-형태"><a href="#기본-형태" class="headerlink" title="기본 형태"></a>기본 형태</h5><p>기본적인 형태는 아래와 같다</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 옵션 - 명령어 - 패키지명 순으로 적는다.</span></span><br><span class="line">yum &lt;option&gt; &lt;<span class="built_in">command</span>&gt; &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="패키지-설치"><a href="#패키지-설치" class="headerlink" title="패키지 설치"></a>패키지 설치</h5><p>패키지를 설치하려면 다음과 같이하자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nginx 설치</span></span><br><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
-
-<p>보통 패키지를 설치할때 필요한 용량과 계속해서 진행할 지 물어보는 과정이 있는데 <strong>-y 옵션을 주게되면 끊김 없이 진행할 수 있다.</strong></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install nginx</span><br></pre></td></tr></table></figure>
-
-<h5 id="업데이트"><a href="#업데이트" class="headerlink" title="업데이트"></a>업데이트</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update nginx</span><br></pre></td></tr></table></figure>
-
-<h5 id="삭제"><a href="#삭제" class="headerlink" title="삭제"></a>삭제</h5><p>의존성관리를 개별적으로 해줄 필요없이 삭제할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nginx 삭제</span></span><br><span class="line">yum remove nginx</span><br></pre></td></tr></table></figure>
-
-<h5 id="서버에-있는-패키지-목록-확인"><a href="#서버에-있는-패키지-목록-확인" class="headerlink" title="서버에 있는 패키지 목록 확인"></a>서버에 있는 패키지 목록 확인</h5><p>시스템에 설치된 패키지와 설치가능한 패키지의 목록을 출력한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list</span><br></pre></td></tr></table></figure>
-
-<h5 id="설치된-패키지-확인"><a href="#설치된-패키지-확인" class="headerlink" title="설치된 패키지 확인"></a>설치된 패키지 확인</h5><p>현재 시스템에 설치되어있는 패키지 리스트를 출력한다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list installed</span><br></pre></td></tr></table></figure>
-
-<h5 id="설치가능한-패키지-확인"><a href="#설치가능한-패키지-확인" class="headerlink" title="설치가능한 패키지 확인"></a>설치가능한 패키지 확인</h5><p>시스템에 설치 가능한 패키지를 출력한다. 보통  grep과 같이 사용하곤 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list available | grep &lt;name&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="업데이트가-필요한-패키지-확인"><a href="#업데이트가-필요한-패키지-확인" class="headerlink" title="업데이트가 필요한 패키지 확인"></a>업데이트가 필요한 패키지 확인</h5><p>현재 시스템에 설치된 패키지들 중에서 업데이트가 필요한 패키지를 출력한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list updated</span><br></pre></td></tr></table></figure>
-
-<h5 id="패키지-정보-확인"><a href="#패키지-정보-확인" class="headerlink" title="패키지 정보 확인"></a>패키지 정보 확인</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum info &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
-
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/03/06/linux/linux-commands-of-yum/" data-id="ckan6l1mg006g3t7538w0465i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/03/11/django/django-static-file-serving-temp/" data-id="ckaoqnaab002eac75gvh13p22" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -652,7 +647,7 @@ https://jaha01.tistory.com/12</참고>
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/27/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/29/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/27/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/29/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -683,7 +678,7 @@ https://jaha01.tistory.com/12</참고>
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -700,6 +695,15 @@ https://jaha01.tistory.com/12</참고>
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -727,15 +731,6 @@ https://jaha01.tistory.com/12</참고>
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

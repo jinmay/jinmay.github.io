@@ -143,6 +143,196 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-ckan/ckan-harvest" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/10/29/ckan/ckan-harvest/">[CKAN]ckanext-harvest 설치하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/10/29/ckan/ckan-harvest/">
+            <time datetime="2018-10-29T01:09:01.000Z" itemprop="datePublished">2018-10-29</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/ckan/">ckan</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ckan/" rel="tag">ckan</a>, <a class="tag-link" href="/tags/harvest/" rel="tag">harvest</a>, <a class="tag-link" href="/tags/harvester/" rel="tag">harvester</a>, <a class="tag-link" href="/tags/harvesting/" rel="tag">harvesting</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>데이터 공유 플랫폼 CKAN에는 서로 다른 서버들간의 데이터를 주고 받을 수 있는 <strong>harvest</strong>라는 기능이 있다. 여러 익스텐션들이 존재하지만 CKAN에서 공식적으로 운영하고 있는 가장 기본이 되는 익스텐션을 설치하는 과정을 정리하려고 한다.</p>
+<p>이 플러그인을 활성화하게 되면, CLI와 Web UI를 통해서 하베스팅 기능을 사용할 수 있다고 한다.</p>
+<p>사전에 준비해야할 것으로는  데이터를 주고받을 모든 CKAN 서버는 최소 버전 2.0 이상을 사용해야 한다는 것이다.</p>
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><ol>
+<li>redis 설치</li>
+</ol>
+<p>백엔드로 아래의 두 가지 소프트웨어를 사용할 수 있다. </p>
+<blockquote>
+<p>Redis</p>
+<p>RabbitMQ</p>
+</blockquote>
+<p>각자 사용하고 싶은 걸 사용해도 무방하지만, redis가 더 안정적이고 믿을 만 하다고 하기 때문에 CKAN org는 <strong>redis</strong>를 추천한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install redis-server</span><br></pre></td></tr></table></figure>
+
+<p>그리고 CKAN의 production.ini 설정파일에 아래의 설정을 추가해준다.</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ckan.harvest.mq.type</span> = redis</span><br></pre></td></tr></table></figure>
+
+<p>혹시 모르니 RabbitMQ도 정리해보자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install rabbitmq-server</span><br><span class="line"></span><br><span class="line"><span class="comment">## in production.ini</span></span><br><span class="line">ckan.harvest.mq.type = amqp</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>가상환경 활성화</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. /usr/lib/ckan/default/bin/activate</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>ckanext-harvest 패키지 다운로드</li>
+</ol>
+<p>activate한 가상환경에 harvest를 위한 파이썬 패키지를 설치한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -e git+https://github.com/ckan/ckanext-harvest.git<span class="comment">#egg=ckanext-harvest</span></span><br></pre></td></tr></table></figure>
+
+<p>여기서 맨할 헤메곤 했는데, 그 이유는 pip의 권한 때문이었던 것 같다. 보통은 <strong>python -m pip install <package_name></package_name></strong>을 하게 되면 무리없이 설치하곤 했는데 가끔씩 permission erorr를 내뱉는 경우가 있다. </p>
+<p>sudo를 사용하거나 python -m pip를 사용했는데도 permission error로 인해 설치하는데 어려움을 겪는다면 현재 내가 사용중인 pip의 python을 찾아서 이용해보도록 한다!!</p>
+<ol start="4">
+<li>패키지 설치</li>
+</ol>
+<p>위에서 다운받은 패키지의 폴더에 들어가 설치한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/lib/ckan/default/src/ckanext-harvest</span><br><span class="line">pip install -r pip-requirements.txt</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>플러그인 추가</li>
+</ol>
+<p>CKAN 설정파일에서 플러그인 harvest와 ckan_harvester를 추가한다.</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ckan.plugins</span> = ... harvest ckan_harvester</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>필수 설정</li>
+</ol>
+<p>가상환경을 activate 한 채로, 필수적인 테이블을 생성하기 위해 다음과 같은 명령어를 실행한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster --plugin=ckanext-harvest harvestet initdb --config=/etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>재시작</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service apache2 restart</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>접속</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;ckan_url&#x2F;harvest</span><br></pre></td></tr></table></figure>
+
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/10/29/ckan/ckan-harvest/" data-id="ckaoqna9q000gac752l8s4d95" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-ckan/ckan-datapusher" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -209,7 +399,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/10/26/ckan/ckan-datapusher/" data-id="ckan6l1kp000c3t75fzrv7cr0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/10/26/ckan/ckan-datapusher/" data-id="ckaoqna9o000bac75218aa0vu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -366,156 +556,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/10/26/ckan/filestore/" data-id="ckan6l1kt000p3t752e8j8rkw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-ckan/sysadmin" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/10/04/ckan/sysadmin/">[CKAN]시스템 어드민 계정 생성 및 테스트</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/10/04/ckan/sysadmin/">
-            <time datetime="2018-10-04T01:41:44.000Z" itemprop="datePublished">2018-10-04</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/ckan/">ckan</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ckan/" rel="tag">ckan</a>, <a class="tag-link" href="/tags/sysadmin/" rel="tag">sysadmin</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h4 id="ckan의-시스템-어드민은-sysadmin-유저와-데이터셋을-관리하는-역할을-한다-대부분의-기능은-web-ui를-통해서-가능하지만-그렇지-않은-경우도-있다-ckan-페이지의-config-file-수정과-같은-일은-cli를-통해서-서버에-접속해야만-사용할-수-있다"><a href="#ckan의-시스템-어드민은-sysadmin-유저와-데이터셋을-관리하는-역할을-한다-대부분의-기능은-web-ui를-통해서-가능하지만-그렇지-않은-경우도-있다-ckan-페이지의-config-file-수정과-같은-일은-cli를-통해서-서버에-접속해야만-사용할-수-있다" class="headerlink" title="ckan의 시스템 어드민은(sysadmin) 유저와 데이터셋을 관리하는 역할을 한다. 대부분의 기능은 web ui를 통해서 가능하지만 그렇지 않은 경우도 있다. ckan 페이지의 config file 수정과 같은 일은 cli를 통해서 서버에 접속해야만 사용할 수 있다."></a>ckan의 시스템 어드민은(sysadmin) 유저와 데이터셋을 관리하는 역할을 한다. 대부분의 기능은 web ui를 통해서 가능하지만 그렇지 않은 경우도 있다. ckan 페이지의 config file 수정과 같은 일은 cli를 통해서 서버에 접속해야만 사용할 수 있다.</h4><blockquote>
-<p>시스템 어드민은 모든 조직에 접속할 수 있다. 유저의 정보도 확인 및 수정 가능하고 데이터셋 삭제도 가능하다. 때문에 sysadmin의 관리에 주의해야한다. </p>
-</blockquote>
-<h2 id="시스템-어드민-계정-생성하기"><a href="#시스템-어드민-계정-생성하기" class="headerlink" title="시스템 어드민 계정 생성하기"></a>시스템 어드민 계정 생성하기</h2><p>어드민 계정을 생성하는 방법에는 <strong>1. 새로운 어드민 계정 생성 2. 기존의 유저에 어드민 권한 부여</strong> 두 가지가 있다. </p>
-<blockquote>
-<p>paster 명령어를 사용하기 위해 가상환경을 activate 해야한다</p>
-<p>. /usr/lib/ckan/default/bin/activate</p>
-<p>cd /usr/lib/ckan/default/src/ckan</p>
-</blockquote>
-<p>어드민 유저를 생성하기 위해 아래와 같은 명령어를 입력한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster sysadmin add admin_test email=admin_test@example.com name=admin_test -c /etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
-
-<p>email과 name을 입력할 수 있는데 알아서 적어준다. 참고로 나중에 user page에서 수정할 수 있다. 계정을 생성할때 비밀번호를 적어야 하는데 총 두번 입력하면 된다. 만약 이미 사용중인 계정에 어드민 권한을 부여하고 싶다면 아래와 같이 한다 : </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster sysadmin add admin_test -c /etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
-
-<p>##</p>
-<h3 id="테스트-데이터-생성"><a href="#테스트-데이터-생성" class="headerlink" title="테스트 데이터 생성"></a>테스트 데이터 생성</h3><p>ckan이 잘 돌아가는 지 테스트 데이터 생성을 통해 알아볼 수 있다. 커맨드는 create-test-data 이다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paster create-test-data -c /etc/ckan/default/production.ini</span><br></pre></td></tr></table></figure>
-
-
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/10/04/ckan/sysadmin/" data-id="ckan6l1ku000t3t757xhfbwmk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/10/26/ckan/filestore/" data-id="ckaoqna9t000tac75c6i4axcx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -592,7 +633,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/36/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/38/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/36/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/38/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -623,7 +664,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -640,6 +681,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -667,15 +717,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

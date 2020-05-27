@@ -143,6 +143,162 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-linux/linux-command-sed" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/01/29/linux/linux-command-sed/">sed 명령어와 -i 옵션으로 파일내용 수정하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/01/29/linux/linux-command-sed/">
+            <time datetime="2019-01-29T06:30:23.000Z" itemprop="datePublished">2019-01-29</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/command/" rel="tag">command</a>, <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/macos/" rel="tag">macos</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="명령어-sed"><a href="#명령어-sed" class="headerlink" title="명령어 sed"></a>명령어 sed</h1><p>하이퍼레저 패브릭을 하다보면 쉘 스크립트를 수정해야 할 일들이 꽤나 많다. 그 중에 하나가 정식의 CA 서버를 건너뛰고 certificate 를 생성해 주는 부분인데 이 때에 sed 명령어를 사용하는 스크립트들이 굉장히 많다.</p>
+<h5 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">"s/DEVORG_CA_PRIVATE_KEY/<span class="variable">$&#123;PRIV_KEY&#125;</span>/g"</span> docker-compose-e2e.yaml</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h5><p><strong>파일 내용을 수정할 때 사용한다. cat과 파이프라인을 통해서 할 수도 있지만 꽤 손이 많이 가는 작업이기 때문에 sed를 이용하여 간단하게 수정 할 수 있다.</strong></p>
+<p>sed 명령어는 ed 명령어와 grep 명령어<strong>(필터링 기능)</strong>의 일부 기능을 합친 것이라고 한다.(sed는 Stream EDitor의 약자이다) </p>
+<h5 id="활용"><a href="#활용" class="headerlink" title="활용"></a>활용</h5><p>sed 명령어를 이용하여 파일 내용의 문자를 수정해보자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test.txt</span></span><br><span class="line">abcde</span><br><span class="line">fgh</span><br><span class="line">231</span><br></pre></td></tr></table></figure>
+
+<p>일단 테스트를 위해 영문 알파벳과 숫자를 내용으로 하는 test.txt 텍스트 파일을 생성했다.</p>
+<p>abcde 문자열을 숫자로 바꾸어보자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'s/abcde/12321/'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 출력</span></span><br><span class="line">12321</span><br><span class="line">fgh</span><br><span class="line">231</span><br></pre></td></tr></table></figure>
+
+<p>파일을 확인해보면 내용은 변하지 않은채 쉘에 출력만 해줄뿐이다. 어떻게 해야지 실제로 파일 내용을 수정할 수 있는 걸까? <strong>-i 옵션</strong>을 사용해야지 출력이 아닌 실제 파일에 수정사항을 반영할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">'s/abcde/12321/'</span> test.txt</span><br></pre></td></tr></table></figure>
+
+<p>ubuntu나 centos같은 리눅스에서 사용한다면 별다른 출력과 에러 없이 제대로 동작하는 것을 볼 수 있다. 하지만 macOS를 사용하고 있다면 undefined label과 같은 에러가 발생하는데 <strong>이는 macOS에서 사용하는 sed가 다른 리눅스에서 사용중인 sed와는 다르기 때문이다.</strong></p>
+<p>간단하게 말하자면 각 리눅스 배포판에서 사용하고 있는 소프트웨어의 차이로 인해서 발생하는 문제이다. macOS의 경우 man을 통해서 명령어를 살펴보면 맨 윗줄에서 아래와 같은 결과를 볼 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sed 매뉴얼 출력</span></span><br><span class="line">man sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line">SED(1)                    BSD General Commands Manual                   SED(1)</span><br></pre></td></tr></table></figure>
+
+<p>BSD 계열의 소프트웨어라는 의미이다. 하지만 ubuntu나 centos에서 똑같이 테스트하게 되면 다른 결과를 볼 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sed 매뉴얼 출력</span></span><br><span class="line">man sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 또는 그냥 입력</span></span><br><span class="line">sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line">GNU sed home page: &lt;https://www.gnu.org/software/sed/&gt;.</span><br><span class="line">General <span class="built_in">help</span> using GNU software: &lt;https://www.gnu.org/gethelp/&gt;.</span><br></pre></td></tr></table></figure>
+
+<p>잘은 모르겠지만 우분투의 sed는 GNU sed라는 것을 알 수 있다.</p>
+<p><strong>다시 정리하자면 BSD와 GNU 소프트웨어의 차이로 인해서 발생한 에러라는 것이다!!</strong></p>
+<p>macOS에서 GNU sed를 사용하려면 아래와 같은 작업을 해주면 된다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mac에서 GNU's sed 설치</span></span><br><span class="line"><span class="comment"># --with-default-names 옵션은 기존의 sed이름으로 gnu-sed를 사용하겠다는 의미</span></span><br><span class="line">brew install gnu-sed --with-default-names</span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/01/29/linux/linux-command-sed/" data-id="ckaoqnabf006bac75c9p50lgg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/linux-command-find" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -219,7 +375,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/01/25/linux/linux-command-find/" data-id="ckan6l1me00663t75cne948xg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/01/25/linux/linux-command-find/" data-id="ckaoqnabd0064ac757ayh5qu3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -371,150 +527,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/01/22/javascript/javascript-tagged-template-literal/" data-id="ckan6l1m3005d3t75fh998m7b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-javascript/javascript-arrow-function" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/01/21/javascript/javascript-arrow-function/">화살표 함수</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/01/21/javascript/javascript-arrow-function/">
-            <time datetime="2019-01-21T00:52:12.000Z" itemprop="datePublished">2019-01-21</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/javascript/">javascript</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/es6/" rel="tag">es6</a>, <a class="tag-link" href="/tags/javascript/" rel="tag">javascript</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="화살표-표기법-함수"><a href="#화살표-표기법-함수" class="headerlink" title="화살표 표기법 함수"></a>화살표 표기법 함수</h1><p>es6에서 새로 등장한 arrow function이다. function이라는 단어와 중괄호 갯수를 줄이려고 했으며 보이는 것 뿐만아니라 this context와 같은 내부적인 중요한 차이도 있다.</p>
-<h5 id="arrow-function"><a href="#arrow-function" class="headerlink" title="arrow function"></a>arrow function</h5><ul>
-<li>function 키워드 생략가능</li>
-<li>매개변수가 하나라면 괄호 생략 가능</li>
-<li>함수 body가 식(expression) 하나라면 중괄호와  return 생략 가능</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> f1 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> f1 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="string">'hello'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> f2 = <span class="function"><span class="keyword">function</span>(<span class="params">nickname</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`Hello~! <span class="subst">$&#123;nickname&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> f2 = <span class="function">(<span class="params">nickname</span>) =&gt;</span> <span class="string">`Hello~! <span class="subst">$&#123;nickname&#125;</span>`</span>;</span><br><span class="line"><span class="keyword">const</span> f2 = <span class="function"><span class="params">nickname</span> =&gt;</span> <span class="string">`Hello~! <span class="subst">$&#123;nickname&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> f3 = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> f3 = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b;</span><br></pre></td></tr></table></figure>
-
-<h5 id="arrow-function의-this"><a href="#arrow-function의-this" class="headerlink" title="arrow function의 this"></a>arrow function의 this</h5><p>화살표 함수가 나오기 이전의 this에 대해서 먼저 살펴보자. </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    register() &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span> === <span class="built_in">window</span>) <span class="comment">// true</span></span><br><span class="line">            <span class="keyword">this</span>.pprint();</span><br><span class="line">        &#125;, <span class="number">200</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    pprint() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'print @-hello world-@'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj.register(); <span class="comment">// TypeError: this.pprint is not a function</span></span><br></pre></td></tr></table></figure>
-
-<p>에러가 발생했다. <strong>그 이유는 this가 obj에 걸린 것이 아닌 window에 묶여있기 때문이다(this === window의 콘솔 결과를 보면 알 수 있다). 이 때 bind(this)를 사용하거나 화살표 함수를 통해서 obj에 lexical하게 this를 묶을 수 있다.</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .bind()</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    register() &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.pprint();</span><br><span class="line">        &#125;.bind(<span class="keyword">this</span>), <span class="number">200</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    pprint() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'print @-hello world-@'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.register(); <span class="comment">// print @-hello world-@</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 화살표 함수</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    register() &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.pprint();</span><br><span class="line">        &#125;, <span class="number">100</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    pprint() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'print @-hello world-@'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">obj.register(); <span class="comment">// print @-hello world-@</span></span><br></pre></td></tr></table></figure>
-
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/01/21/javascript/javascript-arrow-function/" data-id="ckan6l1lw004s3t75e4xxg6gu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/01/22/javascript/javascript-tagged-template-literal/" data-id="ckaoqnab4005eac750srz5xxo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -591,7 +604,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/29/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/31/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/29/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/31/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -622,7 +635,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -639,6 +652,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -666,15 +688,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

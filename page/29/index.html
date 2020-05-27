@@ -143,6 +143,177 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-linux/linux-commands-of-yum" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/03/06/linux/linux-commands-of-yum/">CentOS의 yum 명령어 간단하게 알아보기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/03/06/linux/linux-commands-of-yum/">
+            <time datetime="2019-03-06T07:37:00.000Z" itemprop="datePublished">2019-03-06</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/centos/" rel="tag">centos</a>, <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/yum/" rel="tag">yum</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="yum-명령어-정리"><a href="#yum-명령어-정리" class="headerlink" title="yum 명령어 정리"></a>yum 명령어 정리</h2><p><strong>레드햇 계열 리눅스인 CentOS는 패키지를 관리하기 위해 yum이라는 명령어를 사용한다.</strong> yum은 Yellow-dog Updater Modified의 줄임말이며 RPM(Redhat Package Manager)을 통한 패키지 설치를 개선하기 위해 개발되었다.</p>
+<p>yum에 대한 설정은 <strong>/etc/yum.conf</strong>에서 하고 있으며, <strong>/etc/yum.repos.d/ 디렉토리</strong>에 있는 파일에 지정된 서버주소로부터 패키지들을 설치하고 관리할 수 있다.</p>
+<blockquote>
+<ul>
+<li><p>설정파일 경로 : /etc/yum.conf</p>
+</li>
+<li><p>yum 레포지터리 파일 경로 : /etc/yum.repos.d/</p>
+<ul>
+<li>위의 디렉토리에 있는 각 파일은 yum 명령어를 실행했을때 해당 패키지를 검색하는 네트워크 주소가 있다.</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>또한 RPM보다 편리하게 의존성 관리를 할 수 있다.</p>
+<h2 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h2><h5 id="기본-형태"><a href="#기본-형태" class="headerlink" title="기본 형태"></a>기본 형태</h5><p>기본적인 형태는 아래와 같다</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 옵션 - 명령어 - 패키지명 순으로 적는다.</span></span><br><span class="line">yum &lt;option&gt; &lt;<span class="built_in">command</span>&gt; &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="패키지-설치"><a href="#패키지-설치" class="headerlink" title="패키지 설치"></a>패키지 설치</h5><p>패키지를 설치하려면 다음과 같이하자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nginx 설치</span></span><br><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
+
+<p>보통 패키지를 설치할때 필요한 용량과 계속해서 진행할 지 물어보는 과정이 있는데 <strong>-y 옵션을 주게되면 끊김 없이 진행할 수 있다.</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="업데이트"><a href="#업데이트" class="headerlink" title="업데이트"></a>업데이트</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="삭제"><a href="#삭제" class="headerlink" title="삭제"></a>삭제</h5><p>의존성관리를 개별적으로 해줄 필요없이 삭제할 수 있다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nginx 삭제</span></span><br><span class="line">yum remove nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="서버에-있는-패키지-목록-확인"><a href="#서버에-있는-패키지-목록-확인" class="headerlink" title="서버에 있는 패키지 목록 확인"></a>서버에 있는 패키지 목록 확인</h5><p>시스템에 설치된 패키지와 설치가능한 패키지의 목록을 출력한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list</span><br></pre></td></tr></table></figure>
+
+<h5 id="설치된-패키지-확인"><a href="#설치된-패키지-확인" class="headerlink" title="설치된 패키지 확인"></a>설치된 패키지 확인</h5><p>현재 시스템에 설치되어있는 패키지 리스트를 출력한다. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list installed</span><br></pre></td></tr></table></figure>
+
+<h5 id="설치가능한-패키지-확인"><a href="#설치가능한-패키지-확인" class="headerlink" title="설치가능한 패키지 확인"></a>설치가능한 패키지 확인</h5><p>시스템에 설치 가능한 패키지를 출력한다. 보통  grep과 같이 사용하곤 한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list available | grep &lt;name&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="업데이트가-필요한-패키지-확인"><a href="#업데이트가-필요한-패키지-확인" class="headerlink" title="업데이트가 필요한 패키지 확인"></a>업데이트가 필요한 패키지 확인</h5><p>현재 시스템에 설치된 패키지들 중에서 업데이트가 필요한 패키지를 출력한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list updated</span><br></pre></td></tr></table></figure>
+
+<h5 id="패키지-정보-확인"><a href="#패키지-정보-확인" class="headerlink" title="패키지 정보 확인"></a>패키지 정보 확인</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum info &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/03/06/linux/linux-commands-of-yum/" data-id="ckaoqnabg006hac754iyp7tz5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/linux-initial-setting-root" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -239,7 +410,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/02/22/linux/linux-initial-setting-root/" data-id="ckan6l1mk006s3t75134vfn0r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/02/22/linux/linux-initial-setting-root/" data-id="ckaoqnabk006xac75gwlu0h1v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -402,163 +573,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/02/16/postgresql/how-to-install-psql-on-mac/" data-id="ckan6l1mz008e3t75hxxeg291" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-linux/linux-command-sed" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/01/29/linux/linux-command-sed/">sed 명령어와 -i 옵션으로 파일내용 수정하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/01/29/linux/linux-command-sed/">
-            <time datetime="2019-01-29T06:30:23.000Z" itemprop="datePublished">2019-01-29</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/linux/">linux</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/command/" rel="tag">command</a>, <a class="tag-link" href="/tags/linux/" rel="tag">linux</a>, <a class="tag-link" href="/tags/macos/" rel="tag">macos</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="명령어-sed"><a href="#명령어-sed" class="headerlink" title="명령어 sed"></a>명령어 sed</h1><p>하이퍼레저 패브릭을 하다보면 쉘 스크립트를 수정해야 할 일들이 꽤나 많다. 그 중에 하나가 정식의 CA 서버를 건너뛰고 certificate 를 생성해 주는 부분인데 이 때에 sed 명령어를 사용하는 스크립트들이 굉장히 많다.</p>
-<h5 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">"s/DEVORG_CA_PRIVATE_KEY/<span class="variable">$&#123;PRIV_KEY&#125;</span>/g"</span> docker-compose-e2e.yaml</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="사용법"><a href="#사용법" class="headerlink" title="사용법"></a>사용법</h5><p><strong>파일 내용을 수정할 때 사용한다. cat과 파이프라인을 통해서 할 수도 있지만 꽤 손이 많이 가는 작업이기 때문에 sed를 이용하여 간단하게 수정 할 수 있다.</strong></p>
-<p>sed 명령어는 ed 명령어와 grep 명령어<strong>(필터링 기능)</strong>의 일부 기능을 합친 것이라고 한다.(sed는 Stream EDitor의 약자이다) </p>
-<h5 id="활용"><a href="#활용" class="headerlink" title="활용"></a>활용</h5><p>sed 명령어를 이용하여 파일 내용의 문자를 수정해보자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test.txt</span></span><br><span class="line">abcde</span><br><span class="line">fgh</span><br><span class="line">231</span><br></pre></td></tr></table></figure>
-
-<p>일단 테스트를 위해 영문 알파벳과 숫자를 내용으로 하는 test.txt 텍스트 파일을 생성했다.</p>
-<p>abcde 문자열을 숫자로 바꾸어보자.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'s/abcde/12321/'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 출력</span></span><br><span class="line">12321</span><br><span class="line">fgh</span><br><span class="line">231</span><br></pre></td></tr></table></figure>
-
-<p>파일을 확인해보면 내용은 변하지 않은채 쉘에 출력만 해줄뿐이다. 어떻게 해야지 실제로 파일 내용을 수정할 수 있는 걸까? <strong>-i 옵션</strong>을 사용해야지 출력이 아닌 실제 파일에 수정사항을 반영할 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">'s/abcde/12321/'</span> test.txt</span><br></pre></td></tr></table></figure>
-
-<p>ubuntu나 centos같은 리눅스에서 사용한다면 별다른 출력과 에러 없이 제대로 동작하는 것을 볼 수 있다. 하지만 macOS를 사용하고 있다면 undefined label과 같은 에러가 발생하는데 <strong>이는 macOS에서 사용하는 sed가 다른 리눅스에서 사용중인 sed와는 다르기 때문이다.</strong></p>
-<p>간단하게 말하자면 각 리눅스 배포판에서 사용하고 있는 소프트웨어의 차이로 인해서 발생하는 문제이다. macOS의 경우 man을 통해서 명령어를 살펴보면 맨 윗줄에서 아래와 같은 결과를 볼 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sed 매뉴얼 출력</span></span><br><span class="line">man sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line">SED(1)                    BSD General Commands Manual                   SED(1)</span><br></pre></td></tr></table></figure>
-
-<p>BSD 계열의 소프트웨어라는 의미이다. 하지만 ubuntu나 centos에서 똑같이 테스트하게 되면 다른 결과를 볼 수 있다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sed 매뉴얼 출력</span></span><br><span class="line">man sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 또는 그냥 입력</span></span><br><span class="line">sed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line">GNU sed home page: &lt;https://www.gnu.org/software/sed/&gt;.</span><br><span class="line">General <span class="built_in">help</span> using GNU software: &lt;https://www.gnu.org/gethelp/&gt;.</span><br></pre></td></tr></table></figure>
-
-<p>잘은 모르겠지만 우분투의 sed는 GNU sed라는 것을 알 수 있다.</p>
-<p><strong>다시 정리하자면 BSD와 GNU 소프트웨어의 차이로 인해서 발생한 에러라는 것이다!!</strong></p>
-<p>macOS에서 GNU sed를 사용하려면 아래와 같은 작업을 해주면 된다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mac에서 GNU's sed 설치</span></span><br><span class="line"><span class="comment"># --with-default-names 옵션은 기존의 sed이름으로 gnu-sed를 사용하겠다는 의미</span></span><br><span class="line">brew install gnu-sed --with-default-names</span><br></pre></td></tr></table></figure>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/01/29/linux/linux-command-sed/" data-id="ckan6l1mf006b3t7538i6dpij" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/02/16/postgresql/how-to-install-psql-on-mac/" data-id="ckaoqnac1008gac75graxdi1l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -635,7 +650,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/28/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/30/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/28/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/30/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -666,7 +681,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -683,6 +698,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -710,15 +734,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

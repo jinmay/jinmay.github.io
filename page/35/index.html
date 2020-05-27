@@ -143,6 +143,323 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-network/daily-network-basic2" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/12/07/network/daily-network-basic2/">네트워크 기초 지식2</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/12/07/network/daily-network-basic2/">
+            <time datetime="2018-12-07T08:09:25.000Z" itemprop="datePublished">2018-12-07</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/network/">network</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="네트워크-기초2"><a href="#네트워크-기초2" class="headerlink" title="네트워크 기초2"></a>네트워크 기초2</h1><blockquote>
+<p>기초1에 이어서 계속..!</p>
+</blockquote>
+<p>과거에는 업체들이 자신이 제작한 컴퓨터끼리 네트워크를 사용해서 통신할 수 있도록 만들었다. 각 업체마다 자신들만의 규격을 만들어서 네트워크를 구성했다는 것이다. 이러한 구조에는 사용하는 기기 전부를 같은 회사 제품으로 통일해야 하는 문제점이 있는데 통신의 규격과 프로토콜을 통일하기 위해서 ISO라는 단체가 나오게 되었다. ISO의 표준화 단계에서 선언한 것이 <strong>OSI 참조 모델</strong>이라는 건데, <strong>데이터 통신의 단계 구성도</strong>라고 보면된다.</p>
+<p><strong>데이터 통신을 단계로 나누어 각 단계의 순서를 명확히하고, 이 모델에 따라 프로토콜을 정의해서 데이터 통신을 구축하자!</strong></p>
+<hr>
+
+<h3 id="OSI-참조-모델의-계층"><a href="#OSI-참조-모델의-계층" class="headerlink" title="OSI 참조 모델의 계층"></a>OSI 참조 모델의 계층</h3><p><strong>OSI 참조 모델에서는 데이터 통신을 7개의 계층으로 나눈다.</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">7계층</td>
+<td align="center">응용계층</td>
+<td>사용자에게 네트워크 서비스를 제공</td>
+</tr>
+<tr>
+<td align="center">6계층</td>
+<td align="center">표현계층</td>
+<td>데이터의 형식을 결정</td>
+</tr>
+<tr>
+<td align="center">5계층</td>
+<td align="center">세션계층</td>
+<td>데이터를 주고받는 순서 등을 관리</td>
+</tr>
+<tr>
+<td align="center">4계층</td>
+<td align="center">전송계층</td>
+<td>신뢰성이 높은(에러가 적은) 전송</td>
+</tr>
+<tr>
+<td align="center">3계층</td>
+<td align="center">네트워크계층</td>
+<td>전송 규칙이나 수신처 결정</td>
+</tr>
+<tr>
+<td align="center">2계층</td>
+<td align="center">데이터링크계층</td>
+<td>인접 기기에 대한 데이터 전송 제어</td>
+</tr>
+<tr>
+<td align="center">1계층</td>
+<td align="center">물리계층</td>
+<td>전기 / 기계적인 부분의 전송</td>
+</tr>
+</tbody></table>
+<p>제 1계층부터 제 7계층까지 있으며 각 계층마다 역할과 규칙이 정해져있다. 순서대로 계층의 역할을 수행해 감으로써 송수신을 할 수 있는데, 송신자와 수신자가 거치는 순서는 반대이다.</p>
+<blockquote>
+<p>송신측 : 7계층 -&gt; 1계층</p>
+<p>수신측 : 1계층 -&gt; 7계층</p>
+</blockquote>
+<p>프로토콜은 OSI 참조 모델이라는 설계도를 따라서 만드는 것이라고 생각하면 되는데, 계층이 각각 독립해 있다는 것을 장점으로 꼽을 수 있다. 예를 들면 사용자가 어떻게 사용할지에 대해서는 7계층에서만 생각하면 되지, 4계층에서는 고려하지 않아도 된다는 것이다.  </p>
+<p>어떤 계층의 프로토콜 변경은 다른 계층에 영향을 끼치지 않는다. <strong>그리고 기본적으로 하위 계층은 상위 계층을 위해서 일하고 상위 계층은 하위 계층에 관여하지 않는다.</strong> </p>
+<h3 id="캡슐화"><a href="#캡슐화" class="headerlink" title="캡슐화"></a>캡슐화</h3><p>데이터의 이동을 택배 시스템과 비교해서 생각해보자. 상대방에게 물건을 그대로 보내는 것이 아닌 상자로 한번 감싼뒤 보낸다. 그 이유는 물건의 보호도 있어서지만 받는 사람의 정보가 필요해서 그렇기도 한데, 데이터의 이동도 이와 비슷하다. </p>
+<blockquote>
+<p>데이터만 달랑 보내는 것이 아니라 각 계층에서 필요한 정보를 덧붙여서 보낸다!</p>
+</blockquote>
+<p>그리고 그 필요한 정보들은 <strong>수신처 / 송신처의 주소</strong>, <strong>데이터 통신을 제어하기 위한 데이터</strong>, 기타 등등이 있다. 이렇게 데이터랑 데이터를 보내기 위해 필요한 것들이 통합된 상태를 <strong>프로토콜 데이터 유닛(Protocol Data Unit)</strong>이라고 한다.</p>
+<blockquote>
+<p>다시 택배에 비유를 해보자면, 보내고 싶은 것 = 데이터 / 상자에 넣은 상태 = PDU 인 것이다. </p>
+</blockquote>
+<p>정리해보면  <strong>운반하고 싶은 데이터에 각 계층에서 필요한 정보를 추가해 캡슐화하여 PDU로 완성(캡슐화)하여 송신하는 것이고, 반대로 수신한 쪽에서는 차례대로 캡슐을 벗겨가는 과정</strong>인 것이다. 기타 정보가 데이터 앞에 붙으면 <strong>헤더(Header)</strong> / 뒤에 붙으면 <strong>꼬리부(Trailer)</strong>라고 부른다. </p>
+<p>각 계층을 지나가면서 생성되는 PDU는 계층마다 부르는 이름이 다르다.</p>
+<ul>
+<li>PDU의 호칭</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">계층</th>
+<th align="center">호칭</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">사용자</td>
+<td align="center">데이터(Data)</td>
+<td>송수신 하고 싶은 데이터</td>
+</tr>
+<tr>
+<td align="center">7계층 PDU<br>6계층 PDU<br>5계층 PDU</td>
+<td align="center">메세지(Message)</td>
+<td>데이터를 통신용으로 변환한 것과 7계층 헤더</td>
+</tr>
+<tr>
+<td align="center">4계층 PDU</td>
+<td align="center">세그먼트(Segment)<br>데이터그램(Datagram)</td>
+<td>메세지와 4계층 헤더</td>
+</tr>
+<tr>
+<td align="center">3계층 PDU</td>
+<td align="center">데이터그램(Datagram)</td>
+<td>세그먼트, 데이터그램과 3계층 헤더</td>
+</tr>
+<tr>
+<td align="center">2계층 PDU</td>
+<td align="center">프레임(Frame)</td>
+<td>데이터그램과 2계층 헤더(2계층 꼬리부)</td>
+</tr>
+<tr>
+<td align="center">1계층</td>
+<td align="center">신호</td>
+<td>프레임을 전송매체로 운반하기 위한 신호로 변환</td>
+</tr>
+</tbody></table>
+<h3 id="프로토콜"><a href="#프로토콜" class="headerlink" title="프로토콜"></a>프로토콜</h3><blockquote>
+<p>데이터 통신에 필요한 프로토콜을 한 개가 아니라 복수의 프로토콜로 이루어진다</p>
+</blockquote>
+<p>각 계층마다 수행하는 역할이 다르기 때문에 여러개의 프로토콜이 모여있는 것이다. 하지만 상하 계층과 연결이 되지 않을 정도로 독립적인 것도 문제를 발생시킨다. 그렇기 때문에 상하위 계층과 데이터를 주고 받을 수 있는 인터페이스를 가져야햐며 그 결과로써 <strong>프로토콜 그룹</strong>이 형성된다. <strong>프로토콜 그룹</strong>이란 완전히 제각각이 아닌 상하위 프로토콜을 연결하는 인터페이스를 갖고 있을때 1계층부터 7계층까지 연결된 하나의 <strong>군(프로토콜군 - Protocol Suite)</strong>을 말한다.</p>
+<p>프로토콜의 역할은 앞서 얘기했던 <strong>데이터의 사용 방법</strong>과 <strong>어떤 헤더를 붙일지 결정하는 것</strong>, 그리고 <strong>데이터를 주고받는 순서</strong>이다.</p>
+<blockquote>
+<p>데이터의 내용, 헤더의 내용은 프로토콜로 정해져 있다</p>
+<p>프로토콜은 데이터를 송수신하는 순서와 내용을 결정한다</p>
+</blockquote>
+<p>현재 가장 많이 사용되는 것은 <strong>TCP/IP 프로토콜군</strong>이다. 이 프로토콜은 인터넷에서 사용되는 프로토콜군이다. 즉, <strong>인터넷을 사용하려고 하는 기기나 서비스는 TCP/IP 프로토콜군을 사용해야 한다는 것이다.</strong></p>
+<h3 id="TCP-IP-모델"><a href="#TCP-IP-모델" class="headerlink" title="TCP/IP 모델"></a>TCP/IP 모델</h3><blockquote>
+<p>인터넷에서 사용되는 사실상의 표준</p>
+</blockquote>
+<p>OSI 표준 모델을 기준으로 해서 나온 프로토콜군을 <strong>OSI 표준 프로토콜군</strong>이라고 부른다. 하지만 우리가 사용하는 인터넷에서 사용되는 사실상의 표준은 <strong>TCP/IP 프로토콜군</strong>이다. </p>
+<p>OSI 참조 모델을 따라 OSI 프로토콜군이 정해진 것처럼 <strong>TCP/IP 모델에서 TCP/IP 프로토콜군이 만들어지는 것이다.</strong> </p>
+<ul>
+<li>TCP/IP 모델</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4계층</td>
+<td align="center">애플리케이션계층</td>
+</tr>
+<tr>
+<td align="center">3계층</td>
+<td align="center">트랜스포트계층</td>
+</tr>
+<tr>
+<td align="center">2계층</td>
+<td align="center">인터넷계층</td>
+</tr>
+<tr>
+<td align="center">1계층</td>
+<td align="center">인터페이스계층</td>
+</tr>
+</tbody></table>
+<ul>
+<li>인터넷에서 사용되는 프로토콜</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4계층</td>
+<td align="center">애플리케이션계층</td>
+<td align="center">HTTP<br>FTP<br>SMTP</td>
+</tr>
+<tr>
+<td align="center">3계층</td>
+<td align="center">트랜스포트계층</td>
+<td align="center">TCP<br>UDP</td>
+</tr>
+<tr>
+<td align="center">2계층</td>
+<td align="center">인터넷계층</td>
+<td align="center">IP<br>ARP</td>
+</tr>
+<tr>
+<td align="center">1계층</td>
+<td align="center">인터페이스계층</td>
+<td align="center">Ethernet<br>PPP</td>
+</tr>
+</tbody></table>
+<h3 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h3><p>네트워크를 형성하는 크기에 따라서 WAN / LAN으로 나누고, 데이터를 전송하는 방법 두 가지를 알게되었다. 지금은 당연하다고 생각이드는 <strong>패킷 교환 방식</strong>과 회선 교환 방식이 있었다. 이때, <strong>패킷이란 쪼개어놓은 데이터를 말한다.</strong> 그리고 제일 중요한 <strong>OSI 참조 모델과 TCP/IP 모델을 알아보았다.</strong> OSI 참조 모델로부터 OSI 표준 프로토콜군이 나오고, TCP/IP 모델로부터 TCP/IP 표준 프로토콜군이 나왔다. 데이터 통신은 <strong>통신의 단계와 순서</strong>라고 볼 수 있으며 각 계층은 독립적이지만 상하위 프로토콜과 연결하는 인터페이스를 갖추어야 한다. </p>
+<p>데이터가 각 계층을 통과할때 각 계층에서 필요한 내용을 덧붙이곤 하는데 이러한 과정을 <strong>캡슐화</strong>라고 부르며 데이터와 기타 정보들이 통합된 상태를 <strong>PDU(Protocol Data Unit)</strong>이라고 한다. 계층마다 PDU를 부르는 이름은 <strong>메세지 / 데이터그램 / 프레임 / 세그먼트</strong>처럼 다양하다는 것도 알 수 있었다. </p>
+<p>마지막으로 <strong>프로토콜은 데이터 통신을 위한 규칙</strong>이라고 했다. 이러한 데이터 통신에 필요한 프로토콜은 한 개가 아닌 <strong>여러개의 프로토콜로 이루어져 있다.</strong> 7계층에서 1계층까지 연결되어 프로토콜군을 형성하며 어느 프로토콜군을 사용하는지에 따라 7계층에서 1계층까지 사용하는 프로토콜이 정해진다는 특징도 있었다. 이와 같은 프로토콜은 <strong>데이터에 어떠한 header / trailer를 붙일지, 어떠한 순서로 데이터를 주고 받을지 결정하는</strong> 역할을 한다. </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/12/07/network/daily-network-basic2/" data-id="ckaoqnabw007xac751mjq80yy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-network/daily-network-basic" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -262,7 +579,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/11/30/network/daily-network-basic/" data-id="ckan6l1mt007r3t7549ac8hqb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/11/30/network/daily-network-basic/" data-id="ckaoqnabv007tac75gq3d7n50" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -410,189 +727,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/11/15/postgresql/psql-csv-import/" data-id="ckan6l1n0008j3t75ffhx5fnd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/virtualenvwrapper" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/11/12/python/virtualenvwrapper/">virtualenvwrapper를 이용한 파이썬 가상환경 관리</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/11/12/python/virtualenvwrapper/">
-            <time datetime="2018-11-12T05:31:57.000Z" itemprop="datePublished">2018-11-12</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link" href="/tags/virtualenv/" rel="tag">virtualenv</a>, <a class="tag-link" href="/tags/virtualenvwrapper/" rel="tag">virtualenvwrapper</a>, <a class="tag-link" href="/tags/%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD/" rel="tag">가상환경</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="virtualenvwrapper-설정하기"><a href="#virtualenvwrapper-설정하기" class="headerlink" title="virtualenvwrapper 설정하기"></a>virtualenvwrapper 설정하기</h1><p>만약 하나의 컴퓨터에 여러개 파이썬 프로젝트가 있다면 어떻게 해야할까? 사용해야하는 파이썬 버전이 동일하고 패키지의 버전마저 같다면 문제가 될 건 없다. 하지만 프로젝트마다 사용중인 패키지의 버전이 다르다면….? 문제는 꽤나 복잡해지게 된다. </p>
-<p>예를들어, </p>
-<p>A라는 서비스를 만들기 위해서 Djagno 1.11 버전을 사용하고 / B라는 서비스를 위해 Django 2.0을 사용한다면 어떻게 해야할까? </p>
-<p>왔다갔다 할때마다 설치 / 삭제를 반복해야 하는 것일까? </p>
-<p>그래서, 프로젝트 별로 관리를 하기 위해서 가상환경을 폴더 단위로 정할 수 있는 패키지들이 있다. 나의 경우 현재 <strong>virtualenv</strong>라는 패키지를 이용하고 있다. virtualenv를 이용하면 프로젝트 별로 가상환경을 설정할 수 있어서 A에는 django 1.11를 설치하고 B에는 django 2.0 을 설치해서 진행중인 프로젝트를 왔다갔다 할때마다 가상환경만 실행해주면 문제가 발생하지 않는다. </p>
-<p>하지만 여기에도 불편한 점이 있었으니.. </p>
-<p>바로 가상환경을 실행하기 위해서 source <virtualenv_name>/bin/activate를 수동으로 실행해주어야 하는 것이다. 폴더명을 항상 외울수도 없는 노릇이고.. 타이핑 하는 수고도 꽤나 많기 때문에 귀찮은 작업이 될 수 있는데, 이러한 문제점을 해결하기 위해서 <strong>virtualenvwrapper</strong> 라는 패키지를 사용하려고 한다. </virtualenv_name></p>
-<p>한마디로 얘기하자면</p>
-<blockquote>
-<p>현재 위치한 경로와 상관없이 가상환경을 실행할 수 있다는 것이다!!!</p>
-</blockquote>
-<hr>
-<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><p>virtualenv는 이미 사용중이며, pip를 통해서 virtualenvwrapper를 설치해보자.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtualenvwrapper</span><br></pre></td></tr></table></figure>
-
-<p>그리고, 홈 디렉토리로 이동하여 가상환경들이 저장될 폴더를 만든다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">mkdir .virtualenvs</span><br></pre></td></tr></table></figure>
-
-<p>홈 디렉토리의 쉘 설정에서 아래의 코드를 복사하여 넣어준다. (각자 사용중인 쉘 환경에 맞게 설정해 준다.)</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in ~/.zshrc</span></span><br><span class="line"><span class="comment"># in ~/.bashrc</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> WORKON_HOME=~/.virtualenvs</span><br><span class="line"><span class="built_in">export</span> VIRTUALENVWRAPPER_PYTHON=<span class="string">"<span class="variable">$(which python3)</span>"</span></span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span><br></pre></td></tr></table></figure>
-
-<p>저장하고 쉘을 재시작해주면 virtualenvwrapper를 사용할 수 있게된다.</p>
-<p>만약 /usr/local/bin/virtualenvwrapper.sh 파일이 존재하지 않으면 아래 명령어로 파일을 찾아서 <strong>source 부분을 대체해준다.</strong></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /usr -name virtualenvwrapper.sh</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="virtualenvwrapper-명령어"><a href="#virtualenvwrapper-명령어" class="headerlink" title="virtualenvwrapper 명령어"></a>virtualenvwrapper 명령어</h2><p>기본적인 명령어를 알아보자.</p>
-<ul>
-<li>가상환경 만들기</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkvirtualenv &lt;virtualenv_name&gt; <span class="comment"># 이름</span></span><br></pre></td></tr></table></figure>
-
-<p>mkvirtualenv 명령어를 통해 가상환경을 새로 만들어 주면, 홈 디렉토리의 .virtualenvs 폴더에 저장된다.</p>
-<ul>
-<li>가상환경 삭제</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmvirtualenv &lt;virtualenv_name&gt;</span><br></pre></td></tr></table></figure>
-
-<p>가상환경을 삭제한다. 삭제하는 방법으로 위의 코드처럼 <strong>명령어를 이용하는 방식</strong>과 <strong>직접 폴더를 지우는 방식</strong>이 있다.</p>
-<ul>
-<li>가상환경 목록 출력</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">workon</span><br></pre></td></tr></table></figure>
-
-<p>아무런 인자 없이 <strong>workon</strong>을 입력하면 현재까지 생성한 가상환경의 목록을 알 수 있다.</p>
-<ul>
-<li>가상환경 진입 / 빠져나오기</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 진입</span></span><br><span class="line">workon &lt;virtualenv_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 빠져나오기</span></span><br><span class="line">deactivate</span><br></pre></td></tr></table></figure>
-
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/11/12/python/virtualenvwrapper/" data-id="ckan6l1nl00ak3t75h58wgfnq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/11/15/postgresql/psql-csv-import/" data-id="ckaoqnac1008iac7520wzgubo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -669,7 +804,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/34/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><a class="page-number" href="/page/37/">37</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/36/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/34/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><a class="page-number" href="/page/37/">37</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/36/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -700,7 +835,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -717,6 +852,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -744,15 +888,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

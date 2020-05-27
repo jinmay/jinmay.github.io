@@ -143,6 +143,288 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-python/python-abstract-class" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/python/python-abstract-class/">[파이썬]추상클래스</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/python/python-abstract-class/">
+            <time datetime="2020-05-13T09:09:40.058Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="추상클래스란"><a href="#추상클래스란" class="headerlink" title="추상클래스란?"></a>추상클래스란?</h2><p><del>추상화된 클래스이다.</del> 상속받을 서브 클래스를 위한 클래스이다. 공통된 속성(필드, 메소드)을 가지는 것은 일반적인 클래스와 같으며 아래와 같은 차이점(특징)이 있다.</p>
+<ul>
+<li>객체를 생성할 수 없다.</li>
+<li>서브클래스에서 메소드의 구현을 강제한다.</li>
+</ul>
+<h2 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h2><p>일반 abc 모듈이 필요하다(abc는 Abstract Base Class의 약자)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 추상클래스</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomMachine</span><span class="params">(abc.ABC)</span>:</span></span><br><span class="line"></span><br><span class="line"><span class="meta">  @abc.abstractmethod</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, iterable)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">  @abc.abstractmethod</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">pick</span><span class="params">(self, iterable)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inspect</span><span class="params">(self)</span>:</span></span><br><span class="line">    items = []</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            items.append(self.pick())</span><br><span class="line">        <span class="keyword">except</span> LookupError:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> tuple(sorted(items))</span><br><span class="line"></span><br><span class="line"><span class="comment"># a = RandomMachine()</span></span><br><span class="line"><span class="comment"># TypeError: Can't instantiate abstract class RandomMachine with abstract methods load, pick</span></span><br></pre></td></tr></table></figure>
+
+<p>추상클래스를 만들기 위해서는 abc.ABC를 상속 받아야한다. 만약 파이썬 3.4 이전 버전을 사용 중이라면 아래와 같이 상속받아야 한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomMachine</span><span class="params">(metaclass=abcABCMeta)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>@abc.abstractmethod 데코레이터를 통해서 서브클래스에서 강제할 메소드를 만들어 주었다. 만약 메소드를 생성하지 않았다면 객체를 생성하는 시점에서 에러가 발생할 것이다.</p>
+<p>이제 실제로 사용할 클래스를 생성해보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NumberMachine</span><span class="params">(RandomMachine)</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, items)</span>:</span></span><br><span class="line">    self._randomizer = random.SystemRandom()</span><br><span class="line">    self._items = []</span><br><span class="line">    self.load(items)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, items)</span>:</span></span><br><span class="line">    self._items.extend(items)</span><br><span class="line">    self._randomizer.shuffle(self._items)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">pick</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      <span class="keyword">return</span> self._items.pop()</span><br><span class="line">    <span class="keyword">except</span> IndexError:</span><br><span class="line">      <span class="keyword">raise</span> LookupError(<span class="string">'에러!!'</span>)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.pick()</span><br><span class="line"></span><br><span class="line">ins = NumberMachine(range(<span class="number">1</span>, <span class="number">101</span>))</span><br><span class="line">ins()</span><br></pre></td></tr></table></figure>
+
+<p>NumberMachine 클래스를 정의했고 추상클래스에서 강제한 메소드를 구현했다. 만약 load와 pick 메소드 중에서 하나라도 구현이 되어 있지 않는다면 TypeError가 발생한다. 그리고 객체를 호출가능하게 만들기 위해 __call__ 특별 메소드도 구현했다.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/python/python-abstract-class/" data-id="ckaoqnac60091ac753qpr19nq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-mysql/how-to-install-mysql-in-mac" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/mysql/how-to-install-mysql-in-mac/">[MySQL]맥북에서 mysql 설치하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/mysql/how-to-install-mysql-in-mac/">
+            <time datetime="2020-05-13T09:09:40.055Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/mysql/">mysql</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>맥북에서 mysql을 설치하는 방법을 정리한다.</p>
+<h2 id="Homebrew를-통한-설치"><a href="#Homebrew를-통한-설치" class="headerlink" title="Homebrew를 통한 설치"></a>Homebrew를 통한 설치</h2><h3 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h3><p>brew 업데이트를 하고 설치를 진행한다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br><span class="line">brew install mysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="서버-시작"><a href="#서버-시작" class="headerlink" title="서버 시작"></a>서버 시작</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql.server start</span><br></pre></td></tr></table></figure>
+
+<h3 id="서버-정지"><a href="#서버-정지" class="headerlink" title="서버 정지"></a>서버 정지</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql.server stop</span><br></pre></td></tr></table></figure>
+
+<h3 id="root-비밀번호-설정"><a href="#root-비밀번호-설정" class="headerlink" title="root 비밀번호 설정"></a>root 비밀번호 설정</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_secure_installation</span><br></pre></td></tr></table></figure>
+
+<p>root 비밀번호를 설정하기 위해 위의 명령어를 입력하게 되면 몇몇의 질문을 받게 된다. 질문에 대한 내용은 다음과 같다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># root 비밀번호 입력</span></span><br><span class="line">Enter password <span class="keyword">for</span> user root:</span><br><span class="line"></span><br><span class="line"><span class="comment"># 비밀번호 보안을 위한 컴포넌트 사용 여부</span></span><br><span class="line">VALIDATE PASSWORD COMPONENT can be used to <span class="built_in">test</span> passwords</span><br><span class="line">and improve security. It checks the strength of password</span><br><span class="line">and allows the users to <span class="built_in">set</span> only those passwords <span class="built_in">which</span> are</span><br><span class="line">secure enough. Would you like to setup VALIDATE PASSWORD component?</span><br><span class="line"></span><br><span class="line"><span class="comment"># 기존에 root 패스워드를 만들었다면 변경할 것인지</span></span><br><span class="line">Change the password <span class="keyword">for</span> root ? ((Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br><span class="line"></span><br><span class="line"><span class="comment"># 익명 사용자를 사용할 것인지 여부.</span></span><br><span class="line"><span class="comment"># no를 입력하면 익명사용자를 그대로 두며 mysql 명령어만으로 접속 가능</span></span><br><span class="line">By default, a MySQL installation has an anonymous user,</span><br><span class="line">allowing anyone to <span class="built_in">log</span> into MySQL without having to have</span><br><span class="line">a user account created <span class="keyword">for</span> them. This is intended only <span class="keyword">for</span></span><br><span class="line">testing, and to make the installation go a bit smoother.</span><br><span class="line">You should remove them before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line">Remove anonymous users? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br><span class="line"></span><br><span class="line"><span class="comment"># localhost 이외의 주소에서 root 사용자로 접속 가능한지 여부</span></span><br><span class="line"><span class="comment"># yes를 입력하면 외부에서 root 사용자로 접속 불가</span></span><br><span class="line">Normally, root should only be allowed to connect from</span><br><span class="line"><span class="string">'localhost'</span>. This ensures that someone cannot guess at</span><br><span class="line">the root password from the network.</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br><span class="line"></span><br><span class="line"><span class="comment"># 테스트 DB 삭제 여부</span></span><br><span class="line">By default, MySQL comes with a database named <span class="string">'test'</span> that</span><br><span class="line">anyone can access. This is also intended only <span class="keyword">for</span> testing,</span><br><span class="line">and should be removed before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line">Remove <span class="built_in">test</span> database and access to it? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br><span class="line"></span><br><span class="line"><span class="comment"># 권한관련 테이블 리로딩 여부</span></span><br><span class="line"><span class="comment"># 권한 변경을 수행했다면 yes를 입력</span></span><br><span class="line">Reloading the privilege tables will ensure that all changes</span><br><span class="line">made so far will take effect immediately.</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) :</span><br></pre></td></tr></table></figure>
+
+<h3 id="charset-확인"><a href="#charset-확인" class="headerlink" title="charset 확인"></a>charset 확인</h3><p>utf8을 사용하는 게 정신적으로 이로움으로 꼭 확인해본다. <strong>mysql 접속 후 명령어 실행!</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">status;</span><br><span class="line"></span><br><span class="line">Server characterset:	utf8mb4</span><br><span class="line">Db     characterset:	utf8mb4</span><br><span class="line">Client characterset:	utf8mb4</span><br><span class="line">Conn.  characterset:	utf8mb4</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>[참고]<br><a href="https://github.com/helloheesu/SecretlyGreatly/wiki/%EB%A7%A5%EC%97%90%EC%84%9C-mysql-%EC%84%A4%EC%B9%98-%ED%9B%84-%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/helloheesu/SecretlyGreatly/wiki/%EB%A7%A5%EC%97%90%EC%84%9C-mysql-%EC%84%A4%EC%B9%98-%ED%9B%84-%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/mysql/how-to-install-mysql-in-mac/" data-id="ckaoqnabt007mac75b1yv10wo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-data-structure/python-doblue-linkedlist" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -207,337 +489,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/data-structure/python-doblue-linkedlist/" data-id="ckan6l1kv000v3t75hrmx9801" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-data-structure/python-linkedlist" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/data-structure/python-linkedlist/">파이썬으로 알아보는 자료구조 - linked list</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/data-structure/python-linkedlist/">
-            <time datetime="2020-05-13T09:09:40.055Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/data-structure/">data-structure</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="Linked-List"><a href="#Linked-List" class="headerlink" title="Linked List"></a>Linked List</h2><ul>
-<li>연결리스트</li>
-<li>배열은 순차적으로 연결된 공간에 연속적으로 데이터를 저장</li>
-<li>연결리스트는 떨어진 공간에서도 사용할 수 있다</li>
-<li>파이썬에서는 리스트가 연결리스트를 모두 지원</li>
-</ul>
-<p><img src="https://user-images.githubusercontent.com/13075035/72051986-9cff8300-3307-11ea-913e-f7fee276bf18.png" alt="image"><br>출처: <a href="https://medium.com/tanay-toshniwal/linked-list-introduction-662f7973dee5" target="_blank" rel="external nofollow noopener noreferrer">https://medium.com/tanay-toshniwal/linked-list-introduction-662f7973dee5</a></p>
-<h2 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h2><ul>
-<li>파이썬의 기본 자료구조인 리스트(list)</li>
-</ul>
-<h2 id="용어"><a href="#용어" class="headerlink" title="용어"></a>용어</h2><ul>
-<li><p>노드(Node): 데이터의 저장 단위. 데이터와 포인터로 구성</p>
-</li>
-<li><p>포인터(Pointer): 각 노드 안에서 다음 노드의 주소 정보를 가지고 있는 공간</p>
-</li>
-<li><p>head: 연결리스트의 맨 앞 노드</p>
-</li>
-<li><p>tail: 연결리스트의 맨 마지막 노드</p>
-</li>
-</ul>
-<h2 id="장단점"><a href="#장단점" class="headerlink" title="장단점"></a>장단점</h2><h3 id="장점"><a href="#장점" class="headerlink" title="장점"></a>장점</h3><ul>
-<li>동적으로 메모리 사용</li>
-<li>데이터의 재구성 용이</li>
-</ul>
-<h3 id="단점"><a href="#단점" class="headerlink" title="단점"></a>단점</h3><ul>
-<li>특정 인덱스의 데이터에 접근하기 어려움</li>
-<li>즉, 중간 노드의 탐색이 어려움</li>
-<li>연결을 위한 포인터와 같은 별도의 공간이 필요함으로 저장 공간 효율이 좋지 않음</li>
-<li>중간 데이터의 삭제 / 수정 / 추가 시, 앞뒤 노드를 재구성해야 하는 추가작업 필요</li>
-</ul>
-<h2 id="연습"><a href="#연습" class="headerlink" title="연습"></a>연습</h2><h3 id="1-간단히-구현"><a href="#1-간단히-구현" class="headerlink" title="1. 간단히 구현"></a>1. 간단히 구현</h3><p>파이썬의 클래스를 활용. 각 노드를 객체로 관리한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, data, addr=None)</span>:</span></span><br><span class="line">        self.data = data</span><br><span class="line">        self.next = addr</span><br></pre></td></tr></table></figure>
-
-<p><strong>맨 뒤에 새로운 데이터 추가하기</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">node1 = Node(<span class="number">1</span>)</span><br><span class="line">node2 = Node(<span class="number">2</span>)</span><br><span class="line">node1.next = node2</span><br><span class="line">head = node1 <span class="comment"># 연결리스트의 시작을 알기 위해서 보통 사용함</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>함수를 정의하여 데이터 추가하기</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(data)</span>:</span></span><br><span class="line">    node = head</span><br><span class="line">    <span class="keyword">while</span> node.next:</span><br><span class="line">        node = node.next</span><br><span class="line">    node.next = Node(data)</span><br><span class="line"></span><br><span class="line">node1 = Node(<span class="number">1</span>)</span><br><span class="line">head = node1</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, <span class="number">6</span>):</span><br><span class="line">    add(i)</span><br></pre></td></tr></table></figure>
-
-<p><strong>연결리스트의 모든 노드 출력</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">head = node1</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pprint</span><span class="params">()</span>:</span></span><br><span class="line">    node = head</span><br><span class="line">    <span class="keyword">while</span> node.next:</span><br><span class="line">        print(node.data)</span><br><span class="line">        node = node.next</span><br><span class="line">    print(node.data)</span><br><span class="line"></span><br><span class="line">pprint()</span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line"><span class="comment"># 3</span></span><br><span class="line"><span class="comment"># 4</span></span><br><span class="line"><span class="comment"># 5</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-클래스-이용"><a href="#2-클래스-이용" class="headerlink" title="2. 클래스 이용"></a>2. 클래스 이용</h3><p>연결리스트에서는 리스트의 맨 앞을 가리키는 head가 매우 중요한 것 같다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, data, addr=None)</span>:</span></span><br><span class="line">        self.data = data</span><br><span class="line">        self.next = addr</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NodeMgmt</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        self.head = Node(data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        node = self.head</span><br><span class="line">        <span class="keyword">while</span> node.next:</span><br><span class="line">            node = node.next</span><br><span class="line">        node.next = Node(data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">desc</span><span class="params">(self)</span>:</span></span><br><span class="line">        node = self.head</span><br><span class="line">        <span class="keyword">while</span> node:</span><br><span class="line">            print(node.data)</span><br><span class="line">            node = node.next</span><br><span class="line"></span><br><span class="line">node1 = NodeMgmt(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, <span class="number">11</span>):</span><br><span class="line">    node1.add(i)</span><br><span class="line">node1.desc()</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-노드-삭제"><a href="#3-노드-삭제" class="headerlink" title="3. 노드 삭제"></a>3. 노드 삭제</h3><p>연결리스트의 노드를 삭제하는 종류에는 세 가지가 있다.</p>
-<ul>
-<li>head 삭제</li>
-<li>tail 삭제</li>
-<li>중간 노드 삭제</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 인스턴스 메소드로 추가</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(self, data)</span>:</span></span><br><span class="line">    <span class="comment"># 1. head 삭제</span></span><br><span class="line">    <span class="keyword">if</span> self.head.data == data:</span><br><span class="line">        temp = self.head</span><br><span class="line">        self.head = self.head.next</span><br><span class="line">        <span class="keyword">del</span> temp</span><br><span class="line">    <span class="comment"># 2. tail 삭제</span></span><br><span class="line">    <span class="comment"># 3. 중간 노드 삭제</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        node = self.head</span><br><span class="line">        <span class="keyword">while</span> node.next:</span><br><span class="line">            <span class="keyword">if</span> node.next.data == data:</span><br><span class="line">                temp = node.next</span><br><span class="line">                node.next = node.next.next</span><br><span class="line">                <span class="keyword">del</span> temp</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                node = node.next</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-노드-찾기"><a href="#4-노드-찾기" class="headerlink" title="4. 노드 찾기"></a>4. 노드 찾기</h3><p>특정 값을 가지는 노드 찾기</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 인스턴스 메소드로 추가</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find</span><span class="params">(self, data)</span>:</span></span><br><span class="line">    node = self.head</span><br><span class="line">    <span class="keyword">while</span> node:</span><br><span class="line">        <span class="keyword">if</span> node.data == data:</span><br><span class="line">            <span class="keyword">return</span> node.data</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            node = node.next</span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/data-structure/python-linkedlist/" data-id="ckan6l1kw00133t75bxhnbrp9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-data-structure/python-hash-table" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/data-structure/python-hash-table/">파이썬으로 알아보는 자료구조 - hash table</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/data-structure/python-hash-table/">
-            <time datetime="2020-05-13T09:09:40.055Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/data-structure/">data-structure</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="Hash-Table"><a href="#Hash-Table" class="headerlink" title="Hash Table"></a>Hash Table</h2><ul>
-<li>해시 테이블</li>
-<li>키(key)에 값(데이터 - value)를 저장하는 구조</li>
-<li>즉, key를 알면 한 번에 데이터를 가져올 수 있다</li>
-</ul>
-<p><img src="https://user-images.githubusercontent.com/13075035/72198871-38633600-3477-11ea-852c-3001ff1201e8.png" alt="출처: https://en.wikipedia.org/wiki/Hash_table"></p>
-<h2 id="용어"><a href="#용어" class="headerlink" title="용어"></a>용어</h2><ul>
-<li>해시(hash)</li>
-<li></li>
-</ul>
-<h2 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h2><ul>
-<li>파이썬의 딕셔너리(사전 - Dictionary) 데이터 타입을 생각하면 됨</li>
-</ul>
-<h2 id="장단점"><a href="#장단점" class="headerlink" title="장단점"></a>장단점</h2><h3 id="장점"><a href="#장점" class="headerlink" title="장점"></a>장점</h3><ul>
-<li>데이터의 저장 / 읽기 속도가 다른 구조와 비교했을때 매우 빠르다</li>
-<li>검색 속도가 빠르다</li>
-<li>데이터 중복 확인이 쉽다</li>
-</ul>
-<h3 id="단점"><a href="#단점" class="headerlink" title="단점"></a>단점</h3><ul>
-<li>저장공간이 조금 더 필요하다</li>
-<li>여러 키에 대해 동일한 해시 주소가 동일할 수도 있다. 해시 주소의 충돌을 해결하기 위해서 별도의 자료구조가 필요할 수 있다.</li>
-</ul>
-<h2 id="사례"><a href="#사례" class="headerlink" title="사례"></a>사례</h2><ul>
-<li>검색이 많이 필요한 경우</li>
-<li>저장 / 삭제 / 읽기 / 수정 작업이 자주 일어날 때</li>
-<li>캐시(중복 확인이 용이하기 때문)</li>
-</ul>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/data-structure/python-hash-table/" data-id="ckan6l1kx00163t759yj82vov" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/data-structure/python-doblue-linkedlist/" data-id="ckaoqna9v0010ac758egza3a4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -614,7 +566,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -645,7 +597,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -662,6 +614,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -689,15 +650,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

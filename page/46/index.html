@@ -143,6 +143,188 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-hexo/settings-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/01/05/hexo/settings-hexo/">hexo와 Github Page를 이용한 블로그</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/01/05/hexo/settings-hexo/">
+            <time datetime="2018-01-05T01:14:30.000Z" itemprop="datePublished">2018-01-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/hexo/">hexo</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/hexo/" rel="tag">hexo</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>지난 17년에는 블로그가 아닌 Github를 통해 간단하게 마크다운 파일로만 그날그날 공부해왔던 것들을 정리했었다.<br>당시에도 지킬(Jekyll)을 이용하여 블로그를 할지 간단한게 할지 고민했었는데 올해부터는 hexo와 github page를 이용하여 공부하는 것들을 정리해보려고 한다.</p>
+<p>github page와 자주사용되는 정적사이트 생성기로는 지킬(Jekyll)이 있다. Jekyll은 github page에서 기본적으로 지원을 하고 있으며 ruby로 되어 있다고 한다. 그리고 다른 정적사이트 생성기로는 <strong>hexo</strong>가 있다. hexo는 요즘 frontend와 backend을 막론하고 자주 사용하는 javascript로 되어있으며 jekyll보다 이쁜 테마가 많다고 알려져있다. 예전에 jekyll을 이용하여 잠깐 블로깅을 해본적이 있는데, 이번에는 hexo를 이용하여 해보기로 하며 일회성 이벤트가 아니라 꾸준히 할 수 있기를 기대한다.</p>
+<p>hexo를 설치하기 이전에 필요한 준비물이 있다.</p>
+<ol>
+<li>node</li>
+<li>git</li>
+</ol>
+<p>따로 인스톨패키지를 지원하는 것이 아니기 때문에 npm(Node.js package manager)을 이용하여 설치해야만 한다.</p>
+<h3 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h3><ol>
+<li><p>hexo-cli 설치하기</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-cli -g</span><br></pre></td></tr></table></figure>
+<p>위 와 같이 입력하면 전역적으로(global) hexo가 설치된다.</p>
+</li>
+<li><p>블로그 생성 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;blog_name&gt; <span class="comment"># 블로그 이름을 적어준다</span></span><br><span class="line"><span class="built_in">cd</span> &lt;blog_name&gt;</span><br><span class="line">npm install <span class="comment"># 약자는 hexo i</span></span><br></pre></td></tr></table></figure>
+<p>init을 하게되면 지정한 이름으로 블로그 폴더가 생성되고 내부에는 블로그에 필요한 파일들이 마구마구 생성된다.<br>cd를 이용해 해당 디렉토리에 들어가고 패키지를 인스톨해주면 준비는 끝이다.</p>
+</li>
+<li><p>로컬서버 실행</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server <span class="comment"># 약자는 hexo s</span></span><br></pre></td></tr></table></figure>
+<p>배포하기 전에 로컬서버를 통해서 먼저 확인한다. 기본적인 주소는 <a href="http://localhost:4000" target="_blank" rel="external nofollow noopener noreferrer">http://localhost:4000</a> 이다.<br>source/_posts 폴더 내부의 md파일이 보여지게 되며 최초생성시에는 hello world와 hexo를 소개하는 페이지가 보일 것이다.</p>
+</li>
+</ol>
+<h3 id="설정하기"><a href="#설정하기" class="headerlink" title="설정하기"></a>설정하기</h3><p>hexo의 전반적인 설정은 <strong>_config.yml</strong>에서 할 수 있다. 꽤나 직관적인 영어로 작성되어 있기 때문에 설정하는 데에 큰 어려움은 없다. 짧막한 예시는 아래의 코드와 같다</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Writing</span></span><br><span class="line"><span class="attr">new_post_name:</span> <span class="string">:title.md</span> <span class="comment"># File name of new posts</span></span><br><span class="line"><span class="attr">default_layout:</span> <span class="string">draft</span> <span class="comment"># layout 기본설정 -&gt; hexo new [layout] 생략 시 draft 모드가 기본값이다</span></span><br><span class="line"><span class="attr">titlecase:</span> <span class="literal">false</span> <span class="comment"># Transform title into titlecase</span></span><br><span class="line"><span class="attr">external_link:</span> <span class="literal">true</span> <span class="comment"># Open external links in new tab</span></span><br><span class="line"><span class="attr">filename_case:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">render_drafts:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">relative_link:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">future:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">highlight:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">line_number:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">auto_detect:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">tab_replace:</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="글-작성"><a href="#글-작성" class="headerlink" title="글 작성"></a>글 작성</h3><p>글을 작성하는 방법에 자주 사용되는 것은 <strong>초고(draft)</strong>를 작성하고 <strong>발행(publish)</strong>하는 것이다.</p>
+<p>초고를 작성하기 위해 source/_drafts 폴더를 그리고 발행을 위해 source/_posts 폴더를 만드는 방법도 있지만, 아래와 같은 명령어를 통해 폴더와 파일을 자동으로 생성하는 것이 훨씬 간편하다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new [layout] &lt;document_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>설정파일의 <strong>default_layout</strong>을 통해 기본 레이아웃을 설정할 수 있다.</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">default_layout:</span> <span class="string">draft</span></span><br></pre></td></tr></table></figure>
+
+<p>나의 경우 발행할 글을 바로 작성하는 것보다 초고를 쓰고 읽어본 뒤 발행하는 편이기 때문에 default_layout을 draft로 주었다. 만약 “settings-hexo”라는 이름으로 draft를 생성하고 싶으면 다음과 같이 하면 된다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo new draft <span class="string">"settings-hexo"</span></span><br><span class="line"><span class="comment"># 또는</span></span><br><span class="line">hexo new <span class="string">"settings-hexo"</span></span><br></pre></td></tr></table></figure>
+
+<p>source/_drafts 폴더에 <strong>settings-hexo.md</strong> 라는 마크다운 파일이 생성되었을 것이다. 게시글을 작성했으면 게시글을 포스팅하기 위해 발행할 차례이다. 발행(publish)하는 명령은 다음과 같이 하면 된다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo publish &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
+<p>source/_posts 폴더 내에 <strong>settings-hexo.md</strong>가 생겼을 것이고 로컬에서 확인하기 위해 <strong>hexo s</strong>을 실행해 본다.</p>
+<p>다음으로 실제 github page로 배포할 차례이다. 배포 이전에 설정파일에 해주어야할 작업이 있다.</p>
+<ol>
+<li>설정파일 수정</li>
+<li>패키지 설치</li>
+</ol>
+<h3 id="설정파일-수정"><a href="#설정파일-수정" class="headerlink" title="설정파일 수정"></a>설정파일 수정</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span> </span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">&lt;address&gt;</span></span><br></pre></td></tr></table></figure>
+<p>설정파일의 맨 아래를 보면 위의 코드와 같은 것이 있다. github page를 이용하기 때문에 <strong>type에는 git을 적어주고 repo에는 github page 주소를 적어주어야 한다.</strong> </p>
+<h3 id="패키지-설치"><a href="#패키지-설치" class="headerlink" title="패키지 설치"></a>패키지 설치</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>설정파일도 수정하고 패키지도 설치했다면 준비는 완료된 것이다. <strong>배포를 해보자!</strong></p>
+<h3 id="배포하기"><a href="#배포하기" class="headerlink" title="배포하기"></a>배포하기</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy -g</span><br></pre></td></tr></table></figure>
+<p>매우 간단하다. 이전에 입력해놓은 주소로 손쉽게 배포할 수 있다. 깃허브에 올라가는 파일은 source파일이 아닌 public 폴더가 올라가게 되며, 문서의 변경내용을 관리하고 싶다면 추가적으로 해야할 일이 있다.</p>
+<h3 id="마크다운파일의-변경내용-관리하기"><a href="#마크다운파일의-변경내용-관리하기" class="headerlink" title="마크다운파일의 변경내용 관리하기"></a>마크다운파일의 변경내용 관리하기</h3><p>새로운 브랜치를 생성해야 한다. 실제로 블로그에 보이는 파일은 master 브랜치를 통해 배포하고 파일의 변경내용은 새로만든 브랜치에서 하는 것이다. <strong>gh-pages</strong>라는 브랜치를 새로 생성하자.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b gh-pages</span><br></pre></td></tr></table></figure>
+<p>위의 명령은 gh-pages라는 브랜치를 생성하고 바로 브랜치를 변경해준다. gh-pages 브랜치에 푸시를 하고 hexo deploy 명령어를 통해 배포를 하면 문서파일 관리와 동시에 블로그로 배포할 수 있게 된다!!</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/01/05/hexo/settings-hexo/" data-id="ckaoqnaav004oac75ascybb8v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/beautifulsoup4-python" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -236,7 +418,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/01/04/python/beautifulsoup4-python/" data-id="ckan6l1n1008n3t758wipffbg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/01/04/python/beautifulsoup4-python/" data-id="ckaoqnac4008sac759a5s8wap" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -419,143 +601,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/01/04/python/python-package-request/" data-id="ckan6l1ng00a33t758yixfcbb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-etc/welcome-xD" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/01/04/etc/welcome-xD/">welcome xD</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/01/04/etc/welcome-xD/">
-            <time datetime="2018-01-04T02:31:14.000Z" itemprop="datePublished">2018-01-04</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/etc/">etc</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/%EB%8B%A4%EC%A7%90/" rel="tag">다짐</a>, <a class="tag-link" href="/tags/%EC%9D%B4%EC%82%AC/" rel="tag">이사</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>기존의 깃허브의 <strong>TIL</strong>에 공부하면서 정리하려고 했던 것들을 앞으로는 여기에서 하려고 한다.</p>
-<h3 id="앞으로의-계획"><a href="#앞으로의-계획" class="headerlink" title="앞으로의 계획"></a>앞으로의 계획</h3><ol>
-<li>복습하는 차원에서 TIL의 내용을 다시 공부하며 여기로 가져온다</li>
-<li>적어도 일주일에 하나에서 두 가지의 포스트를 작성한다</li>
-</ol>
-<p>2018년 이라는 새로운 해가 시작되는 만큼 마음을 다잡고 공부에 집중할 수 있으면 좋겠다.<br>올 한해는 겁내지말고 조금 더 씩씩한 사람이 되어 정신적으로 강한 사람이 되었으면 한다. xD</p>
-<p><del>신년맞이로 평생 후회할만한 짓을 해버렸는데 잘 해결되었으면 하는 바램이다</del></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/01/04/etc/welcome-xD/" data-id="ckan6l1ln003n3t75hpo30qjc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/01/04/python/python-package-request/" data-id="ckaoqnacg00a3ac752cgz5jkf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -632,7 +678,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/45/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><span class="page-number current">46</span>
+        <a class="extend prev" rel="prev" href="/page/45/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><span class="page-number current">46</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/47/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -663,7 +709,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -680,6 +726,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -707,15 +762,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 

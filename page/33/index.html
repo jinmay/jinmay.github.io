@@ -143,6 +143,144 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-jquery/jquery-wrapall" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/01/09/jquery/jquery-wrapall/">wrapAll 메소드</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/01/09/jquery/jquery-wrapall/">
+            <time datetime="2019-01-09T09:34:00.000Z" itemprop="datePublished">2019-01-09</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/jquery/">jquery</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/jquery/" rel="tag">jquery</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="wrapAll-메소드"><a href="#wrapAll-메소드" class="headerlink" title=".wrapAll() 메소드"></a>.wrapAll() 메소드</h1><h3 id="형태"><a href="#형태" class="headerlink" title="형태"></a>형태</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.wrapAll(wrappingElement)</span><br></pre></td></tr></table></figure>
+
+<h3 id="설명"><a href="#설명" class="headerlink" title="설명"></a>설명</h3><p>선택된 HTML 구조(태그)들을 괄호안의 wrappingElement로 감싼다.</p>
+<h3 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span>Goodbye<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>위 와 같이 HTML이 있을 때, 클래스가 .inner인 태그들을 감싼다</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'.inner'</span>).wrapAll(<span class="string">"&lt;div class='new' /&gt;"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>결국 아래와 같은 HTML DOM을 형성하게 된다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"new"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner"</span>&gt;</span>Goodbye<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/01/09/jquery/jquery-wrapall/" data-id="ckaoqnab5005hac7594e2bf7m" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/ubuntu-install-pyenv" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -229,7 +367,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/12/27/linux/ubuntu-install-pyenv/" data-id="ckan6l1mn00733t758ur0bsh8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/12/27/linux/ubuntu-install-pyenv/" data-id="ckaoqnabo0079ac7512bwekg2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -367,249 +505,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/12/26/aws/aws-eb-createservicelinkedrole-error/" data-id="ckan6l1km00073t75c0zb7q1b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-network/daily-network-third-layer" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/12/11/network/daily-network-third-layer/">IP어드레싱</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/12/11/network/daily-network-third-layer/">
-            <time datetime="2018-12-11T14:18:13.000Z" itemprop="datePublished">2018-12-11</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/network/">network</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/network/" rel="tag">network</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="3계층-네트워크-계층"><a href="#3계층-네트워크-계층" class="headerlink" title="3계층 - 네트워크 계층"></a>3계층 - 네트워크 계층</h1><p>세그먼트 내에서의 송수신은 2계층에 제한된 영역이다(세그먼트라는 키워드는 1계층와 2계층에서만 사용한다고 보면 된다). 만약 세그먼트 범위를 벗어난 네트워크와 통신하려면 어떻게 해야할까? 일단 세그먼트와 네트워크를 명확히 구분 지어야 할 것 같다. </p>
-<blockquote>
-<p>세그먼트 : 라우터없이 스위치나 허브(분배기)로 연결되는 범위(1계층과 2계층에서 사용하는 단어)</p>
-<p>네트워크 : 라우터와 라우터로 분배된 컴퓨터 그룹</p>
-</blockquote>
-<p>같은 네트워크 내의 컴퓨터끼리는 2계층에 의해 연결되어 있다. 즉, <strong>같은 네트워크 안에 있다면 2계층 만으로도 통신을 할 수 있다고 생각하면 될 것 같다.</strong> 하지만 느껴지는 것처럼, 2계층의 네트워크만으로는 큰 네트워크를 형성 할 수 없다. 할 수는 있겠지만 허브와 스위치 만으로 거대한 네트워크를 만드는 것은 힘든 일이며, 브로드캐스트와 관련된 문제도 발생할 확률이 높아진다. </p>
-<p>허브와 스위치를 생각해보자. 허브의 플러딩 문제를 방지하기 위해서 스위치를 사용한다고 했다. 스위치는 MAC 주소 필터링과 버퍼링을 통해서 문제를 해결하려고 하지만 100% 대응할 수 있는 것은 아니다. MAC 주소 필터링의 학습 과정에서 학습되지 않았거나 멀티캐스트 / 브로드캐스트를 플러딩하기 때문이다. </p>
-<p>위와 같은 이유로 2계층까지의 기능만으로는 큰 네트워크를 구성하기 힘든 것이다. 하지만 3계층의 <strong>라우터</strong>를 사용하게 되면 해결할 수 있는데 그 이유는 <strong>라우터를 넘어가는 브로드캐스트는 송신되지 않기 때문이다.</strong> 즉 한 개의 큰 네트워크를 작게 나눔으로써 브로드캐스트의 영향력을 줄일 수 있는 것이다. 그러기 위해서는 <strong>인터넷 작업(3계층)</strong>을 꼭 필요로한다. </p>
-<blockquote>
-<p>인터넷 작업 : 네트워크와 네트워크를 연결해서 다른 네트워크의 컴퓨터와 통신을 가능하게 만들어 준다.</p>
-</blockquote>
-<h3 id="인터넷-프로토콜-Internet-Protocol"><a href="#인터넷-프로토콜-Internet-Protocol" class="headerlink" title="인터넷 프로토콜(Internet Protocol)"></a>인터넷 프로토콜(Internet Protocol)</h3><p>앞에서 3계층의 역할은 다른 네트워크와 통신을 하기 위한 인터넷 작업을 수행하는 것이라고 했다. <strong>인터넷 작업</strong>을 실행하기 위해서는 크게 두 가지가 있고 <strong>어드레싱(addressing)과 라우팅(routing)이라고 부른다.</strong> </p>
-<h4 id="어드레싱"><a href="#어드레싱" class="headerlink" title="어드레싱"></a>어드레싱</h4><p>어드레싱은 앞에서 MAC 주소를 다룰 때 한 번 했다. 어드레스를 어떻게 써서 어떻게 배당하는 지에 대한 작업이었다. 2계층에서는 MAC 주소를 사용하여 어드레싱을 했지만 3계층에서는 MAC 주소 이외의 <strong>논리적 주소</strong>를 같이 사용해야 한다. 왜냐하면 <strong>MAC 주소는 물리적 주소로써</strong> <strong>장소를 특정할 수 없는 주소이기 때문이다.</strong> 2계층에서 한번에 연결하는 기기의 수가 크지 않기 때문에 MAC 주소만으로 통신이 가능했다면 3계층에서는 다른 네트워크와의 통신이기 때문에 <strong>“어디”</strong>라는 정보를 더 필요로 하는 것이다. 3계층에서 사용하는 논리 주소는 <strong>어디에 있는지와 같은 위치정보</strong>를 가지고 있으며 MAC 주소와 함께 사용하여 수신처를 특정지을 수 있는 것이다(어디 네트워크에 있는 어느 컴퓨터라는 정보의 조합으로 생각해보자)</p>
-<h4 id="라우팅"><a href="#라우팅" class="headerlink" title="라우팅"></a>라우팅</h4><p><strong>경로 선택</strong>이라고 부르곤 한다. <strong>목적지까지 어떤 경로를 지나쳐 갈지 결정하는 것을 의미하며, 이러한 역할을 하는 기기를 라우터라고 부른다.</strong> </p>
-<blockquote>
-<p>위의 <strong>어드레싱과 라우팅</strong>에 의해 인터넷 작업을 수행하기 위한 프로토콜로서 TCP/IP 프로토콜군에서 사용되는 것이 <strong>IP(Internet Protocol)인 것이다.</strong></p>
-</blockquote>
-<h4 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h4><p>TCP/IP에서는 IP를 반드시 사용한다. 기존에 사용하던 IPv4가 있고 IP의 고갈로 인해서 나온 것이 IPv6이다.(그래도 v4를 일반적으로 사용하고 있다). IP가 인터넷 작업을 위해 하는 일은 3계층 PDU - <strong>IP 데이터그램</strong> - 을 보면 된다. 그리고 이 <strong>IP 데이터그램은 IP 헤더가 붙은 상태일 것이다.</strong> </p>
-<table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center">내용</th>
-<th align="center">비트</th>
-<th align="left">설명</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">버전</td>
-<td align="center">4</td>
-<td align="left">IP 버전</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">헤더 길이</td>
-<td align="center">4</td>
-<td align="left">IP 헤더 길이</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="center">서비스 타입</td>
-<td align="center">8</td>
-<td align="left">패킷의 우선도 / 중요도</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="center">데이터 길이</td>
-<td align="center">16</td>
-<td align="left">IP 헤더와 페이로드를 합친 길이</td>
-</tr>
-<tr>
-<td align="center">5</td>
-<td align="center">ID</td>
-<td align="center">16</td>
-<td align="left">데이터그램 식별번호(ID)</td>
-</tr>
-<tr>
-<td align="center">6</td>
-<td align="center">플래그</td>
-<td align="center">3</td>
-<td align="left">데이터그램을 분할했는지 판별</td>
-</tr>
-<tr>
-<td align="center">7</td>
-<td align="center">글래그먼트 오프셋</td>
-<td align="center">13</td>
-<td align="left">분할한 경우 본래대로 되돌릴 때 사용</td>
-</tr>
-<tr>
-<td align="center">8</td>
-<td align="center">TTL</td>
-<td align="center">8</td>
-<td align="left">Time To Live - 패킷의 생존시간</td>
-</tr>
-<tr>
-<td align="center">9</td>
-<td align="center">프로토콜</td>
-<td align="center">8</td>
-<td align="left">상위 프로토콜 지정</td>
-</tr>
-<tr>
-<td align="center">10</td>
-<td align="center">헤더 체크섬</td>
-<td align="center">16</td>
-<td align="left">IP 헤더의 에러 체크용 코드</td>
-</tr>
-<tr>
-<td align="center">11</td>
-<td align="center">송신처 IP</td>
-<td align="center">32</td>
-<td align="left">송신자의 IP 주소(논리 주소)</td>
-</tr>
-<tr>
-<td align="center">12</td>
-<td align="center">수신서 IP</td>
-<td align="center">32</td>
-<td align="left">수신자의 IP 주소(논리 주소)</td>
-</tr>
-<tr>
-<td align="center">(13)</td>
-<td align="center">옵션</td>
-<td align="center">n</td>
-<td align="left">특별한 설정을 위해 사용(없어도 됨)</td>
-</tr>
-</tbody></table>
-<h4 id="IP-주소의-특징"><a href="#IP-주소의-특징" class="headerlink" title="IP 주소의 특징"></a>IP 주소의 특징</h4><p>논리 주소는 <strong>계층형</strong>이다는 특징을 가지는데, IP 주소도 동일한 특징을 갖는다. NIC와 같은 인터페이스에 고정되어 있는 MAC 주소와 달리 <strong>네트워크 관리자가 할당</strong>한다. 즉, <strong>MAC 주소처럼 고정이 아니라는 점이다.</strong> IP 주소가 어디에 있는 어느 컴퓨터라는 것을 의미하는 것처럼 <strong>소속된 네트워크가 바뀐 경우에 논리 주소가 바뀌는 것이다.</strong> 논리 주소에도 <strong>유니캐스트 / 멀티캐스트 / 브로드캐스트</strong> 세 종류의 주소가 있다. 그리고 마찬가지로 유니캐스트 주소의 논리 주소중에서 <strong>네트워크를 표시하는 번호는 접속되어 있는 모든 네트워크에서 유일해야만 한다.</strong> 접속되어있는 네트워크에서 유일해야 한다는 것에 유의해야한다. 독립한 네트워크끼리라면 상관 없으며 소속된 네트워크에서 유일해야 한다는 의미이다!</p>
-<blockquote>
-<p>네트워크의 번호 + 컴퓨터의 번호 =&gt; 를 조합해서 유일해야 한다.</p>
-<p>그래서 다른 네트워크라면 주소가 같아도 문제가 되지 않는다!</p>
-<p><strong>다시 정리를 해보자 - 네트워크 번호는 접속되어 있는 모든 네트워크에서 유일해야하고, 컴퓨터 번호는 네트워크 내에서 유일해야 한다</strong></p>
-</blockquote>
-<h4 id="IP-주소"><a href="#IP-주소" class="headerlink" title="IP 주소"></a>IP 주소</h4><p>진짜 IP 주소에 대해서 보자. MAC 주소는 48비트 16진수 12자리. <strong>IP 주소는 8비트마다 10진수로 표기하며 총 32비트.</strong> <strong>그리고 이 8비트 단락은 옥텟(octet)이라고 부른다.</strong> 다시 말해 <strong>32비트 주소로 네트워크의 번호와 컴퓨터 번호를 나타내야한다.</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/12/11/network/daily-network-third-layer/" data-id="ckan6l1mx00853t756pk42kfm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/12/26/aws/aws-eb-createservicelinkedrole-error/" data-id="ckaoqna9j0004ac75fruv7w8j" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -686,7 +582,7 @@ ga('send', 'pageview');
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/32/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><a class="page-number" href="/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/34/">Next &amp;raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/32/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><a class="page-number" href="/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/34/">Next &amp;raquo;</a>
     </nav>
 </section>
             
@@ -717,7 +613,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -734,6 +630,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/how-to-not-equal-query-django-filter/" class="title">[Django]not 연산으로 조건 부정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-25T06:13:19.773Z" itemprop="datePublished">2020-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
+                            <p class="item-title"><a href="/2020/05/25/git/git-pull-branch-from-remote/" class="title">[git]원격 저장소의 branch 가져오기</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T02:54:36.475Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -761,15 +666,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
                             <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
                             <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/mysql/">mysql</a></p>
-                            <p class="item-title"><a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" class="title">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a></p>
-                            <p class="item-date"><time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time></p>
                         </div>
                     </li>
                 
