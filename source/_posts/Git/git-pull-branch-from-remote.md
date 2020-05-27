@@ -1,8 +1,8 @@
 ---
-title: git-pull-branch-from-remote
+title: '[git]원격 저장소의 branch 가져오기'
+categories:
+  - git
 ---
-
-'[git]원격 저장소의 branch 가져오기'
 
 원격 저장소의 branch의 이름을 가지고 로컬로 가져오는 방법을 정리한다.
 
