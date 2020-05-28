@@ -143,6 +143,154 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-python/python-class-first" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/11/23/python/python-class-first/">[파이썬]클래스의 getter 메소드와 setter 메소드(+ private 속성)</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/11/23/python/python-class-first/">
+            <time datetime="2019-11-23T12:28:40.000Z" itemprop="datePublished">2019-11-23</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age)</span>:</span></span><br><span class="line">    self._name = name</span><br><span class="line">    self._age = age</span><br><span class="line"></span><br><span class="line">stu1 = Student(<span class="string">'son'</span>, <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>위와 같이 학생 클래스가 있을때 학생의 나이에 조건이 있어야 된다면 다음과 같은 코드가 필요할 것이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age)</span>:</span></span><br><span class="line">    self._name = name</span><br><span class="line">    <span class="keyword">if</span> age &lt;= <span class="number">10</span>:</span><br><span class="line">      <span class="keyword">raise</span> ValueError(<span class="string">'11살 이상의 학생만 가능합니다'</span>)</span><br><span class="line">    self._age = age</span><br><span class="line"></span><br><span class="line">stu1 = Student(<span class="string">'son'</span>, <span class="number">20</span>)</span><br><span class="line">stu1 = Student(<span class="string">'son'</span>, <span class="number">8</span>) <span class="comment"># ValueError 발생</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># __init__함수의 영향을 받지 않으므로 ValueError가 발생하지 않는다</span></span><br><span class="line">stu1._age = <span class="number">8</span></span><br></pre></td></tr></table></figure>
+
+<p>문제 될것 없어보이는 코드지만 객체를 생성하고 나서 값을 변경하게 된다면 더 이상 __init__ 함수의 영향을 받지 않기 때문에 문제가 될 수 있다.</p>
+<p>getter 메소드와 setter 메소드를 구현해서 문제를 해결해보자.</p>
+<h2 id="getter와-setter"><a href="#getter와-setter" class="headerlink" title="getter와 setter"></a>getter와 setter</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age)</span>:</span></span><br><span class="line">    self.__name = name</span><br><span class="line">    <span class="keyword">if</span> age &lt;= <span class="number">10</span>:</span><br><span class="line">      <span class="keyword">raise</span> ValueError(<span class="string">'11살 이상의 학생만 가능합니다'</span>)</span><br><span class="line">    self.__age = age</span><br><span class="line"></span><br><span class="line"><span class="meta">  @property</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">age</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.__age</span><br><span class="line"></span><br><span class="line"><span class="meta">  @age.setter</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">age</span><span class="params">(self, age)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> age &lt;= <span class="number">10</span>:</span><br><span class="line">      <span class="keyword">raise</span> ValueError(<span class="string">'11살 이상의 학생만 가능합니다'</span>)</span><br><span class="line">    self.__age = age</span><br></pre></td></tr></table></figure>
+
+<p>값을 읽기 위해 getter 메소드를, 값을 쓰기 위해 setter를 사용하면 된다.</p>
+<p><strong>getter를 만들기 위해 @property 데코레이터</strong>를 사용한다. 함수 이름은 변수명과 동일하게 작성하는 관례가 있다. 그리고 <strong>setter를 만들기 위해 @변수.setter</strong>를 사용한다. 마찬가지로 변수명과 동일한 함수명을 추천한다.</p>
+<p>이렇게 클래스 내부의 변수에 __(더블 언더스코어)를 덧붙여서 private 속성을 만들고 값이 필요할때 setter 메소드와 getter 메소드를 사용하는 것이 보편적인 객체지향 프로그래밍 방법 중 하나라고 한다.</p>
+<p>@property 데코레이터를 통해 프로퍼티를 만들어 보았는데, 사실 수동으로 만드는 방법도 있다.</p>
+<h2 id="수동으로-프로퍼티-만들기"><a href="#수동으로-프로퍼티-만들기" class="headerlink" title="수동으로 프로퍼티 만들기"></a>수동으로 프로퍼티 만들기</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age)</span>:</span></span><br><span class="line">    self.__name = name</span><br><span class="line">    self.__age = age</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">get_age</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.__age</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">set_age</span><span class="params">(self, v)</span>:</span></span><br><span class="line">    self.__age = v</span><br><span class="line"></span><br><span class="line">  age = property(get_age, set_age)</span><br></pre></td></tr></table></figure>
+
+<p>age에 대한 getter와 setter 메소드를 만들고 마지막에 age라는 이름으로 프로퍼티에 등록해주었다. 이런 방식의 특징은 get_age 메소드와 set_age 메소드를 직접 사용할 수 있다는 것이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = Student(<span class="string">'son'</span>, <span class="number">21</span>)</span><br><span class="line">a.get_age() <span class="comment"># 21</span></span><br><span class="line"></span><br><span class="line">a.set_age(<span class="number">12</span>)</span><br><span class="line">a.get_age() <span class="comment"># 12</span></span><br><span class="line">a.age <span class="comment"># 12</span></span><br></pre></td></tr></table></figure>
+
+<p>get_age와 set_age가 네임 스페이스에 존재하는지 확인해보자</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dir(a)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 'age',</span></span><br><span class="line"><span class="comment"># 'get_age',</span></span><br><span class="line"><span class="comment"># 'set_age'</span></span><br></pre></td></tr></table></figure>
+
+<p>만약 데코레이터를 통해 프로퍼티를 작성했다면 get_age와 set_age 함수가 없을 것이다.</p>
+<hr>
+<p>[참고]<br>패스트캠퍼스 강의</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/11/23/python/python-class-first/" data-id="ckaq9xtx600990f755o7yahn8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/python-high-order-function" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -213,7 +361,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/22/python/python-high-order-function/" data-id="ckaoqnacb009mac75a8mm1ru8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/22/python/python-high-order-function/" data-id="ckaq9xtx9009o0f758w0v3u16" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -367,162 +515,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/11/21/python/python-copy-deepcopy/" data-id="ckaoqnac9009fac75avr1hkjk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/python-closure-decorator" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/11/19/python/python-closure-decorator/">파이썬의 클로저</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/11/19/python/python-closure-decorator/">
-            <time datetime="2019-11-19T05:59:32.000Z" itemprop="datePublished">2019-11-19</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>함수 안에 함수를 정의하는 내부함수를 통해 클로저를 구현할 수 있다. 파이썬이 함수를 일급 객체로 취급하기 때문에 가능하다. 클로저의 <strong>간단한 사전적 의미로는 “일급 객체를 지원하는 언어에서 유효 범위 이름을 바인딩하는 기술”</strong> 이라고 하는데 이해하기 복잡하니 내부함수를 반환하는 함수라고 (간단하게) 생각해도 될 것 같다.</p>
-<p>클로저를 살펴보기에 앞서 변수의 스코프에 대해 먼저 알아보자.</p>
-<h2 id="클로저-이해에-필요한-스코프"><a href="#클로저-이해에-필요한-스코프" class="headerlink" title="클로저 이해에 필요한 스코프"></a>클로저 이해에 필요한 스코프</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line"></span><br><span class="line">func1(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-<p>너무 간단하다. b의 값이 없기 때문에 에러가 발생한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">123</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line"></span><br><span class="line">func2(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-<p>함수 안에는 b 변수에 대한 값이 없으며 전역으로 선언된 b = 123을 사용하기 때문에 에러없이 함수를 호출할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">123</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func3</span><span class="params">(a)</span>:</span></span><br><span class="line">  print(a)</span><br><span class="line">  print(b)</span><br><span class="line">  b = <span class="number">321</span></span><br><span class="line"></span><br><span class="line">func3(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-<p>이번 예제는 주의해서 봐야한다. 일단 에러가 발생한다. 함수 안에서 변수 b를 출력하려고 하는데 값이 초기화 되기 전에 사용했기 때문에 UnboundedError가 일어난 것이다.  </p>
-<p>조금 더 설명하자면,<br>func3이 실행될때 런타임 상에서 변수의 존재를 체크한다. 함수 내에 변수 b가 있기 때문에 변수의 존재는 알고 있게되며 값이 할당되기 전에 출력을 먼저 하려고 해서 에러가 발생하게 된 것이다.</p>
-<h2 id="클로저"><a href="#클로저" class="headerlink" title="클로저"></a>클로저</h2><p>위의 스코프를 이해했다면 클로저의 동작 방식을 이해하는 데에도 큰 도움이 된다. 자유 변수(free variable)가 무엇인지 보자.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="comment"># free variable 영역</span></span><br><span class="line">  <span class="comment"># 클로저 영역</span></span><br><span class="line">  number_list = []</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(v)</span>:</span></span><br><span class="line">    number_list.append(v)</span><br><span class="line">    print(sum(number_list))</span><br><span class="line">  <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">func = outer() <span class="comment"># inner 함수 리턴 후 outer 함수 종료</span></span><br><span class="line">func(<span class="number">1</span>) <span class="comment"># 1</span></span><br><span class="line">func(<span class="number">2</span>) <span class="comment"># 3</span></span><br><span class="line">func(<span class="number">3</span>) <span class="comment"># 6</span></span><br></pre></td></tr></table></figure>
-
-<p>함수 실행의 결과는 인자로 들어간 값들이 누적된 합이 출력된다. outer 함수는 inner 함수를 리턴하고 종료가 되었는데 어떻게 inner 함수는 outer 함수 영역에 존재하는 변수를 계속해서 사용할 수 있는 것일까?</p>
-<p><strong>number_list 변수가 자유 변수 영역에 있기 때문이다.</strong> 내부함수 입장에서 자기가 선언하지 않은 변수를 자유 변수라고 이해하면 쉬울 것 같다. 외부함수의 변수를 계속 참조할 수 있어서 값을 계속 사용할 수 있다는 장점이 있지만 남용하게 되면 메모리를 낭비할 수도 있다는 단점도 있다.</p>
-<h2 id="자유변수-확인하기"><a href="#자유변수-확인하기" class="headerlink" title="자유변수 확인하기"></a>자유변수 확인하기</h2><p>dir 함수를 사용한다면 객체가 가진 내부정보를 볼 수 있다. 자유 변수로 사용되는 변수가 무엇인지 확인하려면 아래와 같이 하면 된다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(func.__code__.co_freevars)</span><br><span class="line"><span class="comment"># ('number_list',)</span></span><br></pre></td></tr></table></figure>
-
-<p>자유 변수로서 사용되는 변수를 출력한다. 변수의 값을 확인하려면 이렇게 하면 된다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(func.__closure__[<span class="number">0</span>].cell_contents)</span><br><span class="line"><span class="comment"># [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="클로저-사용시-주의사항"><a href="#클로저-사용시-주의사항" class="headerlink" title="클로저 사용시 주의사항"></a>클로저 사용시 주의사항</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></span><br><span class="line">  count = <span class="number">0</span></span><br><span class="line">  total = <span class="number">0</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(v)</span>:</span></span><br><span class="line">    <span class="comment"># nonlocal count, total # 문제 해결</span></span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line">    total += v</span><br><span class="line">    print(total / count)</span><br><span class="line">  <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">func = outer()</span><br><span class="line">func(<span class="number">1</span>) </span><br><span class="line"><span class="comment"># UnboundLocalError: local variable 'count' referenced before assignment</span></span><br></pre></td></tr></table></figure>
-
-<p>count 변수를 값이 할당 되기 전에 사용했기 때문에 에러가 발생한다. <strong>여기서 중요한 점은 밖의 변수들과 inner의 변수들이 이름이 같을지라도 다른 변수라는 것이다.</strong> 문제를 해결하기 위해서 nonlocal 키워드를 사용해주어야 한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">nonlocal</span> count, total</span><br></pre></td></tr></table></figure>
-
-
-<hr>
-<p>[참고]<br><a href="https://itholic.github.io/python-closure/" target="_blank" rel="external nofollow noopener noreferrer">https://itholic.github.io/python-closure/</a><br><a href="http://schoolofweb.net/blog/posts/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%ED%81%B4%EB%A1%9C%EC%A0%80-closure/" target="_blank" rel="external nofollow noopener noreferrer">http://schoolofweb.net/blog/posts/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%ED%81%B4%EB%A1%9C%EC%A0%80-closure/</a>  </p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/11/19/python/python-closure-decorator/" data-id="ckaoqnac9009cac7561zvb2lj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/11/21/python/python-copy-deepcopy/" data-id="ckaq9xtx8009h0f75etkiec78" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -630,7 +623,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -640,6 +633,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
+                            <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -674,15 +676,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
                             <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
                             <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
-                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
                         </div>
                     </li>
                 

@@ -143,6 +143,138 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-git/how-to-amend-git-commit-author-info" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/git/how-to-amend-git-commit-author-info/">이미 커밋된 로그에서 작성자(author) 변경하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/git/how-to-amend-git-commit-author-info/">
+            <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/git/">git</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>이미 작성된 commit일지라도 커밋 메세지와 작성자를 모두 수정하는 방법이 있다. 이번 포스팅에서는 가장 최신 커밋의 작성자(author)를 변경하는 방법을 알아보자.</p>
+<h3 id="가장-최신-커밋의-author-정보-변경"><a href="#가장-최신-커밋의-author-정보-변경" class="headerlink" title="가장 최신 커밋의 author 정보 변경"></a>가장 최신 커밋의 author 정보 변경</h3><p>커밋 메세지를 수정하기 위해 <code>git commit --amend</code>를 사용할 수 있는데, 이 명령어를 응용하면 된다. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend --author=<span class="string">"Author Name &lt;email@address.com&gt;"</span></span><br></pre></td></tr></table></figure>
+
+<p>유의해야할 점으로는 <strong>가장 최신의 커밋만</strong>을 대상으로 작용한다는 것이다.  </p>
+<p><code>git rebase -i</code> 명령어를 사용하면 다수의 커밋을 대상으로 작업을 할 수 있는데 이는 추후에 다시 정리하자.</p>
+<hr>
+<p>[참고]<br><a href="https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit" target="_blank" rel="external nofollow noopener noreferrer">https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit</a>   </p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-amend-git-commit-author-info/" data-id="ckaq9xtvn004g0f75b2v6a3qc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-git/github-action-syntax" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -259,7 +391,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action-syntax/" data-id="ckaoqnaas0049ac756efibw1e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action-syntax/" data-id="ckaq9xtvk00460f758guzd9hh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -390,141 +522,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/docker/how-to-use-docker-command-without-sudo/" data-id="ckaoqnaao003tac75dspke5sg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-django/drf-how-to-change-field-name-of-serializer" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/django/drf-how-to-change-field-name-of-serializer/">[DRF]serializers의 필드명 변경하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/django/drf-how-to-change-field-name-of-serializer/">
-            <time datetime="2020-05-13T09:09:40.046Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/django/">django</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>직렬화를 위해 시리얼라이져를 사용하게 되면 보통은 모델의 필드명과 같이 기본적으로 정해지는 이름을 사용한다. 필드명을 변경하고 싶다면 아래와 같이 작업하면 된다.</p>
-<h2 id="serializer의-필드명-변경"><a href="#serializer의-필드명-변경" class="headerlink" title="serializer의 필드명 변경"></a>serializer의 필드명 변경</h2><p>일반적인 serializer 뿐만 아니라 모델을 통해 생성할 수 있는 ModelSerializer에도 적용할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestSerializer</span><span class="params">(serializers.Serializer)</span>:</span></span><br><span class="line">    x = serializers.IntegerField(source=<span class="string">"&lt;원래의 필드명&gt;"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>source의 값으로 원래의 필드명을 명시해주고 변경하려는 이름으로 필드를 생성하면 된다!</p>
-<p>ModelSerializer의 경우는 이렇게 하면 된다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestSerializer</span><span class="params">(sesrializers.ModelSerializer)</span>:</span></span><br><span class="line">    x = serializers.IntegerField(source=<span class="string">"&lt;원래의 필드명&gt;"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        model = TestModel</span><br><span class="line">        fields = (<span class="string">'x'</span>, ...)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://stackoverflow.com/questions/22958058/how-to-change-field-name-in-django-rest-framework" target="_blank" rel="external nofollow noopener noreferrer">https://stackoverflow.com/questions/22958058/how-to-change-field-name-in-django-rest-framework</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/django/drf-how-to-change-field-name-of-serializer/" data-id="ckaoqnaaf002tac75f9bi218o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/docker/how-to-use-docker-command-without-sudo/" data-id="ckaq9xtvf003m0f75dugrew0d" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -632,7 +630,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -642,6 +640,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
+                            <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -676,15 +683,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
                             <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
                             <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
-                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
                         </div>
                     </li>
                 

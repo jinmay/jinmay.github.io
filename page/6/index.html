@@ -143,6 +143,184 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-web/basic-of-jwt" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/web/basic-of-jwt/">[JWT]인증(authentication)에 보편적으로 사용되는 JWT에 대해서</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/web/basic-of-jwt/">
+            <time datetime="2020-05-13T09:09:40.061Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><img src="https://user-images.githubusercontent.com/13075035/74138722-7057c780-4c35-11ea-8186-736263e14289.png" alt="jwt.io"></p>
+<h2 id="1-사용자-인증정보를-관리하는-두-가지"><a href="#1-사용자-인증정보를-관리하는-두-가지" class="headerlink" title="1. 사용자 인증정보를 관리하는 두 가지"></a>1. 사용자 인증정보를 관리하는 두 가지</h2><ul>
+<li>세션 기반 인증</li>
+</ul>
+<p><strong>서버 기반 인증</strong>이라고 불리기도 한다. 과거부터 사용해오는 방법이며 이름에서 알 수 있듯이 유저가 서비스에 로그인을 하면 서버는 인증 정보를 계속해서 사용해야 하기 위해 메모리나 데이터 베이스에 저장하여 관리하는 방식이다. 세션 기반 방식은 정말 정말 널리 쓰이지만 크게 볼때 두 가지의 문제가 존재한다.</p>
+<p>첫 번째, 서비스에 로그인 중인 유저가 많아지면 세션을 유지하기 위해 더 많은 메모리 / 데이터 베이스의 자원을 사용하게 됨으로 성능에 무리를 줄 수 있다. 두 번째, 서버의 확장이 어려워진다. 첫 번째 이유를 확장해 생각해볼때 분산 환경에서 세션을 사용하려면 분산된 서비스간에 세션의 정보가 동기화 되어야 함으로 구현의 복잡도가 매우 커질 것이다.</p>
+<ul>
+<li>토큰 기반 인증</li>
+</ul>
+<p>HTTP의 두 가지 특성 - 무상태성 / 비연결성 - 에 따라 HTTP는 상태를 가지지 않는다. 그렇기 때문에 <strong>로그인한 상태</strong>를 파악하기 위해 세션 기반 인증을 사용하는 것인데, 이에 반해 토큰 기반 인증은 서버 측에서 상태를 유지하지 않고 로그인 시에 발급한 토큰을 통해 유저가 인증과정을 밟는 것이다. 서버의 구성이 분산되어 있더라도 유저는 동일한 토큰을 통해 서버에 요청할 수 있고, 서버는 데이터 베이스와 통신할 필요 없이 인증을 유지할 수 있어서 확장하기에 편해질 수 있다. 또한 모바일 어플리케이션에서 인증을 구현하기에 매우 편리하다는 장점이 있다.</p>
+<h2 id="2-토큰-관리"><a href="#2-토큰-관리" class="headerlink" title="2. 토큰 관리"></a>2. 토큰 관리</h2><ol>
+<li>브라우저 스토리지에 저장</li>
+</ol>
+<p>유저가 로그인하면 서버는 응답정보에 토큰을 넣어 전달한다. 클라이언트는 브라우저의 localStorage나 sessionStorage에 저장하여 다음 번 요청때 요청 헤더에 토큰을 붙여 보낼 수 있다. 구현하기 매우 쉽지만 보안적으로는 큰 구멍이 존재하는데, 자바스크립트를 통해 웹 브라우저의 스토리지에 접근할 수 있기 때문이다.</p>
+<ol start="2">
+<li>쿠키에 저장</li>
+</ol>
+<p>쿠키를 전송 수단으로써 사용한다. 서버 측에서 응답할때 쿠키 설정에 httpOnly 옵션을 활성화하면, 네트워크 통신 상에서만 해당 쿠키가 붙게 된다. 따라서, 자바스크립트가 브라우저를 통해 토큰 값을 사용할 수 없다. 그렇다고 보안상의 문제가 없는 것은 아니며 CSRF 공격의 위험성이 발생할 수 있다.</p>
+<h2 id="3-JWT란"><a href="#3-JWT란" class="headerlink" title="3. JWT란?"></a>3. JWT란?</h2><p>JWT는 Json Web Token의 약자로써 JSON 문자열로 이루어진 토큰을 의미한다. 토큰 기반 인증 기술 중 하나이며 다른 토큰들과는 다르게 토큰 그 자체가 의미를 가지는 Claim 기반의 토큰이다.</p>
+<h3 id="4-JWT의-구조"><a href="#4-JWT의-구조" class="headerlink" title="4. JWT의 구조"></a>4. JWT의 구조</h3><p><img src="https://user-images.githubusercontent.com/13075035/74138842-a5641a00-4c35-11ea-9c7c-8a0cff73164c.png" alt="https://jwt.io/introduction/"></p>
+<p><strong>Header / Payload / Signature</strong> - 세 개의 섹션으로 이루어져있다.</p>
+<h3 id="4-1-Header"><a href="#4-1-Header" class="headerlink" title="4-1. Header"></a>4-1. Header</h3><p>JWT 웹 토큰의 헤더 정보</p>
+<ul>
+<li>alg: 해시 알고리즘. 데이터 자체를 암호화 하는 것이 아니라 발급된 토큰을 검증하기 위해 사용한다.</li>
+<li>typ: 토큰의 타입. JWT만 사용가능하다.</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"alg"</span>: <span class="string">"HS256"</span>,</span><br><span class="line">	<span class="attr">"typ"</span>: <span class="string">"JWT"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-Payload"><a href="#4-2-Payload" class="headerlink" title="4-2. Payload"></a>4-2. Payload</h3><p>데이터가 저장되는 부분. 3가지의 Claim 데이터가 있다.</p>
+<ul>
+<li>Reserved Claim</li>
+<li>Public Claim</li>
+<li><strong>Private Claim</strong> : 사용자 정의 Claim으로써 아래와 같이 정보를 저장한다.</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"sub"</span>: <span class="string">"1234567890"</span>,</span><br><span class="line">	<span class="attr">"name"</span>: <span class="string">"John Doe"</span>,</span><br><span class="line">	<span class="attr">"admin"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-Signature"><a href="#4-3-Signature" class="headerlink" title="4-3. Signature"></a>4-3. Signature</h3><p>데이터의 무결성과 변조 방지를 위한 서명. Header와 Payload를 합친 후 Secret Key와 함께 Header에 명시한 알고리즘으로 해싱된 값이다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(header) + <span class="string">"."</span> +</span><br><span class="line">  base64UrlEncode(payload),</span><br><span class="line">  secret)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-인증-과정"><a href="#4-4-인증-과정" class="headerlink" title="4-4. 인증 과정"></a>4-4. 인증 과정</h3><p><img src="https://user-images.githubusercontent.com/13075035/74139787-528b6200-4c37-11ea-9177-6d98596c6457.png" alt="image"></p>
+<ol>
+<li>클라이언트가 로그인을 한다.</li>
+<li>서버는 사용자의 정보를 확인 후 토큰을 생성하여</li>
+<li>클라이언트에게 토큰을 전달한다.</li>
+<li>로그인 후 모든 요청때, 헤더에 토큰 값을 붙여 전송한다.</li>
+<li>토큰을 확인하여 유효한 토큰일 경우 요청을 처리한 뒤 응답한다.</li>
+</ol>
+<h3 id="4-5-단점"><a href="#4-5-단점" class="headerlink" title="4-5. 단점"></a>4-5. 단점</h3><ul>
+<li>Payload 부분에 데이터를 저장하기 때문에 데이터가 많아질 경우 토큰의 길이가 증가한다.</li>
+<li>Payload의 데이터는 암호화가 아닌 base64로만 인코딩을 거친 값이다. 즉, 따로 암호화를 수행하거나 보안에 민감한 데이터를 포함하지 않아야만 한다.</li>
+<li>무상태(stateless)하기 때문에 한 번 생성한 토큰을 임의로 삭제할 수 없다. 꼭 토큰 만료시간을 설정하여 대비해야한다.</li>
+</ul>
+<hr>
+<p>[참고]<br><a href="https://jwt.io/introduction/" target="_blank" rel="external nofollow noopener noreferrer">https://jwt.io/introduction/</a><br><a href="https://sanghaklee.tistory.com/47" target="_blank" rel="external nofollow noopener noreferrer">https://sanghaklee.tistory.com/47</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/web/basic-of-jwt/" data-id="ckaq9xtxq00bc0f753tnsck0i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-web/constructure-of-domain-name" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -214,7 +392,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/web/constructure-of-domain-name/" data-id="ckaoqnacr00baac75dp7obzy9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/web/constructure-of-domain-name/" data-id="ckaq9xtxr00bf0f7562e66bl4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -360,143 +538,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/python/python-type-hint/" data-id="ckaoqnaci00adac757qob2jgi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/selenium-click-does-not-work" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/python/selenium-click-does-not-work/">[selenium]셀레니움 사용시 특정 element의 클릭이 되지 않을때 대처법</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/python/selenium-click-does-not-work/">
-            <time datetime="2020-05-13T09:09:40.060Z" itemprop="datePublished">2020-05-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>셀레니움을 통해 특정 element를 클릭하려고 할때 보통은 아래와 같은 방법을 사용하곤 한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">body.find_element_by_class_name(<span class="string">"btn_more"</span>).click()</span><br></pre></td></tr></table></figure>
-
-<p>click() 함수를 사용하게 되면 간단하게 해당 element를 클릭할 수 있는데, 원인 미상으로 가끔씩 클릭이 되지 않는 상황이 발생했다.</p>
-<p>클릭을 구현하는 방법으로는 click() 함수와 submit() 함수를 사용할 수 있지만, 위의 상황처럼 보통의 방법으로는 클릭이 수행되지 않을때 아래의 코드 처럼 구현하면 문제 없이 사용할 수 있었다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.keys <span class="keyword">import</span> Keys</span><br><span class="line"></span><br><span class="line">driver.find_element_by_id(<span class="string">"TOTAL"</span>).send_keys(Keys.ENTER)</span><br></pre></td></tr></table></figure>
-
-<p>하지만,,<br>위의 방법을 통해도 클릭이 되지 않을 수 있는데, 아래와 같은 방법을 시도해보자.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">element = driver.find_element_by_id(<span class="string">"TOTAL"</span>)</span><br><span class="line">driver.execute_script(<span class="string">"arguments[0].click();"</span>, element)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://wkdtjsgur100.github.io/selenium-does-not-work-to-click/" target="_blank" rel="external nofollow noopener noreferrer">https://wkdtjsgur100.github.io/selenium-does-not-work-to-click/</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/13/python/selenium-click-does-not-work/" data-id="ckaoqnack00akac757kd23xex" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/python/python-type-hint/" data-id="ckaq9xtxi00ah0f758y368pye" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -604,7 +646,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -614,6 +656,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
+                            <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -648,15 +699,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
                             <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
                             <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
-                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
                         </div>
                     </li>
                 

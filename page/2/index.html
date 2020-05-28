@@ -143,6 +143,145 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-django/django-charfield-textfield-null" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/25/django/django-charfield-textfield-null/">[Django]CharField와 TextField에서의 null=True</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/25/django/django-charfield-textfield-null/">
+            <time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/django/">django</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>Django에서 필수필드로 만들지 않기 위해 보통은 <code>null=True, blank=True</code>로 두는 경우가 많다. 대개의 경우에는 문제가 되지 않지만 문자열 기반 필드인 <code>CharField / TextField</code>에 <code>null=True</code>를 두는 것을 피하는게 좋다고 한다.</p>
+<p>다시 말해, 문자열 기반인 아래의 필드들은 <code>null=True</code>를 사용하지 않는 게 권장된다.</p>
+<ul>
+<li>CharField</li>
+<li>TextField</li>
+<li>SlugField</li>
+<li>EmailField</li>
+<li>CommaSeparatedIntegerField</li>
+<li>UUIDField</li>
+</ul>
+<p>그 이유는 다음과 같다.</p>
+<p><strong>Django 표준은 빈 값을 빈 문자열로 저장하는 것이며 일관성을 위해서 null값과 빈 값을 빈 문자열을 통해 저장하는 것이다.</strong></p>
+<h3 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h3><p>자주 사용되는 <code>CharField / TextField</code>에 대해서는 <code>null=True</code>는 사용하지 말자. 해당 필드를 필수로 만들지 않으려면 <code>blank=True</code>를 사용하면된다. 이렇게 설정하면 DB에서는 빈 값이 빈 문자열(‘’)로 설정되어 null과 빈 값을 빈 문자열으로만 판단할 수 있게 된다는 장점을 가질 수 있다.</p>
+<hr>
+<p>[참고]<br><a href="https://docs.djangoproject.com/en/3.0/ref/models/fields/#null" target="_blank" rel="external nofollow noopener noreferrer">https://docs.djangoproject.com/en/3.0/ref/models/fields/#null</a><br>two scoops of django</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/25/django/django-charfield-textfield-null/" data-id="ckaq9xtus001q0f759zsaejct" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-etc/vs-code-collapse-blocks" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -195,7 +334,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/21/etc/vs-code-collapse-blocks/" data-id="ckaoqnaan003lac75g2qzcu3q" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/21/etc/vs-code-collapse-blocks/" data-id="ckaq9xtvg003q0f752oyt8vky" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -330,138 +469,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/20/git/how-to-amend-git-commit/" data-id="ckaoqnaau004iac759cmr22b6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-mysql/fix-error-installing-mysql-on-mac" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/">[mysql]macOS에서 brew로 mysql 설치할때 주의할 점</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/05/18/mysql/fix-error-installing-mysql-on-mac/">
-            <time datetime="2020-05-18T14:44:47.624Z" itemprop="datePublished">2020-05-18</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/mysql/">mysql</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>brew install 명령어를 통해 mysql을 설치할 때, 가끔 알 수 없는 에러가 발생할 때가 있다. openssl을 재설치해보고 git과 gcc 등을 다시 설치해보아도 해결 할 수 없었던 적이 있는데 생각외로 간단하게 해결할 수 있었다.</p>
-<h3 id="설치시-에러-고치기"><a href="#설치시-에러-고치기" class="headerlink" title="설치시 에러 고치기"></a>설치시 에러 고치기</h3><p>mysql을 설치하고 나면 <code>export ~~</code> 하는 구문이 뜨는데, 영어라고 대충 읽고 넘어가지 말고 실행을 해주면 큰 문제 없이 작동한다.</p>
-<p>또는,</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install openssl</span><br><span class="line"></span><br><span class="line">LDFLAGS=-L/usr/<span class="built_in">local</span>/opt/openssl/lib pip install mysqlclient</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]<br><a href="https://medium.com/@shandou/pipenv-install-mysqlclient-on-macosx-7c253b0112f2" target="_blank" rel="external nofollow noopener noreferrer">https://medium.com/@shandou/pipenv-install-mysqlclient-on-macosx-7c253b0112f2</a><br><a href="https://medium.com/@elastic7327/osx-mojave-%EC%97%90%EC%84%9C-python-%ED%8C%A8%ED%82%A4%EC%A7%80-mysqlclient%EA%B0%80-%EC%84%A4%EC%B9%98%EA%B0%80-%EC%95%88%EB%90%98%EB%8A%94-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EB%B0%A9%EB%B2%95-2269bcf49c33" target="_blank" rel="external nofollow noopener noreferrer">https://medium.com/@elastic7327/osx-mojave-%EC%97%90%EC%84%9C-python-%ED%8C%A8%ED%82%A4%EC%A7%80-mysqlclient%EA%B0%80-%EC%84%A4%EC%B9%98%EA%B0%80-%EC%95%88%EB%90%98%EB%8A%94-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%EB%B0%A9%EB%B2%95-2269bcf49c33</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/05/18/mysql/fix-error-installing-mysql-on-mac/" data-id="ckaoqnabs007jac75canebk5a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/20/git/how-to-amend-git-commit/" data-id="ckaq9xtvo004k0f7532arfb2b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -569,7 +577,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -579,6 +587,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
+                            <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -613,15 +630,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
                             <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
                             <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
-                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
                         </div>
                     </li>
                 

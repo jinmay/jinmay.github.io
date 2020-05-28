@@ -143,6 +143,149 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-django/django-static-file-serving-temp" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/03/11/django/django-static-file-serving-temp/">django에서 임시로 static file 서빙하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/03/11/django/django-static-file-serving-temp/">
+            <time datetime="2019-03-11T04:47:20.000Z" itemprop="datePublished">2019-03-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/django/">django</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/django/" rel="tag">django</a>, <a class="tag-link" href="/tags/staticfiles/" rel="tag">staticfiles</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="임시로-static-파일-서빙하기"><a href="#임시로-static-파일-서빙하기" class="headerlink" title="임시로 static 파일 서빙하기"></a>임시로 static 파일 서빙하기</h1><p>uwsgi를 이용하여 배포연습을 하던중 static 파일이 제대로 동작하지 않는 현상이 발생했다. <strong>개발서버를 이용하지 않거나 settings.DEBUG=False인 상태에서 배포를 하게 되면 static과 media 파일에 대해서는 별도의 설정이 필요하다.</strong> 개발서버는 이용하지 않지만 임시로 개발서버에서 static file을 서빙하는 것처럼 하기 위한 설정을 알아보자.</p>
+<h4 id="development-환경에서-static-file을-서빙하기-위한-임시-설정"><a href="#development-환경에서-static-file을-서빙하기-위한-임시-설정" class="headerlink" title="development 환경에서 static file을 서빙하기 위한 임시 설정"></a>development 환경에서 static file을 서빙하기 위한 임시 설정</h4><p>프로젝트의 urls.py에 아래와 같이 추가해주면 된다.</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">from django.conf import settings</span></span><br><span class="line"><span class="xml">from django.conf.urls.static import static</span></span><br><span class="line"></span><br><span class="line"><span class="xml">urlpatterns = [</span></span><br><span class="line"><span class="xml">	# ... url 경로 	</span></span><br><span class="line"><span class="xml">] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>조금 더 자세하게 기준을 얘기하자면 다음과 같다.</p>
+<h2 id="django의-static-file을-다루는-방법"><a href="#django의-static-file을-다루는-방법" class="headerlink" title="django의 static file을 다루는 방법"></a>django의 static file을 다루는 방법</h2><h3 id="개발서버를-쓰고-debug-True"><a href="#개발서버를-쓰고-debug-True" class="headerlink" title="개발서버를 쓰고 debug=True"></a>개발서버를 쓰고 debug=True</h3><p>runserver(개발서버)를 사용중이며 settings.DEBUG=True라면 자동으로 static 파일에 대한 rule이 추가된다. 이는 단지 개발의 편의를 위함이다.</p>
+<h3 id="개발서버를-쓰지-않거나-debug-False"><a href="#개발서버를-쓰지-않거나-debug-False" class="headerlink" title="개발서버를 쓰지 않거나 debug=False"></a>개발서버를 쓰지 않거나 debug=False</h3><p>별도로 static 서빙을 설정해야한다. </p>
+<h2 id="static-파일을-서빙하는-방법"><a href="#static-파일을-서빙하는-방법" class="headerlink" title="static 파일을 서빙하는 방법"></a>static 파일을 서빙하는 방법</h2><ol>
+<li>AWS의 S3와 같은 클라우드 정적 스토리지 서비스 또는 CDN(Contents Delivery Network) 활용</li>
+<li>Apache / Nginx 웹서버 활용</li>
+<li>Django의 패키지 활용 - whitenoise 패키지</li>
+</ol>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/03/11/django/django-static-file-serving-temp/" data-id="ckaq9xtuz002c0f75emu51ttw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/linux-commands-of-yum" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -238,7 +381,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/03/06/linux/linux-commands-of-yum/" data-id="ckaoqnabg006hac754iyp7tz5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/03/06/linux/linux-commands-of-yum/" data-id="ckaq9xtwd006j0f754dxsfwgc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -410,170 +553,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/02/22/linux/linux-initial-setting-root/" data-id="ckaoqnabk006xac75gwlu0h1v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-postgresql/how-to-install-psql-on-mac" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/02/16/postgresql/how-to-install-psql-on-mac/">mac에 postgresql 설치하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/02/16/postgresql/how-to-install-psql-on-mac/">
-            <time datetime="2019-02-16T10:33:19.000Z" itemprop="datePublished">2019-02-16</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/postgresql/">postgresql</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/postgresql/" rel="tag">postgresql</a>, <a class="tag-link" href="/tags/psql/" rel="tag">psql</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="how-to-install-postgresql-on-macOS"><a href="#how-to-install-postgresql-on-macOS" class="headerlink" title="how to install postgresql on macOS"></a>how to install postgresql on macOS</h1><blockquote>
-<p>갑자기 psql를 업데이트하고 싶었다. 기존에 9.6버전을 사용하고 있었고 homebrew을 통해 업데이트 하려고하니 11버전으로 갈 수 있다고 한다. 그래서 업데이트를 했고 결과적으로 실패했다.. 덕분에 크리티컬하진 않지만 이전에 사용하던 것을 지우고 다시 설치를 했고 그 과정을 정리해본다.</p>
-</blockquote>
-<p><strong>macOS를 사용중이라면 homebrew를 통해서 수월하게 설치할 수 있다.</strong></p>
-<blockquote>
-<p><strong>주의</strong></p>
-<p>psql를 upgrade한 뒤 이전의 DB를 migration 하는 과정이 아닌 새로 설치하는 과정이다. <strong>업그레이드가 아닌 점을 분명히하자!!</strong></p>
-</blockquote>
-<h3 id="설치과정"><a href="#설치과정" class="headerlink" title="설치과정"></a>설치과정</h3><h5 id="기존-psql-삭제"><a href="#기존-psql-삭제" class="headerlink" title="기존 psql 삭제"></a>기존 psql 삭제</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew uninstall --force postgresql</span><br></pre></td></tr></table></figure>
-
-<h5 id="psql-관련-파일-삭제"><a href="#psql-관련-파일-삭제" class="headerlink" title="psql 관련 파일 삭제"></a>psql 관련 파일 삭제</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /usr/<span class="built_in">local</span>/var/postgres</span><br></pre></td></tr></table></figure>
-
-<p>이전에 brew를 통해서 psql을 설치했다면 위와 같은 경로에 관련 파일들이 위치해있을 것이다. 기존에 있던 psql에 대한 관련 파일이므로 같이 삭제하도록하자.</p>
-<p><em>만약 brew uninstall 후 관련 파일 삭제를 하지 않고 다시 brew install을 하게 된다면 기존에 있던 파일들로 인해서 제대로 동작하지 않을 수도 있다.</em></p>
-<h5 id="psql-설치"><a href="#psql-설치" class="headerlink" title="psql 설치"></a>psql 설치</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install postgres</span><br></pre></td></tr></table></figure>
-
-<h5 id="서버-실행"><a href="#서버-실행" class="headerlink" title="서버 실행"></a>서버 실행</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pg_ctl -D /usr/<span class="built_in">local</span>/var/postgres start</span><br></pre></td></tr></table></figure>
-
-<h5 id="DB-생성"><a href="#DB-생성" class="headerlink" title="DB 생성"></a>DB 생성</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">initdb /usr/<span class="built_in">local</span>/var/postgres</span><br></pre></td></tr></table></figure>
-
-<p>때에 따라서 DB를 생성하는 과정에 아래와 같은 에러가 발생할 수 있다.</p>
-<p><em>initdb: directory “/usr/local/var/postgres” exists but is not empty<br>If you want to create a new database system, either remove or empty<br>the directory “/usr/local/var/postgres” or run initdb<br>with an argument other than “/usr/local/var/postgres”.</em></p>
-<p>이미 DB가 존재하며 empty하지 않기 때문에 생긴 에러이다. 삭제하고 다시 생성하면 되는 간단한 이슈이다.</p>
-<h5 id="old-db-삭제"><a href="#old-db-삭제" class="headerlink" title="old db 삭제"></a>old db 삭제</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -r /usr/<span class="built_in">local</span>/var/postgres</span><br></pre></td></tr></table></figure>
-
-<h5 id="다시-DB-생성-시도"><a href="#다시-DB-생성-시도" class="headerlink" title="다시 DB 생성 시도"></a>다시 DB 생성 시도</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">initdb /usr/<span class="built_in">local</span>/var/postgres</span><br><span class="line"><span class="comment"># 또는</span></span><br><span class="line">initdb /usr/<span class="built_in">local</span>/var/postgres -E utf8</span><br></pre></td></tr></table></figure>
-
-<h5 id="테스트-DB-생성"><a href="#테스트-DB-생성" class="headerlink" title="테스트 DB 생성"></a>테스트 DB 생성</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createdb <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="psql-콘솔-접속-및-확인"><a href="#psql-콘솔-접속-및-확인" class="headerlink" title="psql 콘솔 접속 및 확인"></a>psql 콘솔 접속 및 확인</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-
-<p>&lt;참고&gt;<br><a href="https://medium.com/@Umesh_Kafle/postgresql-and-postgis-installation-in-mac-os-87fa98a6814d" target="_blank" rel="external nofollow noopener noreferrer">https://medium.com/@Umesh_Kafle/postgresql-and-postgis-installation-in-mac-os-87fa98a6814d</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/02/16/postgresql/how-to-install-psql-on-mac/" data-id="ckaoqnac1008gac75graxdi1l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/02/22/linux/linux-initial-setting-root/" data-id="ckaq9xtwh006v0f75avghfv23" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -681,7 +661,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -691,6 +671,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
+                            <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -725,15 +714,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
                             <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
                             <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
-                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
                         </div>
                     </li>
                 

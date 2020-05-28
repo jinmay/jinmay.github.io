@@ -143,6 +143,137 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-aws/run-shell-script-aws-code-deploy" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/05/13/aws/run-shell-script-aws-code-deploy/">[CodeDeploy]AWS CodeDeploy 배포 후 bash script 실행하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/05/13/aws/run-shell-script-aws-code-deploy/">
+            <time datetime="2020-05-13T09:09:40.040Z" itemprop="datePublished">2020-05-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/aws/">aws</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>AWS의 codeDeploy로 서버에 코드 배포 후 shell script 실행하는 법을 정리한다.</p>
+<p><em>appspec.yml</em> 파일로 codeDeploy의 설정을 할 수 있다. hooks 섹션에 적어주어야 하며 codeDeploy를 통해 app을 설치하기 전 / 후로 작업을 수행할 수 있다. hooks 섹션에는 여러 개의 실행 순서가 있는데 <a href="https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html" target="_blank" rel="external nofollow noopener noreferrer">여기</a>를 참고하자.</p>
+<p>주의해야 할 점으로는 실행할 쉘 스크립트는 EC2가 아닌 배포하려는 프로젝트 안에 존재해야 한다는 것이다.</p>
+<h2 id="appspec-yml-예시"><a href="#appspec-yml-예시" class="headerlink" title="appspec.yml 예시"></a>appspec.yml 예시</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="number">0.0</span></span><br><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">files:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">source:</span> <span class="string">/</span></span><br><span class="line">    <span class="attr">destination:</span> <span class="string">/srv/app</span></span><br><span class="line"></span><br><span class="line"><span class="attr">hooks:</span></span><br><span class="line">  <span class="attr">AfterInstall:</span></span><br><span class="line">    <span class="comment"># EC2경로가 아니라 배포할 소스 코드에 shell script가 있어야 함에 유의!!</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">location:</span> <span class="string">scripts/after_deploy.sh</span></span><br><span class="line">      <span class="attr">runas:</span> <span class="string">root</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>[참고]<br><a href="https://suwoni-codelab.com/aws/2018/03/24/aws-after-script/" target="_blank" rel="external nofollow noopener noreferrer">https://suwoni-codelab.com/aws/2018/03/24/aws-after-script/</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/run-shell-script-aws-code-deploy/" data-id="ckaq9xtu300080f7541td69jz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-aws/aws-cli-install-and-configuration" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -221,7 +352,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/aws/aws-cli-install-and-configuration/" data-id="ckaoqna9i0003ac75hqjrc15f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/aws/aws-cli-install-and-configuration/" data-id="ckaq9xtty00030f750sp82kww" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -372,148 +503,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/01/10/data-structure/python-stack/" data-id="ckaoqna9y001aac75gc5rgg10" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-data-structure/python-queue" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2020/01/09/data-structure/python-queue/">파이썬으로 알아보는 자료구조 - queue</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2020/01/09/data-structure/python-queue/">
-            <time datetime="2020-01-09T06:14:12.000Z" itemprop="datePublished">2020-01-09</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/data-structure/">data-structure</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>스택(Stack)과 더불어 가장 기초가 되는 자료구조이다.</p>
-<h2 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h2><ul>
-<li>매표소에서 한 줄로 서서 기다리는 것과 같다</li>
-<li>먼저 들어간 데이터가 먼저 나옴(FIFO - First In First Out)</li>
-<li>즉, 선입선출</li>
-</ul>
-<p><img src="https://user-images.githubusercontent.com/13075035/72041863-070c2e00-32f0-11ea-8b64-5c0f27e34f69.png" alt="image"></p>
-<h2 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h2><ul>
-<li>운영체제(OS)에서 프로세스 스케쥴링을 구현하는데에 사용</li>
-</ul>
-<h2 id="용어"><a href="#용어" class="headerlink" title="용어"></a>용어</h2><ul>
-<li>enqueue - 큐에 데이터를 삽입(insert)</li>
-<li>dequeue - 큐에서 데이터를 꺼냄(delete)</li>
-</ul>
-<h2 id="연습"><a href="#연습" class="headerlink" title="연습"></a>연습</h2><h3 id="1-파이썬의-리스트를-이용해-enqueue-dequeue-구현"><a href="#1-파이썬의-리스트를-이용해-enqueue-dequeue-구현" class="headerlink" title="1. 파이썬의 리스트를 이용해 enqueue, dequeue 구현"></a>1. 파이썬의 리스트를 이용해 enqueue, dequeue 구현</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">q_list = []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enqueue</span><span class="params">(data)</span>:</span></span><br><span class="line">    q_list.append(data)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dequeue</span><span class="params">()</span>:</span></span><br><span class="line">    res = q_list[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">del</span> q_list[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-파이썬의-클래스-이용"><a href="#2-파이썬의-클래스-이용" class="headerlink" title="2. 파이썬의 클래스 이용"></a>2. 파이썬의 클래스 이용</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomQueue</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.q_list = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enqueue</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        self.q_list.append(data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dequeue</span><span class="params">(self)</span>:</span></span><br><span class="line">        _res = self.q_list[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">del</span> self.q_list[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">return</span> _res</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pprint</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> data <span class="keyword">in</span> self.q_list:</span><br><span class="line">            print(data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q = CustomQueue()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        q.enqueue(i)</span><br><span class="line"></span><br><span class="line">    q.pprint()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        q.dequeue()</span><br><span class="line"></span><br><span class="line">    q.pprint()</span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2020/01/09/data-structure/python-queue/" data-id="ckaoqna9z001eac75a0dp2759" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/01/10/data-structure/python-stack/" data-id="ckaq9xtuk001a0f75gekffdsf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -621,7 +611,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -631,6 +621,15 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
+                            <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
+                            <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -665,15 +664,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
                             <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
                             <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/git/">git</a></p>
-                            <p class="item-title"><a href="/2020/05/20/git/how-to-amend-git-commit/" class="title">[git]가장 최근 커밋의 커밋 메세지 수정하기</a></p>
-                            <p class="item-date"><time datetime="2020-05-20T13:36:06.354Z" itemprop="datePublished">2020-05-20</time></p>
                         </div>
                     </li>
                 
