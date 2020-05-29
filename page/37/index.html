@@ -143,6 +143,159 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-postgresql/psql-user" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/11/11/postgresql/psql-user/">PostgreSQL의 사용자 관련 명령어</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/11/11/postgresql/psql-user/">
+            <time datetime="2018-11-11T08:52:40.000Z" itemprop="datePublished">2018-11-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/postgresql/">postgresql</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/db/" rel="tag">db</a>, <a class="tag-link" href="/tags/postgresql/" rel="tag">postgresql</a>, <a class="tag-link" href="/tags/psql/" rel="tag">psql</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="postgresql-사용자-관리"><a href="#postgresql-사용자-관리" class="headerlink" title="postgresql 사용자 관리"></a>postgresql 사용자 관리</h1><p>psql에서 사용자 관리에 대한 명령어에 관해서 알아보자. </p>
+<blockquote>
+<p>아래의 모든 명령어는 psql에 접속한 상태여야 한다.</p>
+</blockquote>
+<h3 id="사용자-생성"><a href="#사용자-생성" class="headerlink" title="사용자 생성"></a>사용자 생성</h3><figure class="highlight postgresql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> &lt;생성할 유저 이름&gt; <span class="keyword">password</span> <span class="string">'&lt;패스워드&gt;'</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="사용자-역할-role-또는-비밀번호-변경"><a href="#사용자-역할-role-또는-비밀번호-변경" class="headerlink" title="사용자 역할(role) 또는 비밀번호 변경"></a>사용자 역할(role) 또는 비밀번호 변경</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &lt;유저 이름&gt; with password &#39;&lt;패스워드&gt;&#39;;</span><br><span class="line">ALTER USER &lt;유저 이름&gt; with superuser;</span><br><span class="line">ALTER USER &lt;유저 이름&gt; with createrole;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="사용자-권한-주기"><a href="#사용자-권한-주기" class="headerlink" title="사용자 권한 주기"></a>사용자 권한 주기</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT all privilege on database &lt;데이터베이스명&gt; to &lt;사용자명&gt;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="현재-사용자-조회"><a href="#현재-사용자-조회" class="headerlink" title="현재 사용자 조회"></a>현재 사용자 조회</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT current_user;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="모든-사용자-조회"><a href="#모든-사용자-조회" class="headerlink" title="모든 사용자 조회"></a>모든 사용자 조회</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\du</span><br><span class="line">\du+ # description까지 출력</span><br></pre></td></tr></table></figure>
+
+
+
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/11/11/postgresql/psql-user/" data-id="ckas7v7po008rds754or02yip" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-ckan/ckan-harvest-implement" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -234,7 +387,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/11/01/ckan/ckan-harvest-implement/" data-id="ckaq9xtu8000g0f750j1416da" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/11/01/ckan/ckan-harvest-implement/" data-id="ckas7v7n4000cds757qub7509" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -424,149 +577,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/10/29/ckan/ckan-harvest/" data-id="ckaq9xtu7000d0f75h9lng4qw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-ckan/ckan-datapusher" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/10/26/ckan/ckan-datapusher/">[CKAN]DataPusher 설치하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/10/26/ckan/ckan-datapusher/">
-            <time datetime="2018-10-26T10:23:42.000Z" itemprop="datePublished">2018-10-26</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/ckan/">ckan</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ckan/" rel="tag">ckan</a>, <a class="tag-link" href="/tags/datapusher/" rel="tag">datapusher</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>CKAN에 DataPusher를 설치하자. DataPusher란 CKAN에 자동으로 CSV / Excel 파일 로딩을 추가하는 역할을 한다. DataPusher를  이용하기 전에 DataStore가 함께 설치된 CKAN이 필요하다.</p>
-<hr>
-<blockquote>
-<p>2.2버전 이상부터) 만약 CKAN을 package install을 통해 설치 했다면, DataPusher를 이미 설치되어 있다.</p>
-</blockquote>
-<p>기본적으로 DataPusher는 8800번 포트를 사용한다.</p>
-<p>설치과정은 아래와 같다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># DataPusher의 requirements 준비</span></span><br><span class="line">sudo apt-get install python-dev python-virtualenv build-essential libxslt1-dev libxml2-dev git libffi-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 가상환경 준비</span></span><br><span class="line">sudo virtualenv /usr/lib/ckan/datapusher</span><br><span class="line"></span><br><span class="line"><span class="comment"># 소스 디렉터리 준비</span></span><br><span class="line">sudo mkdir /usr/lib/ckan/datapusher/src</span><br><span class="line"><span class="built_in">cd</span> /usr/lib/ckan/datapusher/src</span><br><span class="line"></span><br><span class="line"><span class="comment"># 소스 clone</span></span><br><span class="line">sudo git <span class="built_in">clone</span> -b 0.0.14 https://github.com/ckan/datapusher.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># DataPusher 밑 requirements 설치</span></span><br><span class="line"><span class="built_in">cd</span> datapusher</span><br><span class="line">sudo /usr/lib/ckan/datapusher/bin/pip install -r requirements.txt</span><br><span class="line">sudo /usr/lib/ckan/datapusher/bin/python setup.py develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 아파치 기본 설정파일 복사</span></span><br><span class="line"><span class="comment"># (만약 아파치 2.4이하 버전을 사용중이면, deployment/datapusher.apache2-4.conf 파일 사용)</span></span><br><span class="line">sudo cp deployment/datapusher.conf /etc/apache2/sites-available/datapusher.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 기본 DataPusher wsgi파일 복사</span></span><br><span class="line"><span class="comment">#(see note below if you are not using the default CKAN install location)</span></span><br><span class="line">sudo cp deployment/datapusher.wsgi /etc/ckan/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 기본 DataPusher 설정 복사</span></span><br><span class="line">sudo cp deployment/datapusher_settings.py /etc/ckan/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8800번 포트 오픈</span></span><br><span class="line"><span class="comment"># 아래의 두 가지 명령 중 하나만 실행해야 한다!!</span></span><br><span class="line"><span class="comment"># 수동으로 수정하려면 /etc/apache2/ports.conf 파일 이용</span></span><br><span class="line">sudo sh -c <span class="string">'echo "NameVirtualHost *:8800" &gt;&gt; /etc/apache2/ports.conf'</span></span><br><span class="line">sudo sh -c <span class="string">'echo "Listen 8800" &gt;&gt; /etc/apache2/ports.conf'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># DataPusher Apache site 실행</span></span><br><span class="line">sudo a2ensite datapusher</span><br></pre></td></tr></table></figure>
-
-<p>DataPusher를 설치하고 돌려보는 것 까지 진행했다. 이제 CKAN의 설정파일로 가서 플러그인을 추가해 준다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ckan.plugins = ... datapusher</span><br><span class="line">ckan.datapusher.url = <span class="string">'real_url'</span> <span class="comment"># EIP와 localhost를 적어도 일단 둘다 가능함..!</span></span><br></pre></td></tr></table></figure>
-
-<p>설정파일까지 수정완료 했다면, 아파치를 재시작한다!</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/10/26/ckan/ckan-datapusher/" data-id="ckaq9xtu6000b0f75852heevv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/10/29/ckan/ckan-harvest/" data-id="ckas7v7n5000fds7567yd63da" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -674,7 +685,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -691,6 +702,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
                             <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-values-and-values-list/" class="title">[Django]values와 values_list의 차이</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T07:34:36.415Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -718,15 +738,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
                             <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
-                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
-                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
                         </div>
                     </li>
                 

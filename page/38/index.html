@@ -143,6 +143,148 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-ckan/ckan-datapusher" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/10/26/ckan/ckan-datapusher/">[CKAN]DataPusher 설치하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/10/26/ckan/ckan-datapusher/">
+            <time datetime="2018-10-26T10:23:42.000Z" itemprop="datePublished">2018-10-26</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/ckan/">ckan</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ckan/" rel="tag">ckan</a>, <a class="tag-link" href="/tags/datapusher/" rel="tag">datapusher</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>CKAN에 DataPusher를 설치하자. DataPusher란 CKAN에 자동으로 CSV / Excel 파일 로딩을 추가하는 역할을 한다. DataPusher를  이용하기 전에 DataStore가 함께 설치된 CKAN이 필요하다.</p>
+<hr>
+<blockquote>
+<p>2.2버전 이상부터) 만약 CKAN을 package install을 통해 설치 했다면, DataPusher를 이미 설치되어 있다.</p>
+</blockquote>
+<p>기본적으로 DataPusher는 8800번 포트를 사용한다.</p>
+<p>설치과정은 아래와 같다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># DataPusher의 requirements 준비</span></span><br><span class="line">sudo apt-get install python-dev python-virtualenv build-essential libxslt1-dev libxml2-dev git libffi-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 가상환경 준비</span></span><br><span class="line">sudo virtualenv /usr/lib/ckan/datapusher</span><br><span class="line"></span><br><span class="line"><span class="comment"># 소스 디렉터리 준비</span></span><br><span class="line">sudo mkdir /usr/lib/ckan/datapusher/src</span><br><span class="line"><span class="built_in">cd</span> /usr/lib/ckan/datapusher/src</span><br><span class="line"></span><br><span class="line"><span class="comment"># 소스 clone</span></span><br><span class="line">sudo git <span class="built_in">clone</span> -b 0.0.14 https://github.com/ckan/datapusher.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># DataPusher 밑 requirements 설치</span></span><br><span class="line"><span class="built_in">cd</span> datapusher</span><br><span class="line">sudo /usr/lib/ckan/datapusher/bin/pip install -r requirements.txt</span><br><span class="line">sudo /usr/lib/ckan/datapusher/bin/python setup.py develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 아파치 기본 설정파일 복사</span></span><br><span class="line"><span class="comment"># (만약 아파치 2.4이하 버전을 사용중이면, deployment/datapusher.apache2-4.conf 파일 사용)</span></span><br><span class="line">sudo cp deployment/datapusher.conf /etc/apache2/sites-available/datapusher.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 기본 DataPusher wsgi파일 복사</span></span><br><span class="line"><span class="comment">#(see note below if you are not using the default CKAN install location)</span></span><br><span class="line">sudo cp deployment/datapusher.wsgi /etc/ckan/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 기본 DataPusher 설정 복사</span></span><br><span class="line">sudo cp deployment/datapusher_settings.py /etc/ckan/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8800번 포트 오픈</span></span><br><span class="line"><span class="comment"># 아래의 두 가지 명령 중 하나만 실행해야 한다!!</span></span><br><span class="line"><span class="comment"># 수동으로 수정하려면 /etc/apache2/ports.conf 파일 이용</span></span><br><span class="line">sudo sh -c <span class="string">'echo "NameVirtualHost *:8800" &gt;&gt; /etc/apache2/ports.conf'</span></span><br><span class="line">sudo sh -c <span class="string">'echo "Listen 8800" &gt;&gt; /etc/apache2/ports.conf'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># DataPusher Apache site 실행</span></span><br><span class="line">sudo a2ensite datapusher</span><br></pre></td></tr></table></figure>
+
+<p>DataPusher를 설치하고 돌려보는 것 까지 진행했다. 이제 CKAN의 설정파일로 가서 플러그인을 추가해 준다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ckan.plugins = ... datapusher</span><br><span class="line">ckan.datapusher.url = <span class="string">'real_url'</span> <span class="comment"># EIP와 localhost를 적어도 일단 둘다 가능함..!</span></span><br></pre></td></tr></table></figure>
+
+<p>설정파일까지 수정완료 했다면, 아파치를 재시작한다!</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2018/10/26/ckan/ckan-datapusher/" data-id="ckas7v7n3000ads75glkk33p0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-ckan/filestore" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -224,7 +366,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/10/26/ckan/filestore/" data-id="ckaq9xtuc000p0f75glkk31u4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/10/26/ckan/filestore/" data-id="ckas7v7n9000sds75a48o63i4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -373,207 +515,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2018/10/04/ckan/sysadmin/" data-id="ckaq9xtue000t0f75df3xd7u3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-ckan/datastore" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/10/04/ckan/datastore/">[CKAN]DataStore 확장기능 설치하기 및 테스트</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/10/04/ckan/datastore/">
-            <time datetime="2018-10-04T00:53:19.000Z" itemprop="datePublished">2018-10-04</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/ckan/">ckan</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ckan/" rel="tag">ckan</a>, <a class="tag-link" href="/tags/datastore/" rel="tag">datastore</a>, <a class="tag-link" href="/tags/extension/" rel="tag">extension</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>오픈 데이터포털 CKAN에 <strong>DataStore</strong>라는 extension을 설치해보자.</p>
-<h5 id="DataStore란-CKAN의-resource에서-구조화된-데이터를-저장하기위한-특별한-데이터베이스이다-데이터는-CKAN의-resource에서-가져와서-DAtaStore에-저장할-수-있다"><a href="#DataStore란-CKAN의-resource에서-구조화된-데이터를-저장하기위한-특별한-데이터베이스이다-데이터는-CKAN의-resource에서-가져와서-DAtaStore에-저장할-수-있다" class="headerlink" title="DataStore란 CKAN의 resource에서 구조화된 데이터를 저장하기위한 특별한 데이터베이스이다. 데이터는 CKAN의 resource에서 가져와서 DAtaStore에 저장할 수 있다."></a>DataStore란 CKAN의 resource에서 구조화된 데이터를 저장하기위한 특별한 데이터베이스이다. 데이터는 CKAN의 resource에서 가져와서 DAtaStore에 저장할 수 있다.</h5><p>CKAN의 리소스들이 DataStore에 저장되면, 이러한 것들을 할 수 있다: </p>
-<blockquote>
-<ol>
-<li>리소스 페이지에서 자동으로 데이터 프리뷰를 제공한다</li>
-<li>The DataStore API : 전체 데이터파일을 다운로드 하지 않고 API를 통해 데이터에 대해 search / filter / update 작업을 수행할 수 있다.</li>
-</ol>
-</blockquote>
-<p>또한 DataStore는 DataPusher과 자주 사용되곤 하는데, DataPusher가 하는 역할은 FileStore 또는 Likned file에 의해 업로드된 CKAN의 리소스를 DataStore에 자동적으로 저장하는 것이다.</p>
-<h2 id="2-Setting-up-the-DataStore"><a href="#2-Setting-up-the-DataStore" class="headerlink" title="2. Setting up the DataStore"></a>2. Setting up the DataStore</h2><p>우선, DataStore를 설치하기 위해서 PostgreSQL 9.2 버전 이상을 필요로한다.</p>
-<ol>
-<li>플러그인 활성화</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ckan.plugins = datastore</span><br></pre></td></tr></table></figure>
-
-<p>datastore를 ckan의 설정에 적어준다.</p>
-<ol start="2">
-<li>데이터베이스 셋업</li>
-</ol>
-<blockquote>
-<p>주의사항으로 퍼미션 설정해주는 부분은 신경써야한다. 권한이 제대로 주어지지 않을 경우 동작하지 않을 수 있으며 심각한 보안 이슈를 발생시킬 수도 있다.</p>
-</blockquote>
-<p>DataStore는 데이터 저장을 위해 또 다른 PostgreSQL 데이터베이스를 필요로한다. </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres psql -l</span><br></pre></td></tr></table></figure>
-
-<p>현재 존재하고 있는 데이터베이스를 위의 명령어를 통해 살펴볼 수 있다. 아마도 ckan 기본을 위한 ckan_default가 있을것이다. 설치때와 마찬가지로 인코딩이 utf8로 제대로 되어있는지 주의한다.</p>
-<h5 id="유저와-데이터베이스-생성"><a href="#유저와-데이터베이스-생성" class="headerlink" title="유저와 데이터베이스 생성"></a>유저와 데이터베이스 생성</h5><p>DataStore를 위한 psql의 새로운 유저와 데이터베이스를 생성해야 한다.</p>
-<p>datastore_default라는 이름을 가진 유저를 생성한다. 이 유저는 DataStore database에 대해서 read-only access만을 할 수 있는 권한을 가진다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createuser -S -D -R -P -l datastore_default</span><br></pre></td></tr></table></figure>
-
-<p>datastore_default라는 이름을 가진 새로운 데이터베이스를 생성한다. 이 데이터베이스는 ckan_default에 소유여야 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createdb -O ckan_default datastore_default -E utf-8</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="URL-설정"><a href="#URL-설정" class="headerlink" title="URL 설정"></a>URL 설정</h5><p>production.ini을 수정해야 한다. <strong>ckan.datastore.write_url과 ckan.datastore.read_url의 주석을 해제한다</strong>(uncomment). 그리고 자신의 환경에 맞게 수정한다. ex) 비밀번호와 접속ip 설정</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ckan.datastore.write_url = postgresql://ckan_default:pass@localhost/datastore_default</span><br><span class="line">ckan.datastore.read_url = postgresql://datastore_default:pass@localhost/datastore_default</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="권한-설정"><a href="#권한-설정" class="headerlink" title="권한 설정"></a>권한 설정</h5><p><strong>db와 유저를 생성했으면, DataStore의 권한과 CKAN의 권한을 설정해야만한다.</strong> CKAN의 paster명령어를 이용해서 할 수 있다(그러기 위해선 ckan의 가상환경을 activate해야 한다.)</p>
-<p>만약 psql에 접속할 수 있으면 아래와 같은 명령어를 수행한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres psql</span><br><span class="line">sudo ckan datastore <span class="built_in">set</span>-permissions | sudo -u postgres psql --<span class="built_in">set</span> ON_ERROR_STOP=1</span><br></pre></td></tr></table></figure>
-
-<p>psql이 로컬에 설치되진 않았지만 ssh를 통해 접속할 수 있다면 아래와 같이 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ckan datastore <span class="built_in">set</span>-permissions |</span><br><span class="line">ssh dbserver sudo -u postgres psql --<span class="built_in">set</span> ON_ERROR_STOP=1</span><br></pre></td></tr></table></figure>
-
-<p>psql를 할 수 없으면, 이렇게 하자</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ckan datastore <span class="built_in">set</span>-permissions</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="3">
-<li>셋업 테스트</li>
-</ol>
-<p>지금까지 잘 따라왔다면 셋업을 마무리됐을 것이다. 테스트하기 위해서 ckan을 재시작하고 아래의 명령어를 수행한다. (DataStore의 모든 리소스를 리스팅한다.) ckan 서버가 켜져있지 않다면 (paster serve –config=/etc/ckan/default/production.ini) 을 통해 켜주고 해야 테스트가 제대로 실행된다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET <span class="string">"http://127.0.0.1:5000/api/3/action/datastore_search?resource_id=_table_metadata"</span></span><br></pre></td></tr></table></figure>
-
-<p>위의 명령어는 에러없이 JSON 형태의 페이지를 출력할 것이다.</p>
-<p>쓰기 작업도 테스트하기 위해 새로운 DataStore 리소스를 생성해보자. 자신의 API KEY와 PACKAGE-ID를 적어주어 테스트해본다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http://127.0.0.1:5000/api/3/action/datastore_create -H <span class="string">"Authorization: &#123;YOUR-API-KEY&#125;"</span> -d <span class="string">'&#123;"resource": &#123;"package_id": "&#123;PACKAGE-ID&#125;"&#125;, "fields": [ &#123;"id": "a"&#125;, &#123;"id": "b"&#125; ], "records": [ &#123; "a": 1, "b": "xyz"&#125;, &#123;"a": 2, "b": "zzz"&#125; ]&#125;'</span></span><br></pre></td></tr></table></figure>
-
-<p>검색 작업은 다음과 같다. 마찬가지로 resource_id를 적어준다. : </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:5000/api/3/action/datastore_search?resource_id=&#123;RESOURCE_ID&#125;</span><br></pre></td></tr></table></figure>
-
-<p>삭제 작업도 해보자 : </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http://127.0.0.1:5000/api/3/action/datastore_delete -H <span class="string">"Authorization: &#123;YOUR-API-KEY&#125;"</span> -d <span class="string">'&#123;"resource_id": "&#123;RESOURCE-ID&#125;"&#125;'</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>이상으로 DataStore의 API를 통해서 리소스 생성 / 검색 / 삭제 기능을 수행해보았다. <del>발생한 에러가 없다면 문제가 없다는 것이니 안심하도록 하자.</del></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2018/10/04/ckan/datastore/" data-id="ckaq9xtub000m0f752q1q2gy2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2018/10/04/ckan/sysadmin/" data-id="ckas7v7n8000ods759q9k1tut" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -681,7 +623,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -698,6 +640,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
                             <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-values-and-values-list/" class="title">[Django]values와 values_list의 차이</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T07:34:36.415Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -725,15 +676,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
                             <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
-                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
-                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
                         </div>
                     </li>
                 

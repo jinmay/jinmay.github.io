@@ -143,6 +143,139 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-python/python-print-function" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/07/01/python/python-print-function/">파이썬의 print() 함수</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/07/01/python/python-print-function/">
+            <time datetime="2019-07-01T07:15:43.000Z" itemprop="datePublished">2019-07-01</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/python/">python</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="파이썬의-print-함수"><a href="#파이썬의-print-함수" class="headerlink" title="파이썬의 print() 함수"></a>파이썬의 print() 함수</h1><p>가장 간단한 함수이지만 유용한 옵션들이 있어서 정리해 보려고한다.</p>
+<h4 id="sep"><a href="#sep" class="headerlink" title="sep"></a>sep</h4><p>separator의 역할을 한다. 기본값으로 print()함수는 sep가 ‘ ‘이다. 즉, 하나의 스페이스를 넣어주는 것이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 기본값</span></span><br><span class="line">print(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>) <span class="comment"># 'a b c d'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># sep를 ''로 변경했을 경우</span></span><br><span class="line">print(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, sep=<span class="string">''</span>) <span class="comment"># 'abcd'</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'example'</span>, <span class="string">'gmail.com'</span>, sep=<span class="string">'@'</span>) <span class="comment"># example@gmail.com</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="end"><a href="#end" class="headerlink" title="end"></a>end</h4><p>기본값은 \n으로써 print() 함수를 사용했을때 개행이 되는 이유이다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 한 줄에 결과가 출력 되는 것이 아닌 두 줄에 표현이 된다</span></span><br><span class="line">print(<span class="string">'hello'</span>)</span><br><span class="line">print(<span class="string">'hi'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># end=' '로 변경</span></span><br><span class="line">print(<span class="string">'hello'</span>, end=<span class="string">' '</span>)</span><br><span class="line">print(<span class="string">'hi'</span>)</span><br><span class="line"><span class="comment"># 결과</span></span><br><span class="line"><span class="comment"># hello hi</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="formatting"><a href="#formatting" class="headerlink" title="formatting"></a>formatting</h4><p>포매팅. 파이썬3에서 새로 생긴 format을 사용할 수 있다. 인자의 위치를 사용할수도 있고 dict처럼 key, value와 같이 사용할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'&#123;&#125; but &#123;&#125;'</span>.format(<span class="string">'first'</span>, <span class="number">2</span>)) <span class="comment"># first but 2</span></span><br><span class="line">print(<span class="string">'&#123;0&#125; but &#123;1&#125; and &#123;0&#125;'</span>.format(<span class="string">'first'</span>, <span class="number">2</span>)) <span class="comment"># first but 2 and first</span></span><br><span class="line">print(<span class="string">'&#123;a&#125; but &#123;b&#125;'</span>.format(a=<span class="string">'first'</span>, b=<span class="number">2</span>)) <span class="comment"># first but 2</span></span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/07/01/python/python-print-function/" data-id="ckas7v7qb00ands759s677z7t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-python/python-how-to-delete-empty-string-in-list" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -214,7 +347,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/06/30/python/python-how-to-delete-empty-string-in-list/" data-id="ckaq9xtx9009k0f755devao9u" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/06/30/python/python-how-to-delete-empty-string-in-list/" data-id="ckas7v7q4009xds7579wi19dx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -352,159 +485,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/06/21/git/git-except-files/" data-id="ckaq9xtvi003y0f7552u23r5p" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-python/python-iterator" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/05/31/python/python-iterator/">파이썬의 이터레이터(iterator)</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/05/31/python/python-iterator/">
-            <time datetime="2019-05-31T05:07:45.000Z" itemprop="datePublished">2019-05-31</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/python/">python</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/iterator/" rel="tag">iterator</a>, <a class="tag-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link" href="/tags/%EC%9D%B4%ED%84%B0%EB%A0%88%EC%9D%B4%ED%84%B0/" rel="tag">이터레이터</a>, <a class="tag-link" href="/tags/%ED%8C%8C%EC%9D%B4%EC%8D%AC/" rel="tag">파이썬</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="파이썬의-이터레이터-iterator"><a href="#파이썬의-이터레이터-iterator" class="headerlink" title="파이썬의 이터레이터(iterator)"></a>파이썬의 이터레이터(iterator)</h1><p>파이썬의 <strong>이터레이터는 next() 라는 특별 메소드를 호출함으로써 컨테이너 안에 있는 값들을 차례대로 순회할 수 있는 객체</strong>이다.</p>
-<h3 id="iterator의-원리"><a href="#iterator의-원리" class="headerlink" title="iterator의 원리"></a>iterator의 원리</h3><p><strong>파이썬의 iter() 내장 함수는 객체의 __iter__ 메소드를 호출하며, __iter__ 메소드는 해당 컨테이너의 iterator를 리턴해야 한다. 그리고 __iter__로 반환된 iterator는 __iter__와 __next__를 구현해야만 한다. 역으로 iter와 next를 둘 다 구현하고 있는 객체를 iterator의 객체라고 볼 수 있다!</strong></p>
-<h3 id="iterator의-특성"><a href="#iterator의-특성" class="headerlink" title="iterator의 특성"></a>iterator의 특성</h3><p>iterator 객체는 반드시 __next__ 메소드를 구현해야 한다. 파이썬 내장함수 iter()는 iterable 객체에 구현된 <strong>iter</strong>를 호출함으로써 그 iterable 객체의 iterator 객체를 리턴한다. 이때 iter() 메소드가 리턴하는 iterator는 <strong>동일한 클래스 객체</strong>가 될 수도있고 <strong>따로 작성된 iterator 객체</strong>가 될 수도 있다!!</p>
-<blockquote>
-<p>주의! <br><br>구현하는 클래스가 iterator 이려면 __iter__와 __next__를 함께 구현해야하고<br><br>단순히 iterable 하기만 해도 된다면 __iter__만 있어도 된다</p>
-</blockquote>
-<h4 id="클래스에-iter-가-구현되어-있다면-iterable-객체이다"><a href="#클래스에-iter-가-구현되어-있다면-iterable-객체이다" class="headerlink" title="클래스에 __iter__가 구현되어 있다면 iterable 객체이다."></a>클래스에 __iter__가 구현되어 있다면 iterable 객체이다.</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> collections</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">a = A()</span><br><span class="line">isinstance(a, collections.abc.Iterable) <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="iter-메소드는-iterator-객체를-반환해야만-한다"><a href="#iter-메소드는-iterator-객체를-반환해야만-한다" class="headerlink" title="__iter__ 메소드는 iterator 객체를 반환해야만 한다!!"></a>__iter__ 메소드는 iterator 객체를 반환해야만 한다!!</h4><p>클래스를 구현하면서 <strong>iter</strong> 메소드가 리턴하는 iterator에는 두 가지 방법이 있다</p>
-<ul>
-<li>iterable이자 iterator인 클래스라면 __iter__는 self를 리턴한다</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># NewRange 클래스는 iterable 이면서 iterator 이다</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewRange</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, end)</span>:</span></span><br><span class="line">    self.start = <span class="number">0</span></span><br><span class="line">    self.end = end</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__next__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> self.start &lt; self.end:</span><br><span class="line">      value = self.start</span><br><span class="line">      self.start += <span class="number">1</span></span><br><span class="line">      <span class="keyword">return</span> value</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">raise</span> StopIteration</span><br><span class="line"></span><br><span class="line">num_list = NewRange(<span class="number">11</span>)</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> num_list:</span><br><span class="line">  print(n, end=<span class="string">' '</span>) <span class="comment"># 0 1 2 3 4 5 6 7 8 9 10</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>단지 iterable한 클래스라면 __iter__ 함수는 따로 구현된 iterator를 리턴하는 객체를 리턴해야한다</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 위의 NewRange 클래스에 이어서...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># newRangeFactory 클래스는 iterable 하며 내부의 __iter__ 메소드는</span></span><br><span class="line"><span class="comment"># iterator 객체를 리턴해야 한다</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewRangeFactory</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, end)</span>:</span></span><br><span class="line">    self.start = <span class="number">0</span></span><br><span class="line">    self.end = end</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> NewRange(self.end)</span><br><span class="line"></span><br><span class="line">a = NewRangeFactory(<span class="number">11</span>)</span><br><span class="line">a_iter = iter(a)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> a_iter:</span><br><span class="line">  print(n, end=<span class="string">' '</span>) <span class="comment"># 0 1 2 3 4 5 6 7 8 9 10</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>[참고]</p>
-<p><a href="https://www.flowdas.com/blog/iterators-in-python/index.html" target="_blank" rel="external nofollow noopener noreferrer">https://www.flowdas.com/blog/iterators-in-python/index.html</a></p>
-<p><a href="http://pythonstudy.xyz/python/article/23-Iterator%EC%99%80-Generator" target="_blank" rel="external nofollow noopener noreferrer">http://pythonstudy.xyz/python/article/23-Iterator%EC%99%80-Generator</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/05/31/python/python-iterator/" data-id="ckaq9xtxe00a20f753uupbpa9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/06/21/git/git-except-files/" data-id="ckas7v7o60042ds75f2731703" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -612,7 +593,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -629,6 +610,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
                             <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-values-and-values-list/" class="title">[Django]values와 values_list의 차이</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T07:34:36.415Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -656,15 +646,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
                             <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
-                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
-                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
                         </div>
                     </li>
                 

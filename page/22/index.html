@@ -143,6 +143,166 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
+    <article id="post-django/django-secret-key-management" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/10/12/django/django-secret-key-management/">django의 secret_key 분리해서 관리하기</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/10/12/django/django-secret-key-management/">
+            <time datetime="2019-10-12T07:29:04.000Z" itemprop="datePublished">2019-10-12</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/django/">django</a>
+    </div>
+
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="django의-secret-key-분리해서-관리하기"><a href="#django의-secret-key-분리해서-관리하기" class="headerlink" title="django의 secret_key 분리해서 관리하기"></a>django의 secret_key 분리해서 관리하기</h1><p>장고의 secret_key는 보안에 있어서 매우 중요한 역할을 한다. 해쉬 값을 만들때 사용되는 등 장고의 전반적인 보안과 밀접한 관계를 가지고 있기때문에 외부에 노출이 되어서는 안된다.</p>
+<p>50자의 랜덤한 문자로 이루어져 있고, 만약 오픈 해놓은 프로젝트의 비밀 키가 노출되었다는 생각이 들면 바꾸는 것이 좋을 것 같다.</p>
+<blockquote>
+<p><a href="https://www.miniwebtool.com/django-secret-key-generator/" target="_blank" rel="external nofollow noopener noreferrer">여기</a>를 통해 50자의 새로운 비밀키를 생성할 수 있다.</p>
+</blockquote>
+<h3 id="비밀-키-관리방법-두-가지"><a href="#비밀-키-관리방법-두-가지" class="headerlink" title="비밀 키 관리방법 두 가지"></a>비밀 키 관리방법 두 가지</h3><p>비밀 키를 관리하는 방법에는 보통 두 가지가 있다.</p>
+<ol>
+<li>환경 변수 패턴: secret_key를 환경 변수로 관리</li>
+<li>비밀 파일 패턴: secret_key를 별도 파일로 관리</li>
+</ol>
+<h2 id="환경-변수-패턴"><a href="#환경-변수-패턴" class="headerlink" title="환경 변수 패턴"></a>환경 변수 패턴</h2><p>프로세스가 동적으로 참조하는 환경 변수에 비밀 키를 등록하여 직접적인 코드로부터 분리하는 방법이다. </p>
+<p>방법은 꽤 단순하다. 사용하는 쉘의 설정파일에 등록해주면 된다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi ~/.zshrc</span></span><br><span class="line"><span class="built_in">export</span> DJANGO_SECRET_KEY=<span class="string">'비밀 키 입력'</span></span><br></pre></td></tr></table></figure>
+
+<p>터미널 재실행 또는 source를 통해 쉘 설정파일을 반영한다. 그리고 제대로 환경 변수가 등록 되었는지 확인하기 위해 출력해보자.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 값 출력해보기</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$DJANGO_SECRET_KEY</span></span><br></pre></td></tr></table></figure>
+
+<p>echo의 결과로 비밀 키가 출력된다면 환경 변수로 저장이 잘 된것이다. 이렇게 저장한 환경 변수를 장고의 settings.py의 SECRET_KEY의 값으로 지정해주면 된다. os 모듈을 임포트하고 environ 함수를 통해 접근할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi 장고의 settings.py</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">SECRET_KEY = os.environ[<span class="string">"DJANGO_SECRET_KEY"</span>]</span><br></pre></td></tr></table></figure>
+
+<p>또는 예외 처리를 할 수 있도록 함수로 만들어서 적용하는 방법도 좋다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi settings.py</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ImproperlyConfigured</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_env_variable</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      <span class="keyword">return</span> os.environ[key]</span><br><span class="line">    <span class="keyword">except</span> KeyError:</span><br><span class="line">      error_msg = <span class="string">f"Set the <span class="subst">&#123;key&#125;</span> environment variable"</span></span><br><span class="line">      <span class="keyword">raise</span> ImproperlyConfigured(error_msg)</span><br><span class="line"></span><br><span class="line">SECRET_KEY = get_env_variable(<span class="string">"DJANGO_SECRET_KEY"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>runserver에 문제가 없다면 성공한 것이다. </p>
+<p>개인적으로는 환경 변수를 통해서 비밀 키값을 관리하고 있었는데 mailgun 서비스를 사용하기 위해 설정하던 중 환경 변수로 등록한 값들을 참조하지 못하는 일이 발생했다. 아파치를 사용하고 있지는 않았지만 간혹 이런 경우가 발생한다고 해서 두 번째 방법인 <strong>비밀 파일 패턴 방식</strong>으로 관리 방법을 바꾸었다.</p>
+<h2 id="비밀-파일-패턴"><a href="#비밀-파일-패턴" class="headerlink" title="비밀 파일 패턴"></a>비밀 파일 패턴</h2><p>json / xml / yaml과 같은 파일에 외부에 노출되어서는 안되는 값을 분리하고 settings.py에서 참조할 수 있도록 하는 관리 방법이다.</p>
+<p>이름이 secrets인 json 파일을 만들어서 key: value 방식으로 장고에서 사용할 세팅 값들을 저장하면 된다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi secrets.json</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"DJANGO_SECRET_KEY"</span>: <span class="string">"비밀 키 값 입력"</span>,</span><br><span class="line">  <span class="string">"EMAIL_HOST_PASSWORD"</span>: <span class="string">"비밀번호"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>첫 번째 방법과 마찬가지로 함수를 하나 만들어서 참조할 수 있도록 해보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ImproperlyConfigured</span><br><span class="line"></span><br><span class="line"><span class="comment"># 프로젝트 루트로부터 secrets.json 파일 경로 찾기</span></span><br><span class="line">secret_file = os.path.join(BASE_DIR, <span class="string">'secrets.json'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(secret_file) <span class="keyword">as</span> f:</span><br><span class="line">    secrets = json.loads(f.read())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_env_variable</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> secrets[key]</span><br><span class="line">    <span class="keyword">except</span> KeyError:</span><br><span class="line">        error_msg = <span class="string">f"Set the <span class="subst">&#123;key&#125;</span> environment variable"</span></span><br><span class="line">        <span class="keyword">raise</span> ImproperlyConfigured(error_msg)</span><br><span class="line"></span><br><span class="line">SECRET_KEY = get_env_variable(<span class="string">"DJANGO_SECRET_KEY"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>물론 git과 같은 버전관리시스템이 추적하면 안되기 때문에 secrets.json 파일은 .gitignore에 등록해야 한다!!</strong></p>
+<hr>
+<p>[참고]<br>책 - Two Scoops of Django</p>
+<p><a href="https://wayhome25.github.io/django/2017/07/11/django-settings-secret-key" target="_blank" rel="external nofollow noopener noreferrer">https://wayhome25.github.io/django/2017/07/11/django-settings-secret-key</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://jinmay.github.io/2019/10/12/django/django-secret-key-management/" data-id="ckas7v7np0028ds7538yk30nz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-linux/linux-how-to-install-rabbitmq-on-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -209,7 +369,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/10/11/linux/linux-how-to-install-rabbitmq-on-ubuntu/" data-id="ckaq9xtwg006u0f75fg0t9z7l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/10/11/linux/linux-how-to-install-rabbitmq-on-ubuntu/" data-id="ckas7v7p3006wds75h1toac37" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -395,149 +555,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2019/10/11/linux/linux-how-to-install-erlang-on-ubuntu/" data-id="ckaq9xtwf006q0f753s7r6mcu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-django/django-macos-with-rabbitmq" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/10/10/django/django-macos-with-rabbitmq/">macOS에 RabbitMQ 설치하기</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/10/10/django/django-macos-with-rabbitmq/">
-            <time datetime="2019-10-10T14:02:31.000Z" itemprop="datePublished">2019-10-10</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/django/">django</a>
-    </div>
-
-                        
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h1 id="macOS에-RabbitMQ-설치하기"><a href="#macOS에-RabbitMQ-설치하기" class="headerlink" title="macOS에 RabbitMQ 설치하기"></a>macOS에 RabbitMQ 설치하기</h1><p>맥북에 RabbitMQ를 설치하는 과정을 정리해본다. 이미 웹상에 많은 자료가 있지만 시간이 조금 지난 문서들인 것 같아서 현재 최신 버전인 3.8을 기준으로 작성하려고 한다.</p>
-<p>일단 RabbitMQ라는 소프트웨어는 <strong>AMQP 프로토콜을 구현한 메세지 큐</strong>이다. ‘큐’라는 단어에서 알수있듯이 무언가를 순차적으로 저장하는 역할을 한다. 이렇게 저장된 메세지를 다른 시스템에게 순서대로 전달해주는 일을 하며 이러한 역할을 하는 소프트웨어를 메세지 큐 또는 메세지 브로커라고 한다.</p>
-<p>보통, <strong>웹 환경에서 보다 나은 사용자 경험을 위해서 비동기 작업 또는 백그라운드 작업을 해야할 때 이용하며 Redis와 함께 자주사용되는 메세지 브로커 소프트웨어 중 하나이다.</strong></p>
-<blockquote>
-<p>웹 환경에서 메세지 브로커를 사용하는 예제를 보면 RabbitMQ와 Redis에 대한 자료가 가장 많을 것이다.</p>
-</blockquote>
-<h4 id="설치하기"><a href="#설치하기" class="headerlink" title="설치하기"></a>설치하기</h4><p>일단 맥북의 homebrew를 업데이트 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br></pre></td></tr></table></figure>
-
-<p>그리고 바로 rabbitmq를 설치해주면 된다. RabbitMQ는 Erlang이라는 언어로 작성되어 있는 오픈소스 소프웨어인데 인스톨하는 과정에서 Erlang 설치와 의존성 패키지들을 설치할 것이다. (보통의 brew와는 다르게 설치 시간이 좀 걸린다)</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install rabbitmq</span><br></pre></td></tr></table></figure>
-
-<p>rabbitmq와 관련한 CLI tools을 사용하기 위해서 환경변수를 설정해주어야 하는데, 바로 이 부분이 과거와 비교했을때 바뀐 부분일 것이다. <strong>rabbitmq 서버 스크립트와 관련 커맨드라인 툴은 /usr/local/Cellar/rabbitmq 디렉토리의 sbin 폴더에 설치가 되는데 /usr/local/opt/rabbitmq/sbin 의 경로를 통해 사용할 수 있다고 한다.</strong> 이 경로가 PATH에 잡혀있지 않기 때문에 따로 명시해주어야 한다.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/opt/rabbitmq/sbin</span><br></pre></td></tr></table></figure>
-
-<p>터미널을 재시작하거나 사용중인 쉘 설정파일을 source 해주면 rabbitmq-server로 시작하는 명령어를 사용할 수 있다.</p>
-<hr>
-<p>[참고]<br><a href="https://www.rabbitmq.com/install-homebrew.html" target="_blank" rel="external nofollow noopener noreferrer">https://www.rabbitmq.com/install-homebrew.html</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://jinmay.github.io/2019/10/10/django/django-macos-with-rabbitmq/" data-id="ckaq9xtuu001w0f758kjf6fhp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2019/10/11/linux/linux-how-to-install-erlang-on-ubuntu/" data-id="ckas7v7p2006uds75g0bye1j8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -645,7 +663,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -662,6 +680,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
                             <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-values-and-values-list/" class="title">[Django]values와 values_list의 차이</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T07:34:36.415Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -689,15 +716,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
                             <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
-                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
-                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
                         </div>
                     </li>
                 

@@ -143,7 +143,7 @@ ga('send', 'pageview');
         <div class="outer">
             
             <section id="main">
-    <article id="post-linux/how-to-redirect-http-to-https" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux/how-to-substitute-text-in-vim" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/linux/how-to-redirect-http-to-https/">[Nginx]Nginx를 사용할때 HTTP를 HTTPS로 리다이렉션하기</a>
+            <a class="article-title" href="/2020/05/13/linux/how-to-substitute-text-in-vim/">[vim]문자열 치환하기</a>
         </h1>
     
 
@@ -160,7 +160,7 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/linux/how-to-redirect-http-to-https/">
+        <a href="/2020/05/13/linux/how-to-substitute-text-in-vim/">
             <time datetime="2020-05-13T09:09:40.052Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
@@ -181,12 +181,30 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>웹 서버로 Nginx를 사용할때 HTTP로 들어오는 요청을 HTTPS로 리다이렉션하는 방법을 정리한다.</p>
-<h3 id="방법"><a href="#방법" class="headerlink" title="방법"></a>방법</h3><p>80번 포트로 요청이 들어올 경우 동일한 주소이지만 HTTPS로 301 redirect 할 수 있도록 하면된다. <strong>80번 포트일때 처리할 block은 물론 당연히 HTTPS 요청을 처리하는 block로 필요하다!</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    return 301 https:&#x2F;&#x2F;$host$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name example.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>한 번에 문자열을 치환할 수 있는 방법을 정리한다.  </p>
+<h2 id="문자열-치환"><a href="#문자열-치환" class="headerlink" title="문자열 치환"></a>문자열 치환</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:%s/&lt;변경대상 문자열&gt;/&lt;변경할 문자열&gt;</span><br><span class="line">:%s/&lt;변경대상 문자열&gt;/&lt;변경할 문자열&gt;/&lt;옵션&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Tip: %s의 s는 <em>치환하다</em>라는 뜻을 가진 substitute를 의미한다고 생각하면 기억하기 쉬울 것 같다.</strong></p>
+<p>예를 들어 문서에 <em>pick</em>이라는 문자열을 <em>edit</em>변경 하고자 한다면 아래와 같이 할 수 있다.</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/pick/<span class="keyword">edit</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="옵션"><a href="#옵션" class="headerlink" title="옵션"></a>옵션</h2><ul>
+<li>g: global - 파일 전체를 대상으로 한다.</li>
+<li>i: ignore case - 대소문자를 구분하지 않는다.</li>
+<li>c: confirm - 검색된 문자열에 대해서 치환할지 말지 물어본다.</li>
+</ul>
+<h3 id="예시"><a href="#예시" class="headerlink" title="예시"></a>예시</h3><ol>
+<li>문서 전체에서 <em>pick</em>를 <em>edit</em>으로 변경</li>
+</ol>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%s/pick/<span class="keyword">edit</span>/g</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>문서 전체에서 <em>pick</em>를 <em>edit</em>으로 변경하는데, 각 문자열이 검색될 때마다 변경할 건지 묻기</li>
+</ol>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%s/pick/<span class="keyword">edit</span>/gc</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>[참고]<br><a href="https://rsec.kr/?p=182" target="_blank" rel="external nofollow noopener noreferrer">https://rsec.kr/?p=182</a><br><a href="https://www.psychz.net/client/question/ko/nginx-redirect-http-to-https.html" target="_blank" rel="external nofollow noopener noreferrer">https://www.psychz.net/client/question/ko/nginx-redirect-http-to-https.html</a></p>
+<p>[참고]<br><a href="https://overegoz.tistory.com/659" target="_blank" rel="external nofollow noopener noreferrer">https://overegoz.tistory.com/659</a><br><a href="http://gypark.pe.kr/wiki/Vi%EB%A1%9C%EB%AC%B8%EC%9E%90%EC%97%B4%EC%B9%98%ED%99%98%ED%95%98%EA%B8%B0" target="_blank" rel="external nofollow noopener noreferrer">http://gypark.pe.kr/wiki/Vi%EB%A1%9C%EB%AC%B8%EC%9E%90%EC%97%B4%EC%B9%98%ED%99%98%ED%95%98%EA%B8%B0</a>  </p>
 
         
         </div>
@@ -197,7 +215,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-redirect-http-to-https/" data-id="ckaq9xtw5005q0f75h6vq1i2g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-substitute-text-in-vim/" data-id="ckas7v7ot005xds75432s8vz7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -273,7 +291,7 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-git/github-action" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux/how-to-redirect-http-to-https" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -281,7 +299,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2020/05/13/git/github-action/">[Github]깃허브 액션이란</a>
+            <a class="article-title" href="/2020/05/13/linux/how-to-redirect-http-to-https/">[Nginx]Nginx를 사용할때 HTTP를 HTTPS로 리다이렉션하기</a>
         </h1>
     
 
@@ -290,8 +308,8 @@ ga('send', 'pageview');
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2020/05/13/git/github-action/">
-            <time datetime="2020-05-13T09:09:40.049Z" itemprop="datePublished">2020-05-13</time>
+        <a href="/2020/05/13/linux/how-to-redirect-http-to-https/">
+            <time datetime="2020-05-13T09:09:40.052Z" itemprop="datePublished">2020-05-13</time>
         </a>
     </div>
 
@@ -299,7 +317,7 @@ ga('send', 'pageview');
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/git/">git</a>
+        <a class="article-category-link" href="/categories/linux/">linux</a>
     </div>
 
                         
@@ -311,27 +329,12 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><img src="https://user-images.githubusercontent.com/13075035/73540557-98943900-4473-11ea-8839-82d2bb798645.png" alt="https://github.com/features/actions"></p>
-<p>Github에서 CI를 위한 툴인 Actions을 제공하고 있다. CI란 Continuous Integration의 약자로써 계속적 통합(?)이라고 번역되기도 하는데 각각의 개발자가 개발한 코드를 하나의 저장소에서 통합하는 과정을 말한다. <strong>하지만 단순히 코드의 통합만을 의미하진 않으며 정적 분석, 단위 테스트, 분석결과 리포팅, 배포 서버에 push 하는 등의 여러 작업들을 수행한다.</strong> 즉, 배포 전에 한 번에 모아서 통합하는 것이 아닌 조금씩 자주 계속해서 통합해 나가는 과정이라고 이해할 수 있을 것 같다.</p>
-<p>기존의 Circle CI / Travis CI / Jenkins CI와 같은 서비스 또는 설치형 CI처럼 Github에서도 Actions이라는 CI툴을 선보였으며 별다른 복잡한 절차 없이 Github를 통해 사용할 수 있다는 장점이 있다.</p>
-<h3 id="주요-개념"><a href="#주요-개념" class="headerlink" title="주요 개념"></a>주요 개념</h3><p>Github Actions에는 몇몇의 중요한 개념이 있다.</p>
-<ul>
-<li>workflow</li>
-<li>event</li>
-<li>job</li>
-<li>step</li>
-</ul>
-<h4 id="1-workflow"><a href="#1-workflow" class="headerlink" title="1. workflow"></a>1. workflow</h4><p>github repository에 대해 일련의 작업들을 수행하는 자동화된 프로세스이다. repository의 root에서 ./github/workflows/ 아래에 workflow에 대한 yml 형식의 설정 파일이 있어야한다.</p>
-<h4 id="2-event"><a href="#2-event" class="headerlink" title="2. event"></a>2. event</h4><p>workflow 실행되도록 만드는 trigger 역할을 담당한다. push와 pull request 같은 트리거가 있다.</p>
-<h4 id="3-job"><a href="#3-job" class="headerlink" title="3. job"></a>3. job</h4><p>job은 여러 개의 step으로 이루어질 수 있으며 단일한 가상 환경을 가진다.</p>
-<h4 id="4-step"><a href="#4-step" class="headerlink" title="4. step"></a>4. step</h4><p>job 안에서 순차적으로 실행되는 프로세스 단위이다.</p>
-<p>아래의 그림은 간단한 workflow의 예시이다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># workflow</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">TEST</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> <span class="comment"># event</span></span><br><span class="line">    <span class="attr">pull_request:</span></span><br><span class="line">        <span class="attr">branches:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">develop</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="comment"># job</span></span><br><span class="line">        <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">steps:</span> <span class="comment"># step</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Python</span> <span class="number">3.7</span></span><br><span class="line">                <span class="attr">uses:</span> <span class="string">actions/setup-python@v1</span></span><br><span class="line">                <span class="attr">with:</span></span><br><span class="line">                <span class="attr">python-version:</span> <span class="number">3.7</span></span><br></pre></td></tr></table></figure>
+            <p>웹 서버로 Nginx를 사용할때 HTTP로 들어오는 요청을 HTTPS로 리다이렉션하는 방법을 정리한다.</p>
+<h3 id="방법"><a href="#방법" class="headerlink" title="방법"></a>방법</h3><p>80번 포트로 요청이 들어올 경우 동일한 주소이지만 HTTPS로 301 redirect 할 수 있도록 하면된다. <strong>80번 포트일때 처리할 block은 물론 당연히 HTTPS 요청을 처리하는 block로 필요하다!</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    return 301 https:&#x2F;&#x2F;$host$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name example.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Actions은 CI로서의 역할을 한다고 볼 수 있기 때문에 CD(Continuous Delivery) 작업을 함께하여 배포 파이프라인을 구축할 수 있다.<br><img src="https://user-images.githubusercontent.com/13075035/73540395-26235900-4473-11ea-83d2-9c480244639b.png" alt="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application"></p>
-<h3 id="마무리"><a href="#마무리" class="headerlink" title="마무리"></a>마무리</h3><p>Github에서 제공하는 CI Tool로서 Actions에 대해서 아주 간단히 정리했다. CI는 작업을 단위별로 나누어 조금씩 자주 통합하여 통합과정에서 발생할 수 있는 부담을 최소화하기 위해 사용한다. 또한 Actions의 중요 개념으로 workflow / event / job / step을 간단하게 정리했다.</p>
 <hr>
-<p>[참고]<br><a href="https://asfirstalways.tistory.com/303" target="_blank" rel="external nofollow noopener noreferrer">https://asfirstalways.tistory.com/303</a><br><a href="https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95" target="_blank" rel="external nofollow noopener noreferrer">https://velog.io/@adam2/Github-Action-%EC%A3%BC%EC%9A%94-%EB%AC%B8%EB%B2%95</a><br><a href="https://coffeewhale.com/cicd/github/2019/10/14/github-actions/" target="_blank" rel="external nofollow noopener noreferrer">https://coffeewhale.com/cicd/github/2019/10/14/github-actions/</a><br><a href="https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application" target="_blank" rel="external nofollow noopener noreferrer">https://www.slideshare.net/JaeyeolLee4/github-heroku-circle-ci-django-application</a></p>
+<p>[참고]<br><a href="https://rsec.kr/?p=182" target="_blank" rel="external nofollow noopener noreferrer">https://rsec.kr/?p=182</a><br><a href="https://www.psychz.net/client/question/ko/nginx-redirect-http-to-https.html" target="_blank" rel="external nofollow noopener noreferrer">https://www.psychz.net/client/question/ko/nginx-redirect-http-to-https.html</a></p>
 
         
         </div>
@@ -342,7 +345,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/github-action/" data-id="ckaq9xtvl004a0f75fo6z7fr0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/linux/how-to-redirect-http-to-https/" data-id="ckas7v7os005vds759ndydke3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -472,7 +475,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="ckaq9xtvq004q0f75h2vq3yf1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://jinmay.github.io/2020/05/13/git/how-to-check-diff-when-git-commit/" data-id="ckas7v7ob004nds75e4b49f4f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -580,7 +583,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/aws/">aws</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ckan/">ckan</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/css/">css</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/data-structure/">data-structure</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/django/">django</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/etc/">etc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jquery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">26</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/react-native/">react-native</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -597,6 +600,15 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/python/">python</a></p>
                             <p class="item-title"><a href="/2020/05/28/python/python-list-comprehension-with-if-statement/" class="title">[python]리스트 컴프리핸션에서 if문 사용하기</a></p>
                             <p class="item-date"><time datetime="2020-05-28T02:17:08.950Z" itemprop="datePublished">2020-05-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
+                            <p class="item-title"><a href="/2020/05/25/django/django-values-and-values-list/" class="title">[Django]values와 values_list의 차이</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T07:34:36.415Z" itemprop="datePublished">2020-05-25</time></p>
                         </div>
                     </li>
                 
@@ -624,15 +636,6 @@ ga('send', 'pageview');
                             <p class="item-category"><a class="article-category-link" href="/categories/django/">django</a></p>
                             <p class="item-title"><a href="/2020/05/25/django/django-charfield-textfield-null/" class="title">[Django]CharField와 TextField에서의 null=True</a></p>
                             <p class="item-date"><time datetime="2020-05-25T02:16:40.838Z" itemprop="datePublished">2020-05-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/etc/">etc</a></p>
-                            <p class="item-title"><a href="/2020/05/21/etc/vs-code-collapse-blocks/" class="title">[vscode]코드 블록 접기 / 펼치기</a></p>
-                            <p class="item-date"><time datetime="2020-05-21T14:35:15.973Z" itemprop="datePublished">2020-05-21</time></p>
                         </div>
                     </li>
                 
